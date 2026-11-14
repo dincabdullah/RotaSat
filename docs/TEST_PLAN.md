@@ -92,6 +92,8 @@ RotaSat is a decision-support tool for farmers. A farmer picks a field on a sate
 - NASA POWER is a grid of about 50 by 60 km; local rain can differ, especially in dry basins (station rain option).
 - The model is a planning aid: no pests, diseases, weeds, machinery or contracts. Germany's back-test correlation for 2005 to 2023 is weak (0.23).
 - Prices: EU 2025 farm-gate prices and German costs for every field, including Thrace. Chickpea, lentil and vetch have no world price series.
+- Yields in Thrace look low with a typical loam (region page); the live app uses SoilGrids clay, which raises water storage on Thrace's clay soils.
+- The calculation runs on the main thread: about 1 s on a laptop, several seconds on slow phones.
 - Satellite history and region pages exist only for the four example fields.
 - 2050 projections cover 34 to 60° N and 10° W to 45° E.
 - NASA GIBS layers and OpenStreetMap search depend on those services being up.

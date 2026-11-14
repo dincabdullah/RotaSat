@@ -18,8 +18,10 @@ for r in REG:
         for d, t, tx, tn, p in L:
             if 4 <= d.month <= 9:
                 run = run + 1 if p < 1 else 0; best = max(best, run)
-        return {"rain": sum(x[4] for x in L), "t": st.mean(x[1] for x in L),
-                "frost": sum(x[3] < 0 for x in L), "ice": sum(x[2] < 0 for x in L), "summer": sum(x[2] >= 25 for x in L), "hot": sum(x[2] >= 30 for x in L),
+        # same conventions as index.html: annual mean = mean of the 12 monthly means; daily maxima rounded to 0.1 degC
+        tmon = [st.mean(x[1] for x in L if x[0].month == m) for m in range(1, 13)]
+        return {"rain": sum(x[4] for x in L), "t": st.mean(tmon),
+                "frost": sum(x[3] < 0 for x in L), "ice": sum(round(x[2], 1) < 0 for x in L), "summer": sum(round(x[2], 1) >= 25 for x in L), "hot": sum(round(x[2], 1) >= 30 for x in L),
                 "heavy": sum(x[4] >= 20 for x in L), "dry": best, "lf": lf, "ff": ff, "ffree": (ff - lf) if lf and ff else None,
                 "gdd": sum(max(0, x[1] - 5) for x in L if 4 <= x[0].month <= 10), "rainAS": sum(x[4] for x in L if 4 <= x[0].month <= 9)}
     Y = {y: year_stats(L) for y, L in by.items() if len(L) >= 365}

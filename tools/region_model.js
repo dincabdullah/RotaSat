@@ -6,8 +6,8 @@ const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR
 (async () => {
   const b = await chromium.launch(); const p = await b.newPage(); const out = {};
   await p.route('**/*', async r => { const u = r.request().url(); if (u.startsWith('file:')) return r.continue();
-    if (u.includes('leaflet.js')) return r.fulfill({ path: path.join(__dirname, 'node_modules/leaflet/dist/leaflet.js') });
-    if (u.includes('chart.umd')) return r.fulfill({ path: path.join(__dirname, 'node_modules/chart.js/dist/chart.umd.js') });
+    if (u.includes('leaflet.js')) return r.fulfill({ path: path.join(__dirname, '..', 'tests', 'node_modules/leaflet/dist/leaflet.js') });
+    if (u.includes('chart.umd')) return r.fulfill({ path: path.join(__dirname, '..', 'tests', 'node_modules/chart.js/dist/chart.umd.js') });
     if (u.includes('power.larc')) { const q = new URL(u).searchParams; return r.fulfill({ path: path.join(SP, 'fixtures', `power_${nearest(+q.get('latitude'), +q.get('longitude'))}.json`) }); }
     if (u.includes('isric')) return r.fulfill({ status: 500, body: 'x' });
     if (u.includes('arcgis') || u.includes('gibs')) return r.fulfill({ body: png, contentType: 'image/png' }); return r.abort(); });

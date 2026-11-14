@@ -252,6 +252,26 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 @media(max-width:760px){.ftab{min-width:0}.ftab thead{display:none}.ftab tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;border-top:1px solid var(--line);padding:12px 0}.ftab td{border:0!important;padding:0}.ftab td:first-child,.ftab td.fact{grid-column:1/-1}.ftab td::before{content:attr(data-l);display:block;font-size:11px;color:var(--mute)}.ftab td:first-child::before{display:none}}
 /* v1.2 header: languages stay top right, menu items wrap inside the menu */
 @media(min-width:761px){header .wrap{flex-wrap:nowrap}header nav{gap:6px 20px;font-size:15px}header .logo,header .langs{flex:0 0 auto}}
+section,[id]{scroll-margin-top:84px}
+@media(max-width:760px){section,[id]{scroll-margin-top:12px}}
+/* v1.2 phone layout: header scrolls away, menu in one swipeable row, readout below the map, folding layer box */
+.lshort{display:none}
+.lyt{display:block;font:inherit;font-family:'Fira Sans',sans-serif;font-size:14px;font-weight:700;background:none;border:0;padding:0;margin:0 0 6px;color:#151622;cursor:default;text-align:left}
+@media(max-width:760px){
+  header{position:static}
+  header .wrap{flex-wrap:wrap;gap:8px 12px;padding-top:10px;padding-bottom:8px}
+  header .logo{flex:1 1 auto}
+  header nav{order:3;flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;gap:18px;font-size:14px;padding:2px 0 6px;-webkit-overflow-scrolling:touch}
+  header nav a{display:inline-block;padding:6px 0}
+  .lfull{display:none}.lshort{display:inline}
+  .langs .btn-s{padding:6px 9px;min-height:36px;font-size:13px}
+  .readout{position:relative!important;top:auto!important;right:auto!important;bottom:auto!important;max-width:none;border-radius:0;margin:0}
+  .hero .wrap.heroin{margin-top:0!important;padding-top:12px}
+  .lyt{cursor:pointer;margin:0}.lyt::after{content:' ▾'}.lybox.open .lyt::after{content:' ▴'}
+  .lybox:not(.open) label,.lybox:not(.open) p{display:none}.lybox.open .lyt{margin-bottom:6px}
+  .nbs #zIn,.nbs #zOut{display:none}
+  .navbox{width:min(230px,62vw)}
+}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -261,9 +281,9 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
   <a class="logo" href="#top"><svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true"><clipPath id="lgc"><circle cx="20" cy="20" r="12.5"/></clipPath><g clip-path="url(#lgc)"><rect x="6" y="6" width="28" height="28" fill="#0050D8"/><path d="M4 34 Q14 20 18 4 L23 4 Q19 21 9 36Z" fill="#2491FF"/><path d="M9 36 Q19 21 23 4 L28 4 Q24 22 14 37Z" fill="#E7F434"/><path d="M19 37 Q28 23 32 6 L36 6 L36 37Z" fill="#1B2B85"/></g><path d="M34.6 13.5 A16 16 0 1 1 26.5 5.4" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round"/><path d="M24.2 2.2 L26.5 5.4 L22.5 5.8" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g transform="rotate(45 31.6 8.4)"><rect x="29.9" y="6.7" width="3.4" height="3.4" rx=".4" fill="#fff"/><rect x="25.6" y="7.6" width="3.6" height="1.6" fill="#fff"/><rect x="34" y="7.6" width="3.6" height="1.6" fill="#fff"/></g></svg><span class="lw"><b>RotaSat</b><small>CROP ROTATION FROM ORBIT</small></span></a>
   <nav><a href="#plan" data-i18n="nav_plan"></a><a href="#fields" data-i18n="fl_h"></a><a href="#trust" data-i18n="nav_trust"></a><a href="#how" data-i18n="nav_how"></a><a href="#glossary" data-i18n="gl_h"></a></nav>
   <div class="langs" role="group" aria-label="Language">
-    <button class="btn-s" data-lang="en" aria-pressed="true">English</button>
-    <button class="btn-s" data-lang="tr" aria-pressed="false">Türkçe</button>
-    <button class="btn-s" data-lang="de" aria-pressed="false">Deutsch</button>
+    <button class="btn-s" data-lang="en" aria-pressed="true"><span class="lfull">English</span><span class="lshort">EN</span></button>
+    <button class="btn-s" data-lang="tr" aria-pressed="false"><span class="lfull">Türkçe</span><span class="lshort">TR</span></button>
+    <button class="btn-s" data-lang="de" aria-pressed="false"><span class="lfull">Deutsch</span><span class="lshort">DE</span></button>
   </div>
 </div></header>
 
@@ -285,7 +305,7 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 </section>
 
 <section class="plan" id="plan"><div class="wrap">
-  <form class="form" onsubmit="event.preventDefault();runAll()">
+  <form class="form" novalidate onsubmit="event.preventDefault();runAll()">
     <div class="fieldsum"><span data-i18n="field_lbl"></span> <b id="fieldName"></b> <a href="#top" data-i18n="change"></a></div>
     <div class="rnote" id="regionNote" hidden><b data-i18n="rn_h"></b> <span id="rnText"></span><br><button type="button" class="btn-o lite" id="rnBtn" data-i18n="rn_btn"></button> <a id="rnMore" class="rnmore" target="_blank" rel="noopener"></a></div>
     <fieldset>
@@ -313,13 +333,13 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
         <div class="more">
           <label class="full"><span><span data-i18n="extra_warm"></span> <b id="dTv">+0.0 °C</b></span><input id="dT" type="range" min="0" max="3" step="0.5" value="0"></label>
           <label class="full"><span><span data-i18n="rain_change"></span> <b id="dPv">0 %</b></span><input id="dP" type="range" min="-30" max="10" step="5" value="0"></label>
-          <label><span data-i18n="soil_soc"></span><input id="soc" type="number" step="0.5" value="15"></label>
-          <label><span data-i18n="soil_clay"></span><input id="clay" type="number" step="1" value="25"></label>
+          <label><span data-i18n="soil_soc"></span><input id="soc" type="number" step="any" min="1" max="80" value="15"></label>
+          <label><span data-i18n="soil_clay"></span><input id="clay" type="number" step="any" min="1" max="80" value="25"></label>
           <p class="full small" id="soilNote" style="margin:0"></p>
           <label class="full"><span data-i18n="rain_cal"></span><input id="rainCal" type="number" step="10" placeholder=""></label>
           <p class="full small" id="rainNote" style="margin:0"></p>
-          <label><span data-i18n="lat"></span><input id="lat" type="number" step="0.01"></label>
-          <label><span data-i18n="lon"></span><input id="lon" type="number" step="0.01"></label>
+          <label><span data-i18n="lat"></span><input id="lat" type="number" step="any" min="-90" max="90"></label>
+          <label><span data-i18n="lon"></span><input id="lon" type="number" step="any" min="-180" max="180"></label>
           <label class="full" style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="rawHist"><span data-i18n="raw_hist"></span></label>
         </div>
       </details>
@@ -341,21 +361,7 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
   <div class="answer" id="answer" aria-live="polite"><p class="loading" id="status"></p></div>
 </div></section>
 
-<section class="block fields" id="fields"><div class="wrap">
-  <h2 class="sec" data-i18n="fl_h"></h2>
-  <p class="sub" data-i18n="fl_p"></p>
-  <form class="fform" id="fForm">
-    <label><span data-i18n="fl_name"></span><input id="fName" maxlength="40"></label>
-    <label class="wide"><span data-i18n="fl_place"></span><input id="fPlace" maxlength="80"></label>
-    <label class="sm"><span data-i18n="fl_ha"></span><input id="fHa" type="number" min="0" step="0.1"></label>
-    <button type="submit" class="go" data-i18n="fl_add"></button>
-  </form>
-  <p class="hint" id="fMsg" aria-live="polite"></p>
-  <div class="tbl"><table class="ftab" id="fTable"></table></div>
-  <p class="ftot" id="fTotal"></p>
-  <div class="acts"><button type="button" class="btn-o" id="fCalc" data-i18n="fl_calc"></button><button type="button" class="btn-o lite" id="fLink" data-i18n="fl_link"></button><button type="button" class="btn-o lite" id="fCsv" data-i18n="fl_csv"></button></div>
-  <p class="small" style="margin-top:14px;line-height:1.5" data-i18n="fl_note"></p>
-</div></section>
+
 
 <section class="details" id="details" hidden><div class="wrap">
   <div class="grid2">
@@ -371,6 +377,22 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
   <p class="small" data-i18n="det_val_p"></p>
   <input type="file" id="faoFile" accept=".csv"> <select id="faoArea" style="display:none;max-width:260px;margin-top:6px"></select>
   <div id="valCard" style="display:none;margin-top:12px"><p class="note" id="valText"></p><div style="height:240px"><canvas id="valChart"></canvas></div></div>
+</div></section>
+
+<section class="block fields" id="fields"><div class="wrap">
+  <h2 class="sec" data-i18n="fl_h"></h2>
+  <p class="sub" data-i18n="fl_p"></p>
+  <form class="fform" id="fForm">
+    <label><span data-i18n="fl_name"></span><input id="fName" maxlength="40"></label>
+    <label class="wide"><span data-i18n="fl_place"></span><input id="fPlace" maxlength="80"></label>
+    <label class="sm"><span data-i18n="fl_ha"></span><input id="fHa" type="number" min="0" step="0.1"></label>
+    <button type="submit" class="go" data-i18n="fl_add"></button>
+  </form>
+  <p class="hint" id="fMsg" aria-live="polite"></p>
+  <div class="tbl"><table class="ftab" id="fTable"></table></div>
+  <p class="ftot" id="fTotal"></p>
+  <div class="acts"><button type="button" class="btn-o" id="fCalc" data-i18n="fl_calc"></button><button type="button" class="btn-o lite" id="fLink" data-i18n="fl_link"></button><button type="button" class="btn-o lite" id="fCsv" data-i18n="fl_csv"></button></div>
+  <p class="small" style="margin-top:14px;line-height:1.5" data-i18n="fl_note"></p>
 </div></section>
 
 <section class="block" id="climate" hidden><div class="wrap">
@@ -478,7 +500,7 @@ const CROPS = {
   maize:    {name:"Grain maize", fam:"cereal", kc:[0,0,0,0,0.3,0.7,1.2,1.2,0.6], autumn:0, season:[5,6,7,8,9], ky:1.25, root:1.3, p:0.55,
              heatM:[7], heatT:35, heatL:0.02, gf:[7], wetM:[], ym:11.0, price:170, cost:1150, nT:21, nFix:0,   cin:[0.6,0.2], fuel:115},
   sunflower:{name:"Sunflower", fam:"oil", kc:[0,0,0,0.35,0.6,1.05,1.05,0.6,0], autumn:0, season:[4,5,6,7,8], ky:0.95, root:1.2, p:0.45,
-             heatM:[7], heatT:35, heatL:0.012, gf:[7], wetM:[8], ym:3.6, price:450, cost:650, nT:32, nFix:0,   cin:[0.5,0.3], fuel:85},
+             heatM:[7], heatT:35, heatL:0.012, gf:[7], wetM:[8], ym:3.0, price:420, cost:650, nT:32, nFix:0,   cin:[0.5,0.3], fuel:85},
   chickpea: {name:"Chickpea", fam:"legume", kc:[0,0,0.4,0.7,1.0,0.8,0,0,0], autumn:0, season:[3,4,5,6], ky:1.15, root:0.8, p:0.5,
              heatM:[5,6], heatT:32, heatL:0.015, gf:[5], wetM:[7], ym:2.2, price:550, cost:600, nT:8,  nFix:40,  cin:[0.4,0.35], fuel:75},
   vetch:    {name:"Vetch–clover (cover + forage)", fam:"legume", kc:[0.5,0.5,0.6,0.9,1.0,1.0,0.95,0.9,0.8], autumn:0.5, season:[4,5,6,7,8], ky:1.1, root:1.0, p:0.55,
@@ -504,7 +526,8 @@ const PRESETS = [
   {name:"Wheat – Fallow",             seq:["wheat","fallow"]},
   {name:"Rapeseed – Wheat – Barley",  seq:["rapeseed","wheat","barley"]},
   {name:"Sugar beet – Wheat – Barley",seq:["sugarbeet","wheat","barley"]},
-  {name:"Maize – Soybean – Wheat",    seq:["maize","soybean","wheat"]}
+  {name:"Maize – Soybean – Wheat",    seq:["maize","soybean","wheat"]},
+  {name:"Wheat – Sunflower",          seq:["wheat","sunflower"]}
 ];
 const FERT_SHARE=0.85; let N_PRICE=1.2;
 const IRR_EFF=0.8;                                  // sprinkler application efficiency
@@ -788,6 +811,15 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+lang_aria:"Language",
+map_aria:"Satellite map. Click to choose your field.",
+doc_title:"RotaSat: crop rotation planner",
+soil_link:"Soil values from the shared link. Replace them with your own soil test if you have one.",
+w_zero_head:"Set at least one priority in question 3 above zero to get a recommendation. Until then the list is sorted by profit.",
+p_def_y2026:"Profit here means sales minus seed, fertilizer, crop protection, diesel, machinery and irrigation. Land rent, your own labour and EU payments are not included. Prices: 2025 crop prices with 2026 oil and fertilizer prices.",
+p_def_y2022:"Profit here means sales minus seed, fertilizer, crop protection, diesel, machinery and irrigation. Land rent, your own labour and EU payments are not included. Prices: 2022 world prices, inflation-adjusted.",
+p_def_fixed:"Profit here means sales minus seed, fertilizer, crop protection, diesel, machinery and irrigation. Land rent, your own labour and EU payments are not included. Prices: 2025 farm-gate prices.",
+p_def_hist:"Profit here means sales minus seed, fertilizer, crop protection, diesel, machinery and irrigation. Land rent, your own labour and EU payments are not included. Prices: the real, inflation-adjusted prices of 2000 to 2025, so good and bad market years are included.",
 fl_h:"My fields",
 fl_p:"Farm in more than one place? Add each field here. RotaSat reads NASA data for every field and shows its climate, the change by 2050 and the rotation that fits your priorities best. The list stays in this browser; copy its link to open it on another device.",
 fl_name:"Field name",
@@ -799,7 +831,7 @@ fl_empty:"No fields yet. Choose a field on the map or type a place, give it a na
 fl_wait:"Reading NASA data for this field.",
 fl_th_field:"Field",
 fl_th_clim:"Climate now",
-fl_th_change:"Since 1985",
+fl_th_change:"1985-94 to 2015-24",
 fl_th_2050:"By 2050",
 fl_th_best:"Best fit for your priorities",
 fl_th_plan:"Your plan",
@@ -824,7 +856,7 @@ fl_imported:"{n} fields loaded from the link.",
 fl_note:"Each field is calculated for today's climate and the price setting above, without irrigation, with soil from ISRIC SoilGrids at that spot and the rotation you had planned when you added it. Open a field to change these and see every detail.",
 sx_c:"{d} t C per ha in 20 years",
 sw_c:"More carbon in the soil holds more water and nutrients.",
-sx_b:"{e} mm heavy rain on bare soil a year",
+sx_b:"{e} mm erosive rain on bare soil a year",
 sw_b:"Bare soil washes away in heavy rain and loses carbon.",
 sx_n:"balance {b} kg N per ha a year",
 sw_n:"You buy about {f} kg N a year; legumes add {x} kg for free.",
@@ -1003,7 +1035,7 @@ n_mine:"Soil being drained",
 sh_n_p:"You buy about {f} kg of nitrogen per hectare a year; legumes add {x} kg for free. Balance: {b} kg.",
 sh_note:"Carbon: ICBM soil model. Heavy rain: days with 12.7 mm or more in NASA POWER (the erosive-rain threshold of RUSLE). Nitrogen balance: fertilizer plus legume fixation minus nitrogen taken off with the harvest. Water: monthly FAO-56 soil-water balance; short = crop demand not met by rain and stored water.",
 bare_short:"{m} bare months",
-fut_t:"more by 2050, on top of the warming already seen here. NASA NEX-GDDP-CMIP6 projection: 5 climate models, middle emissions path (range {lo} to {hi} °C). Rain from April to September: {p}. On the high emissions path: +{h} °C.",
+fut_t:"more by 2050, on top of the warming already seen here. This is what NASA's NEX-GDDP-CMIP6 climate models project for the next 26 years (5 models, middle emissions path, range {lo} to {hi} °C); the past trend is not simply extended. Rain from April to September: {p}. On the high emissions path: +{h} °C.",
 rain_more:"{v}% more",
 rain_less:"{v}% less",
 rain_same:"about the same",
@@ -1012,7 +1044,7 @@ sp_p:"Every cloud-free Sentinel-2 view of this exact spot since 2017, with 10 m 
 sp_days:"{n} days",
 sp_bare_t:"a year the soil lay bare on average, 2017 to 2025. Bare soil loses carbon and washes away in heavy rain.",
 sp_obs_t:"cloud-free satellite views of this field, 2017 to 2025.",
-sp_note:"Vegetation index NDVI from ESA Copernicus Sentinel-2 L2A (a Space Apps partner agency), read at the field point over 3 x 3 pixels. Bare means NDVI below 0.25 between two views at most 45 days apart. Available for the five example fields.",
+sp_note:"Vegetation index NDVI from ESA Copernicus Sentinel-2 L2A (a Space Apps partner agency), read at the field point over 3 x 3 pixels. Bare means NDVI below 0.25 between two views at most 45 days apart. Available for the four example fields.",
 leg_ndvi:"Plant cover (NDVI)",
 leg_bare:"Bare soil",
 sp_w:"winter crop",
@@ -1043,7 +1075,7 @@ extra_warm:"Extra warming",rain_change:"Change in summer rain",soil_soc:"Soil or
 raw_hist:"Use the weather exactly as it was (1985 to 2024)",run_btn:"Show my results",
 loading_power:"Reading 40 years of NASA weather for this field. This takes 10 to 30 seconds the first time.",
 loading_soil:"Reading the soil map for this field.",running:"Testing every rotation in 1,000 possible futures.",
-err_power:"Could not reach NASA POWER. Check your internet connection and try again.",
+err_power:"Could not reach NASA POWER. Check your internet connection, then press \"Show my results\" to try again.",
 soil_ok:"Soil from ISRIC SoilGrids for this spot. Replace it with your own soil test if you have one.",
 soil_near:"Soil from ISRIC SoilGrids, nearest farmland point {p}. Replace it with your own soil test if you have one.",
 soil_fail:"Soil map not available here. Using typical values; enter your own soil test.",
@@ -1074,7 +1106,7 @@ how_h:"How it works",
 how1_h:"We read your field's weather and soil",how1_p:"Daily sun, rain, wind, humidity and temperature since 1985 from NASA POWER, plus the soil's carbon and clay content.",
 how2_h:"We work out how each crop copes",how2_p:"How much water it needs and gets, heat while it flowers, winter frost, wet harvests, and what it does to soil carbon and nitrogen.",
 how3_h:"We play each rotation through 1,000 futures",how3_p:"Each future is 20 seasons of real past weather and real past prices in a new order, set to today's warmth or moved to 2050 by one of five NASA climate model projections.",how3_s:"Bootstrap of weather 1985 to 2024 and prices 2000 to 2025, NASA NEX-GDDP-CMIP6 delta change",
-foot_made:"Made by Eren Mutlu and Abdullah Dinç, TUM Campus Heilbronn, for the NASA Space Apps Challenge 2026.",foot_data_h:"Data",foot_note_h:"Please note",foot_note:"Not affiliated with or endorsed by NASA. Results are estimates for comparing options. All amounts are in today's euros: crops at 2025 farm-gate prices, fertilizer and oil as selected.",
+foot_made:"Made by Eren Mutlu and Abdullah Dinç, TUM Campus Heilbronn, for the NASA Space Apps Challenge 2026.",foot_data_h:"Data",foot_note_h:"Please note",foot_note:"Not affiliated with or endorsed by NASA. Results are estimates for comparing options. All amounts are in today's euros; the price setting is chosen in question 5.",
 det_rr:"Profit and safety",det_rr_note:"Higher is more profit on average. Further right is safer in bad years.",det_soil:"Soil carbon over 20 years",
 det_hist:"Replay of the real years 1995 to 2024: your plan against maize every year",det_clim:"Summer heat and rain at this field",
 det_val:"Check it yourself",det_val_p:"Upload a FAOSTAT wheat yield CSV (faostat.fao.org, Crops and livestock products, Element: Yield, Item: Wheat) to compare it with this field.",
@@ -1087,6 +1119,15 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+lang_aria:"Dil",
+map_aria:"Uydu haritası. Tarlanı seçmek için tıkla.",
+doc_title:"RotaSat: ürün rotasyonu planlayıcısı",
+soil_link:"Toprak değerleri paylaşılan linkten geldi. Toprak analizin varsa onunla değiştir.",
+w_zero_head:"Bir öneri almak için 3. sorudaki önceliklerden en az birini sıfırın üstüne getir. O zamana kadar liste kâra göre sıralanır.",
+p_def_y2026:"Buradaki kâr: satış geliri eksi tohum, gübre, ilaç, mazot, makine ve sulama. Arazi kirası, kendi emeğin ve AB destekleri dahil değil. Fiyatlar: 2025 ürün fiyatları, 2026 petrol ve gübre fiyatları.",
+p_def_y2022:"Buradaki kâr: satış geliri eksi tohum, gübre, ilaç, mazot, makine ve sulama. Arazi kirası, kendi emeğin ve AB destekleri dahil değil. Fiyatlar: enflasyondan arındırılmış 2022 dünya fiyatları.",
+p_def_fixed:"Buradaki kâr: satış geliri eksi tohum, gübre, ilaç, mazot, makine ve sulama. Arazi kirası, kendi emeğin ve AB destekleri dahil değil. Fiyatlar: 2025 çiftçi fiyatları.",
+p_def_hist:"Buradaki kâr: satış geliri eksi tohum, gübre, ilaç, mazot, makine ve sulama. Arazi kirası, kendi emeğin ve AB destekleri dahil değil. Fiyatlar: 2000-2025'in enflasyondan arındırılmış gerçek fiyatları; iyi ve kötü piyasa yılları dahil.",
 fl_h:"Tarlalarım",
 fl_p:"Birden fazla yerde tarlan mı var? Her birini buraya ekle. RotaSat her tarla için NASA verisini okur ve iklimini, 2050'ye kadarki değişimi ve önceliklerine en uygun rotasyonu gösterir. Liste bu tarayıcıda saklanır; başka bir cihazda açmak için linkini kopyala.",
 fl_name:"Tarla adı",
@@ -1098,7 +1139,7 @@ fl_empty:"Henüz tarla yok. Haritada bir tarla seç ya da bir yer yaz, ona bir a
 fl_wait:"Bu tarla için NASA verisi okunuyor.",
 fl_th_field:"Tarla",
 fl_th_clim:"Şu anki iklim",
-fl_th_change:"1985'ten beri",
+fl_th_change:"1985-94'ten 2015-24'e",
 fl_th_2050:"2050'ye kadar",
 fl_th_best:"Önceliklerine en uygun",
 fl_th_plan:"Senin planın",
@@ -1123,7 +1164,7 @@ fl_imported:"Linkten {n} tarla yüklendi.",
 fl_note:"Her tarla bugünkü iklim ve yukarıdaki fiyat ayarıyla, sulamasız, o noktadaki ISRIC SoilGrids toprağıyla ve eklediğin anda planladığın rotasyonla hesaplanır. Bunları değiştirmek ve tüm ayrıntıları görmek için tarlayı aç.",
 sx_c:"20 yılda hektar başına {d} t C",
 sw_c:"Topraktaki karbon arttıkça toprak daha çok su ve besin tutar.",
-sx_b:"çıplak toprağa yılda {e} mm şiddetli yağış",
+sx_b:"çıplak toprağa yılda {e} mm erozyon yapan yağış",
 sw_b:"Çıplak toprak şiddetli yağışta akıp gider ve karbon kaybeder.",
 sx_n:"denge: hektar başına yılda {b} kg N",
 sw_n:"Yılda yaklaşık {f} kg N satın alıyorsun; baklagiller {x} kg'ı bedavaya ekliyor.",
@@ -1302,7 +1343,7 @@ n_mine:"Toprak tükeniyor",
 sh_n_p:"Hektar başına yılda yaklaşık {f} kg azot satın alıyorsun; baklagiller {x} kg'ı bedavaya ekliyor. Denge: {b} kg.",
 sh_note:"Karbon: ICBM toprak modeli. Şiddetli yağış: NASA POWER'da 12,7 mm ve üstü günler (RUSLE erozyon eşiği). Azot dengesi: gübre artı baklagillerin bağladığı azot, eksi hasatla tarladan çıkan azot. Su: aylık FAO-56 toprak suyu dengesi; açık = yağış ve topraktaki suyun karşılamadığı bitki ihtiyacı.",
 bare_short:"yılda {m} ay çıplak",
-fut_t:"2050'ye kadar, burada şimdiden görülen ısınmanın üstüne eklenecek. NASA NEX-GDDP-CMIP6 projeksiyonu: 5 iklim modeli, orta emisyon yolu (aralık {lo} ile {hi} °C). Nisan-eylül yağışı: {p}. Yüksek emisyon yolunda: +{h} °C.",
+fut_t:"2050'ye kadar, burada şimdiden görülen ısınmanın üstüne eklenecek. Bu, NASA NEX-GDDP-CMIP6 iklim modellerinin önümüzdeki 26 yıl için öngördüğü değer (5 model, orta emisyon yolu, aralık {lo} ile {hi} °C); geçmişteki eğilim olduğu gibi uzatılmıyor. Nisan-eylül yağışı: {p}. Yüksek emisyon yolunda: +{h} °C.",
 rain_more:"%{v} daha fazla",
 rain_less:"%{v} daha az",
 rain_same:"aşağı yukarı aynı",
@@ -1311,7 +1352,7 @@ sp_p:"2017'den bu yana tam bu noktanın bulutsuz her Sentinel-2 görüntüsü, 1
 sp_days:"{n} gün",
 sp_bare_t:"2017-2025 arasında toprak her yıl ortalama bu kadar çıplak kaldı. Çıplak toprak karbon kaybeder ve şiddetli yağışta akıp gider.",
 sp_obs_t:"Bu tarlanın 2017-2025 arasındaki bulutsuz uydu görüntüsü sayısı.",
-sp_note:"Bitki örtüsü endeksi NDVI, ESA Copernicus Sentinel-2 L2A verisinden (Space Apps ortak ajansı) tarla noktasında 3 x 3 piksel üzerinden okundu. Çıplak: en fazla 45 gün arayla çekilmiş iki görüntü arasında NDVI'nin 0,25'in altında olması. Beş örnek tarla için hazır.",
+sp_note:"Bitki örtüsü endeksi NDVI, ESA Copernicus Sentinel-2 L2A verisinden (Space Apps ortak ajansı) tarla noktasında 3 x 3 piksel üzerinden okundu. Çıplak: en fazla 45 gün arayla çekilmiş iki görüntü arasında NDVI'nin 0,25'in altında olması. Dört örnek tarla için hazır.",
 leg_ndvi:"Bitki örtüsü (NDVI)",
 leg_bare:"Çıplak toprak",
 sp_w:"kışlık ürün",
@@ -1342,7 +1383,7 @@ extra_warm:"Ek ısınma",rain_change:"Yaz yağışında değişim",soil_soc:"Top
 raw_hist:"Havayı olduğu gibi kullan (1985 - 2024)",run_btn:"Sonuçlarımı göster",
 loading_power:"Bu tarla için 40 yıllık NASA hava verisi okunuyor. İlk seferde 10 - 30 saniye sürer.",
 loading_soil:"Bu tarlanın toprak verisi okunuyor.",running:"Her rotasyon 1.000 olası gelecekte deneniyor.",
-err_power:"NASA POWER'a ulaşılamadı. İnternet bağlantını kontrol edip tekrar dene.",
+err_power:"NASA POWER'a ulaşılamadı. İnternet bağlantını kontrol et, sonra tekrar denemek için \"Sonuçlarımı göster\"e bas.",
 soil_ok:"Toprak verisi bu nokta için ISRIC SoilGrids'ten. Kendi toprak analizin varsa onu gir.",
 soil_near:"Toprak verisi ISRIC SoilGrids'ten, en yakın tarım noktası {p}. Kendi toprak analizin varsa onu gir.",
 soil_fail:"Bu nokta için toprak haritası yok. Tipik değerler kullanılıyor; kendi toprak analizini gir.",
@@ -1373,7 +1414,7 @@ how_h:"Nasıl çalışır?",
 how1_h:"Tarlanın havasını ve toprağını okuruz",how1_p:"NASA POWER'dan 1985'ten bu yana günlük güneş, yağış, rüzgâr, nem ve sıcaklık; ayrıca topraktaki karbon ve kil oranı.",
 how2_h:"Her ürünün nasıl dayandığını hesaplarız",how2_p:"Ne kadar suya ihtiyacı olduğu ve ne kadar aldığı, çiçeklenmedeki sıcak, kış donu, yağışlı hasat, toprak karbonuna ve azota etkisi.",
 how3_h:"Her rotasyonu 1.000 gelecekte deneriz",how3_p:"Her gelecek, geçmişin gerçek havasından ve gerçek fiyatlarından yeni bir sırayla oluşturulan 20 sezondur. Bugünün sıcaklığına ayarlanır ya da beş NASA iklim modeli projeksiyonundan biriyle 2050'ye taşınır.",how3_s:"1985-2024 hava ve 2000-2025 fiyatlarıyla bootstrap, NASA NEX-GDDP-CMIP6 delta yöntemi",
-foot_made:"Eren Mutlu ve Abdullah Dinç, TUM Campus Heilbronn, NASA Space Apps Challenge 2026 için yaptı.",foot_data_h:"Veri",foot_note_h:"Not",foot_note:"NASA ile bağlantılı değildir. Sonuçlar seçenekleri karşılaştırmak için tahminlerdir. Tüm tutarlar bugünün eurosu ile: tahıl 2025 piyasa seviyesinde, gübre seçtiğin gibi.",
+foot_made:"Eren Mutlu ve Abdullah Dinç, TUM Campus Heilbronn, NASA Space Apps Challenge 2026 için yaptı.",foot_data_h:"Veri",foot_note_h:"Not",foot_note:"NASA ile bağlantılı değildir. Sonuçlar seçenekleri karşılaştırmak için tahminlerdir. Tüm tutarlar bugünün eurosu ile; fiyat ayarı 5. soruda seçilir.",
 det_rr:"Kâr ve güvence",det_rr_note:"Yukarısı ortalamada daha fazla kâr. Sağ taraf kötü yıllarda daha güvenli.",det_soil:"20 yılda toprak karbonu",
 det_hist:"Gerçek 1995 - 2024 yıllarının tekrarı: senin planın ve her yıl mısır",det_clim:"Bu tarlada yaz sıcağı ve yağış",
 det_val:"Kendin kontrol et",det_val_p:"FAOSTAT buğday verim CSV dosyası yükle (faostat.fao.org, Crops and livestock products, Element: Yield, Item: Wheat) ve bu tarlayla karşılaştır.",
@@ -1381,11 +1422,20 @@ ax_avg:"Ortalama kâr, € / ha",ax_bad:"Kötü yıllarda kâr, € / ha",ax_soc
 hist_note:"1995 - 2024 arasında planın her yıl mısıra göre hektar başına yılda {d} € {more} kazandırıyor. Toprak karbonu {a} g/kg'a karşı {b} g/kg'da bitiyor.",more:"daha fazla",less:"daha az",
 l_tmax:"Yaz en yüksek sıcaklığı (°C)",l_rain:"Yaz yağışı (mm)",l_wb:"Yağış eksi buharlaşma (mm)",
 your_field:"Senin tarlan",
-crop_wheat:"buğday",crop_barley:"arpa",crop_maize:"mısır",crop_sunflower:"ayçiçeği",crop_chickpea:"nohut",crop_vetch:"fiğ veya yonca",crop_fallow:"nadas",
+crop_wheat:"buğday",crop_barley:"arpa",crop_maize:"mısır",crop_sunflower:"ayçiçeği",crop_chickpea:"nohut",crop_vetch:"fiğ veya üçgül",crop_fallow:"nadas",
 mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+lang_aria:"Sprache",
+map_aria:"Satellitenkarte. Klicken Sie, um Ihr Feld zu wählen.",
+doc_title:"RotaSat: Fruchtfolgeplaner",
+soil_link:"Bodenwerte aus dem geteilten Link. Ersetzen Sie sie durch Ihre eigene Bodenprobe, falls vorhanden.",
+w_zero_head:"Setzen Sie in Frage 3 mindestens eine Priorität über null, um eine Empfehlung zu bekommen. Bis dahin ist die Liste nach Gewinn sortiert.",
+p_def_y2026:"Gewinn heißt hier Erlös minus Saatgut, Dünger, Pflanzenschutz, Diesel, Maschinen und Beregnung. Pacht, eigene Arbeit und EU-Zahlungen sind nicht enthalten. Preise: Erzeugerpreise 2025 mit Öl- und Düngerpreisen von 2026.",
+p_def_y2022:"Gewinn heißt hier Erlös minus Saatgut, Dünger, Pflanzenschutz, Diesel, Maschinen und Beregnung. Pacht, eigene Arbeit und EU-Zahlungen sind nicht enthalten. Preise: Weltmarktpreise 2022, inflationsbereinigt.",
+p_def_fixed:"Gewinn heißt hier Erlös minus Saatgut, Dünger, Pflanzenschutz, Diesel, Maschinen und Beregnung. Pacht, eigene Arbeit und EU-Zahlungen sind nicht enthalten. Preise: Erzeugerpreise 2025.",
+p_def_hist:"Gewinn heißt hier Erlös minus Saatgut, Dünger, Pflanzenschutz, Diesel, Maschinen und Beregnung. Pacht, eigene Arbeit und EU-Zahlungen sind nicht enthalten. Preise: echte, inflationsbereinigte Preise 2000 bis 2025, gute und schlechte Marktjahre eingeschlossen.",
 fl_h:"Meine Felder",
 fl_p:"Sie bewirtschaften Felder an mehreren Orten? Fügen Sie jedes hier hinzu. RotaSat liest für jedes Feld NASA-Daten und zeigt sein Klima, die Änderung bis 2050 und die Fruchtfolge, die am besten zu Ihren Prioritäten passt. Die Liste bleibt in diesem Browser; kopieren Sie den Link, um sie auf einem anderen Gerät zu öffnen.",
 fl_name:"Feldname",
@@ -1397,7 +1447,7 @@ fl_empty:"Noch keine Felder. Wählen Sie ein Feld auf der Karte oder geben Sie e
 fl_wait:"NASA-Daten für dieses Feld werden gelesen.",
 fl_th_field:"Feld",
 fl_th_clim:"Klima heute",
-fl_th_change:"Seit 1985",
+fl_th_change:"1985-94 bis 2015-24",
 fl_th_2050:"Bis 2050",
 fl_th_best:"Passt am besten zu Ihren Prioritäten",
 fl_th_plan:"Ihr Plan",
@@ -1422,7 +1472,7 @@ fl_imported:"{n} Felder aus dem Link geladen.",
 fl_note:"Jedes Feld wird für das heutige Klima und die Preiseinstellung oben berechnet, ohne Beregnung, mit dem Boden aus ISRIC SoilGrids an diesem Punkt und der Fruchtfolge, die beim Hinzufügen geplant war. Öffnen Sie ein Feld, um das zu ändern und alle Details zu sehen.",
 sx_c:"{d} t C je ha in 20 Jahren",
 sw_c:"Mehr Kohlenstoff im Boden hält mehr Wasser und Nährstoffe.",
-sx_b:"{e} mm Starkregen pro Jahr auf offenen Boden",
+sx_b:"{e} mm erosiver Regen pro Jahr auf offenen Boden",
 sw_b:"Offener Boden wird bei Starkregen abgeschwemmt und verliert Kohlenstoff.",
 sx_n:"Bilanz {b} kg N je ha und Jahr",
 sw_n:"Sie kaufen etwa {f} kg N pro Jahr; Leguminosen liefern {x} kg kostenlos.",
@@ -1601,7 +1651,7 @@ n_mine:"Boden wird ausgezehrt",
 sh_n_p:"Sie kaufen etwa {f} kg Stickstoff pro Hektar und Jahr; Leguminosen liefern {x} kg kostenlos. Bilanz: {b} kg.",
 sh_note:"Kohlenstoff: ICBM-Bodenmodell. Starkregen: Tage mit 12,7 mm oder mehr in NASA POWER (Erosionsschwelle der RUSLE). Stickstoffbilanz: Dünger plus Fixierung durch Leguminosen minus Stickstoff, der mit der Ernte das Feld verlässt. Wasser: monatliche FAO-56-Bodenwasserbilanz; Defizit = Pflanzenbedarf, den Regen und Bodenwasser nicht decken.",
 bare_short:"{m} Mon. offen",
-fut_t:"mehr bis 2050, zusätzlich zur hier schon gemessenen Erwärmung. NASA-Projektion NEX-GDDP-CMIP6: 5 Klimamodelle, mittlerer Emissionspfad (Spanne {lo} bis {hi} °C). Regen April bis September: {p}. Beim hohen Emissionspfad: +{h} °C.",
+fut_t:"mehr bis 2050, zusätzlich zur hier schon gemessenen Erwärmung. So viel erwarten die NASA-Klimamodelle NEX-GDDP-CMIP6 für die nächsten 26 Jahre (5 Modelle, mittlerer Emissionspfad, Spanne {lo} bis {hi} °C); der bisherige Trend wird nicht einfach verlängert. Regen April bis September: {p}. Beim hohen Emissionspfad: +{h} °C.",
 rain_more:"{v} % mehr",
 rain_less:"{v} % weniger",
 rain_same:"etwa gleich",
@@ -1610,7 +1660,7 @@ sp_p:"Jede wolkenfreie Sentinel-2-Aufnahme genau dieses Punktes seit 2017, mit 1
 sp_days:"{n} Tage",
 sp_bare_t:"lag der Boden 2017 bis 2025 im Schnitt pro Jahr offen. Offener Boden verliert Kohlenstoff und wird bei Starkregen abgeschwemmt.",
 sp_obs_t:"wolkenfreie Satellitenaufnahmen dieses Feldes, 2017 bis 2025.",
-sp_note:"Vegetationsindex NDVI aus ESA Copernicus Sentinel-2 L2A (Partneragentur von Space Apps), am Feldpunkt über 3 x 3 Pixel gelesen. Offen heißt NDVI unter 0,25 zwischen zwei Aufnahmen mit höchstens 45 Tagen Abstand. Verfügbar für die fünf Beispielfelder.",
+sp_note:"Vegetationsindex NDVI aus ESA Copernicus Sentinel-2 L2A (Partneragentur von Space Apps), am Feldpunkt über 3 x 3 Pixel gelesen. Offen heißt NDVI unter 0,25 zwischen zwei Aufnahmen mit höchstens 45 Tagen Abstand. Verfügbar für die vier Beispielfelder.",
 leg_ndvi:"Pflanzendecke (NDVI)",
 leg_bare:"Offener Boden",
 sp_w:"Winterkultur",
@@ -1641,7 +1691,7 @@ extra_warm:"Zusätzliche Erwärmung",rain_change:"Änderung des Sommerregens",so
 raw_hist:"Wetter genau wie gemessen verwenden (1985 bis 2024)",run_btn:"Meine Ergebnisse zeigen",
 loading_power:"40 Jahre NASA-Wetter für dieses Feld werden gelesen. Beim ersten Mal dauert das 10 bis 30 Sekunden.",
 loading_soil:"Die Bodenkarte für dieses Feld wird gelesen.",running:"Jede Fruchtfolge wird in 1.000 möglichen Zukünften getestet.",
-err_power:"NASA POWER ist nicht erreichbar. Bitte Internetverbindung prüfen und erneut versuchen.",
+err_power:"NASA POWER ist nicht erreichbar. Prüfen Sie die Internetverbindung und klicken Sie dann auf \"Meine Ergebnisse zeigen\", um es erneut zu versuchen.",
 soil_ok:"Bodendaten von ISRIC SoilGrids für diesen Ort. Ersetzen Sie sie durch Ihre eigene Bodenprobe, falls vorhanden.",
 soil_near:"Bodendaten von ISRIC SoilGrids, nächster Ackerpunkt {p}. Ersetzen Sie sie durch Ihre eigene Bodenprobe, falls vorhanden.",
 soil_fail:"Für diesen Ort gibt es keine Bodenkarte. Es werden typische Werte verwendet; bitte eigene Bodenprobe eingeben.",
@@ -1672,7 +1722,7 @@ how_h:"So funktioniert es",
 how1_h:"Wir lesen Wetter und Boden Ihres Feldes",how1_p:"Tägliche Sonne, Regen, Wind, Luftfeuchte und Temperatur seit 1985 aus NASA POWER, dazu Kohlenstoff- und Tongehalt des Bodens.",
 how2_h:"Wir berechnen, wie jede Kultur zurechtkommt",how2_p:"Wie viel Wasser sie braucht und bekommt, Hitze während der Blüte, Winterfrost, nasse Ernten und ihr Einfluss auf Bodenkohlenstoff und Stickstoff.",
 how3_h:"Wir spielen jede Fruchtfolge in 1.000 Zukünften durch",how3_p:"Jede Zukunft besteht aus 20 Jahren echten früheren Wetters und echter früherer Preise in neuer Reihenfolge, eingestellt auf die heutige Wärme oder mit einer von fünf NASA-Klimamodellprojektionen auf 2050 verschoben.",how3_s:"Bootstrap von Wetter 1985 bis 2024 und Preisen 2000 bis 2025, Delta-Methode mit NASA NEX-GDDP-CMIP6",
-foot_made:"Erstellt von Eren Mutlu und Abdullah Dinç, TUM Campus Heilbronn, für die NASA Space Apps Challenge 2026.",foot_data_h:"Daten",foot_note_h:"Hinweis",foot_note:"Keine Verbindung zur NASA. Ergebnisse sind Schätzungen zum Vergleichen von Optionen. Alle Beträge in heutigen Euro: Getreide zu Erzeugerpreisen 2025, Dünger wie gewählt.",
+foot_made:"Erstellt von Eren Mutlu und Abdullah Dinç, TUM Campus Heilbronn, für die NASA Space Apps Challenge 2026.",foot_data_h:"Daten",foot_note_h:"Hinweis",foot_note:"Keine Verbindung zur NASA. Ergebnisse sind Schätzungen zum Vergleichen von Optionen. Alle Beträge in heutigen Euro; die Preiseinstellung wählen Sie in Frage 5.",
 det_rr:"Gewinn und Sicherheit",det_rr_note:"Weiter oben bedeutet mehr Gewinn im Schnitt. Weiter rechts bedeutet sicherer in schlechten Jahren.",det_soil:"Bodenkohlenstoff über 20 Jahre",
 det_hist:"Die echten Jahre 1995 bis 2024 nachgespielt: Ihr Plan gegen jedes Jahr Mais",det_clim:"Sommerhitze und Regen auf diesem Feld",
 det_val:"Selbst prüfen",det_val_p:"Laden Sie eine FAOSTAT-CSV mit Weizenerträgen hoch (faostat.fao.org, Crops and livestock products, Element: Yield, Item: Wheat), um sie mit diesem Feld zu vergleichen.",
@@ -1688,7 +1738,7 @@ const SITES=[ // points checked against ESA WorldCover 2021 (10 m): inside cropl
  {key:'heilbronn',lat:49.1577,lon:9.1090,dry:false,name:{en:'Heilbronn farmland',tr:'Heilbronn tarlaları',de:'Heilbronner Land'},near:{en:'Leingarten, near Heilbronn, Germany',tr:'Leingarten, Heilbronn yakını, Almanya',de:'bei Leingarten, Landkreis Heilbronn'},tag:{en:'warm',tr:'ılık',de:'warm'},note:{"en": "Kraichgau loess around Heilbronn is fertile but among the most erosion-prone farmland in Germany, and this is one of the country's warmest areas. Keep the soil covered over winter and plan for drier springs.", "tr": "Heilbronn çevresindeki Kraichgau lösü verimli, ama Almanya'nın erozyona en açık tarım topraklarından biri; bölge de ülkenin en sıcak yerlerinden. Toprağı kışın örtülü tut ve daha kurak ilkbaharlara göre planla.", "de": "Der Kraichgau-Löss um Heilbronn ist fruchtbar, gehört aber zu den erosionsanfälligsten Ackerböden Deutschlands, und die Gegend zählt zu den wärmsten des Landes. Halten Sie den Boden über Winter bedeckt und planen Sie mit trockeneren Frühjahren."},pri:[3, 3, 5, 2],top:"wheat",common:["barley", "maize", "sugarbeet", "rapeseed"]},
  {key:'borde',lat:52.0569,lon:11.3550,dry:true,name:{en:'Magdeburg Börde',tr:'Magdeburg Börde',de:'Magdeburger Börde'},near:{en:'near Magdeburg, Germany',tr:'Magdeburg yakını, Almanya',de:'bei Magdeburg, Sachsen-Anhalt'},tag:{en:'dry',tr:'kurak',de:'trocken'},note:{"en": "The black-earth soils here are among the best in Germany, but the Harz mountains keep the rain away: this is one of the driest farming areas in the country. Drought years such as 2018 are the main risk.", "tr": "Buradaki kara topraklar Almanya'nın en iyileri arasında, ama Harz dağları yağmuru tutuyor: ülkenin en kurak tarım bölgelerinden biri. 2018 gibi kurak yıllar asıl risk.", "de": "Die Schwarzerden hier gehören zu den besten Böden Deutschlands, doch der Harz hält den Regen ab: eine der trockensten Ackerbauregionen des Landes. Dürrejahre wie 2018 sind das Hauptrisiko."},pri:[3, 5, 2, 4],top:"wheat",common:["sugarbeet", "barley", "rapeseed"]},
  {key:'gaeu',lat:48.8000,lon:12.6200,dry:false,name:{en:'Gäuboden plain',tr:'Gäuboden ovası',de:'Gäuboden'},near:{en:'near Straubing, Bavaria, Germany',tr:'Straubing yakını, Bavyera, Almanya',de:'bei Straubing, Bayern'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'},note:{"en": "Deep loess and more rain make this Bavaria's granary. Summer storms on bare fields and nitrate in groundwater are the concerns, so cover crops and a balanced nitrogen budget pay off.", "tr": "Derin lös toprak ve daha fazla yağmur burayı Bavyera'nın tahıl ambarı yapıyor. Çıplak tarlalara düşen yaz sağanakları ve yeraltı suyundaki nitrat başlıca kaygılar; bu yüzden örtü bitkisi ve dengeli azot karşılığını verir.", "de": "Tiefer Löss und mehr Regen machen den Gäuboden zur Kornkammer Bayerns. Sommergewitter auf offenen Feldern und Nitrat im Grundwasser sind die Sorgen, deshalb lohnen sich Zwischenfrüchte und eine ausgeglichene Stickstoffbilanz."},pri:[4, 2, 4, 1],top:"wheat",common:["sugarbeet", "maize", "barley"]},
- {key:'thrace',lat:41.1951,lon:27.1061,dry:false,name:{en:'Thrace',tr:'Trakya',de:'Thrakien'},near:{en:'near Hayrabolu, Tekirdağ, Türkiye',tr:'Hayrabolu yakını, Tekirdağ',de:'bei Hayrabolu, Tekirdağ, Türkei'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'},note:{"en": "Thrace is Türkiye's leading sunflower region and a high-yield wheat area. Summers are long and dry, so rain-fed crops live on autumn to spring rain, and water for irrigation is limited. Profit here uses EU prices and German costs; Turkish prices (TMO) and costs differ.", "tr": "Trakya, Türkiye'nin başlıca ayçiçeği bölgesi ve verimli bir buğday bölgesi. Yazlar uzun ve kurak; yağmura bağlı ürünler sonbahar-ilkbahar yağışıyla yaşıyor ve sulama suyu sınırlı. Buradaki kâr AB fiyatları ve Alman maliyetleriyle hesaplanır; Türkiye'de fiyatlar (TMO) ve maliyetler farklıdır.", "de": "Thrakien ist die wichtigste Sonnenblumenregion der Türkei und ein ertragreiches Weizengebiet. Die Sommer sind lang und trocken, Regenfeldbau lebt vom Herbst- bis Frühjahrsregen, und Wasser für Beregnung ist knapp. Der Gewinn rechnet hier mit EU-Preisen und deutschen Kosten; türkische Preise (TMO) und Kosten weichen ab."},pri:[3, 5, 3, 5],top:"wheat",common:["sunflower", "rapeseed", "barley"]}
+ {key:'thrace',lat:41.1951,lon:27.1061,dry:true,name:{en:'Thrace',tr:'Trakya',de:'Thrakien'},near:{en:'near Hayrabolu, Tekirdağ, Türkiye',tr:'Hayrabolu yakını, Tekirdağ',de:'bei Hayrabolu, Tekirdağ, Türkei'},tag:{en:'dry summers',tr:'kurak yazlar',de:'trockene Sommer'},note:{"en": "Thrace is Türkiye's leading sunflower region and a high-yield wheat area. Summers are long and dry, so rain-fed crops live on autumn to spring rain, and water for irrigation is limited. Profit here uses EU prices and German costs; Turkish prices (TMO) and costs differ.", "tr": "Trakya, Türkiye'nin başlıca ayçiçeği bölgesi ve verimli bir buğday bölgesi. Yazlar uzun ve kurak; yağmura bağlı ürünler sonbahar-ilkbahar yağışıyla yaşıyor ve sulama suyu sınırlı. Buradaki kâr AB fiyatları ve Alman maliyetleriyle hesaplanır; Türkiye'de fiyatlar (TMO) ve maliyetler farklıdır.", "de": "Thrakien ist die wichtigste Sonnenblumenregion der Türkei und ein ertragreiches Weizengebiet. Die Sommer sind lang und trocken, Regenfeldbau lebt vom Herbst- bis Frühjahrsregen, und Wasser für Beregnung ist knapp. Der Gewinn rechnet hier mit EU-Preisen und deutschen Kosten; türkische Preise (TMO) und Kosten weichen ab."},pri:[3, 5, 3, 5],top:"wheat",common:["sunflower", "rapeseed", "barley"]}
 ];
 let LANG='en';
 try{const s=localStorage.getItem('rotasat_lang'); if(s&&I18N[s]) LANG=s; else if(/^tr/i.test(navigator.language)) LANG='tr'; else if(/^de/i.test(navigator.language)) LANG='de';}catch(e){}
@@ -1722,9 +1772,12 @@ const LAYERS={
   ndvi:{over:gibs('MODIS_Terra_NDVI_8Day',{opacity:.8}),z:11},
   smap:{over:gibs('SMAP_L4_Analyzed_Root_Zone_Soil_Moisture',{opacity:.75}),z:7}
 };
-let curLayer='esri', lyErr=false;
+let curLayer='esri', lyErr=false, lyOpen=false;   // the layer box folds on phones
 LAYERS.esri.base.addTo(heroMap);
-Object.values(LAYERS).forEach(o=>{const l=o.base||o.over;l.on('tileerror',()=>{lyErr=true;renderLayerBox();});l.on('load',()=>{if(lyErr){lyErr=false;renderLayerBox();}});});
+// error note per NASA layer: set on any failed tile; cleared only after a load of that layer without failures
+Object.entries(LAYERS).forEach(([k,o])=>{if(k==='esri') return; const l=o.base||o.over; let bad=0;
+  l.on('loading',()=>{bad=0;}); l.on('tileerror',()=>{bad++; if(curLayer===k){lyErr=true;renderLayerBox();}});
+  l.on('load',()=>{if(curLayer===k&&!bad&&lyErr){lyErr=false;renderLayerBox();}});});
 function setLayer(k){
   if(k===curLayer) return;
   const a=LAYERS[curLayer], b=LAYERS[k];
@@ -1743,9 +1796,11 @@ new LayerCtl().addTo(heroMap);
 function renderLayerBox(){
   const d=$('lyBox'); if(!d) return;
   const dt=new Date(YDAY+'T12:00:00Z').toLocaleDateString(LANG==='en'?'en-GB':LANG==='de'?'de-DE':'tr-TR',{day:'numeric',month:'long'});
-  d.innerHTML=`<b>${t('ly_h')}</b>`+['esri','tc','ndvi','smap'].map(k=>`<label><input type="radio" name="ly" value="${k}" ${k===curLayer?'checked':''}><span>${t('ly_'+k)}</span></label>`).join('')+
+  d.classList.toggle('open',lyOpen);
+  d.innerHTML=`<button type="button" class="lyt" aria-expanded="${lyOpen}">${t('ly_h')}</button>`+['esri','tc','ndvi','smap'].map(k=>`<label><input type="radio" name="ly" value="${k}" ${k===curLayer?'checked':''}><span>${t('ly_'+k)}</span></label>`).join('')+
     `<p class="${lyErr?'err':''}">${lyErr?t('ly_err'):t('ly_n_'+curLayer,{d:dt})}</p>`;
   d.querySelectorAll('input').forEach(i=>i.onchange=()=>setLayer(i.value));
+  d.querySelector('.lyt').onclick=()=>{lyOpen=!lyOpen; renderLayerBox();};
   const src=$('roSrc'); if(src) src.textContent=curLayer==='esri'?'Esri, Maxar, Earthstar Geographics':curLayer==='tc'?'NASA GIBS, EOSDIS (MODIS Terra)':'NASA GIBS, EOSDIS; Esri';
 }
 const labelsL=L.tileLayer(LABELS,{maxZoom:18,opacity:.85}).addTo(heroMap);
@@ -1816,7 +1871,8 @@ function renderSlots(){
   for(let i=0;i<4;i++) $('slot'+i).onchange=()=>climate&&runAll();
 }
 function userSeq(){const s=[];for(let i=0;i<4;i++){const v=$('slot'+i).value;if(v)s.push(v);}return s.length?s:["wheat"];}
-function setStatus(k,err){$('answer').innerHTML=`<p class="loading ${err?'err':''}" id="status">${t(k)}</p>`;}
+let statusKey=null, statusErr=false, LINK_SOIL=null;   // LINK_SOIL: soil values from a shared link win over SoilGrids once
+function setStatus(k,err){statusKey=k; statusErr=!!err; $('answer').innerHTML=`<p class="loading ${err?'err':''}" id="status">${t(k)}</p>`;}
 
 // ===================== Data loading =====================
 let loadToken=0;
@@ -1845,12 +1901,13 @@ async function fetchSoil(lat,lon){
     if(!j.properties.layers.every(Lr=>Lr.depths.some(d=>d.values.mean!=null))) continue;
     const get=name=>{const Lr=j.properties.layers.find(l=>l.name===name);const w=name==='soc'?[0,10,15]:[5,10,15],vals=Lr.depths.map((d,i)=>d.values.mean==null||!w[i]?null:[d.values.mean/Lr.unit_measure.d_factor,w[i]]).filter(Boolean);return vals.reduce((a,[v,wt])=>a+v*wt,0)/vals.reduce((a,[,wt])=>a+wt,0);};
     const clay=get('clay');
-    return {soc:get('soc'),clay:clay>100?clay/10:clay,used:[la,lo],moved:(+la!==lat||+lo!==lon)};
+    return {soc:get('soc'),clay:clay>100?clay/10:clay,used:[la,lo],moved:(dy!==0||dx!==0)};
   }
   return null;
 }
 async function loadData(){
   const my=++loadToken; busy=true; $('runBtn').disabled=true; lastResults=null; climate=null;
+  ['climate','space','details'].forEach(id=>{$(id).hidden=true;});      // do not show the previous field under the new name
   const lat=site.lat, lon=site.lon;
   try{
     setStatus('loading_power');
@@ -1874,6 +1931,7 @@ async function loadSoil(lat,lon,my){
     $('soc').value=sg.soc.toFixed(1); $('clay').value=sg.clay.toFixed(0);
     note.dataset.k=sg.moved?'soil_near':'soil_ok'; note.dataset.p=sg.moved?`${sg.used[0]}, ${sg.used[1]}`:'';
   }catch(e){ note.dataset.k='soil_fail'; }
+  if(LINK_SOIL){ $('soc').value=LINK_SOIL.soc; $('clay').value=LINK_SOIL.clay; note.dataset.k='soil_link'; LINK_SOIL=null; }
   note.textContent=t(note.dataset.k,{p:note.dataset.p||''});
 }
 
@@ -1916,7 +1974,7 @@ function cmip(lat,lon,sc){
   }
   return null;
 }
-const PAL=['#9aa0b8','#c9a227','#2491FF','#8b5cf6','#C41C06','#14b8a6'];
+const PAL=['#4E79A7','#F28E2B','#59A14F','#E15759','#B07AA1','#76B7B2','#EDC948','#9C755F','#FF9DA7','#7F7F7F','#1B2B85','#2E7D32'];
 // Fixed agronomic scales: red -> green, with the ideal band. The same scales score soil and water in the ranking,
 // so a rotation's score does not depend on which other rotations are in the list.
 const GAUGES={
@@ -1940,7 +1998,8 @@ function shRow(label,value,bad,sub,gk,gv,ideal,why){
 }
 function soilWord(d){return d>1?t('soil_gain'):d>-1?t('soil_stable'):d>-4.5?t('soil_slight'):t('soil_clear');}
 function runAll(){
-  if(!climate||busy) return;
+  if(busy) return;
+  if(!climate){ loadData(); return; }        // a failed or missing load: the button retries
   setStatus('running');
   setTimeout(()=>{ try{ runAllNow(); }catch(e){ console.error(e); setStatus('err_power',true);} },30);
 }
@@ -1958,15 +2017,15 @@ function rankRotations(soil,shift,mine){
     r.health=0.6*gScore('carbon',r.dC)+0.25*gScore('bare',r.bare)+0.15*gScore('nitro',r.nSur);
     r.sWater=gScore('water',r.water);
     r.score=100*(w.inc*r.sProfit+w.risk*r.sSafe+w.soil*r.health+w.water*r.sWater)/ws;});
-  const sorted=[...rots].sort((a,b)=>b.score-a.score);
-  return {rots,sorted,best:sorted[0],me:rots.find(r=>r.mine)};
+  const sorted=[...rots].sort((a,b)=>(b.score-a.score)||(b.mean-a.mean));   // equal fit: higher profit first
+  return {rots,sorted,best:sorted[0],me:rots.find(r=>r.mine),noPrio:!(w.inc+w.risk+w.soil+w.water)};
 }
 function runAllNow(){
   if(!climate) return;
   const soil=getSoil(), shift=getShift();
-  const {rots,sorted,best,me}=rankRotations(soil,shift,userSeq());
+  const {rots,sorted,best,me,noPrio}=rankRotations(soil,shift,userSeq());
   if(PRICE_MODE!=='fixed'){const keep=PRICE_MODE; PRICE_MODE='fixed'; best.meanToday=monteCarlo(best.seq,soil,shift,777).mean; PRICE_MODE=keep;} else best.meanToday=null;
-  lastResults={rots,sorted,best,me,soil,shift};
+  lastResults={rots,sorted,best,me,soil,shift,noPrio};
   renderAnswer(); renderClimate(); renderDetails();
 }
 function renderAnswer(){
@@ -1974,8 +2033,8 @@ function renderAnswer(){
   const {sorted,best,me,shift}=lastResults;
   const lk=Object.entries(best.lim).sort((a,b)=>b[1]-a[1])[0];
   const risk=t(lk[1]===0?'risk_none':({water:'risk_water',heat:'risk_heat',n:'risk_n'})[lk[0]]);
-  const scenTxt=t({raw:'scen_raw','2050':'scen_2050',ssp245:'scen_ssp245',ssp585:'scen_ssp585'}[shift.mode]||'scen_now')+', '+t('ph_'+PRICE_MODE)+(shift.dT?` +${shift.dT} °C`:'')+(shift.dP?`, ${shift.dP}%`:'');
-  const head=best===me?t('best_mine',{rot:rotName(best.seq,true)}):t('best_other',{rot:rotName(best.seq,true),k:sorted.indexOf(me)+1});
+  const scenTxt=t({raw:'scen_raw','2050':'scen_2050',ssp245:'scen_ssp245',ssp585:'scen_ssp585'}[shift.mode]||'scen_now')+', '+t('ph_'+PRICE_MODE)+(shift.dT?`, +${f1(shift.dT)} °C`:'')+(shift.dP?`, ${shift.dP>0?'+':'−'}${nf(Math.abs(shift.dP))} %`:'');
+  const head=lastResults.noPrio?t('w_zero_head'):best===me?t('best_mine',{rot:rotName(best.seq,true)}):t('best_other',{rot:rotName(best.seq,true),k:sorted.indexOf(me)+1});
   const maxM=Math.max(...sorted.map(r=>r.mean),1);
   // greener alternative
   const alt=sorted.filter(r=>r!==best&&r.dC>best.dC+1&&r.mean>0).sort((a,b)=>b.mean-a.mean)[0];
@@ -1992,7 +2051,7 @@ function renderAnswer(){
       <div><div class="l">${t('k_bad')}</div><div class="v">${money(best.p10)}<small> /ha</small></div></div>
       <div><div class="l">${t('k_soil')}</div><div class="v ${best.dC<-1?'bad':''}">${soilWord(best.dC)}</div></div></div>
     ${best.meanToday!=null?`<p class="note">${t(best.meanToday<0?'today_neg':'today_line',{v:money(Math.abs(best.meanToday))})}</p>`:''}
-    <p class="small" style="margin:10px 0 0;font-size:13px;line-height:1.5">${t('p_def')}</p>
+    <p class="small" style="margin:10px 0 0;font-size:13px;line-height:1.5">${t('p_def_'+PRICE_MODE)}</p>
     ${tip}
     <h3>${t('sh_h')}</h3>
     <div class="shrows">
@@ -2025,7 +2084,7 @@ function renderClimate(){
   const ys=climate.years, raw={mode:'raw',dT:0,dP:0}, W=ys.map(y=>weatherFor(y,raw));
   const ann=ys.map(y=>climate.byYear[y].t.reduce((a,b)=>a+b)/12);
   const A=ys.slice(0,10), B=ys.slice(-10), avg=(arr,f)=>{const v=arr.map(f).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b)/v.length:null;};
-  const med=(arr,f)=>{const v=arr.map(f).filter(x=>x!=null).sort((a,b)=>a-b);return v.length>=5?v[Math.floor(v.length/2)]:null;};
+  const med=(arr,f)=>{const v=arr.map(f).filter(x=>x!=null).sort((a,b)=>a-b);if(v.length<5) return null;const h=v.length>>1;return v.length%2?v[h]:(v[h-1]+v[h])/2;};
   const by=y=>climate.byYear[y], wy=y=>W[ys.indexOf(y)];
   let th=30; const hot=y=>by(y).txd.flat().filter(v=>v>=th).length; if(avg(B,hot)<3) th=25;
   const loc=LANG==='en'?'en-GB':LANG==='de'?'de-DE':'tr-TR', day=d=>d==null?'–':new Date(Date.UTC(2001,0,Math.round(d))).toLocaleDateString(loc,{day:'numeric',month:'long'});
@@ -2040,7 +2099,8 @@ function renderClimate(){
   const head=`<thead><tr><th style="padding-left:0">${t('ch_what')}</th><th>${A[0]}-${A.at(-1)}</th><th>${B[0]}-${B.at(-1)}</th><th>${t('ch_change')}</th><th>${t('ch_mean')}</th></tr></thead>`;
   const body=rows.map(([k,a,b,fmt,eps,kind])=>{
     if(a==null||b==null) return '';
-    const d=b-a, dir=Math.abs(d)<eps?'eq':(d>0?'up':'dn');
+    const shown=v=>k==='t'||k==='heavy'?Math.round(v*10)/10:Math.round(v);   // the change adds up with the numbers on screen
+    const d=shown(b)-shown(a), dir=Math.abs(d)<eps?'eq':(d>0?'up':'dn');
     const worseIfUp={t:1,hot:1,frost:0,lf:1,rain:-1,et:1,heavy:1}[k], cls=dir==='eq'||!worseIfUp?'eq':((d>0)===(worseIfUp>0)?'worse':'better');
     const dtxt=kind==='d'?(dir==='eq'?t('ch_same'):t(d<0?'ch_earlier':'ch_later',{n:nf(Math.abs(d))})):(dir==='eq'?t('ch_same'):(d>0?'+':'−')+(k==='t'?f1(Math.abs(d))+' °C':k==='heavy'?f1(Math.abs(d)):nf(Math.abs(d))+(k==='rain'||k==='et'?' mm':'')));
     return `<tr><td style="padding-left:0"><b>${t('ch_'+k,{th})}</b></td><td class="v" data-l="${A[0]}-${A.at(-1)}">${fmt(a)}</td><td class="v" data-l="${B[0]}-${B.at(-1)}">${fmt(b)}</td><td class="d ${cls}" data-l="${t('ch_change')}">${dtxt}</td><td class="m">${t('chm_'+k+'_'+(dir==='eq'?'eq':(d>0?'up':'dn')))}</td></tr>`;}).join('');
@@ -2079,9 +2139,9 @@ function renderClimate(){
 function renderDetails(){
   if(!lastResults||$('details').hidden) return;
   const {rots,soil}=lastResults;
-  mkChart('rrChart',{type:'scatter',data:{datasets:rots.map((r,i)=>({label:(r.mine?'★ ':'')+rotShort(r.seq),data:[{x:r.p10,y:r.mean}],backgroundColor:r.mine?'#E7F434':PAL[i%6],borderColor:r.mine?'#151622':PAL[i%6],borderWidth:r.mine?2:1,pointRadius:r.mine?11:7,pointStyle:r.mine?'rectRot':'circle'}))},
+  mkChart('rrChart',{type:'scatter',data:{datasets:rots.map((r,i)=>({label:(r.mine?'★ ':'')+rotShort(r.seq),data:[{x:r.p10,y:r.mean}],backgroundColor:r.mine?'#E7F434':PAL[i%PAL.length],borderColor:r.mine?'#151622':PAL[i%PAL.length],borderWidth:r.mine?2:1,pointRadius:r.mine?11:7,pointStyle:r.mine?'rectRot':'circle'}))},
     options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:12}}}},scales:{x:{title:{display:true,text:t('ax_bad')}},y:{title:{display:true,text:t('ax_avg')}}}}});
-  mkChart('soilChart',{type:'line',data:{labels:Array.from({length:YEARS},(_,i)=>i+1),datasets:rots.map((r,i)=>({label:(r.mine?'★ ':'')+rotShort(r.seq),data:r.cMed.map(v=>v/C_PER_GKG),borderColor:r.mine?'#0050D8':PAL[i%6],borderWidth:r.mine?3:1.5,pointRadius:0,tension:.25}))},
+  mkChart('soilChart',{type:'line',data:{labels:Array.from({length:YEARS},(_,i)=>i+1),datasets:rots.map((r,i)=>({label:(r.mine?'★ ':'')+rotShort(r.seq),data:r.cMed.map(v=>v/C_PER_GKG),borderColor:r.mine?'#0050D8':PAL[i%PAL.length],borderWidth:r.mine?3:1.5,pointRadius:0,tension:.25}))},
     options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:12}}}},scales:{y:{title:{display:true,text:t('ax_soc')}}}}});
   const raw={mode:'raw',dT:0,dP:0}, yl=climate.years.filter(y=>y>=1995);
   const mine=simulate(userSeq(),yl,soil,raw), mono=simulate(["maize"],yl,soil,raw);
@@ -2136,6 +2196,7 @@ function stateHash(){
   if(+$('irr').value) q.set('irr',$('irr').value); if(PRICE_MODE!=='hist') q.set('pm',PRICE_MODE); if(BRENT!==95) q.set('brent',BRENT);
   if(+$('dT').value) q.set('dT',$('dT').value); if(+$('dP').value) q.set('dP',$('dP').value);
   if($('fertP').value!=='1.2') q.set('fert',$('fertP').value); if($('rainCal').value) q.set('rain',$('rainCal').value);
+  q.set('soc',(+$('soc').value).toFixed(1)); q.set('clay',(+$('clay').value).toFixed(0)); if($('rawHist').checked) q.set('raw','1');
   return '#'+q.toString();
 }
 async function shareLink(btn){
@@ -2154,6 +2215,9 @@ function readHash(){
     if(['now','ssp245','ssp585'].includes(q.get('sc'))) scen=q.get('sc');
     if(q.get('dT')) $('dT').value=q.get('dT'); if(q.get('dP')) $('dP').value=q.get('dP');
     if(q.get('fert')){$('fertP').value=q.get('fert'); N_PRICE=+q.get('fert');}
+    if(q.get('raw')==='1') $('rawHist').checked=true;
+    if(q.get('soc')&&q.get('clay')) LINK_SOIL={soc:+q.get('soc'),clay:+q.get('clay')};
+    const la=+q.get('lat'), lo=+q.get('lon'); if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180) return null;
     return {key:q.get('site')||'custom',lat:+q.get('lat'),lon:+q.get('lon'),rot:(q.get('rot')||'').split('.').filter(k=>CROPS[k]),rain:q.get('rain')};
   }catch(e){return null;}
 }
@@ -2191,10 +2255,11 @@ async function computeField(f){
   if(!f.soil){try{const sg=await fetchSoil(f.lat,f.lon); f.soil=sg?{soc:+sg.soc.toFixed(1),clay:Math.round(sg.clay)}:{soc:15,clay:25,typ:true};}catch(e){f.soil={soc:15,clay:25,typ:true};} saveFields();}
   const keep=climate; climate=c;
   try{
-    const ys=c.years, B=ys.slice(-10), avg=a=>a.reduce((x,y)=>x+y,0)/a.length, med=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);return v.length?v[Math.floor(v.length/2)]:null;};
+    const ys=c.years, B=ys.slice(-10), avg=a=>a.reduce((x,y)=>x+y,0)/a.length, med=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length) return null;const h=v.length>>1;return v.length%2?v[h]:(v[h-1]+v[h])/2;};
     const cm=cmip(f.lat,f.lon,'ssp245');
     const rk=rankRotations(f.soil,{mode:'now',dT:0,dP:0,irr:0},f.rot&&f.rot.length?f.rot:['wheat']);
-    FRES[f.id]={t:avg(B.map(y=>c.byYear[y].t.reduce((a,b)=>a+b)/12)), rain:c.pMean, warm:c.trend*(2024-1985),
+    const A=ys.slice(0,10), tA=avg(A.map(y=>c.byYear[y].t.reduce((a,b)=>a+b)/12)), tB=avg(B.map(y=>c.byYear[y].t.reduce((a,b)=>a+b)/12));
+    FRES[f.id]={t:tB, rain:c.pMean, warm:Math.round(tB*10)/10-Math.round(tA*10)/10,
       hot:avg(B.map(y=>c.byYear[y].txd.flat().filter(v=>v>=30).length)), frost:avg(B.map(y=>(c.byYear[y].fd||[]).reduce((a,b)=>a+b,0))), lf:med(B.map(y=>c.byYear[y].lf)),
       fut:cm?avg(cm.map(m=>CM_K*m.dT.reduce((a,b)=>a+b)/12)):null,
       best:{seq:rk.best.seq,mean:rk.best.mean,dC:rk.best.cEnd-f.soil.soc*C_PER_GKG}, me:{mean:rk.me.mean,k:rk.sorted.indexOf(rk.me)+1,n:rk.sorted.length}};
@@ -2264,19 +2329,21 @@ function printReport(){
 
 // ===================== Language switch =====================
 function applyLang(){
-  document.documentElement.lang=LANG;
+  document.documentElement.lang=LANG; document.title=t('doc_title');
+  $('heroMap').setAttribute('aria-label',t('map_aria')); document.querySelector('.langs').setAttribute('aria-label',t('lang_aria'));
+  $('dTv').textContent='+'+f1(+$('dT').value)+' °C'; $('dPv').textContent=nf(+$('dP').value)+' %';
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
   renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); renderNavBox(); renderFields(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
-  if(lastResults){renderAnswer();renderClimate();renderDetails();} else if(busy){}
+  if(lastResults){renderAnswer();renderClimate();renderDetails();} else if(statusKey) setStatus(statusKey,statusErr);
 }
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;try{localStorage.setItem('rotasat_lang',LANG);}catch(e){};applyLang();});
 document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.dataset.scen;document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x===b));runAll();});
-$('dT').oninput=()=>$('dTv').textContent='+'+(+$('dT').value).toFixed(1)+' °C';
-$('dP').oninput=()=>$('dPv').textContent=$('dP').value+' %';
+$('dT').oninput=()=>$('dTv').textContent='+'+f1(+$('dT').value)+' °C';
+$('dP').oninput=()=>$('dPv').textContent=nf(+$('dP').value)+' %';
 ['dT','dP','wInc','wRisk','wSoil','wWater','irr','soc','clay','rawHist'].forEach(id=>$(id).addEventListener('change',runAll));
 ['wInc','wRisk','wSoil','wWater','priceMode','fertP','brent'].forEach(id=>$(id).addEventListener('change',()=>{if(FIELDS.length) setTimeout(()=>computeFields(true),400);}));
 function prioLabel(){
@@ -2301,7 +2368,7 @@ setTimeout(()=>computeFields(),1500);
 if(fromLink){
   if(fromLink.rot.length){for(let i=0;i<4;i++) $('slot'+i).value=fromLink.rot[i]||'';}
   document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.scen===scen));
-  $('dTv').textContent='+'+(+$('dT').value).toFixed(1)+' °C'; $('dPv').textContent=$('dP').value+' %';
+  $('dTv').textContent='+'+f1(+$('dT').value)+' °C'; $('dPv').textContent=nf(+$('dP').value)+' %';
   chooseSite(SITES.find(x=>x.key===fromLink.key)||{key:'custom',lat:fromLink.lat,lon:fromLink.lon});
   if(fromLink.rain) $('rainCal').value=fromLink.rain;
 }else chooseSite(SITES[0]);

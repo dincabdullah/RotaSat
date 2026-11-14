@@ -25,6 +25,7 @@ node check_priorities.js ../index.html    # ranking follows each priority slider
 node check_prices.js ../index.html        # four price modes
 node check_fields_quick.js ../index.html heilbronn,borde,gaeu,thrace   # model numbers per example field
 node check_header.js ../index.html        # header layout at three widths and three languages
+node check_fixes.js ../index.html         # regressions from the full function test (run button, retry, layer error, zero priorities, share link soil, phone header)
 ```
 
 Screenshots and the CSV land in `test-shots/` (not committed). Every script prints `ERRORS` with any JavaScript error the page raised; an empty list means none.
