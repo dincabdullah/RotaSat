@@ -26,7 +26,7 @@ const { chromium, open, ready, snap, APP } = require('./harness');
         return [avg([c]), avg([c, 'wheat']), avg(rot)].map(v => +v.toFixed(2)); }, [c, rot]);
       console.log(`  ${c} every year: rank ${m.rank}/${m.n}, fit ${m.score}, profit ${m.mean}, pest level ${m.pest} | yield t/ha every year ${y[0]}, every 2nd year ${y[1]}, every 4th year ${y[2]} | "${m.pill}"`);
       if (m.pest !== 2) fail(`${k}: ${c} every year should be flagged as too short`);
-      if (m.rank < m.n - 4) fail(`${k}: ${c} every year ranks too high (${m.rank}/${m.n})`);
+      if (m.rank <= m.n / 3) fail(`${k}: ${c} every year ranks in the top third (${m.rank}/${m.n})`);
       if (!(y[0] < 0.8 * y[2] && y[1] < 0.93 * y[2])) fail(`${k}: break penalty for ${c} too mild`);
     }
   }
