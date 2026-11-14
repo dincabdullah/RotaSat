@@ -172,6 +172,15 @@ input[type=range]{accent-color:#1B2B85}
 .sh .l{font-size:14px;color:var(--mute)}.sh .v2{font-family:'Fira Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px}.sh p{margin:6px 0 0;font-size:14px;line-height:1.45;color:var(--ink2)}
 @media(max-width:1100px){.sh{grid-template-columns:repeat(2,minmax(0,1fr))}.sh>div:nth-child(3){padding-left:0;border-left:0}.sh>div:nth-child(n+3){border-top:1px solid var(--line)}}
 @media(max-width:760px){.sh{grid-template-columns:1fr}.sh>div,.sh>div+div{padding:14px 0;border-left:0}.sh>div+div{border-top:1px solid var(--line)}}
+.gauge{position:relative;height:30px;margin:10px 0 0}
+.gbar{position:absolute;left:0;right:0;top:14px;height:9px;border-radius:5px}
+.gideal{position:absolute;top:0;height:30px;border:2px solid #151622;border-bottom:0;border-top:0;box-sizing:border-box;min-width:6px}
+.gideal span{position:absolute;top:-1px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;letter-spacing:.04em;color:#151622;background:#fff;padding:0 3px;line-height:12px;white-space:nowrap}
+.gmark{position:absolute;top:8px;width:4px;height:21px;margin-left:-2px;background:#151622;border-radius:2px;box-shadow:0 0 0 2px #fff}
+.gends{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);margin-top:1px}
+.sh p.gi{margin:4px 0 0;font-size:12px;color:var(--mute)}
+.prio small{display:block;font-size:13px;color:var(--mute);margin:-2px 0 2px}.prio b{font-weight:600;color:var(--ink)}
+.wsum{font-size:13px;color:var(--mute);margin:6px 0 0}
 td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margin-top:2px}
 .space{border-top:1px solid var(--line);background:#fff}
 #spChart{overflow-x:auto;-webkit-overflow-scrolling:touch}#spChart svg{display:block;width:100%;height:auto;min-width:720px}
@@ -227,10 +236,11 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
     </fieldset>
     <fieldset>
       <legend data-i18n="q3"></legend>
-      <label class="slider"><span data-i18n="w_profit"></span><input id="wInc" type="range" min="0" max="5" value="3"></label>
-      <label class="slider"><span data-i18n="w_safe"></span><input id="wRisk" type="range" min="0" max="5" value="3"></label>
-      <label class="slider"><span data-i18n="w_soil"></span><input id="wSoil" type="range" min="0" max="5" value="3"></label>
-      <label class="slider"><span data-i18n="w_water"></span><input id="wWater" type="range" min="0" max="5" value="2"></label>
+      <label class="slider prio"><span><span data-i18n="w_profit"></span>: <b id="wIncV"></b></span><small data-i18n="w_profit_h"></small><input id="wInc" type="range" min="0" max="5" value="3"></label>
+      <label class="slider prio"><span><span data-i18n="w_safe"></span>: <b id="wRiskV"></b></span><small data-i18n="w_safe_h"></small><input id="wRisk" type="range" min="0" max="5" value="3"></label>
+      <label class="slider prio"><span><span data-i18n="w_soil"></span>: <b id="wSoilV"></b></span><small data-i18n="w_soil_h"></small><input id="wSoil" type="range" min="0" max="5" value="3"></label>
+      <label class="slider prio"><span><span data-i18n="w_water"></span>: <b id="wWaterV"></b></span><small data-i18n="w_water_h"></small><input id="wWater" type="range" min="0" max="5" value="2"></label>
+      <p class="wsum" id="wSum"></p>
     </fieldset>
     <fieldset>
       <legend data-i18n="q4"></legend>
@@ -685,6 +695,25 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+u_carbon:"t C",u_bare:"months",u_nitro:"kg N",u_water:"mm",
+ideal:"IDEAL",
+ideal_c:"Ideal: no loss (0 or more)",
+ideal_b:"Ideal: 2 months or less (EU rule GAEC 6: keep soil covered in winter)",
+ideal_n:"Ideal: −10 to +30 kg (Germany's legal limit until 2020 was +50)",
+ideal_w:"Ideal: under 50 mm",
+fit:"fit {s}/100",
+w_profit_h:"Average profit per hectare, compared with the best option.",
+w_safe_h:"Profit in the worst run of years, and how often a crop fails.",
+w_soil_h:"Carbon 60%, bare soil 25%, nitrogen balance 15%, on the fixed scales below.",
+w_water_h:"Irrigation water used, or water the crops lack without irrigation.",
+lvl0:"not important",
+lvl1:"a little",
+lvl2:"somewhat",
+lvl3:"important",
+lvl4:"very important",
+lvl5:"most important",
+w_sum:"Weights now: profit {p}%, safety {r}%, soil {s}%, water {w}%.",
+w_zero:"Set at least one priority above zero.",
 today_line:"At today's prices (2025, a weak year for crop prices) it would earn about {v} a year.",
 today_neg:"At today's prices (2025, a weak year for crop prices) it would lose about {v} a year.",
 c_top:"most grown here",
@@ -838,6 +867,25 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+u_carbon:"t C",u_bare:"ay",u_nitro:"kg N",u_water:"mm",
+ideal:"İDEAL",
+ideal_c:"İdeal: kayıp yok (0 veya üstü)",
+ideal_b:"İdeal: 2 ay veya daha az (AB kuralı GAEC 6: kışın toprağı örtülü tut)",
+ideal_n:"İdeal: −10 ile +30 kg arası (Almanya'nın 2020'ye kadarki yasal sınırı +50 idi)",
+ideal_w:"İdeal: 50 mm'nin altı",
+fit:"uyum {s}/100",
+w_profit_h:"Hektar başına ortalama kâr, en iyi seçenekle karşılaştırılarak.",
+w_safe_h:"En kötü yıllar dizisindeki kâr ve bir ürünün ne sıklıkla çöktüğü.",
+w_soil_h:"Karbon %60, çıplak toprak %25, azot dengesi %15; aşağıdaki sabit ölçeklerle.",
+w_water_h:"Kullanılan sulama suyu ya da sulama yoksa bitkilerin eksik kalan suyu.",
+lvl0:"önemsiz",
+lvl1:"biraz",
+lvl2:"orta",
+lvl3:"önemli",
+lvl4:"çok önemli",
+lvl5:"en önemli",
+w_sum:"Şu anki ağırlıklar: kâr %{p}, güvence %{r}, toprak %{s}, su %{w}.",
+w_zero:"En az bir önceliği sıfırın üstüne getir.",
 today_line:"Bugünkü fiyatlarla (2025, ürün fiyatları için zayıf bir yıl) yılda yaklaşık {v} kazandırırdı.",
 today_neg:"Bugünkü fiyatlarla (2025, ürün fiyatları için zayıf bir yıl) yılda yaklaşık {v} zarar ettirirdi.",
 c_top:"burada en çok ekilen",
@@ -991,6 +1039,25 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+u_carbon:"t C",u_bare:"Monate",u_nitro:"kg N",u_water:"mm",
+ideal:"IDEAL",
+ideal_c:"Ideal: kein Verlust (0 oder mehr)",
+ideal_b:"Ideal: höchstens 2 Monate (EU-Regel GLÖZ 6: Boden im Winter bedecken)",
+ideal_n:"Ideal: −10 bis +30 kg (gesetzliche Grenze in Deutschland bis 2020: +50)",
+ideal_w:"Ideal: unter 50 mm",
+fit:"Passung {s}/100",
+w_profit_h:"Durchschnittlicher Gewinn je Hektar, verglichen mit der besten Option.",
+w_safe_h:"Gewinn in der schlechtesten Folge von Jahren und wie oft eine Kultur ausfällt.",
+w_soil_h:"Kohlenstoff 60 %, offener Boden 25 %, Stickstoffbilanz 15 %, auf den festen Skalen unten.",
+w_water_h:"Verbrauchtes Beregnungswasser oder fehlendes Wasser ohne Beregnung.",
+lvl0:"unwichtig",
+lvl1:"etwas",
+lvl2:"mittel",
+lvl3:"wichtig",
+lvl4:"sehr wichtig",
+lvl5:"am wichtigsten",
+w_sum:"Gewichte jetzt: Gewinn {p} %, Sicherheit {r} %, Boden {s} %, Wasser {w} %.",
+w_zero:"Bitte mindestens eine Priorität über null setzen.",
 today_line:"Zu heutigen Preisen (2025, ein schwaches Jahr für Erzeugerpreise) brächte sie etwa {v} pro Jahr.",
 today_neg:"Zu heutigen Preisen (2025, ein schwaches Jahr für Erzeugerpreise) verlöre sie etwa {v} pro Jahr.",
 c_top:"hier am häufigsten",
@@ -1229,7 +1296,7 @@ function updateReadout(){$('roCoord').textContent=`${Math.abs(site.lat).toFixed(
 function renderRegionNote(){
   const s=SITES.find(x=>x.key===site.key); $('regionNote').hidden=!(s&&s.note); if(!s||!s.note) return;
   $('rnText').textContent=s.note[LANG]+' '+t('rn_crops',{list:[s.top,...s.common].map(cropName).join(', ')});
-  $('rnBtn').onclick=()=>{['wInc','wRisk','wSoil','wWater'].forEach((id,i)=>$(id).value=s.pri[i]); runAll();};
+  $('rnBtn').onclick=()=>{['wInc','wRisk','wSoil','wWater'].forEach((id,i)=>$(id).value=s.pri[i]); prioLabel(); runAll();};
 }
 function renderSites(){
   $('sites').innerHTML=SITES.map(s=>`<button type="button" class="site" aria-pressed="${site.key===s.key}" data-site="${s.key}"><span><b>${s.name[LANG]}</b><br><small>${s.near[LANG]}</small></span><span class="tag ${s.dry?'dry':'wet'}">${s.tag[LANG]}</span></button>`).join('');
@@ -1331,6 +1398,22 @@ function cmip(lat,lon,sc){
   return null;
 }
 const PAL=['#9aa0b8','#c9a227','#2491FF','#8b5cf6','#C41C06','#14b8a6'];
+// Fixed agronomic scales: red -> green, with the ideal band. The same scales score soil and water in the ranking,
+// so a rotation's score does not depend on which other rotations are in the list.
+const GAUGES={
+  carbon:{min:-8,max:4,ideal:[0,4],stops:[[-8,'#C41C06'],[-4,'#E8862A'],[-1.5,'#E7C534'],[0,'#4C9F50'],[4,'#2E7D32']]},          // t C/ha change in 20 years
+  bare:{min:0,max:8,ideal:[0,2],stops:[[0,'#2E7D32'],[2,'#4C9F50'],[3.5,'#E7C534'],[5.5,'#E8862A'],[8,'#C41C06']]},             // months of bare soil a year (EU GAEC 6: cover in winter)
+  nitro:{min:-80,max:100,ideal:[-10,30],stops:[[-80,'#C41C06'],[-40,'#E8862A'],[-15,'#E7C534'],[-10,'#4C9F50'],[30,'#4C9F50'],[50,'#E7C534'],[70,'#E8862A'],[100,'#C41C06']]}, // kg N/ha a year (DE legal limit to 2020: +50)
+  water:{min:0,max:300,ideal:[0,50],stops:[[0,'#2E7D32'],[50,'#4C9F50'],[110,'#E7C534'],[180,'#E8862A'],[300,'#C41C06']]}            // mm a year: irrigation used or water gap
+};
+function gScore(k,v){const g=GAUGES[k],[a,b]=g.ideal;if(v>=a&&v<=b) return 1;return v<a?Math.max(0,(v-g.min)/(a-g.min)):Math.max(0,(g.max-v)/(g.max-b));}
+function gaugeHTML(k,v,label){
+  const g=GAUGES[k],pc=x=>(Math.max(g.min,Math.min(g.max,x))-g.min)/(g.max-g.min)*100;
+  const grad=g.stops.map(([x,c])=>`${c} ${pc(x).toFixed(1)}%`).join(',');
+  const [a,b]=g.ideal;
+  return `<div class="gauge" role="img" aria-label="${label}"><div class="gbar" style="background:linear-gradient(90deg,${grad})"></div>
+    <div class="gideal" style="left:${pc(a)}%;width:${pc(b)-pc(a)}%"><span>${t('ideal')}</span></div><div class="gmark" style="left:${pc(v)}%"></div></div><div class="gends"><span>${g.min>0?'+':''}${nf(g.min)} ${t('u_'+k)}</span><span>${g.max>0&&k!=='bare'&&k!=='water'?'+':''}${nf(g.max)} ${t('u_'+k)}</span></div>`;
+}
 function soilWord(d){return d>1?t('soil_gain'):d>-1?t('soil_stable'):d>-4.5?t('soil_slight'):t('soil_clear');}
 function runAll(){
   if(!climate||busy) return;
@@ -1345,9 +1428,14 @@ function runAllNow(){
   rots.forEach((ro,i)=>Object.assign(ro,monteCarlo(ro.seq,soil,shift,12345+i)));
   const w={inc:+$('wInc').value,risk:+$('wRisk').value,soil:+$('wSoil').value,water:+$('wWater').value}, ws=w.inc+w.risk+w.soil+w.water||1;
   const norm=(k,inv)=>{const v=rots.map(r=>r[k]),lo=Math.min(...v),hi=Math.max(...v);return r=>hi===lo?0.5:(inv?(hi-r[k]):(r[k]-lo))/(hi-lo);};
-  rots.forEach(r=>r.nAbs=Math.abs(r.nSur));
-  const nI=norm('mean'),nR=norm('p10'),nF=norm('fail',true),nS=norm('cEnd'),nE=norm('ero',true),nN=norm('nAbs',true),nW=norm('water',true);
-  rots.forEach(r=>{r.health=0.6*nS(r)+0.25*nE(r)+0.15*nN(r); r.score=100*(w.inc*nI(r)+w.risk*(0.5*nR(r)+0.5*nF(r))+w.soil*r.health+w.water*nW(r))/ws; r.dC=r.cEnd-c0;});
+  // profit and safety: share of the best option; soil and water: fixed scales (see GAUGES)
+  const maxM=Math.max(...rots.map(r=>r.mean)), maxP=Math.max(...rots.map(r=>r.p10));
+  rots.forEach(r=>{r.dC=r.cEnd-c0;
+    r.sProfit=maxM>0?Math.max(0,r.mean)/maxM:0;
+    r.sSafe=0.5*(maxP>0?Math.max(0,r.p10)/maxP:0)+0.5*Math.max(0,1-r.fail/0.2);
+    r.health=0.6*gScore('carbon',r.dC)+0.25*gScore('bare',r.bare)+0.15*gScore('nitro',r.nSur);
+    r.sWater=gScore('water',r.water);
+    r.score=100*(w.inc*r.sProfit+w.risk*r.sSafe+w.soil*r.health+w.water*r.sWater)/ws;});
   const sorted=[...rots].sort((a,b)=>b.score-a.score), best=sorted[0], me=rots.find(r=>r.mine);
   if(PRICE_MODE!=='fixed'){const keep=PRICE_MODE; PRICE_MODE='fixed'; best.meanToday=monteCarlo(best.seq,soil,shift,777).mean; PRICE_MODE=keep;} else best.meanToday=null;
   lastResults={rots,sorted,best,me,soil,shift};
@@ -1366,7 +1454,7 @@ function renderAnswer(){
   const tip=alt?`<p class="note">${t('tip',{alt:rotName(alt.seq,true),d:nf(Math.max(0,best.mean-alt.mean))})}</p>`:'';
   const worst=sorted.filter(r=>r.fail>=0.05).sort((a,b)=>b.fail-a.fail)[0];
   const crash=worst?`<p class="note">${t('crash_line',{name:rotName(worst.seq,true),n:Math.max(2,Math.round(1/worst.fail))})}</p>`:'';
-  const rows=sorted.map((r,i)=>`<tr class="${r.mine?'me':''}"><td>${i+1}. ${r.mine?t('your_plan')+': '+rotShort(r.seq):cap1(rotShort(r.seq))}</td>
+  const rows=sorted.map((r,i)=>`<tr class="${r.mine?'me':''}"><td>${i+1}. ${r.mine?t('your_plan')+': '+rotShort(r.seq):cap1(rotShort(r.seq))}<small class="sd">${t('fit',{s:Math.round(r.score)})}</small></td>
     <td data-l="${t('th_profit')}"><div class="bar"><i style="width:${Math.max(4,70*Math.max(0,r.mean)/maxM)}%;${r.dC<-4.5||r.mean<maxM*0.5?'background:var(--orange2)':''}"></i><span>${money(r.mean)}</span></div></td>
     <td data-l="${t('th_bad')}" class="r ${r.p10<0.3*maxM?'bad':''}">${money(r.p10)}</td><td data-l="${t('th_soil')}" class="${r.dC<=-4.5?'bad':''}">${soilWord(r.dC)}<small class="sd">${t('bare_short',{m:f1(r.bare)})}</small></td><td data-l="${t('th_water')}" class="r">${nf(r.water)} mm<small class="sd">${t(shift.irr>0?'th_w_irr':'th_w_gap')}</small></td></tr>`).join('');
   $('answer').innerHTML=`<p class="mono small" style="margin:0;font-size:13px">${t('res_head',{site:siteLabel(),scen:scenTxt})}</p>
@@ -1380,10 +1468,10 @@ function renderAnswer(){
     ${tip}
     <h3>${t('sh_h')}</h3>
     <div class="sh">
-      <div><div class="l">${t('sh_c')}</div><div class="v2 ${best.dC<-1?'bad':''}">${soilWord(best.dC)}</div><p>${t('sh_c_p',{d:sgn(best.dC)})}</p></div>
-      <div><div class="l">${t('sh_bare')}</div><div class="v2 ${best.bare>5?'bad':''}">${t('sh_bare_v',{m:f1(best.bare)})}</div><p>${t('sh_bare_p',{e:nf(best.ero)})}</p></div>
-      <div><div class="l">${t('sh_n')}</div><div class="v2 ${Math.abs(best.nSur)>40?'bad':''}">${nWord(best.nSur)}</div><p>${t(best.nFix>0.5?'sh_n_p':'sh_n_p0',{f:nf(best.fert),x:nf(best.nFix),b:(best.nSur>0?'+':best.nSur<0?'−':'')+nf(Math.abs(best.nSur))})}</p></div>
-      <div><div class="l">${t('sh_w')}</div>${shift.irr>0?`<div class="v2">${t('sh_w_irr',{n:nf(best.irr)})}</div><p>${t('sh_w_irr_p',{c:nf(best.irr*irrCost(DIESEL)),g:nf(best.gap)})}</p>`:`<div class="v2 ${best.gap>100?'bad':''}">${t('sh_w_gap',{n:nf(best.gap)})}</div><p>${t('sh_w_gap_p')}</p>`}</div>
+      <div><div class="l">${t('sh_c')}</div><div class="v2 ${best.dC<-1?'bad':''}">${soilWord(best.dC)}</div>${gaugeHTML('carbon',best.dC,t('sh_c'))}<p class="gi">${t('ideal_c')}</p><p>${t('sh_c_p',{d:sgn(best.dC)})}</p></div>
+      <div><div class="l">${t('sh_bare')}</div><div class="v2 ${best.bare>5?'bad':''}">${t('sh_bare_v',{m:f1(best.bare)})}</div>${gaugeHTML('bare',best.bare,t('sh_bare'))}<p class="gi">${t('ideal_b')}</p><p>${t('sh_bare_p',{e:nf(best.ero)})}</p></div>
+      <div><div class="l">${t('sh_n')}</div><div class="v2 ${Math.abs(best.nSur)>40?'bad':''}">${nWord(best.nSur)}</div>${gaugeHTML('nitro',best.nSur,t('sh_n'))}<p class="gi">${t('ideal_n')}</p><p>${t(best.nFix>0.5?'sh_n_p':'sh_n_p0',{f:nf(best.fert),x:nf(best.nFix),b:(best.nSur>0?'+':best.nSur<0?'−':'')+nf(Math.abs(best.nSur))})}</p></div>
+      <div><div class="l">${t('sh_w')}</div>${shift.irr>0?`<div class="v2">${t('sh_w_irr',{n:nf(best.irr)})}</div>${gaugeHTML('water',best.water,t('sh_w'))}<p class="gi">${t('ideal_w')}</p><p>${t('sh_w_irr_p',{c:nf(best.irr*irrCost(DIESEL)),g:nf(best.gap)})}</p>`:`<div class="v2 ${best.gap>100?'bad':''}">${t('sh_w_gap',{n:nf(best.gap)})}</div>${gaugeHTML('water',best.water,t('sh_w'))}<p class="gi">${t('ideal_w')}</p><p>${t('sh_w_gap_p')}</p>`}</div>
     </div>
     <p class="mono small" style="margin:8px 0 0;font-size:12px;line-height:1.5">${t('sh_note')}</p>
     <h3>${t('cmp_h')}</h3><p class="small" style="margin:0 0 14px;font-size:15px">${t('cmp_p')}</p>
@@ -1514,7 +1602,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel(); renderRegionNote();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
@@ -1525,6 +1613,12 @@ document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.datase
 $('dT').oninput=()=>$('dTv').textContent='+'+(+$('dT').value).toFixed(1)+' °C';
 $('dP').oninput=()=>$('dPv').textContent=$('dP').value+' %';
 ['dT','dP','wInc','wRisk','wSoil','wWater','irr','soc','clay','rawHist'].forEach(id=>$(id).addEventListener('change',runAll));
+function prioLabel(){
+  const ids=['wInc','wRisk','wSoil','wWater'], v=ids.map(i=>+$(i).value), tot=v.reduce((a,b)=>a+b,0);
+  ids.forEach((id,i)=>$(id+'V').textContent=t('lvl'+v[i]));
+  $('wSum').textContent=tot?t('w_sum',{p:Math.round(100*v[0]/tot),r:Math.round(100*v[1]/tot),s:Math.round(100*v[2]/tot),w:Math.round(100*v[3]/tot)}):t('w_zero');
+}
+['wInc','wRisk','wSoil','wWater'].forEach(id=>$(id).addEventListener('input',prioLabel));
 function irrLabel(){const v=+$('irr').value;$('irrV').textContent=v?v+' mm':t('irr_none');$('irrNote').textContent=t('irr_note',{c:f1(irrCost(DIESEL))});}
 $('irr').addEventListener('input',irrLabel);
 ['lat','lon'].forEach(id=>$(id).addEventListener('change',()=>chooseSite({key:'custom',lat:+$('lat').value,lon:+$('lon').value})));
