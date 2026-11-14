@@ -184,6 +184,9 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 .lybox input{accent-color:#1B2B85;margin:0;flex:0 0 auto}
 .lybox p{margin:6px 0 0;font-size:12px;line-height:1.4;color:#5a5e78}.lybox p.err{color:#C41C06}
 @media(max-width:760px){.lybox{max-width:190px;padding:8px 10px}.lybox label{font-size:13px;padding:2px 0}.lybox p{display:none}}
+/* v0.9 region note */
+.rnote{font-size:14px;line-height:1.5;background:#fff;border:1px solid var(--line2);border-left:4px solid #0050D8;border-radius:4px;padding:10px 12px;color:var(--ink2)}
+.rnote b{color:var(--ink)}.rnote button{margin-top:8px;font-size:14px;padding:8px 12px;min-height:38px}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -217,6 +220,7 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 <section class="plan" id="plan"><div class="wrap">
   <form class="form" onsubmit="event.preventDefault();runAll()">
     <div class="fieldsum"><span data-i18n="field_lbl"></span> <b id="fieldName"></b> <a href="#top" data-i18n="change"></a></div>
+    <div class="rnote" id="regionNote" hidden><b data-i18n="rn_h"></b> <span id="rnText"></span><br><button type="button" class="btn-o lite" id="rnBtn" data-i18n="rn_btn"></button></div>
     <fieldset>
       <legend data-i18n="q2"></legend>
       <div id="slots"></div>
@@ -678,6 +682,7 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+rn_h:"About this area:",rn_btn:"Use the suggested priorities",
 sh_n_p0:"You buy about {f} kg of nitrogen per hectare a year; no legume in this rotation adds any for free. Balance: {b} kg.",
 price_lbl:"Prices",
 pm_hist:"Swing as in 2000 to 2025",
@@ -824,6 +829,7 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+rn_h:"Bölge notu:",rn_btn:"Önerilen öncelikleri kullan",
 sh_n_p0:"Hektar başına yılda yaklaşık {f} kg azot satın alıyorsun; bu rotasyonda bedava azot getiren baklagil yok. Denge: {b} kg.",
 price_lbl:"Fiyatlar",
 pm_hist:"2000-2025 gibi dalgalansın",
@@ -970,6 +976,7 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+rn_h:"Zur Region:",rn_btn:"Vorgeschlagene Prioritäten nutzen",
 sh_n_p0:"Sie kaufen etwa {f} kg Stickstoff pro Hektar und Jahr; keine Leguminose in dieser Fruchtfolge liefert kostenlos welchen. Bilanz: {b} kg.",
 price_lbl:"Preise",
 pm_hist:"Schwankungen wie 2000 bis 2025",
@@ -1116,10 +1123,10 @@ mono:"jedes Jahr {c}",then:", dann ",
 rep_title:"RotaSat Fruchtfolge-Bericht",rep_foot:"Daten: NASA POWER Tageswetter 1985 bis 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 für 2050, ISRIC SoilGrids. Methoden: FAO-56- und FAO-33-Wassermodell, ICBM-Bodenkohlenstoffmodell, 1.000 simulierte Zukünfte. Schätzungen zum Vergleichen von Optionen; bitte mit Ihrer Beratung besprechen."
 }};
 const SITES=[ // points checked against ESA WorldCover 2021 (10 m): inside cropland, 690 to 1,180 m from the nearest non-crop pixel
- {key:'heilbronn',lat:49.1577,lon:9.1090,dry:false,name:{en:'Heilbronn farmland',tr:'Heilbronn tarlaları',de:'Heilbronner Land'},near:{en:'Leingarten, near Heilbronn, Germany',tr:'Leingarten, Heilbronn yakını, Almanya',de:'bei Leingarten, Landkreis Heilbronn'},tag:{en:'warm',tr:'ılık',de:'warm'}},
- {key:'borde',lat:52.0569,lon:11.3550,dry:true,name:{en:'Magdeburg Börde',tr:'Magdeburg Börde',de:'Magdeburger Börde'},near:{en:'near Magdeburg, Germany',tr:'Magdeburg yakını, Almanya',de:'bei Magdeburg, Sachsen-Anhalt'},tag:{en:'dry',tr:'kurak',de:'trocken'}},
- {key:'gaeu',lat:48.8000,lon:12.6200,dry:false,name:{en:'Gäuboden plain',tr:'Gäuboden ovası',de:'Gäuboden'},near:{en:'near Straubing, Bavaria, Germany',tr:'Straubing yakını, Bavyera, Almanya',de:'bei Straubing, Bayern'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'}},
- {key:'thrace',lat:41.1951,lon:27.1061,dry:false,name:{en:'Thrace',tr:'Trakya',de:'Thrakien'},near:{en:'near Hayrabolu, Tekirdağ, Türkiye',tr:'Hayrabolu yakını, Tekirdağ',de:'bei Hayrabolu, Tekirdağ, Türkei'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'}}
+ {key:'heilbronn',lat:49.1577,lon:9.1090,dry:false,name:{en:'Heilbronn farmland',tr:'Heilbronn tarlaları',de:'Heilbronner Land'},near:{en:'Leingarten, near Heilbronn, Germany',tr:'Leingarten, Heilbronn yakını, Almanya',de:'bei Leingarten, Landkreis Heilbronn'},tag:{en:'warm',tr:'ılık',de:'warm'},note:{"en": "Kraichgau loess around Heilbronn is fertile but among the most erosion-prone farmland in Germany, and this is one of the country's warmest areas. Keep the soil covered over winter and plan for drier springs.", "tr": "Heilbronn çevresindeki Kraichgau lösü verimli, ama Almanya'nın erozyona en açık tarım topraklarından biri; bölge de ülkenin en sıcak yerlerinden. Toprağı kışın örtülü tut ve daha kurak ilkbaharlara göre planla.", "de": "Der Kraichgau-Löss um Heilbronn ist fruchtbar, gehört aber zu den erosionsanfälligsten Ackerböden Deutschlands, und die Gegend zählt zu den wärmsten des Landes. Halten Sie den Boden über Winter bedeckt und planen Sie mit trockeneren Frühjahren."},pri:[3, 3, 5, 2]},
+ {key:'borde',lat:52.0569,lon:11.3550,dry:true,name:{en:'Magdeburg Börde',tr:'Magdeburg Börde',de:'Magdeburger Börde'},near:{en:'near Magdeburg, Germany',tr:'Magdeburg yakını, Almanya',de:'bei Magdeburg, Sachsen-Anhalt'},tag:{en:'dry',tr:'kurak',de:'trocken'},note:{"en": "The black-earth soils here are among the best in Germany, but the Harz mountains keep the rain away: this is one of the driest farming areas in the country. Drought years such as 2018 are the main risk.", "tr": "Buradaki kara topraklar Almanya'nın en iyileri arasında, ama Harz dağları yağmuru tutuyor: ülkenin en kurak tarım bölgelerinden biri. 2018 gibi kurak yıllar asıl risk.", "de": "Die Schwarzerden hier gehören zu den besten Böden Deutschlands, doch der Harz hält den Regen ab: eine der trockensten Ackerbauregionen des Landes. Dürrejahre wie 2018 sind das Hauptrisiko."},pri:[3, 5, 2, 4]},
+ {key:'gaeu',lat:48.8000,lon:12.6200,dry:false,name:{en:'Gäuboden plain',tr:'Gäuboden ovası',de:'Gäuboden'},near:{en:'near Straubing, Bavaria, Germany',tr:'Straubing yakını, Bavyera, Almanya',de:'bei Straubing, Bayern'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'},note:{"en": "Deep loess and more rain make this Bavaria's granary. Summer storms on bare fields and nitrate in groundwater are the concerns, so cover crops and a balanced nitrogen budget pay off.", "tr": "Derin lös toprak ve daha fazla yağmur burayı Bavyera'nın tahıl ambarı yapıyor. Çıplak tarlalara düşen yaz sağanakları ve yeraltı suyundaki nitrat başlıca kaygılar; bu yüzden örtü bitkisi ve dengeli azot karşılığını verir.", "de": "Tiefer Löss und mehr Regen machen den Gäuboden zur Kornkammer Bayerns. Sommergewitter auf offenen Feldern und Nitrat im Grundwasser sind die Sorgen, deshalb lohnen sich Zwischenfrüchte und eine ausgeglichene Stickstoffbilanz."},pri:[4, 2, 4, 1]},
+ {key:'thrace',lat:41.1951,lon:27.1061,dry:false,name:{en:'Thrace',tr:'Trakya',de:'Thrakien'},near:{en:'near Hayrabolu, Tekirdağ, Türkiye',tr:'Hayrabolu yakını, Tekirdağ',de:'bei Hayrabolu, Tekirdağ, Türkei'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'},note:{"en": "Thrace is Türkiye's leading sunflower region and a high-yield wheat area. Summers are long and dry, so rain-fed crops live on autumn to spring rain, and water for irrigation is limited.", "tr": "Trakya, Türkiye'nin başlıca ayçiçeği bölgesi ve verimli bir buğday bölgesi. Yazlar uzun ve kurak; yağmura bağlı ürünler sonbahar-ilkbahar yağışıyla yaşıyor ve sulama suyu sınırlı.", "de": "Thrakien ist die wichtigste Sonnenblumenregion der Türkei und ein ertragreiches Weizengebiet. Die Sommer sind lang und trocken, Regenfeldbau lebt vom Herbst- bis Frühjahrsregen, und Wasser für Beregnung ist knapp."},pri:[3, 5, 3, 5]}
 ];
 let LANG='en';
 try{const s=localStorage.getItem('rotasat_lang'); if(s&&I18N[s]) LANG=s; else if(/^tr/i.test(navigator.language)) LANG='tr'; else if(/^de/i.test(navigator.language)) LANG='de';}catch(e){}
@@ -1194,10 +1201,15 @@ function chooseSite(s){
   ring=L.circle([s.lat,s.lon],{radius:400,color:'#E7F434',weight:2.5,fill:false}).addTo(heroMap);
   heroMap.setView([s.lat,s.lon],LAYERS[curLayer].z||15,{animate:false});
   if(window.innerWidth>760) heroMap.panBy([-260,0],{animate:false});
-  renderSites(); updateReadout(); loadData();
+  renderSites(); renderRegionNote(); updateReadout(); loadData();
 }
 function updateReadout(){$('roCoord').textContent=`${Math.abs(site.lat).toFixed(2)}° ${site.lat>=0?'N':'S'}, ${Math.abs(site.lon).toFixed(2)}° ${site.lon>=0?'E':'W'}`;
   const s=SITES.find(x=>x.key===site.key);$('roName').textContent=s?`${s.name[LANG]}, ${s.near[LANG]}`:t('your_field');$('fieldName').textContent=siteLabel();}
+function renderRegionNote(){
+  const s=SITES.find(x=>x.key===site.key); $('regionNote').hidden=!(s&&s.note); if(!s||!s.note) return;
+  $('rnText').textContent=s.note[LANG];
+  $('rnBtn').onclick=()=>{['wInc','wRisk','wSoil','wWater'].forEach((id,i)=>$(id).value=s.pri[i]); runAll();};
+}
 function renderSites(){
   $('sites').innerHTML=SITES.map(s=>`<button type="button" class="site" aria-pressed="${site.key===s.key}" data-site="${s.key}"><span><b>${s.name[LANG]}</b><br><small>${s.near[LANG]}</small></span><span class="tag ${s.dry?'dry':'wet'}">${s.tag[LANG]}</span></button>`).join('');
   $('sites').querySelectorAll('.site').forEach(b=>b.onclick=()=>chooseSite(SITES.find(s=>s.key===b.dataset.site)));
@@ -1477,7 +1489,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel(); renderRegionNote();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();

@@ -13,6 +13,9 @@ It runs in the browser as one HTML file. There is no server, no login and no ins
   - organic carbon after 20 years (ICBM soil carbon model)
   - months of bare soil per year, and the heavy rain that falls on that bare soil (the erosion risk)
   - the nitrogen balance: fertilizer plus legume fixation, minus the nitrogen that leaves the field with the harvest
+- **Water and prices:** an irrigation option with a yearly amount and its pumping cost, a saving-water priority, and price risk from real world prices 2000 to 2025, plus two shock scenarios (2022 war in Ukraine, 2026 energy shock) and the current oil price.
+- **A short note for each example region** (Heilbronn, Magdeburg Börde, Gäuboden, Thrace) with suggested priorities.
+- **NASA map layers:** MODIS true colour from yesterday, MODIS plant cover (NDVI) and SMAP soil moisture through NASA GIBS.
 - **Today vs. 2050:** the 2050 climate comes from NASA NEX-GDDP-CMIP6 (five climate models, two emission paths). Each of the 1,000 futures uses one of the five models, so the spread between models is part of the risk.
 - **What has already changed on this field** since 1985: warming, hot days, the driest seasons and climate stripes.
 - **What the satellite saw on this field** (for the example fields): Sentinel-2 plant-cover history since 2017, bare-soil days per year, and winter or summer crop per year.
