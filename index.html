@@ -209,6 +209,13 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 .chg .worse{color:#C41C06}.chg .better{color:#2E7D32}.chg .eq{color:var(--ink2)}
 h3.fh{margin:0 0 8px;font-size:18px}#tempChart svg{display:block;width:100%;height:auto}
 @media(max-width:640px){.chg{min-width:0}.chg thead{display:none}.chg tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px 8px;border-top:1px solid var(--line);padding:10px 0}.chg td{border:0!important;padding:0}.chg td:first-child,.chg td.m{grid-column:1/-1}.chg td.v::before,.chg td.d::before{content:attr(data-l);display:block;font-size:11px;font-weight:400;color:var(--mute)}}
+.tcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tcards>div{padding:16px 16px 16px 0}.tcards>div+div{padding-left:16px;border-left:1px solid var(--line)}
+.big2{font-family:'Fira Sans',sans-serif;font-weight:900;font-size:34px;color:#0050D8}.tcards p{margin:6px 0 0;font-size:15px;line-height:1.5;color:var(--ink2)}
+.gfor{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}.gfor h3{margin:0 0 6px;font-size:18px}
+.gfor ul{margin:0;padding-left:20px;font-size:15px;line-height:1.55;color:var(--ink2)}.gfor li{margin:4px 0}.gfor ul{list-style:'✓  '}.gfor ul.no{list-style:'✗  '}
+details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px;font-size:15px}details.expert summary{color:var(--ink);font-weight:600}
+@media(max-width:760px){.tcards{grid-template-columns:1fr}.tcards>div,.tcards>div+div{padding:14px 0;border-left:0}.tcards>div+div{border-top:1px solid var(--line)}.gfor{grid-template-columns:1fr}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -340,17 +347,25 @@ h3.fh{margin:0 0 8px;font-size:18px}#tempChart svg{display:block;width:100%;heig
 <section class="block trust" id="trust"><div class="wrap">
   <div class="txt">
     <h2 class="sec" data-i18n="trust_h"></h2>
-    <p class="t" data-i18n="trust_p1"></p>
-    <p class="t" data-i18n="trust_p2"></p>
-    <p class="t" data-i18n="trust_p3"></p>
+    <p class="t" data-i18n="tr_how"></p>
+    <div class="tcards">
+      <div><div class="big2">5 / 5</div><p data-i18n="tr_c1"></p></div>
+      <div><div class="big2">2 / 5</div><p data-i18n="tr_c2"></p></div>
+      <div><div class="big2" data-i18n="tr_mid"></div><p data-i18n="tr_c3"></p></div>
+    </div>
+    <div class="gfor">
+      <div><h3 data-i18n="tr_good_h"></h3><ul><li data-i18n="tr_g1"></li><li data-i18n="tr_g2"></li><li data-i18n="tr_g3"></li><li data-i18n="tr_g4"></li></ul></div>
+      <div><h3 data-i18n="tr_not_h"></h3><ul class="no"><li data-i18n="tr_n1"></li><li data-i18n="tr_n2"></li><li data-i18n="tr_n3"></li><li data-i18n="tr_n4"></li></ul></div>
+    </div>
   </div>
   <div class="fig">
-    <figure style="margin:0 0 20px"><div id="trustChart"></div>
+    <figure style="margin:0 0 12px"><h3 class="fh" data-i18n="tr_chart_h"></h3><div id="trustChart"></div>
       <figcaption class="leg">
         <span><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" stroke="#15191E" stroke-width="2.5"/></svg><span data-i18n="leg_real"></span></span>
         <span><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" stroke="#0050D8" stroke-width="2.5" stroke-dasharray="6 4"/></svg><span data-i18n="leg_rs"></span></span>
-        <span style="color:var(--mute)" data-i18n="leg_axis"></span>
       </figcaption></figure>
+    <p class="note" data-i18n="tr_read"></p>
+    <details class="expert"><summary data-i18n="tr_expert"></summary>
     <table>
       <thead><tr><th><span style="position:absolute;left:-9999px">-</span></th><th class="r" data-i18n="de"></th><th class="r" data-i18n="tr_"></th></tr></thead>
       <tbody>
@@ -359,8 +374,9 @@ h3.fh{margin:0 0 8px;font-size:18px}#tempChart svg{display:block;width:100%;heig
         <tr><td data-i18n="tt_test"></td><td class="r num" data-v="0.23">0.23</td><td class="r num" data-v="0.57">0.57</td></tr>
       </tbody>
     </table>
-    <div class="note" style="margin-top:18px"><div data-i18n="cities_de"></div><div style="margin-top:6px" data-i18n="cities_tr"></div></div>
-    <p class="mono small" style="margin-top:14px;line-height:1.6;font-size:13px" data-i18n="trust_note"></p>
+    <div class="note" style="margin-top:14px"><div data-i18n="cities_de"></div><div style="margin-top:6px" data-i18n="cities_tr"></div></div>
+    <p class="mono small" style="margin-top:12px;line-height:1.6;font-size:13px" data-i18n="trust_note"></p>
+    </details>
   </div>
 </div></section>
 
@@ -716,6 +732,24 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+tr_how:"To test a tool, ask it about the past. We gave RotaSat the real weather of every year from 1985 to 2023 and asked one question: will the wheat harvest be better or worse than normal? Then we compared its answers with the official wheat harvests of Germany and Türkiye. RotaSat never saw those harvests; it only had NASA weather.",
+tr_c1:"Germany's five worst wheat harvests since 1985: RotaSat flagged all five, including the drought years 2003 and 2018.",
+tr_c2:"Türkiye's five worst harvests: it flagged two. There, many bad years come from things weather data cannot see.",
+tr_mid:"Medium",
+tr_c3:"Overall match is medium: it reliably catches drought and heat years, and misses bad years caused by disease, too much rain or markets.",
+tr_good_h:"Good for",
+tr_g1:"comparing rotations side by side on the same field",
+tr_g2:"seeing how often drought and heat hit, and which rotation copes best",
+tr_g3:"seeing where soil carbon, bare soil and nitrogen are heading",
+tr_g4:"testing today's choice against the climate of 2050",
+tr_not_h:"Not for",
+tr_n1:"forecasting next year's exact yield",
+tr_n2:"pests, diseases and weeds",
+tr_n3:"your machinery, labour and contracts",
+tr_n4:"next year's prices: talk to your advisor and your buyer",
+tr_chart_h:"Germany's real wheat harvests and RotaSat, 1985 to 2023",
+tr_read:"How to read it: each line shows how much a year's harvest was above or below a normal year, in percent. Where the black line (real harvest) drops and the blue line (RotaSat, from weather only) drops in the same year, RotaSat saw the bad year coming. Look at 2003 and 2018.",
+tr_expert:"Numbers for experts",
 tc_mean:"40-year average {v} °C",ch_legend:"Red: worse for crops. Green: better. Grey: mixed or no clear change.",
 clim_p2:"NASA measurements at this exact spot: the first ten years we have (1985 to 1994) against the last ten (2015 to 2024).",
 ch_what:"What",
@@ -938,6 +972,24 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+tr_how:"Bir aracı test etmenin yolu ona geçmişi sormaktır. RotaSat'a 1985-2023 arasındaki her yılın gerçek havasını verdik ve tek bir soru sorduk: buğday hasadı normalden iyi mi olur, kötü mü? Sonra cevaplarını Almanya ve Türkiye'nin resmi buğday hasatlarıyla karşılaştırdık. RotaSat bu hasatları hiç görmedi; elinde sadece NASA hava verisi vardı.",
+tr_c1:"Almanya'nın 1985'ten bu yana en kötü beş buğday hasadı: RotaSat beşini de buldu; 2003 ve 2018 kuraklıkları dahil.",
+tr_c2:"Türkiye'nin en kötü beş hasadı: ikisini buldu. Orada kötü yılların çoğu hava verisinin göremediği nedenlerden geliyor.",
+tr_mid:"Orta",
+tr_c3:"Genel uyum orta: kuraklık ve sıcak yıllarını güvenilir şekilde yakalar; hastalık, aşırı yağış ya da piyasa yüzünden kötü geçen yılları kaçırır.",
+tr_good_h:"Şunun için iyi",
+tr_g1:"aynı tarlada rotasyonları yan yana karşılaştırmak",
+tr_g2:"kuraklık ve sıcağın ne sıklıkla vurduğunu ve hangi rotasyonun en iyi dayandığını görmek",
+tr_g3:"toprak karbonu, çıplak toprak ve azotun nereye gittiğini görmek",
+tr_g4:"bugünkü seçimini 2050 iklimine karşı test etmek",
+tr_not_h:"Şunun için değil",
+tr_n1:"gelecek yılın tam verimini tahmin etmek",
+tr_n2:"zararlılar, hastalıklar ve yabancı otlar",
+tr_n3:"makinelerin, işçiliğin ve sözleşmelerin",
+tr_n4:"gelecek yılın fiyatları: danışmanınla ve alıcınla konuş",
+tr_chart_h:"Almanya'nın gerçek buğday hasatları ve RotaSat, 1985-2023",
+tr_read:"Nasıl okunur: her çizgi o yılın hasadının normal bir yıldan yüzde kaç yukarıda ya da aşağıda olduğunu gösterir. Siyah çizgi (gerçek hasat) ile mavi çizgi (RotaSat, sadece havadan) aynı yıl düşüyorsa RotaSat kötü yılı havadan önceden görmüş demektir. 2003 ve 2018'e bak.",
+tr_expert:"Uzmanlar için sayılar",
 tc_mean:"40 yıllık ortalama {v} °C",ch_legend:"Kırmızı: bitkiler için kötüleşti. Yeşil: iyileşti. Gri: karışık etki ya da belirgin değişim yok.",
 clim_p2:"NASA'nın tam bu noktadaki ölçümleri: elimizdeki ilk on yıl (1985-1994) ile son on yıl (2015-2024) karşılaştırması.",
 ch_what:"Ne",
@@ -1160,6 +1212,24 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+tr_how:"Ein Werkzeug prüft man, indem man es nach der Vergangenheit fragt. Wir haben RotaSat das echte Wetter jedes Jahres von 1985 bis 2023 gegeben und eine Frage gestellt: Wird die Weizenernte besser oder schlechter als normal? Dann haben wir die Antworten mit den amtlichen Weizenernten Deutschlands und der Türkei verglichen. RotaSat hat diese Ernten nie gesehen, es hatte nur NASA-Wetterdaten.",
+tr_c1:"Die fünf schlechtesten Weizenernten Deutschlands seit 1985: RotaSat hat alle fünf erkannt, auch die Dürrejahre 2003 und 2018.",
+tr_c2:"Die fünf schlechtesten Ernten der Türkei: zwei erkannt. Dort haben viele schlechte Jahre Ursachen, die Wetterdaten nicht sehen.",
+tr_mid:"Mittel",
+tr_c3:"Die Übereinstimmung insgesamt ist mittel: Dürre- und Hitzejahre erkennt es zuverlässig, schlechte Jahre durch Krankheiten, zu viel Regen oder Märkte nicht.",
+tr_good_h:"Gut für",
+tr_g1:"Fruchtfolgen auf demselben Feld nebeneinander vergleichen",
+tr_g2:"sehen, wie oft Dürre und Hitze kommen und welche Fruchtfolge sie am besten verkraftet",
+tr_g3:"sehen, wohin sich Bodenkohlenstoff, offener Boden und Stickstoff entwickeln",
+tr_g4:"die heutige Wahl gegen das Klima von 2050 testen",
+tr_not_h:"Nicht für",
+tr_n1:"den genauen Ertrag im nächsten Jahr vorhersagen",
+tr_n2:"Schädlinge, Krankheiten und Unkraut",
+tr_n3:"Ihre Maschinen, Arbeit und Verträge",
+tr_n4:"die Preise im nächsten Jahr: sprechen Sie mit Beratung und Abnehmer",
+tr_chart_h:"Echte Weizenernten in Deutschland und RotaSat, 1985 bis 2023",
+tr_read:"So lesen Sie es: Jede Linie zeigt, wie viel Prozent die Ernte eines Jahres über oder unter einem normalen Jahr lag. Wo die schwarze Linie (echte Ernte) und die blaue Linie (RotaSat, nur aus Wetter) im selben Jahr fallen, hat RotaSat das schlechte Jahr am Wetter erkannt. Achten Sie auf 2003 und 2018.",
+tr_expert:"Zahlen für Fachleute",
 tc_mean:"40-Jahre-Mittel {v} °C",ch_legend:"Rot: schlechter für die Pflanzen. Grün: besser. Grau: gemischt oder keine klare Änderung.",
 clim_p2:"NASA-Messungen genau an diesem Ort: die ersten zehn Jahre (1985 bis 1994) im Vergleich mit den letzten zehn (2015 bis 2024).",
 ch_what:"Was",
@@ -1356,7 +1426,7 @@ clim_h:"Was sich auf diesem Feld schon verändert hat",clim_p:"Aus NASA-Messunge
 warm_t:"wärmer als 1985, etwa {d} °C pro Jahrzehnt.",hot_big:"{n} heiße Tage",hot_t:"über {th} °C pro Jahr. Ende der 1980er waren es {a}.",
 dry_t:"Die trockensten Vegetationsperioden hier waren <b>{y1}</b> und <b>{y2}</b>. In den Diagrammen können Sie diese Jahre für Ihre Fruchtfolge nachspielen.",
 stripes_cap:"Ein Streifen pro Jahr. Blau ist kühler, Rot ist wärmer. Jahresmitteltemperatur dieses Feldes laut NASA POWER.",
-trust_h:"Wie zuverlässig ist das?",
+trust_h:"Wie verlässlich ist es?",
 trust_p1:"Wir haben RotaSat mit dem Wetter der letzten 39 Jahre gerechnet und mit den echten Weizenernten in Deutschland und der Türkei verglichen. Es hat <b>alle fünf schlechtesten Ernten Deutschlands</b> seit 1985 erkannt, darunter die Dürrejahre 2003 und 2018.",
 trust_p2:"Das Diagramm zeigt es. Wo die schwarze Linie fällt, war die Ernte in Deutschland schlecht. RotaSat fällt in denselben Jahren, nur mit NASA-Wetterdaten.",
 trust_p3:"RotaSat hilft beim Vergleichen von Optionen. Es ist keine Ertragsprognose und kennt weder Schädlinge noch die Preise im nächsten Jahr oder Ihre Maschinen. Besprechen Sie Ihren Plan mit Ihrer Beratung.",
