@@ -6,7 +6,7 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   const ok = (c, m) => { n++; if (!c) { bad++; console.log('FAIL', m); } };
   const cards = p => p.evaluate(() => ({ strat: document.querySelectorAll('.strat').length, cal: document.querySelectorAll('.strat .cal').length, xp: [...document.querySelectorAll('.strat .xp')].map(d => d.querySelectorAll('dt').length),
     why: document.querySelectorAll('.strat .why').length, pills: document.querySelectorAll('.strat .pill').length, glance: document.querySelectorAll('.glance .grow').length,
-    rows: document.querySelectorAll('.cmp tbody tr').length, dash: document.body.innerText.includes('—'), raw: /\{[a-z0-9]+\}|undefined|NaN/.test(document.getElementById('answer').innerText),
+    rows: document.querySelectorAll('.cmp tbody tr').length, dash: document.body.innerText.includes('—') || document.getElementById('answer').textContent.includes('—') || document.getElementById('evidence').textContent.includes('—'), raw: /\{[a-z0-9]+\}|undefined|NaN/.test(document.getElementById('answer').textContent + document.getElementById('evidence').textContent),
     top: Math.round(document.getElementById('answer').getBoundingClientRect().top + scrollY) }));
   // 1. every language at every width, default field
   for (const lang of ['en', 'tr', 'de']) for (const [w, h] of [[1440, 900], [1000, 800], [390, 844], [320, 640]]) {
@@ -34,26 +34,27 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
     ok(c.strat === 3 && s.strat[0].role === 'mine', `${k}: three strategies, the first is the farmer's own`);
     ok(s.strat.every(x => x.mean > -800 && x.mean < 2500 && x.p10 <= x.mean + 1 && x.bare >= 0 && x.bare <= 12 && x.water >= 0 && x.water < 600), `${k}: numbers plausible ${JSON.stringify(s.strat)}`);
     ok(!(await p.evaluate(() => document.getElementById('space').hidden)) && (await p.evaluate(() => document.getElementById('spMonths').textContent.length > 20)), `${k}: satellite panel with bare months`);
-    if (k === 'thrace') ok(await p.evaluate(() => document.querySelector('.strat.s0').innerText.includes('Turkish prices')), 'thrace: price gap named in the card');
+    if (k === 'thrace') ok(await p.evaluate(() => document.querySelector('.strat.s0').textContent.includes('Turkish prices')), 'thrace: price gap named in the card');
   }
   const base = await snap(p);
   for (const sc of ['ssp245', 'ssp585', 'now']) { await p.click(`[data-scen="${sc}"]`); await ready(p); const s = await snap(p);
     console.log(sc, '|', await p.evaluate(() => document.querySelector('#answer .mono').textContent), '|', s.strat.map(x => x.mean).join('/'));
     if (sc !== 'now') ok(JSON.stringify(s.strat) !== JSON.stringify(base.strat), sc + ': numbers change'); else ok(JSON.stringify(s.strat) === JSON.stringify(base.strat), 'back to today: same numbers as before (deterministic)'); }
+  await p.evaluate(() => { document.getElementById('moreOpts').open = true; });   // prices sit inside the closed "More options" fold
   for (const pm of ['fixed', 'y2022', 'y2026', 'hist']) { await p.selectOption('#priceMode', pm); await ready(p); console.log('prices', pm, (await snap(p)).strat.map(x => x.mean).join('/')); }
   // limits: no sugar beet, cannot sell rapeseed, no forage use
   await p.check('#eqBeet'); await ready(p);
   await p.evaluate(() => document.querySelector('#noSell input[value="rapeseed"]').click()); await ready(p);
   let s = await snap(p);
   ok(!s.all.some(x => /sugarbeet|rapeseed/.test(x)), 'limits: sugar beet and rapeseed rotations are left out');
-  ok(await p.evaluate(() => /sugar beet/.test(document.getElementById('answer').innerText) && document.getElementById('limNote').textContent.length > 10), 'limits: the page says what was left out');
+  ok(await p.evaluate(() => /sugar beet/.test(document.getElementById('answer').textContent) && document.getElementById('limNote').textContent.length > 10), 'limits: the page says what was left out');
   const vetch1 = await p.evaluate(() => lastResults.rots.find(r => r.seq.join() === 'maize,wheat,vetch').mean);
   await p.uncheck('#forage'); await ready(p);
   const vetch0 = await p.evaluate(() => lastResults.rots.find(r => r.seq.join() === 'maize,wheat,vetch').mean);
   ok(vetch0 < vetch1 - 50, `limits: without a forage buyer vetch earns less (${Math.round(vetch1)} to ${Math.round(vetch0)})`);
   // own rotation with an excluded crop is kept and flagged
   await p.evaluate(() => { document.getElementById('slot0').value = 'rapeseed'; document.getElementById('slot0').onchange(); }); await ready(p);
-  ok(await p.evaluate(() => /question 4/.test(document.querySelector('.strat.s0').innerText)), 'limits: own rotation with an excluded crop is flagged');
+  ok(await p.evaluate(() => /question 4/.test(document.querySelector('.strat.s0').textContent)), 'limits: own rotation with an excluded crop is flagged');
   // all limits on: fewer than three strategies still renders
   await p.check('#eqRow'); await ready(p);
   await p.evaluate(() => { document.querySelectorAll('#noSell input').forEach(i => { if (!i.checked) i.click(); }); }); await ready(p);
@@ -61,7 +62,7 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   await p.evaluate(() => { document.querySelectorAll('#noSell input').forEach(i => { if (i.checked && i.value !== 'rapeseed') i.click(); }); }); await p.uncheck('#eqRow'); await ready(p);
   // irrigation
   await p.evaluate(() => { const e = document.getElementById('irr'); e.value = 100; e.dispatchEvent(new Event('input')); e.dispatchEvent(new Event('change')); }); await ready(p);
-  ok(await p.evaluate(() => lastResults.me.irr > 1 && /pump/.test(document.getElementById('answer').innerText)), 'irrigation: used and a local check on water right is listed');
+  ok(await p.evaluate(() => lastResults.me.irr > 1 && /pump/.test(document.getElementById('answer').textContent)), 'irrigation: used and a local check on water right is listed');
   // terms
   await p.click('[data-term="et"]'); ok(await p.evaluate(() => document.getElementById('termBox').textContent.length > 80), 'terms: explanation opens in place');
   // share link round trip, in German
@@ -73,21 +74,41 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   ok(await p.evaluate(() => document.documentElement.lang === 'de' && document.getElementById('eqBeet').checked && !document.getElementById('forage').checked && document.querySelector('#noSell input[value="rapeseed"]').checked), 'share link: language and limits restored');
   // own field (Europe) and a field outside the CMIP6 grid
   await p.evaluate(() => chooseSite({ key: 'custom', lat: 48.3, lon: 12.1 })); await p.waitForTimeout(200); await ready(p);
-  ok(await p.evaluate(() => document.getElementById('space').hidden && document.getElementById('regionNote').hidden && document.querySelectorAll('.strat').length === 3), 'own field: result without satellite panel and region note');
-  ok(await p.evaluate(() => document.querySelector('.strat.s0').innerText.includes('Satellitengeschichte')), 'own field: missing satellite history named as a gap');
+  ok(await p.evaluate(() => document.getElementById('space').hidden && getComputedStyle(document.getElementById('space')).display === 'none' && document.getElementById('regionNote').hidden && document.querySelectorAll('.strat').length === 3), 'own field: result without satellite panel and region note');
+  ok(await p.evaluate(() => document.querySelector('.strat.s0').textContent.includes('Satellitengeschichte')), 'own field: missing satellite history named as a gap');
   await p.evaluate(() => chooseSite({ key: 'custom', lat: 41.0, lon: -95.0 })); await p.waitForTimeout(200); await ready(p);
   await p.click('[data-scen="ssp245"]'); await ready(p);
   ok(await p.evaluate(() => lastResults.shift.mode === '2050'), 'outside Europe: 2050 falls back to the trend');
   // glossary, ground section, layer switch
   ok(await p.evaluate(() => document.querySelectorAll('#termList dt').length === 11 && document.querySelectorAll('#glossList dt').length >= 18 && document.querySelectorAll('#resBody tr').length === 6 && document.querySelectorAll('.judge li').length === 5), 'glossary terms, data table and judgement list are filled');
-  await p.click('#openOwn'); ok(await p.evaluate(() => document.getElementById('moreOpts').open), 'ground: button opens the rain and soil inputs');
+  await p.click('#ground summary'); await p.click('#openOwn'); ok(await p.evaluate(() => document.getElementById('moreOpts').open), 'ground: button opens the rain and soil inputs');
   for (const k of ['ndvi', 'smap', 'esri']) { await p.check(`#lyBox input[value="${k}"]`); await p.waitForTimeout(200); }
   // print report
   await p.evaluate(() => { window.print = () => {}; printReport(); }); ok(await p.evaluate(() => document.getElementById('report').querySelectorAll('.strat').length >= 1), 'report: contains the strategy cards');
   errs.push(...errors); await ctx.close();
+  // 2b. first screen: folds closed, rotation chips, evidence section, a shared link with a rotation that is not a chip
+  ({ ctx, p, errors } = await open(browser, 1440, 900, { lang: 'en' })); await p.goto(APP); await ready(p);
+  ok(await p.evaluate(() => [...document.querySelectorAll('details.xpd, details.sect, details.fold, details.evmore')].every(d => !d.open)), 'folds are closed by default');
+  ok(await p.evaluate(() => document.querySelectorAll('#rotChips .rchip').length >= 3 && document.getElementById('slots').hidden && getComputedStyle(document.getElementById('slots')).display === 'none'), 'chips: shown, selects hidden by default');
+  ok(await p.evaluate(() => userSeq().join('.') === document.querySelector('#rotChips .rchip[aria-pressed="true"]').dataset.rot), 'chips: the default rotation is a pressed chip');
+  ok(await p.evaluate(() => !document.getElementById('runBtn') && !document.querySelector('[data-i18n="q5"]') && document.getElementById('moreOpts').contains(document.getElementById('priceMode'))), 'no results button; prices inside "More options"');
+  await p.click('#rotChips .rchip.other'); ok(await p.evaluate(() => !document.getElementById('slots').hidden && !document.getElementById('rotOtherHint').hidden), 'chips: "something else" shows the selects');
+  await p.click('#rotChips .rchip:nth-child(2)'); await ready(p);
+  ok(await p.evaluate(() => document.getElementById('slots').hidden && userSeq().join('.') === document.querySelector('#rotChips .rchip[aria-pressed="true"]').dataset.rot && lastResults.me.seq.join('.') === userSeq().join('.')), 'chips: tap sets the rotation and recalculates');
+  await p.click('[data-site="thrace"]'); await p.waitForTimeout(200); await ready(p);
+  ok(await p.evaluate(() => userSeq().join('.') === 'rapeseed.wheat.barley'), 'chips: the chosen rotation is kept when the field changes');
+  ok(await p.evaluate(() => document.getElementById('evWarm').textContent.includes('°C') && document.querySelectorAll('#answer .evstrip a').length === 3 && !document.getElementById('climate').hidden && !document.getElementById('space').hidden), 'evidence: warming number, strip and boxes');
+  ok(await p.evaluate(() => { const a = document.getElementById('answer').getBoundingClientRect(), e = document.getElementById('evidence').getBoundingClientRect(); return e.top >= a.bottom - 1; }), 'evidence: section follows the answer');
+  await p.click('#answer .evstrip a[href="#trust"]'); await p.waitForTimeout(400);
+  ok(await p.evaluate(() => { const r = document.getElementById('trust').getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }), 'evidence: strip link scrolls to the back-test');
+  await p.click('nav a[href="#glossary"]'); ok(await p.evaluate(() => document.querySelector('#glossary details.sect').open), 'nav link opens the collapsed section');
+  errs.push(...errors); await ctx.close();
+  ({ ctx, p, errors } = await open(browser, 1440, 900, {})); await p.goto(APP + '#lat=49.1577&lon=9.109&site=heilbronn&rot=wheat.chickpea.maize&lang=en&pm=fixed'); await ready(p);
+  ok(await p.evaluate(() => userSeq().join('.') === 'wheat.chickpea.maize' && !document.getElementById('slots').hidden && document.querySelector('#rotChips .rchip.other').getAttribute('aria-pressed') === 'true' && document.getElementById('moreOpts').open), 'share link with an unusual rotation: selects shown, "something else" pressed, options open');
+  errs.push(...errors); await ctx.close();
   // 3. My fields on a phone
   ({ ctx, p, errors } = await open(browser, 390, 844, { lang: 'tr' })); await p.goto(APP); await ready(p);
-  await p.fill('#fName', 'Ev tarlası'); await p.fill('#fHa', '12'); await p.click('#fForm button[type=submit]');
+  await p.click('#fields summary'); await p.fill('#fName', 'Ev tarlası'); await p.fill('#fHa', '12'); await p.click('#fForm button[type=submit]');
   await p.fill('#fName', 'Straubing'); await p.fill('#fPlace', 'Straubing'); await p.fill('#fHa', '8'); await p.click('#fForm button[type=submit]');
   await p.waitForFunction(() => FIELDS.length === 2 && FIELDS.every(f => FRES[f.id] && FRES[f.id].best), null, { timeout: 120000 });
   ok(await p.evaluate(() => /20/.test(document.getElementById('fTotal').textContent)), 'my fields: two fields with a farm total');
@@ -102,7 +123,7 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   // 5. NASA POWER fails once, the button retries
   let failNow = true; ({ ctx, p, errors } = await open(browser, 1440, 900, { lang: 'en', powerFail: () => failNow }));
   await p.goto(APP); await p.waitForFunction(() => document.querySelector('#status.err'), null, { timeout: 60000 });
-  failNow = false; await p.click('#runBtn'); await ready(p); ok(true, 'retry'); await ctx.close();   // the console error of the failed request is expected here
+  failNow = false; await p.click('#retryBtn'); await ready(p); ok(true, 'retry'); await ctx.close();   // the console error of the failed request is expected here
   // 6. page stays responsive while calculating: a timer keeps firing during a run
   ({ ctx, p, errors } = await open(browser, 1440, 900, { lang: 'en' })); await p.goto(APP); await ready(p);
   const gapMs = await p.evaluate(() => new Promise(res => { let last = performance.now(), worst = 0; const iv = setInterval(() => { const n = performance.now(); worst = Math.max(worst, n - last); last = n; }, 10);

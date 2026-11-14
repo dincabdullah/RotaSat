@@ -104,11 +104,6 @@ section.block .wrap{padding-top:56px;padding-bottom:56px}
 .big{font-size:44px;font-weight:800;color:var(--orange)}
 .facts p{margin:6px 0 0;font-size:17px;line-height:1.5;color:var(--ink2)}
 .cap{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:13px;color:var(--mute)}
-.trust{border-top:1px solid var(--line)}
-.trust .wrap{display:flex;flex-wrap:wrap;gap:48px}
-.trust .txt{flex:1 1 340px;min-width:0}.trust .fig{flex:1 1 520px;min-width:0}
-.trust p.t{margin:14px 0 0;font-size:18px;line-height:1.6;color:var(--ink2)}.trust p.t b{color:var(--ink)}
-.trust td{padding:12px 8px}
 .leg{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:8px;font-size:14px;color:var(--ink2)}.leg span{display:flex;align-items:center;gap:8px}
 .how{background:var(--bg2);border-top:1px solid var(--line)}
 .steps{padding:0;margin:24px 0 0;list-style:none;border-top:1px solid var(--line)}
@@ -182,7 +177,6 @@ input[type=range]{accent-color:#1B2B85}
 .prio small{display:block;font-size:13px;color:var(--mute);margin:-2px 0 2px}.prio b{font-weight:600;color:var(--ink)}
 .wsum{font-size:13px;color:var(--mute);margin:6px 0 0}
 td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margin-top:2px}
-.space{border-top:1px solid var(--line);background:#fff}
 #spChart{overflow-x:auto;-webkit-overflow-scrolling:touch}#spChart svg{display:block;width:100%;height:auto;min-width:720px}
 .leg i{display:inline-block;width:14px;height:10px;border-radius:2px}
 .shared{font-size:14px;color:var(--mute);align-self:center}
@@ -358,8 +352,45 @@ details.xpd{margin-top:10px;font-size:15px;color:var(--ink)}details.xpd>summary{
   legend{font-size:18px;margin-bottom:8px}
 }
 @media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}.cal{font-size:10.5px;grid-template-columns:minmax(58px,max-content) repeat(12,minmax(0,1fr))}}
+/* v3: rotation chips, collapsed sections, evidence */
+.rchips{display:flex;flex-wrap:wrap;gap:8px}
+.rchip{font:inherit;font-size:15px;font-weight:600;line-height:1.25;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line2);border-radius:22px;padding:9px 14px;min-height:44px;cursor:pointer}
+.rchip[aria-pressed="true"]{background:#151622;color:#fff;border-color:#151622}
+.rchip.other{border-style:dashed}
+.rchip:focus-visible{outline:2px solid #0050D8;outline-offset:2px}
+#slots[hidden]{display:none}
+#slots{margin-top:10px}
+@media(max-width:760px){.rchip{font-size:14px;padding:7px 12px;min-height:40px}}
+@media(max-width:360px){#heroMap{height:200px!important}}   /* the chip rows are taller on the smallest phones; keep the answer within reach */
+details.sect{margin:0;font-size:inherit;color:inherit}   /* undo the small grey default of details */
+details.sect>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;list-style:none;min-height:48px;cursor:pointer}
+details.sect>summary::-webkit-details-marker{display:none}
+details.sect>summary::after{content:'+';font:700 28px/1 'Fira Sans',sans-serif;color:#0050D8;flex:0 0 auto}
+details.sect[open]>summary::after{content:'\2212'}
+details.sect>summary h2{margin:0}
+details.sect>summary:focus-visible{outline:2px solid #0050D8;outline-offset:4px}
+.sectbody{padding-top:6px}
+section.block:has(details.sect:not([open]))>.wrap{padding-top:16px;padding-bottom:16px}
+@media(max-width:640px){details.sect>summary h2{font-size:22px}}
+.evid{background:#fff;border-top:1px solid var(--line)}
+.evbox{display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:16px 40px;align-items:start;margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}
+.evbox[hidden]{display:none}
+.evtxt p{margin:6px 0 0;font-size:16px;line-height:1.5;color:var(--ink2)}
+h3.evh{margin:0 0 10px;font-size:20px}
+.evfig{margin:0;min-width:0}
+#trustChart{max-width:680px}
+.ev2{display:grid;gap:14px}.ev2 p{margin:4px 0 0;font-size:15px;line-height:1.5;color:var(--ink2)}
+details.evmore{grid-column:1/-1;margin-top:0;border-top:1px solid var(--line);padding-top:10px;font-size:15px;color:var(--ink)}
+details.evmore>summary{font-weight:700;color:#0050D8;cursor:pointer}
+details.evmore p.t{margin:14px 0 0;font-size:17px;line-height:1.6;color:var(--ink2)}
+details.evmore .ev2{margin-top:16px}
+#trust details.expert td{padding:12px 8px}
+.evstrip{display:flex;flex-wrap:wrap;gap:6px 8px;margin:14px 0 0;font-size:14px}
+.evstrip a{border:1px solid var(--line2);border-radius:4px;padding:6px 10px;text-decoration:none;color:var(--ink);background:var(--bg2)}
+.evstrip a:hover{border-color:#0050D8}
+@media(max-width:900px){.evbox{grid-template-columns:minmax(0,1fr)}}
 #report{display:none}
-@media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}#report .terms,#report .tchips{display:none}#report .strat{break-inside:avoid}#report details>*{display:block}}
+@media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}#report .terms,#report .tchips,#report .evstrip{display:none}#report .strat{break-inside:avoid}#report details>*{display:block}}
 </style>
 </head>
 <body>
@@ -397,6 +428,8 @@ details.xpd{margin-top:10px;font-size:15px;color:var(--ink)}details.xpd>summary{
     <fieldset>
       <legend data-i18n="q2"></legend>
       <p class="hint qsub" data-i18n="q2_h"></p>
+      <div id="rotChips" class="rchips" role="group"></div>
+      <p class="hint" id="rotOtherHint" data-i18n="rot_other_h" hidden></p>
       <div id="slots"></div>
       <p class="hint pestline" id="myPest" aria-live="polite"></p>
     </fieldset>
@@ -450,19 +483,92 @@ details.xpd{margin-top:10px;font-size:15px;color:var(--ink)}details.xpd>summary{
           <label><span data-i18n="lon"></span><input id="lon" type="number" step="any" min="-180" max="180"></label>
           <label class="full" style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="rawHist"><span data-i18n="raw_hist"></span></label>
         </div>
+        <p class="lh" data-i18n="price_h"></p>
+        <label class="slider"><span data-i18n="price_lbl"></span><select id="priceMode"><option value="hist" data-i18n="pm_hist"></option><option value="fixed" data-i18n="pm_fixed"></option><option value="y2022" data-i18n="pm_2022"></option><option value="y2026" data-i18n="pm_2026"></option></select></label>
+        <div class="more" style="margin-top:8px">
+          <label class="full"><span data-i18n="brent_lbl"></span><input id="brent" type="number" min="20" max="200" step="1" value="95"></label>
+          <label class="full"><span data-i18n="fert_price"></span><select id="fertP"><option value="1.2" data-i18n="fert_2024"></option><option value="2.0" data-i18n="fert_2026"></option></select></label>
+        </div>
+        <p class="hint" id="priceNote"></p>
       </details>
     </fieldset>
-    <fieldset>
-      <legend data-i18n="q5"></legend>
-      <label class="slider"><span data-i18n="price_lbl"></span><select id="priceMode"><option value="hist" data-i18n="pm_hist"></option><option value="fixed" data-i18n="pm_fixed"></option><option value="y2022" data-i18n="pm_2022"></option><option value="y2026" data-i18n="pm_2026"></option></select></label>
-      <div class="more" style="margin-top:8px">
-        <label class="full"><span data-i18n="brent_lbl"></span><input id="brent" type="number" min="20" max="200" step="1" value="95"></label>
-        <label class="full"><span data-i18n="fert_price"></span><select id="fertP"><option value="1.2" data-i18n="fert_2024"></option><option value="2.0" data-i18n="fert_2026"></option></select></label>
-      </div>
-      <p class="hint" id="priceNote"></p>
-    </fieldset>
-    <button type="submit" class="go" id="runBtn" data-i18n="run_btn"></button>
   </form>
+</div></section>
+
+<section class="block evid" id="evidence"><div class="wrap">
+  <h2 class="sec" data-i18n="ev_h"></h2>
+  <p class="sub" data-i18n="ev_p"></p>
+
+  <article class="evbox" id="climate" hidden>
+    <div class="evtxt">
+      <h3 class="evh" data-i18n="clim_h"></h3>
+      <div class="big" id="evWarm" style="color:#C41C06"></div>
+      <p data-i18n="ev_warm_t"></p>
+    </div>
+    <figure class="evfig"><h3 class="fh" data-i18n="tc_h"></h3><div id="tempChart"></div>
+      <figcaption class="small" style="margin-top:6px;line-height:1.5" id="tempCap"></figcaption></figure>
+    <details class="evmore"><summary data-i18n="ev_more1"></summary>
+      <p class="sub" data-i18n="clim_p2"></p>
+      <div class="tbl"><table class="chg" id="chgTable"></table></div>
+      <p class="small" style="margin:8px 0 0" data-i18n="ch_legend"></p>
+      <div class="facts">
+        <div id="futBox"><div class="big" id="fFut" style="color:#C41C06"></div><p id="fFutT"></p></div>
+        <div style="flex:2 1 300px;font-size:17px;line-height:1.6;color:var(--ink2);padding-top:10px" id="fDry"></div>
+      </div>
+    </details>
+  </article>
+
+  <article class="evbox" id="space" hidden>
+    <div class="evtxt">
+      <h3 class="evh" data-i18n="sp_h"></h3>
+      <div class="big" id="spBare"></div>
+      <p data-i18n="sp_bare_t"></p>
+      <p class="small"><b id="spObs" style="color:var(--ink)"></b> <span data-i18n="sp_obs_t"></span></p>
+    </div>
+    <figure class="evfig"><div id="spChart"></div>
+      <figcaption class="leg"><span><i style="background:#0050D8"></i><span data-i18n="leg_ndvi"></span></span><span><i style="background:#C9A227"></i><span data-i18n="leg_bare"></span></span></figcaption>
+      <p class="note" id="spMonths" style="margin-top:12px"></p></figure>
+    <details class="evmore"><summary data-i18n="ev_more2"></summary>
+      <p class="sub" data-i18n="sp_p"></p>
+      <p class="mono small" style="margin-top:14px;line-height:1.6;font-size:13px" data-i18n="sp_note"></p>
+    </details>
+  </article>
+
+  <article class="evbox" id="trust">
+    <div class="evtxt">
+      <h3 class="evh" data-i18n="trust_h"></h3>
+      <div class="ev2">
+        <div><div class="big2">5 / 5</div><p data-i18n="tr_c1"></p></div>
+        <div><div class="big2">2 / 5</div><p data-i18n="tr_c2"></p></div>
+      </div>
+    </div>
+    <figure class="evfig"><h3 class="fh" data-i18n="tr_chart_h"></h3><div id="trustChart"></div>
+      <figcaption class="leg">
+        <span><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" stroke="#15191E" stroke-width="2.5"/></svg><span data-i18n="leg_real"></span></span>
+        <span><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" stroke="#0050D8" stroke-width="2.5" stroke-dasharray="6 4"/></svg><span data-i18n="leg_rs"></span></span>
+      </figcaption>
+      <p class="note" data-i18n="tr_read"></p></figure>
+    <details class="evmore"><summary data-i18n="ev_more3"></summary>
+      <p class="t" data-i18n="tr_how"></p>
+      <div class="ev2"><div><div class="big2" data-i18n="tr_mid"></div><p data-i18n="tr_c3"></p></div></div>
+      <div class="gfor">
+        <div><h3 data-i18n="tr_good_h"></h3><ul><li data-i18n="tr_g1"></li><li data-i18n="tr_g2"></li><li data-i18n="tr_g3"></li><li data-i18n="tr_g4"></li></ul></div>
+        <div><h3 data-i18n="tr_not_h"></h3><ul class="no"><li data-i18n="tr_n1"></li><li data-i18n="tr_n2"></li><li data-i18n="tr_n3"></li><li data-i18n="tr_n4"></li></ul></div>
+      </div>
+      <details class="expert"><summary data-i18n="tr_expert"></summary>
+      <table>
+        <thead><tr><th><span style="position:absolute;left:-9999px">-</span></th><th class="r" data-i18n="de"></th><th class="r" data-i18n="tr_"></th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="tt_worst"></td><td class="r"><b>5 / 5</b></td><td class="r"><b>2 / 5</b></td></tr>
+          <tr><td data-i18n="tt_match"></td><td class="r num" data-v="0.43">0.43</td><td class="r num" data-v="0.41">0.41</td></tr>
+          <tr><td data-i18n="tt_test"></td><td class="r num" data-v="0.23">0.23</td><td class="r num" data-v="0.57">0.57</td></tr>
+        </tbody>
+      </table>
+      <div class="note" style="margin-top:14px"><div data-i18n="cities_de"></div><div style="margin-top:6px" data-i18n="cities_tr"></div></div>
+      <p class="mono small" style="margin-top:12px;line-height:1.6;font-size:13px" data-i18n="trust_note"></p>
+      </details>
+    </details>
+  </article>
 </div></section>
 
 
@@ -484,117 +590,71 @@ details.xpd{margin-top:10px;font-size:15px;color:var(--ink)}details.xpd>summary{
 </div></section>
 
 <section class="block fields" id="fields"><div class="wrap">
-  <h2 class="sec" data-i18n="fl_h"></h2>
-  <p class="sub" data-i18n="fl_p"></p>
-  <form class="fform" id="fForm">
-    <label><span data-i18n="fl_name"></span><input id="fName" maxlength="40"></label>
-    <label class="wide"><span data-i18n="fl_place"></span><input id="fPlace" maxlength="80"></label>
-    <label class="sm"><span data-i18n="fl_ha"></span><input id="fHa" type="number" min="0" step="0.1"></label>
-    <button type="submit" class="go" data-i18n="fl_add"></button>
-  </form>
-  <p class="hint" id="fMsg" aria-live="polite"></p>
-  <div class="tbl"><table class="ftab" id="fTable"></table></div>
-  <p class="ftot" id="fTotal"></p>
-  <div class="acts"><button type="button" class="btn-o" id="fCalc" data-i18n="fl_calc"></button><button type="button" class="btn-o lite" id="fLink" data-i18n="fl_link"></button><button type="button" class="btn-o lite" id="fCsv" data-i18n="fl_csv"></button></div>
-  <p class="small" style="margin-top:14px;line-height:1.5" data-i18n="fl_note"></p>
-</div></section>
-
-<section class="block" id="climate" hidden><div class="wrap">
-  <h2 class="sec" data-i18n="clim_h"></h2>
-  <p class="sub" data-i18n="clim_p2"></p>
-  <div class="tbl"><table class="chg" id="chgTable"></table></div>
-  <p class="small" style="margin:8px 0 0" data-i18n="ch_legend"></p>
-  <figure style="margin:32px 0 0"><h3 class="fh" data-i18n="tc_h"></h3><div id="tempChart"></div>
-    <figcaption class="small" style="margin-top:6px;line-height:1.5" id="tempCap"></figcaption></figure>
-  <div class="facts">
-    <div id="futBox"><div class="big" id="fFut" style="color:#C41C06"></div><p id="fFutT"></p></div>
-    <div style="flex:2 1 300px;font-size:17px;line-height:1.6;color:var(--ink2);padding-top:10px" id="fDry"></div>
-  </div>
-</div></section>
-
-<section class="block space" id="space" hidden><div class="wrap">
-  <h2 class="sec" data-i18n="sp_h"></h2>
-  <p class="sub" data-i18n="sp_p"></p>
-  <div class="facts">
-    <div><div class="big" id="spBare"></div><p data-i18n="sp_bare_t"></p></div>
-    <div><div class="big" id="spObs" style="color:var(--ink)"></div><p data-i18n="sp_obs_t"></p></div>
-  </div>
-  <figure style="margin:28px 0 0"><div id="spChart"></div>
-    <figcaption class="leg"><span><i style="background:#0050D8"></i><span data-i18n="leg_ndvi"></span></span><span><i style="background:#C9A227"></i><span data-i18n="leg_bare"></span></span></figcaption></figure>
-  <p class="note" id="spMonths" style="margin-top:16px"></p>
-  <p class="mono small" style="margin-top:14px;line-height:1.6;font-size:13px" data-i18n="sp_note"></p>
+  <details class="sect">
+    <summary><h2 class="sec" data-i18n="fl_h"></h2></summary>
+    <div class="sectbody">
+      <p class="sub" data-i18n="fl_p"></p>
+      <form class="fform" id="fForm">
+        <label><span data-i18n="fl_name"></span><input id="fName" maxlength="40"></label>
+        <label class="wide"><span data-i18n="fl_place"></span><input id="fPlace" maxlength="80"></label>
+        <label class="sm"><span data-i18n="fl_ha"></span><input id="fHa" type="number" min="0" step="0.1"></label>
+        <button type="submit" class="go" data-i18n="fl_add"></button>
+      </form>
+      <p class="hint" id="fMsg" aria-live="polite"></p>
+      <div class="tbl"><table class="ftab" id="fTable"></table></div>
+      <p class="ftot" id="fTotal"></p>
+      <div class="acts"><button type="button" class="btn-o" id="fCalc" data-i18n="fl_calc"></button><button type="button" class="btn-o lite" id="fLink" data-i18n="fl_link"></button><button type="button" class="btn-o lite" id="fCsv" data-i18n="fl_csv"></button></div>
+      <p class="small" style="margin-top:14px;line-height:1.5" data-i18n="fl_note"></p>
+    </div>
+  </details>
 </div></section>
 
 <section class="block ground" id="ground"><div class="wrap">
-  <h2 class="sec" data-i18n="gr_h"></h2>
-  <p class="sub" data-i18n="gr_p"></p>
-  <div class="gcols">
-    <div class="gcol"><h3 data-i18n="gr_sat_h"></h3><ul><li data-i18n="gr_sat1"></li><li data-i18n="gr_sat2"></li><li data-i18n="gr_sat3"></li></ul>
-      <p class="small" data-i18n="gr_sat_src"></p></div>
-    <div class="gcol"><h3 data-i18n="gr_gnd_h"></h3><ul><li data-i18n="gr_gnd1"></li><li data-i18n="gr_gnd2"></li><li data-i18n="gr_gnd3"></li></ul>
-      <p class="small" data-i18n="gr_gnd_src"></p></div>
-    <div class="gcol both"><h3 data-i18n="gr_both_h"></h3><p data-i18n="gr_both_p"></p>
-      <button type="button" class="btn-o" id="openOwn" data-i18n="gr_both_btn"></button></div>
-  </div>
-  <div class="tbl"><table class="res"><thead><tr><th data-i18n="gr_t_what"></th><th data-i18n="gr_t_src"></th><th data-i18n="gr_t_px"></th><th data-i18n="gr_t_time"></th></tr></thead><tbody id="resBody"></tbody></table></div>
-  <p class="small" style="margin-top:8px;line-height:1.5" data-i18n="gr_t_note"></p>
-  <h3 class="jh" data-i18n="jd_h"></h3>
-  <p class="sub" style="margin-top:4px" data-i18n="jd_p"></p>
-  <ul class="judge"><li data-i18n="jd_1"></li><li data-i18n="jd_2"></li><li data-i18n="jd_3"></li><li data-i18n="jd_4"></li><li data-i18n="jd_5"></li></ul>
-</div></section>
-
-<section class="block trust" id="trust"><div class="wrap">
-  <div class="txt">
-    <h2 class="sec" data-i18n="trust_h"></h2>
-    <p class="t" data-i18n="tr_how"></p>
-    <div class="tcards">
-      <div><div class="big2">5 / 5</div><p data-i18n="tr_c1"></p></div>
-      <div><div class="big2">2 / 5</div><p data-i18n="tr_c2"></p></div>
-      <div><div class="big2" data-i18n="tr_mid"></div><p data-i18n="tr_c3"></p></div>
+  <details class="sect">
+    <summary><h2 class="sec" data-i18n="gr_h"></h2></summary>
+    <div class="sectbody">
+      <p class="sub" data-i18n="gr_p"></p>
+      <div class="gcols">
+        <div class="gcol"><h3 data-i18n="gr_sat_h"></h3><ul><li data-i18n="gr_sat1"></li><li data-i18n="gr_sat2"></li><li data-i18n="gr_sat3"></li></ul>
+          <p class="small" data-i18n="gr_sat_src"></p></div>
+        <div class="gcol"><h3 data-i18n="gr_gnd_h"></h3><ul><li data-i18n="gr_gnd1"></li><li data-i18n="gr_gnd2"></li><li data-i18n="gr_gnd3"></li></ul>
+          <p class="small" data-i18n="gr_gnd_src"></p></div>
+        <div class="gcol both"><h3 data-i18n="gr_both_h"></h3><p data-i18n="gr_both_p"></p>
+          <button type="button" class="btn-o" id="openOwn" data-i18n="gr_both_btn"></button></div>
+      </div>
+      <div class="tbl"><table class="res"><thead><tr><th data-i18n="gr_t_what"></th><th data-i18n="gr_t_src"></th><th data-i18n="gr_t_px"></th><th data-i18n="gr_t_time"></th></tr></thead><tbody id="resBody"></tbody></table></div>
+      <p class="small" style="margin-top:8px;line-height:1.5" data-i18n="gr_t_note"></p>
+      <h3 class="jh" data-i18n="jd_h"></h3>
+      <p class="sub" style="margin-top:4px" data-i18n="jd_p"></p>
+      <ul class="judge"><li data-i18n="jd_1"></li><li data-i18n="jd_2"></li><li data-i18n="jd_3"></li><li data-i18n="jd_4"></li><li data-i18n="jd_5"></li></ul>
     </div>
-    <div class="gfor">
-      <div><h3 data-i18n="tr_good_h"></h3><ul><li data-i18n="tr_g1"></li><li data-i18n="tr_g2"></li><li data-i18n="tr_g3"></li><li data-i18n="tr_g4"></li></ul></div>
-      <div><h3 data-i18n="tr_not_h"></h3><ul class="no"><li data-i18n="tr_n1"></li><li data-i18n="tr_n2"></li><li data-i18n="tr_n3"></li><li data-i18n="tr_n4"></li></ul></div>
-    </div>
-  </div>
-  <div class="fig">
-    <figure style="margin:0 0 12px"><h3 class="fh" data-i18n="tr_chart_h"></h3><div id="trustChart"></div>
-      <figcaption class="leg">
-        <span><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" stroke="#15191E" stroke-width="2.5"/></svg><span data-i18n="leg_real"></span></span>
-        <span><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" stroke="#0050D8" stroke-width="2.5" stroke-dasharray="6 4"/></svg><span data-i18n="leg_rs"></span></span>
-      </figcaption></figure>
-    <p class="note" data-i18n="tr_read"></p>
-    <details class="expert"><summary data-i18n="tr_expert"></summary>
-    <table>
-      <thead><tr><th><span style="position:absolute;left:-9999px">-</span></th><th class="r" data-i18n="de"></th><th class="r" data-i18n="tr_"></th></tr></thead>
-      <tbody>
-        <tr><td data-i18n="tt_worst"></td><td class="r"><b>5 / 5</b></td><td class="r"><b>2 / 5</b></td></tr>
-        <tr><td data-i18n="tt_match"></td><td class="r num" data-v="0.43">0.43</td><td class="r num" data-v="0.41">0.41</td></tr>
-        <tr><td data-i18n="tt_test"></td><td class="r num" data-v="0.23">0.23</td><td class="r num" data-v="0.57">0.57</td></tr>
-      </tbody>
-    </table>
-    <div class="note" style="margin-top:14px"><div data-i18n="cities_de"></div><div style="margin-top:6px" data-i18n="cities_tr"></div></div>
-    <p class="mono small" style="margin-top:12px;line-height:1.6;font-size:13px" data-i18n="trust_note"></p>
-    </details>
-  </div>
+  </details>
 </div></section>
 
 <section class="block how" id="how"><div class="wrap">
-  <h2 class="sec" data-i18n="how_h"></h2>
-  <ol class="steps">
-    <li><span class="n">1</span><div class="b"><h3 data-i18n="how1_h"></h3><p data-i18n="how1_p"></p></div><span class="s mono">NASA POWER (MERRA-2, CERES), ISRIC SoilGrids 2.0, ESA WorldCover</span></li>
-    <li><span class="n">2</span><div class="b"><h3 data-i18n="how2_h"></h3><p data-i18n="how2_p"></p></div><span class="s mono">FAO-56 Penman-Monteith, FAO-33, ICBM (Andrén &amp; Kätterer 1997), RUSLE erosive rain</span></li>
-    <li><span class="n">3</span><div class="b"><h3 data-i18n="how3_h"></h3><p data-i18n="how3_p"></p></div><span class="s mono" data-i18n="how3_s"></span></li>
-  </ol>
+  <details class="sect">
+    <summary><h2 class="sec" data-i18n="how_h"></h2></summary>
+    <div class="sectbody">
+      <ol class="steps">
+        <li><span class="n">1</span><div class="b"><h3 data-i18n="how1_h"></h3><p data-i18n="how1_p"></p></div><span class="s mono">NASA POWER (MERRA-2, CERES), ISRIC SoilGrids 2.0, ESA WorldCover</span></li>
+        <li><span class="n">2</span><div class="b"><h3 data-i18n="how2_h"></h3><p data-i18n="how2_p"></p></div><span class="s mono">FAO-56 Penman-Monteith, FAO-33, ICBM (Andrén &amp; Kätterer 1997), RUSLE erosive rain</span></li>
+        <li><span class="n">3</span><div class="b"><h3 data-i18n="how3_h"></h3><p data-i18n="how3_p"></p></div><span class="s mono" data-i18n="how3_s"></span></li>
+      </ol>
+    </div>
+  </details>
 </div></section>
 
 <section class="block gloss" id="glossary"><div class="wrap">
-  <h2 class="sec" data-i18n="gl_h"></h2>
-  <p class="sub" data-i18n="gl_p"></p>
-  <h3 class="jh" style="margin-top:22px" data-i18n="gl_terms_h"></h3>
-  <dl id="termList"></dl>
-  <h3 class="jh" data-i18n="gl_abbr_h"></h3>
-  <dl id="glossList"></dl>
+  <details class="sect">
+    <summary><h2 class="sec" data-i18n="gl_h"></h2></summary>
+    <div class="sectbody">
+      <p class="sub" data-i18n="gl_p"></p>
+      <h3 class="jh" style="margin-top:22px" data-i18n="gl_terms_h"></h3>
+      <dl id="termList"></dl>
+      <h3 class="jh" data-i18n="gl_abbr_h"></h3>
+      <dl id="glossList"></dl>
+    </div>
+  </details>
 </div></section>
 
 <footer><div class="wrap">
@@ -1279,17 +1339,17 @@ field_lbl:"Field:",
 
 notice:"Made for the NASA Space Apps Challenge 2026 with open NASA Earth data. Not affiliated with or endorsed by NASA.",
 nav_plan:"Plan my field",nav_trust:"How reliable is it?",nav_how:"How it works",
-hero_h1:"Which crop rotation will still pay off on your field in 2050?",
+hero_h1:"Is there a better crop rotation for your field?",
 
 hero_cta:"Plan my field",ro_weather:"Weather: NASA POWER, daily, 1985 to 2024",
 q1:"1. Where is your field?",q1_or:"Or find your field on the map: search a place, then click your field.",year:"Year",none:"(nothing)",
 q3:"3. What matters most to you?",w_profit:"Profit",w_safe:"Safety in bad years",w_soil:"Healthy soil",
 today:"Today",y2050:"In 2050",
 extra_warm:"Extra warming",rain_change:"Change in summer rain",soil_soc:"Soil organic carbon (g/kg)",soil_clay:"Clay (%)",lat:"Latitude",lon:"Longitude",
-raw_hist:"Use the weather exactly as it was (1985 to 2024)",run_btn:"Show my results",
+raw_hist:"Use the weather exactly as it was (1985 to 2024)",
 loading_power:"Reading 40 years of NASA weather for this field. This takes 10 to 30 seconds the first time.",
 loading_soil:"Reading the soil map for this field.",running:"Testing every rotation in 1,000 possible futures.",
-err_power:"Could not reach NASA POWER. Check your internet connection, then press \"Show my results\" to try again.",
+err_power:"Could not reach NASA POWER. Check your internet connection, then try again.",
 soil_ok:"Soil from ISRIC SoilGrids for this spot. Replace it with your own soil test if you have one.",
 soil_near:"Soil from ISRIC SoilGrids, nearest farmland point {p}. Replace it with your own soil test if you have one.",
 soil_fail:"Soil map not available here. Using typical values; enter your own soil test.",
@@ -1342,7 +1402,7 @@ gl_p:"The words and short names used on this page, in plain language.",
 gl_terms_h:"Farming and climate words",
 gl_abbr_h:"Abbreviations and data names",
 q2:"2. What do you grow now?",
-q2_h:"Enter your rotation as it is today, year by year. It is always compared with the alternatives.",
+q2_h:"Tap the rotation closest to yours. It is always compared with the alternatives.",
 q_lim:"4. What limits you?",
 q_lim_h:"Water, machinery and market. Rotations that do not fit are left out.",
 lim_water:"Water",
@@ -1355,13 +1415,25 @@ forage_lbl:"I have animals or a buyer for forage (vetch, clover). If not, it cou
 lim_note:"{n} ready-made rotations are left out because of your limits, {m} remain.",
 lim_none:"No limit set: all rotations are compared.",
 lim_left:"Left out because of your limits ({list}): {n} rotations.",
-err_calc:"The calculation stopped unexpectedly. Press \"Show my results\" to try again.",
+err_calc:"The calculation stopped unexpectedly. Please try again.",
 upd:"Recalculating",
 q4:"5. Which climate?",
-q5:"6. Prices",
-more_opts:"More options: your own rain and soil test, extra warming, less rain",
-hero_p:"Pick your field and say what you grow today. RotaSat compares your rotation with other strategies, using 40 years of NASA weather for that spot and NASA's climate projections for 2050.",
+more_opts:"More options: prices, your own rain and soil test, extra warming, less rain",
+hero_p:"Pick your field and tap what you grow today. RotaSat compares your rotation with other strategies for profit, soil and water, using 40 years of NASA weather for that exact spot. You can also test it against NASA's climate projections for 2050.",
 hero_cta2:"Next: what do you grow now?",
+retry:"Try again",
+price_h:"Prices and costs",
+rot_other:"Something else",
+rot_other_h:"Choose one crop per year, in the order you grow them. Leave the rest empty; the rotation then starts again.",
+ev_h:"What this result rests on",
+ev_p:"Three things you can check yourself: 40 years of NASA weather at this spot, what the satellite saw on the field, and how well RotaSat matched real harvests.",
+ev_warm_t:"change in average temperature at this field: the last ten years against the first ten of NASA's 40-year record (NASA POWER).",
+ev_more1:"All changes: hot days, frost, rain, water need, 2050",
+ev_more2:"How the satellite data was made",
+ev_more3:"How the test was done, what RotaSat is good for and what not",
+ev_s_clim:"40 years of NASA weather: {d} °C at this field",
+ev_s_sat:"Satellite: soil bare {n} days a year",
+ev_s_test:"Checked against real harvests: 5 of 5 bad years found in Germany, 2 of 5 in Türkiye",
 best_mine:"Your rotation is already the best fit for your priorities.",
 best_other:"{rot} fits your priorities best. Your rotation comes in at number {k} of {n}.",
 res_me:"Your rotation today earns about {mean} and keeps {p10} in bad years.",
@@ -1483,7 +1555,7 @@ terms_h:"What do the words mean?",
 sp_months:"In these years the satellite saw the field bare mostly in <b>{m}</b>. In these months a cover crop would protect the soil.",
 sp_months0:"In these years no month was bare most of the time.",
 cmp_h:"All {n} rotations tested",
-foot_note:"Not affiliated with or endorsed by NASA. Results are estimates for comparing options. All amounts are in today's euros; the price setting is chosen in question 6.",
+foot_note:"Not affiliated with or endorsed by NASA. Results are estimates for comparing options. All amounts are in today's euros; you can change the prices under \"More options\" in question 5.",
 gr_h:"Satellite and ground: each sees something different",
 gr_p:"RotaSat works from satellites and models. Your own measurements are closer to your field. The result is best when both are used together.",
 gr_sat_h:"What satellites and NASA models give",
@@ -1771,17 +1843,17 @@ field_lbl:"Tarla:",
 
 notice:"NASA Space Apps Challenge 2026 için açık NASA yer gözlem verisiyle yapıldı. NASA ile bağlantılı değildir ve NASA tarafından onaylanmamıştır.",
 nav_plan:"Tarlamı planla",nav_trust:"Ne kadar güvenilir?",nav_how:"Nasıl çalışır?",
-hero_h1:"Hangi ürün rotasyonu 2050'de de tarlanda kazandırır?",
+hero_h1:"Tarlan için daha iyi bir ekim sırası var mı?",
 
 hero_cta:"Tarlamı planla",ro_weather:"Hava: NASA POWER, günlük, 1985 - 2024",
 q1:"1. Tarlan nerede?",q1_or:"Ya da tarlanı haritada bul: bir yer ara, sonra tarlana tıkla.",year:"Yıl",none:"(boş)",
 q3:"3. Senin için en önemli ne?",w_profit:"Kâr",w_safe:"Kötü yıllarda güvence",w_soil:"Sağlıklı toprak",
 today:"Bugün",y2050:"2050'de",
 extra_warm:"Ek ısınma",rain_change:"Yaz yağışında değişim",soil_soc:"Topraktaki organik karbon (g/kg)",soil_clay:"Kil (%)",lat:"Enlem",lon:"Boylam",
-raw_hist:"Havayı olduğu gibi kullan (1985 - 2024)",run_btn:"Sonuçlarımı göster",
+raw_hist:"Havayı olduğu gibi kullan (1985 - 2024)",
 loading_power:"Bu tarla için 40 yıllık NASA hava verisi okunuyor. İlk seferde 10 - 30 saniye sürer.",
 loading_soil:"Bu tarlanın toprak verisi okunuyor.",running:"Her rotasyon 1.000 olası gelecekte deneniyor.",
-err_power:"NASA POWER'a ulaşılamadı. İnternet bağlantını kontrol et, sonra tekrar denemek için \"Sonuçlarımı göster\"e bas.",
+err_power:"NASA POWER'a ulaşılamadı. İnternet bağlantını kontrol et, sonra tekrar dene.",
 soil_ok:"Toprak verisi bu nokta için ISRIC SoilGrids'ten. Kendi toprak analizin varsa onu gir.",
 soil_near:"Toprak verisi ISRIC SoilGrids'ten, en yakın tarım noktası {p}. Kendi toprak analizin varsa onu gir.",
 soil_fail:"Bu nokta için toprak haritası yok. Tipik değerler kullanılıyor; kendi toprak analizini gir.",
@@ -1834,7 +1906,7 @@ gl_p:"Bu sayfada geçen terimler ve kısa adlar, sade bir dille.",
 gl_terms_h:"Tarım ve iklim terimleri",
 gl_abbr_h:"Kısaltmalar ve veri adları",
 q2:"2. Şu an ne ekiyorsun?",
-q2_h:"Bugünkü rotasyonunu yıl yıl gir. Her zaman diğer seçeneklerle karşılaştırılır.",
+q2_h:"Seninkine en yakın rotasyona dokun. Her zaman diğer seçeneklerle karşılaştırılır.",
 q_lim:"4. Seni ne sınırlıyor?",
 q_lim_h:"Su, makine ve pazar. Uymayan rotasyonlar listeden çıkarılır.",
 lim_water:"Su",
@@ -1847,13 +1919,25 @@ forage_lbl:"Hayvanım var ya da yem (fiğ, üçgül) için alıcım var. Yoksa s
 lim_note:"Sınırların yüzünden {n} hazır rotasyon çıkarıldı, {m} tanesi kaldı.",
 lim_none:"Sınır seçilmedi: bütün rotasyonlar karşılaştırılıyor.",
 lim_left:"Sınırların yüzünden çıkarılanlar ({list}): {n} rotasyon.",
-err_calc:"Hesaplama beklenmedik şekilde durdu. Yeniden denemek için \"Sonuçlarımı göster\" düğmesine bas.",
+err_calc:"Hesaplama beklenmedik şekilde durdu. Lütfen tekrar dene.",
 upd:"Yeniden hesaplanıyor",
 q4:"5. Hangi iklim?",
-q5:"6. Fiyatlar",
-more_opts:"Diğer seçenekler: kendi yağış ölçümün ve toprak analizin, ek ısınma, daha az yağış",
-hero_p:"Tarlanı seç ve bugün ne ektiğini söyle. RotaSat rotasyonunu başka stratejilerle karşılaştırır; bunun için o noktanın 40 yıllık NASA hava verisini ve NASA'nın 2050 iklim projeksiyonlarını kullanır.",
+more_opts:"Diğer seçenekler: fiyatlar, kendi yağış ölçümün ve toprak analizin, ek ısınma, daha az yağış",
+hero_p:"Tarlanı seç, bugün ne ektiğine dokun. RotaSat rotasyonunu başka stratejilerle kâr, toprak ve su açısından karşılaştırır; bunun için tam o noktanın 40 yıllık NASA hava verisini kullanır. İstersen NASA'nın 2050 iklim projeksiyonlarıyla da deneyebilirsin.",
 hero_cta2:"Devam: şu an ne ekiyorsun?",
+retry:"Tekrar dene",
+price_h:"Fiyatlar ve maliyetler",
+rot_other:"Başka",
+rot_other_h:"Ektiğin sırayla her yıl için bir ürün seç. Kalanları boş bırak; rotasyon sonra baştan başlar.",
+ev_h:"Bu sonuç neye dayanıyor?",
+ev_p:"Kendin bakabileceğin üç şey: bu noktanın 40 yıllık NASA hava verisi, uydunun tarlada gördüğü ve RotaSat'ın gerçek hasatları ne kadar tutturduğu.",
+ev_warm_t:"bu tarlada ortalama sıcaklık değişimi: NASA'nın 40 yıllık kaydının son on yılı ile ilk on yılı (NASA POWER).",
+ev_more1:"Bütün değişimler: sıcak günler, don, yağış, su ihtiyacı, 2050",
+ev_more2:"Uydu verisi nasıl hazırlandı?",
+ev_more3:"Test nasıl yapıldı, RotaSat ne için iyi, ne için değil?",
+ev_s_clim:"40 yıllık NASA hava verisi: bu tarlada {d} °C",
+ev_s_sat:"Uydu: toprak yılda {n} gün çıplak",
+ev_s_test:"Gerçek hasatlarla sınandı: Almanya'da 5 kötü yılın 5'i, Türkiye'de 5'in 2'si yakalandı",
 best_mine:"Senin rotasyonun zaten önceliklerine en uygun seçenek.",
 best_other:"Önceliklerine en uygun seçenek: {rot}. Senin rotasyonun {n} seçenek içinde {k}. sırada.",
 res_me:"Bugünkü rotasyonun yılda yaklaşık {mean} kazandırır, kötü yıllarda {p10} kalır.",
@@ -1976,7 +2060,7 @@ sp_months:"Bu yıllarda uydu tarlayı en çok şu aylarda çıplak gördü: <b>{
 sp_months0:"Bu yıllarda hiçbir ay çoğunlukla çıplak kalmadı.",
 cmp_h:"Denenen {n} rotasyonun hepsi",
 your_plan:"Senin rotasyonun",
-foot_note:"NASA ile bağlantılı değildir. Sonuçlar seçenekleri karşılaştırmak için tahminlerdir. Tüm tutarlar bugünün eurosu ile; fiyat ayarı 6. soruda seçilir.",
+foot_note:"NASA ile bağlantılı değildir. Sonuçlar seçenekleri karşılaştırmak için tahminlerdir. Tüm tutarlar bugünün eurosu ile; fiyatları 5. sorudaki \"Diğer seçenekler\" altında değiştirebilirsin.",
 gr_h:"Uydu ve tarla: her biri başka bir şey görür",
 gr_p:"RotaSat uydularla ve modellerle çalışır. Senin kendi ölçümlerin tarlana daha yakındır. İkisi birlikte kullanılınca sonuç en iyi olur.",
 gr_sat_h:"Uydular ve NASA modelleri ne verir",
@@ -2263,17 +2347,17 @@ field_lbl:"Feld:",
 
 notice:"Für die NASA Space Apps Challenge 2026 mit offenen NASA-Erdbeobachtungsdaten erstellt. Keine Verbindung zur NASA und nicht von ihr unterstützt.",
 nav_plan:"Mein Feld planen",nav_trust:"Wie zuverlässig ist das?",nav_how:"So funktioniert es",
-hero_h1:"Welche Fruchtfolge lohnt sich auf Ihrem Feld auch 2050 noch?",
+hero_h1:"Gibt es eine bessere Fruchtfolge für Ihr Feld?",
 
 hero_cta:"Mein Feld planen",ro_weather:"Wetter: NASA POWER, täglich, 1985 bis 2024",
 q1:"1. Wo liegt Ihr Feld?",q1_or:"Oder finden Sie Ihr Feld auf der Karte: Ort suchen, dann auf das Feld klicken.",year:"Jahr",none:"(nichts)",
 q3:"3. Was ist Ihnen am wichtigsten?",w_profit:"Gewinn",w_safe:"Sicherheit in schlechten Jahren",w_soil:"Gesunder Boden",
 today:"Heute",y2050:"Im Jahr 2050",
 extra_warm:"Zusätzliche Erwärmung",rain_change:"Änderung des Sommerregens",soil_soc:"Organischer Kohlenstoff im Boden (g/kg)",soil_clay:"Ton (%)",lat:"Breitengrad",lon:"Längengrad",
-raw_hist:"Wetter genau wie gemessen verwenden (1985 bis 2024)",run_btn:"Meine Ergebnisse zeigen",
+raw_hist:"Wetter genau wie gemessen verwenden (1985 bis 2024)",
 loading_power:"40 Jahre NASA-Wetter für dieses Feld werden gelesen. Beim ersten Mal dauert das 10 bis 30 Sekunden.",
 loading_soil:"Die Bodenkarte für dieses Feld wird gelesen.",running:"Jede Fruchtfolge wird in 1.000 möglichen Zukünften getestet.",
-err_power:"NASA POWER ist nicht erreichbar. Prüfen Sie die Internetverbindung und klicken Sie dann auf \"Meine Ergebnisse zeigen\", um es erneut zu versuchen.",
+err_power:"NASA POWER ist nicht erreichbar. Prüfen Sie die Internetverbindung und versuchen Sie es dann erneut.",
 soil_ok:"Bodendaten von ISRIC SoilGrids für diesen Ort. Ersetzen Sie sie durch Ihre eigene Bodenprobe, falls vorhanden.",
 soil_near:"Bodendaten von ISRIC SoilGrids, nächster Ackerpunkt {p}. Ersetzen Sie sie durch Ihre eigene Bodenprobe, falls vorhanden.",
 soil_fail:"Für diesen Ort gibt es keine Bodenkarte. Es werden typische Werte verwendet; bitte eigene Bodenprobe eingeben.",
@@ -2326,7 +2410,7 @@ gl_p:"Die Begriffe und Kurznamen auf dieser Seite, in einfachen Worten.",
 gl_terms_h:"Begriffe aus Ackerbau und Klima",
 gl_abbr_h:"Abkürzungen und Datennamen",
 q2:"2. Was bauen Sie heute an?",
-q2_h:"Tragen Sie Ihre heutige Fruchtfolge Jahr für Jahr ein. Sie wird immer mit den Alternativen verglichen.",
+q2_h:"Tippen Sie die Fruchtfolge an, die Ihrer am nächsten kommt. Sie wird immer mit den Alternativen verglichen.",
 q_lim:"4. Was schränkt Sie ein?",
 q_lim_h:"Wasser, Technik und Markt. Fruchtfolgen, die nicht passen, werden weggelassen.",
 lim_water:"Wasser",
@@ -2339,13 +2423,25 @@ forage_lbl:"Ich habe Tiere oder einen Abnehmer für Futter (Wicke, Klee). Sonst 
 lim_note:"Wegen Ihrer Einschränkungen fallen {n} fertige Fruchtfolgen weg, {m} bleiben.",
 lim_none:"Keine Einschränkung gesetzt: Alle Fruchtfolgen werden verglichen.",
 lim_left:"Wegen Ihrer Einschränkungen weggelassen ({list}): {n} Fruchtfolgen.",
-err_calc:"Die Berechnung wurde unerwartet abgebrochen. Drücken Sie \"Meine Ergebnisse zeigen\", um es erneut zu versuchen.",
+err_calc:"Die Berechnung wurde unerwartet abgebrochen. Bitte versuchen Sie es erneut.",
 upd:"Wird neu berechnet",
 q4:"5. Welches Klima?",
-q5:"6. Preise",
-more_opts:"Weitere Optionen: eigener Niederschlag und eigene Bodenprobe, zusätzliche Erwärmung, weniger Regen",
-hero_p:"Wählen Sie Ihr Feld und sagen Sie, was Sie heute anbauen. RotaSat vergleicht Ihre Fruchtfolge mit anderen Strategien, mit 40 Jahren NASA-Wetter für diesen Ort und den NASA-Klimaprojektionen für 2050.",
+more_opts:"Weitere Optionen: Preise, eigener Niederschlag und eigene Bodenprobe, zusätzliche Erwärmung, weniger Regen",
+hero_p:"Wählen Sie Ihr Feld und tippen Sie an, was Sie heute anbauen. RotaSat vergleicht Ihre Fruchtfolge mit anderen Strategien nach Gewinn, Boden und Wasser, mit 40 Jahren NASA-Wetter genau für diesen Ort. Auf Wunsch auch mit den NASA-Klimaprojektionen für 2050.",
 hero_cta2:"Weiter: Was bauen Sie heute an?",
+retry:"Erneut versuchen",
+price_h:"Preise und Kosten",
+rot_other:"Etwas anderes",
+rot_other_h:"Wählen Sie für jedes Jahr eine Kultur, in Ihrer Reihenfolge. Lassen Sie den Rest leer; die Fruchtfolge beginnt dann von vorn.",
+ev_h:"Worauf dieses Ergebnis beruht",
+ev_p:"Drei Dinge zum Nachprüfen: 40 Jahre NASA-Wetter an diesem Ort, was der Satellit auf dem Feld gesehen hat und wie gut RotaSat echte Ernten getroffen hat.",
+ev_warm_t:"Änderung der Durchschnittstemperatur an diesem Feld: die letzten zehn Jahre gegen die ersten zehn der 40-jährigen NASA-Reihe (NASA POWER).",
+ev_more1:"Alle Änderungen: heiße Tage, Frost, Regen, Wasserbedarf, 2050",
+ev_more2:"Wie die Satellitendaten entstanden sind",
+ev_more3:"Wie getestet wurde, wofür RotaSat taugt und wofür nicht",
+ev_s_clim:"40 Jahre NASA-Wetter: {d} °C an diesem Feld",
+ev_s_sat:"Satellit: Boden {n} Tage im Jahr offen",
+ev_s_test:"An echten Ernten geprüft: in Deutschland 5 von 5 schlechten Jahren erkannt, in der Türkei 2 von 5",
 best_mine:"Ihre Fruchtfolge passt schon am besten zu Ihren Prioritäten.",
 best_other:"{rot} passt am besten zu Ihren Prioritäten. Ihre Fruchtfolge liegt auf Platz {k} von {n}.",
 res_me:"Ihre heutige Fruchtfolge bringt etwa {mean} und behält in schlechten Jahren {p10}.",
@@ -2468,7 +2564,7 @@ sp_months:"In diesen Jahren sah der Satellit das Feld vor allem in diesen Monate
 sp_months0:"In diesen Jahren lag das Feld in keinem Monat überwiegend offen.",
 cmp_h:"Alle {n} getesteten Fruchtfolgen",
 your_plan:"Ihre Fruchtfolge",
-foot_note:"Keine Verbindung zur NASA. Ergebnisse sind Schätzungen zum Vergleichen von Optionen. Alle Beträge in heutigen Euro; die Preiseinstellung wählen Sie in Frage 6.",
+foot_note:"Keine Verbindung zur NASA. Ergebnisse sind Schätzungen zum Vergleichen von Optionen. Alle Beträge in heutigen Euro; die Preise ändern Sie unter \"Weitere Optionen\" in Frage 5.",
 gr_h:"Satellit und Boden: Jeder sieht etwas anderes",
 gr_p:"RotaSat arbeitet mit Satelliten und Modellen. Ihre eigenen Messungen sind näher an Ihrem Feld. Am besten wird das Ergebnis, wenn beides zusammenkommt.",
 gr_sat_h:"Was Satelliten und NASA-Modelle liefern",
@@ -2607,6 +2703,7 @@ function renderNavBox(){
   },{passive:false});
 })();
 let ring=null;
+let rotTouched=false, rotCustom=false;   // rotTouched: the rotation came from the user, a link or a saved field; rotCustom: "Something else" is open
 
 function chooseSite(s){
   site={key:s.key,lat:s.lat,lon:s.lon}; $('lat').value=s.lat; $('lon').value=s.lon;
@@ -2616,6 +2713,7 @@ function chooseSite(s){
   ring=L.circle([s.lat,s.lon],{radius:400,color:'#E7F434',weight:2.5,fill:false}).addTo(heroMap);
   heroMap.setView([s.lat,s.lon],LAYERS[curLayer].z||15,{animate:false});
   if(window.innerWidth>760) heroMap.panBy([-260,0],{animate:false});
+  if(!rotTouched){ rotCustom=false; setSeq(regionRots()[0]); }
   renderSites(); renderRegionNote(); renderSlots(); updateReadout(); loadData();
 }
 function updateReadout(){$('roCoord').textContent=`${Math.abs(site.lat).toFixed(2)}° ${site.lat>=0?'N':'S'}, ${Math.abs(site.lon).toFixed(2)}° ${site.lon>=0?'E':'W'}`;
@@ -2624,7 +2722,6 @@ function renderRegionNote(){
   const s=SITES.find(x=>x.key===site.key); $('regionNote').hidden=!(s&&s.note); if(!s||!s.note) return;
   $('rnText').textContent=s.note[LANG]+' '+t('rn_crops',{list:[s.top,...s.common].map(cropName).join(', ')});
   $('rnMore').textContent=t('rn_more'); $('rnMore').href=`region.html?r=${s.key}&lang=${LANG}`;
-  if(!$('regionNote').dataset.set){$('regionNote').open=window.innerWidth>940; $('regionNote').dataset.set=1;}
   $('rnBtn').onclick=()=>{['wInc','wRisk','wSoil','wWater'].forEach((id,i)=>$(id).value=s.pri[i]); prioLabel(); runAll();};
 }
 function renderSites(){
@@ -2635,8 +2732,32 @@ function cropTag(k){const s=SITES.find(x=>x.key===site.key);if(!s||!s.top) retur
 function renderSlots(){
   const cur=[0,1,2,3].map(i=>$('slot'+i)?$('slot'+i).value:['wheat','chickpea','maize',''][i]);
   $('slots').innerHTML=[0,1,2,3].map(i=>`<label class="row"><span>${t('year')} ${i+1}</span><select id="slot${i}"><option value="">${t('none')}</option>${Object.keys(CROPS).map(k=>`<option value="${k}" ${cur[i]===k?'selected':''}>${cap1(cropName(k))}${cropTag(k)}</option>`).join('')}</select></label>`).join('');
-  for(let i=0;i<4;i++) $('slot'+i).onchange=()=>{myPestLine(); climate&&runAll();};
-  myPestLine();
+  for(let i=0;i<4;i++) $('slot'+i).onchange=()=>{rotTouched=true; rotCustom=true; renderRotChips(); myPestLine(); climate&&runAll();};
+  myPestLine(); renderRotChips();
+}
+// v3: ready-made rotations offered as chips for the chosen field
+const ROT_DEFAULT=[["wheat","barley"],["rapeseed","wheat","barley"],["maize","soybean","wheat"],["wheat","sunflower"]];
+function regionRots(){
+  const s=SITES.find(x=>x.key===site.key); if(!s||!s.top) return ROT_DEFAULT;
+  const local=new Set([s.top,...s.common]), lead=s.common[0];
+  const list=PRESETS.map((p,i)=>({seq:p.seq,i})).filter(p=>p.seq.every(k=>local.has(k)));
+  list.sort((a,b)=>(b.seq.includes(lead)-a.seq.includes(lead))||((b.seq.length>1)-(a.seq.length>1))||(a.i-b.i));
+  return list.length?list.slice(0,4).map(p=>p.seq):ROT_DEFAULT;
+}
+function setSeq(seq){ for(let i=0;i<4;i++) if($('slot'+i)) $('slot'+i).value=seq[i]||''; }
+function chipLabel(seq){ return seq.length===1?cap1(t('mono',{c:cropName(seq[0])})):seq.map((k,i)=>i?cropName(k):cap1(cropName(k))).join(' → '); }
+function renderRotChips(){
+  const box=$('rotChips'); if(!box||!$('slot0')) return;
+  const list=regionRots(), cur=userSeq().join(), hit=list.findIndex(s=>s.join()===cur), custom=rotCustom||hit<0;
+  box.setAttribute('aria-label',t('q2'));
+  box.innerHTML=list.map((s,i)=>`<button type="button" class="rchip" data-rot="${s.join('.')}" aria-pressed="${!custom&&i===hit}">${chipLabel(s)}</button>`).join('')
+    +`<button type="button" class="rchip other" data-rot="" aria-pressed="${custom}">${t('rot_other')}</button>`;
+  $('slots').hidden=!custom; $('rotOtherHint').hidden=!custom;
+  box.querySelectorAll('.rchip').forEach(b=>b.onclick=()=>{
+    rotTouched=true;
+    if(b.dataset.rot){ rotCustom=false; setSeq(b.dataset.rot.split('.')); renderRotChips(); myPestLine(); if(climate) runAll(); }
+    else{ rotCustom=true; renderRotChips(); $('slot0').focus(); }   // same rotation, nothing to recalculate
+  });
 }
 function pestText(pc){
   if(!pc.short.length) return t('pest_ok');
@@ -2659,7 +2780,8 @@ function limitsChanged(){ FORAGE=$('forage').checked; limNote(); runAll(); if(FI
 ['eqBeet','eqRow','eqDry','forage'].forEach(id=>$(id).addEventListener('change',limitsChanged));
 function userSeq(){const s=[];for(let i=0;i<4;i++){const v=$('slot'+i).value;if(v)s.push(v);}return s.length?s:["wheat"];}
 let LINK_NO=[]; let statusKey=null, statusErr=false, LINK_SOIL=null;   // LINK_SOIL: soil values from a shared link win over SoilGrids once
-function setStatus(k,err){statusKey=k; statusErr=!!err; $('answer').classList.remove('upd'); $('answer').innerHTML=`<p class="loading ${err?'err':''}" id="status">${t(k)}</p>`;}
+function setStatus(k,err){statusKey=k; statusErr=!!err; $('answer').classList.remove('upd');
+  $('answer').innerHTML=`<p class="loading ${err?'err':''}" id="status">${t(k)}</p>${err?`<button type="button" class="btn-o" id="retryBtn" onclick="runAll()">${t('retry')}</button>`:''}`;}
 
 // ===================== Data loading =====================
 let loadToken=0;
@@ -2693,7 +2815,7 @@ async function fetchSoil(lat,lon){
   return null;
 }
 async function loadData(){
-  const my=++loadToken; busy=true; $('runBtn').disabled=true; lastResults=null; climate=null;
+  const my=++loadToken; busy=true; lastResults=null; climate=null;
   ['climate','space','details'].forEach(id=>{$(id).hidden=true;});      // do not show the previous field under the new name
   const lat=site.lat, lon=site.lon;
   try{
@@ -2701,12 +2823,12 @@ async function loadData(){
     const c=await fetchClimate(lat,lon);
     if(my!==loadToken) return; // the user picked another field meanwhile
     climate=c;
-  }catch(e){ if(my!==loadToken) return; setStatus('err_power',true); busy=false; $('runBtn').disabled=false; return; }
+  }catch(e){ if(my!==loadToken) return; setStatus('err_power',true); busy=false; return; }
   applyRain();
   setStatus('loading_soil');
   await loadSoil(lat,lon,my);
   if(my!==loadToken) return;
-  busy=false; $('runBtn').disabled=false;
+  busy=false;
   runAll();
 }
 async function loadSoil(lat,lon,my){
@@ -2836,6 +2958,12 @@ async function runAllNow(my){
   const a=$('answer'); a.classList.remove('upd'); a.removeAttribute('aria-busy');
   renderAnswer(); renderClimate(); renderDetails(); a.dataset.done=my;
 }
+// v3: one line under the result with the three proofs, linking to the evidence section
+function evStrip(){
+  const ys=climate.years, m=y=>climate.byYear[y].t.reduce((a,b)=>a+b)/12, av=a=>a.reduce((x,y)=>x+m(y),0)/a.length;
+  const d=av(ys.slice(-10))-av(ys.slice(0,10)), s2=(typeof S2!=='undefined')&&S2[site.key];
+  return `<p class="evstrip"><a href="#climate">${t('ev_s_clim',{d:(d>=0?'+':'\u2212')+f1(Math.abs(d))})}</a>${s2?`<a href="#space">${t('ev_s_sat',{n:nf(s2.bareMean)})}</a>`:''}<a href="#trust">${t('ev_s_test')}</a></p>`;
+}
 function renderAnswer(){
   if(!lastResults) return;
   const R=lastResults, {sorted,best,me,shift}=R, S=pickStrategies(R);
@@ -2871,7 +2999,7 @@ function renderAnswer(){
   $('answer').dataset.upd=t('upd');
   $('answer').innerHTML=`<p class="mono small" style="margin:0;font-size:13px">${t('res_head',{site:siteLabel(),scen:scenTxt})}</p>
     <h2>${head}</h2>
-    <p class="lead">${lead}</p>
+    <p class="lead">${lead}</p>${climate?evStrip():''}
     <h3 style="margin-top:26px">${t('gl_h3')}</h3><p class="small" style="margin:0;font-size:15px">${t('gl_p3')}</p>
     ${glance}${few}
     ${best.meanToday!=null?`<p class="note">${t(best.meanToday<0?'today_neg':'today_line',{v:money(Math.abs(best.meanToday)),rot:rotName(best.seq,true)})}</p>`:''}
@@ -2889,7 +3017,7 @@ function renderAnswer(){
                    :shRow(t('sh_w'),t('sh_w_gap',{n:nf(best.gap)}),best.gap>100,t('sx_w_gap'),'water',best.water,t('ideal_w'),t('sw_w_gap'))}
     </div>
     <p class="mono small" style="margin:8px 0 0;font-size:12px;line-height:1.5">${t('sh_note')}</p></details>
-    <details class="fold" ${window.innerWidth>640?'open':''}><summary>${t('cmp_h',{n:sorted.length})}</summary><p class="small" style="margin:6px 0 14px;font-size:15px">${t('cmp_p')}</p>
+    <details class="fold"><summary>${t('cmp_h',{n:sorted.length})}</summary><p class="small" style="margin:6px 0 14px;font-size:15px">${t('cmp_p')}</p>
     <div class="tbl"><table class="cmp"><thead><tr><th style="padding-left:0">${t('th_rot')}</th><th style="width:27%">${t('th_profit')}</th><th class="r">${t('th_bad')}</th><th>${t('th_soil')}</th><th class="r">${t('th_water')}</th></tr></thead><tbody>${rows}</tbody></table></div>
     ${crash}${leftOut}</details>
     <div class="acts"><button type="button" class="btn-o" onclick="printReport()">${t('btn_print')}</button><button type="button" class="btn-o lite" id="detBtn" onclick="toggleDetails()">${$('details').hidden?t('btn_details'):t('btn_hide')}</button><button type="button" class="btn-o lite" onclick="shareLink(this)">${t('btn_share')}</button><button type="button" class="btn-o lite" onclick="addCurrentField()">${t('fl_add_cur')}</button></div>`;
@@ -3002,8 +3130,11 @@ function stratCard(s,i,R){
     ${vs}<span class="pill lv${r.pest.level}">${t('pest_lbl')} ${pestText(r.pest)}</span>
     ${calHTML(r)}
     <p class="why"><b>${t('x_why')}:</b> ${x.why}</p>
-    <details class="xpd" ${window.innerWidth>640||window.matchMedia('print').matches?'open':''}><summary>${t('x_more')}</summary><dl class="xp"><dt>${t('x_evh')}</dt><dd>${x.ev}</dd><dt>${t('x_ben')}</dt><dd>${ul(x.ben)}</dd><dt class="gap">${t('x_gaps')}</dt><dd>${ul(x.gaps)}</dd><dt class="rk">${t('x_rk')}</dt><dd>${ul(x.rk)}</dd></dl></details></article>`;
+    <details class="xpd"><summary>${t('x_more')}</summary><dl class="xp"><dt>${t('x_evh')}</dt><dd>${x.ev}</dd><dt>${t('x_ben')}</dt><dd>${ul(x.ben)}</dd><dt class="gap">${t('x_gaps')}</dt><dd>${ul(x.gaps)}</dd><dt class="rk">${t('x_rk')}</dt><dd>${ul(x.rk)}</dd></dl></details></article>`;
 }
+// v3: collapsed sections open when something points at them
+function openSect(id){ const d=document.querySelector('#'+id+' details.sect'); if(d) d.open=true; }
+document.addEventListener('click',e=>{ const a=e.target.closest&&e.target.closest('a[href^="#"]'); if(a&&a.getAttribute('href').length>1) openSect(a.getAttribute('href').slice(1)); });
 function toggleDetails(){const d=$('details');d.hidden=!d.hidden;$('detBtn').textContent=d.hidden?t('btn_details'):t('btn_hide');if(!d.hidden){renderDetails();d.scrollIntoView({behavior:'smooth'});}}
 
 function renderScenCards(){
@@ -3055,6 +3186,7 @@ function renderClimate(){
   const bars=ann.map((v,i)=>`<rect x="${(X(i)+1).toFixed(1)}" y="${Math.min(Y(v),Y(m0)).toFixed(1)}" width="${(bw-2).toFixed(1)}" height="${Math.max(1,Math.abs(Y(v)-Y(m0))).toFixed(1)}" fill="${col(v)}"><title>${ys[i]}: ${f1(v)} °C</title></rect>`).join('')
     +`<line x1="${L}" x2="${CW-R}" y1="${Y(m0)}" y2="${Y(m0)}" stroke="#5a5e78"/><text x="${CW-R}" y="${Y(m0)+15}" font-size="12" text-anchor="end" fill="#5a5e78">${t('tc_mean',{v:f1(m0)})}</text>`;
   const aA=avg(A,y=>by(y).t.reduce((a,b)=>a+b)/12), aB=avg(B,y=>by(y).t.reduce((a,b)=>a+b)/12);
+  $('evWarm').textContent=(aB-aA>=0?'+':'\u2212')+f1(Math.abs(aB-aA))+' °C';
   const seg=(i0,i1,v,lab)=>`<line x1="${X(i0)}" x2="${X(i1)}" y1="${Y(v)}" y2="${Y(v)}" stroke="#151622" stroke-width="2.5"/><text x="${(X(i0)+X(i1))/2}" y="${Y(v)-7}" font-size="13" font-weight="700" text-anchor="middle" fill="#151622">${lab}</text>`;
   const b=climate.trend, mx=(ys.length-1)/2, ty=i=>m0+b*(i-mx);
   const trend=`<line x1="${X(0)}" x2="${X(ann.length)}" y1="${Y(ty(-0.5))}" y2="${Y(ty(ann.length-0.5))}" stroke="#151622" stroke-dasharray="5 4" stroke-width="1.5"/>`;
@@ -3183,7 +3315,7 @@ async function placeName(lat,lon){
   try{const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=12&lat=${lat}&lon=${lon}&accept-language=${LANG}`);const j=await r.json();const a=j.address||{};
     return [a.village||a.town||a.city||a.municipality||a.suburb,a.county||a.state_district||a.state].filter(Boolean).join(', ')||`${lat}, ${lon}`;}catch(e){return `${lat}, ${lon}`;}
 }
-function addCurrentField(){ $('fPlace').value=''; $('fName').value=''; document.getElementById('fields').scrollIntoView({behavior:'smooth'}); setTimeout(()=>$('fName').focus(),400); $('fMsg').textContent=t('fl_msg_cur',{p:siteLabel()}); }
+function addCurrentField(){ openSect('fields'); $('fPlace').value=''; $('fName').value=''; document.getElementById('fields').scrollIntoView({behavior:'smooth'}); setTimeout(()=>$('fName').focus(),400); $('fMsg').textContent=t('fl_msg_cur',{p:siteLabel()}); }
 $('fForm').addEventListener('submit',async e=>{
   e.preventDefault(); const name=$('fName').value.trim(), q=$('fPlace').value.trim(), ha=+$('fHa').value||0;
   if(!name){$('fMsg').textContent=t('fl_msg_noname'); $('fName').focus(); return;}
@@ -3241,7 +3373,7 @@ function renderFields(){
     const acts=`<td class="fact"><button type="button" data-open="${f.id}">${t('fl_open')}</button>${pre?`<a href="region.html?r=${pre.key}&lang=${LANG}" target="_blank" rel="noopener">${t('fl_region')}</a>`:''}<button type="button" class="del" data-del="${f.id}">${t('fl_del')}</button></td>`;
     return `<tr>${head}${mid}${acts}</tr>`;}).join('')+'</tbody>';
   tb.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{const f=FIELDS.find(x=>x.id===b.dataset.open); if(!f) return;
-    if(f.rot&&f.rot.length) for(let i=0;i<4;i++) $('slot'+i).value=f.rot[i]||'';
+    if(f.rot&&f.rot.length){ for(let i=0;i<4;i++) $('slot'+i).value=f.rot[i]||''; rotTouched=true; rotCustom=false; }
     chooseSite(SITES.find(x=>x.key===f.key)||{key:'custom',lat:f.lat,lon:f.lon}); document.getElementById('top').scrollIntoView({behavior:'smooth'});});
   tb.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{FIELDS=FIELDS.filter(x=>x.id!==b.dataset.del); saveFields(); renderFields();});
   const done=FIELDS.filter(f=>FRES[f.id]&&FRES[f.id].best), ha=FIELDS.reduce((a,f)=>a+(f.ha||0),0);
@@ -3275,6 +3407,7 @@ function importFieldsFromHash(){
 function printReport(){
   if(!lastResults) return;
   $('report').innerHTML=`<h2>${t('rep_title')}</h2><p>${siteLabel()} (${site.lat.toFixed(2)}, ${site.lon.toFixed(2)})</p>${$('answer').innerHTML.replace(/<div class="acts">[\s\S]*$/,'')}<p style="font-size:11px">${t('rep_foot')}</p>`;
+  $('report').querySelectorAll('details').forEach(d=>d.open=true);
   try{window.print();}catch(e){}
 }
 
@@ -3290,6 +3423,7 @@ function applyLang(){
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
   if(lastResults){renderAnswer();renderClimate();renderDetails();} else if(statusKey) setStatus(statusKey,statusErr);
+  heroMap.invalidateSize();
 }
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;try{localStorage.setItem('rotasat_lang',LANG);}catch(e){};applyLang();});
 document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.dataset.scen;document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x===b));runAll();});
@@ -3315,14 +3449,16 @@ const fromLink=fromList?null:readHash();
 applyLang();
 if(LINK_NO.length){ $('noSell').querySelectorAll('input').forEach(i=>i.checked=LINK_NO.includes(i.value)); limNote(); }
 renderFields();
-if(fromList){ $('fMsg').textContent=fromList>0?t('fl_imported',{n:fromList}):''; setTimeout(()=>document.getElementById('fields').scrollIntoView(),300); }
+if(FIELDS.length) openSect('fields');
+if(fromList){ openSect('fields'); $('fMsg').textContent=fromList>0?t('fl_imported',{n:fromList}):''; setTimeout(()=>document.getElementById('fields').scrollIntoView(),300); }
 setTimeout(()=>computeFields(),1500);
 if(fromLink){
-  if(fromLink.rot.length){for(let i=0;i<4;i++) $('slot'+i).value=fromLink.rot[i]||'';}
+  if(fromLink.rot.length){for(let i=0;i<4;i++) $('slot'+i).value=fromLink.rot[i]||''; rotTouched=true;}
   document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.scen===scen));
   $('dTv').textContent='+'+f1(+$('dT').value)+' °C'; $('dPv').textContent=nf(+$('dP').value)+' %';
   chooseSite(SITES.find(x=>x.key===fromLink.key)||{key:'custom',lat:fromLink.lat,lon:fromLink.lon});
   if(fromLink.rain) $('rainCal').value=fromLink.rain;
+  $('moreOpts').open = PRICE_MODE!=='hist' || BRENT!==95 || $('fertP').value!=='1.2' || +$('dT').value>0 || +$('dP').value!==0 || !!$('rainCal').value || $('rawHist').checked;
 }else chooseSite(SITES[0]);
 
 </script>
