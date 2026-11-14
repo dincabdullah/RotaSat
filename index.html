@@ -176,6 +176,13 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 #spChart{overflow-x:auto;-webkit-overflow-scrolling:touch}#spChart svg{display:block;width:100%;height:auto;min-width:720px}
 .leg i{display:inline-block;width:14px;height:10px;border-radius:2px}
 .shared{font-size:14px;color:var(--mute);align-self:center}
+/* v0.8 NASA map layers */
+.lybox{background:#fff;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.25);padding:10px 12px;max-width:250px;font-family:Overpass,system-ui,sans-serif;color:#151622}
+.lybox b{display:block;font-family:'Fira Sans',sans-serif;font-size:14px;margin-bottom:6px}
+.lybox label{display:flex;gap:8px;align-items:center;font-size:14px;padding:4px 0;cursor:pointer;line-height:1.25}
+.lybox input{accent-color:#1B2B85;margin:0;flex:0 0 auto}
+.lybox p{margin:6px 0 0;font-size:12px;line-height:1.4;color:#5a5e78}.lybox p.err{color:#C41C06}
+@media(max-width:760px){.lybox{max-width:190px;padding:8px 10px}.lybox label{font-size:13px;padding:2px 0}.lybox p{display:none}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -203,7 +210,7 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
       <a class="cta" href="#plan" data-i18n="hero_cta2"></a>
     </div>
   </div>
-  <div class="readout"><span id="roCoord"></span><span id="roName"></span><span>Esri, Maxar, Earthstar Geographics</span></div>
+  <div class="readout"><span id="roCoord"></span><span id="roName"></span><span id="roSrc">Esri, Maxar, Earthstar Geographics</span></div>
 </section>
 
 <section class="plan" id="plan"><div class="wrap">
@@ -329,7 +336,7 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 
 <footer><div class="wrap">
   <div><b style="font-size:16px">RotaSat</b><div data-i18n="foot_made"></div></div>
-  <div><b data-i18n="foot_data_h"></b><div>NASA POWER (MERRA-2, CERES), NASA NEX-GDDP-CMIP6, ESA Copernicus Sentinel-2, ESA WorldCover, ISRIC SoilGrids, FAOSTAT, Esri World Imagery</div></div>
+  <div><b data-i18n="foot_data_h"></b><div>NASA POWER (MERRA-2, CERES), NASA NEX-GDDP-CMIP6, NASA GIBS (MODIS, SMAP), ESA Copernicus Sentinel-2, ESA WorldCover, ISRIC SoilGrids, FAOSTAT, Esri World Imagery</div></div>
   <div><b data-i18n="foot_note_h"></b><div data-i18n="foot_note"></div><div style="margin-top:8px" data-i18n="ai_note"></div></div>
 </div></footer>
 <div id="report"></div>
@@ -621,6 +628,16 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+ly_h:"Map layer",
+ly_esri:"Satellite photo (Esri)",
+ly_tc:"NASA MODIS, yesterday",
+ly_ndvi:"NASA plant cover (NDVI)",
+ly_smap:"NASA SMAP soil moisture",
+ly_n_esri:"Sharp aerial photo for finding your field.",
+ly_n_tc:"True colour from NASA's Terra satellite on {d}. Pixels are 250 m, about two or three fields wide. Clouds are real.",
+ly_n_ndvi:"Latest 8-day plant cover from NASA MODIS. Dark green means growing crops, brown means bare or dry land.",
+ly_n_smap:"Latest NASA SMAP root-zone soil moisture, about 9 km pixels. Blue is wetter, brown is drier.",
+ly_err:"NASA's map service did not answer. Try again in a moment.",
 y2050_mid:"2050 mid",
 y2050_high:"2050 high",
 scen_hint:"2050 uses NASA NEX-GDDP-CMIP6: five climate models, emission paths SSP2-4.5 (middle) and SSP5-8.5 (high).",
@@ -724,6 +741,16 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+ly_h:"Harita katmanı",
+ly_esri:"Uydu fotoğrafı (Esri)",
+ly_tc:"NASA MODIS, dün",
+ly_ndvi:"NASA bitki örtüsü (NDVI)",
+ly_smap:"NASA SMAP toprak nemi",
+ly_n_esri:"Tarlanı bulmak için keskin hava fotoğrafı.",
+ly_n_tc:"NASA'nın Terra uydusundan {d} tarihli gerçek renk görüntü. Pikseller 250 m, yani iki üç tarla genişliğinde. Bulutlar gerçek.",
+ly_n_ndvi:"NASA MODIS'ten son 8 günlük bitki örtüsü. Koyu yeşil büyüyen ürün, kahverengi çıplak ya da kuru toprak demek.",
+ly_n_smap:"NASA SMAP'ten son kök bölgesi toprak nemi, yaklaşık 9 km piksel. Mavi daha nemli, kahverengi daha kuru.",
+ly_err:"NASA'nın harita servisi cevap vermedi. Biraz sonra tekrar dene.",
 y2050_mid:"2050 orta",
 y2050_high:"2050 yüksek",
 scen_hint:"2050 için NASA NEX-GDDP-CMIP6 kullanılır: beş iklim modeli, SSP2-4.5 (orta) ve SSP5-8.5 (yüksek) emisyon yolları.",
@@ -827,6 +854,16 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+ly_h:"Kartenebene",
+ly_esri:"Satellitenfoto (Esri)",
+ly_tc:"NASA MODIS, gestern",
+ly_ndvi:"NASA Pflanzendecke (NDVI)",
+ly_smap:"NASA SMAP Bodenfeuchte",
+ly_n_esri:"Scharfes Luftbild, um Ihr Feld zu finden.",
+ly_n_tc:"Echtfarbenbild des NASA-Satelliten Terra vom {d}. Pixel sind 250 m groß, etwa zwei bis drei Felder breit. Die Wolken sind echt.",
+ly_n_ndvi:"Neueste 8-Tage-Pflanzendecke von NASA MODIS. Dunkelgrün heißt wachsende Kulturen, braun heißt offener oder trockener Boden.",
+ly_n_smap:"Neueste Bodenfeuchte im Wurzelraum von NASA SMAP, etwa 9-km-Pixel. Blau ist feuchter, braun ist trockener.",
+ly_err:"Der NASA-Kartendienst hat nicht geantwortet. Bitte gleich noch einmal versuchen.",
 y2050_mid:"2050 mittel",
 y2050_high:"2050 hoch",
 scen_hint:"Für 2050 nutzt RotaSat NASA NEX-GDDP-CMIP6: fünf Klimamodelle, Emissionspfade SSP2-4.5 (mittel) und SSP5-8.5 (hoch).",
@@ -959,8 +996,43 @@ const ESRI='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/M
 const LABELS='https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
 const heroMap=L.map('heroMap',{zoomControl:false,scrollWheelZoom:false,attributionControl:false}).setView([site.lat,site.lon],14);
 L.control.zoom({position:'bottomleft'}).addTo(heroMap);
-L.tileLayer(ESRI,{maxZoom:18}).addTo(heroMap);
-L.tileLayer(LABELS,{maxZoom:18,opacity:.85}).addTo(heroMap);
+// NASA GIBS imagery through its WMS endpoint (EPSG:3857). No TIME = latest available composite.
+const GIBS='https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi';
+const YDAY=new Date(Date.now()-864e5).toISOString().slice(0,10);
+const gibs=(layers,o={})=>L.tileLayer.wms(GIBS,Object.assign({layers,format:'image/png',transparent:true,version:'1.3.0',maxZoom:18,attribution:'NASA GIBS, EOSDIS'},o));
+const LAYERS={
+  esri:{base:L.tileLayer(ESRI,{maxZoom:18})},
+  tc:{base:gibs('MODIS_Terra_CorrectedReflectance_TrueColor',{format:'image/jpeg',transparent:false,TIME:YDAY}),z:9},
+  ndvi:{over:gibs('MODIS_Terra_NDVI_8Day',{opacity:.8}),z:11},
+  smap:{over:gibs('SMAP_L4_Analyzed_Root_Zone_Soil_Moisture',{opacity:.75}),z:7}
+};
+let curLayer='esri', lyErr=false;
+LAYERS.esri.base.addTo(heroMap);
+Object.values(LAYERS).forEach(o=>{const l=o.base||o.over;l.on('tileerror',()=>{lyErr=true;renderLayerBox();});l.on('load',()=>{if(lyErr){lyErr=false;renderLayerBox();}});});
+function setLayer(k){
+  if(k===curLayer) return;
+  const a=LAYERS[curLayer], b=LAYERS[k];
+  if(a.over) a.over.remove();
+  if(b.base){heroMap.eachLayer(l=>{if(l===LAYERS.esri.base||l===LAYERS.tc.base) l.remove();}); b.base.addTo(heroMap).bringToBack();}
+  else if(!heroMap.hasLayer(LAYERS.esri.base)&&!heroMap.hasLayer(LAYERS.tc.base)) LAYERS.esri.base.addTo(heroMap).bringToBack();
+  if(b.over) b.over.addTo(heroMap);
+  if(labelsL) labelsL.bringToFront();
+  curLayer=k; lyErr=false;
+  heroMap.setView([site.lat,site.lon],b.z||15,{animate:false});
+  if(window.innerWidth>760) heroMap.panBy([-260,0],{animate:false});
+  renderLayerBox();
+}
+const LayerCtl=L.Control.extend({options:{position:'topright'},onAdd(){const d=L.DomUtil.create('div','lybox');d.id='lyBox';L.DomEvent.disableClickPropagation(d);L.DomEvent.disableScrollPropagation(d);return d;}});
+new LayerCtl().addTo(heroMap);
+function renderLayerBox(){
+  const d=$('lyBox'); if(!d) return;
+  const dt=new Date(YDAY+'T12:00:00Z').toLocaleDateString(LANG==='en'?'en-GB':LANG==='de'?'de-DE':'tr-TR',{day:'numeric',month:'long'});
+  d.innerHTML=`<b>${t('ly_h')}</b>`+['esri','tc','ndvi','smap'].map(k=>`<label><input type="radio" name="ly" value="${k}" ${k===curLayer?'checked':''}><span>${t('ly_'+k)}</span></label>`).join('')+
+    `<p class="${lyErr?'err':''}">${lyErr?t('ly_err'):t('ly_n_'+curLayer,{d:dt})}</p>`;
+  d.querySelectorAll('input').forEach(i=>i.onchange=()=>setLayer(i.value));
+  const src=$('roSrc'); if(src) src.textContent=curLayer==='esri'?'Esri, Maxar, Earthstar Geographics':curLayer==='tc'?'NASA GIBS, EOSDIS (MODIS Terra)':'NASA GIBS, EOSDIS; Esri';
+}
+const labelsL=L.tileLayer(LABELS,{maxZoom:18,opacity:.85}).addTo(heroMap);
 let marker=null;
 const PIN=L.divIcon({className:'',html:'<svg width="26" height="34" viewBox="0 0 26 34" aria-hidden="true"><path d="M13 0C5.8 0 0 5.8 0 13c0 9.8 13 21 13 21s13-11.2 13-21C26 5.8 20.2 0 13 0z" fill="#fff" stroke="#15191E" stroke-width="1.5"/><circle cx="13" cy="13" r="5" fill="#E52207"/></svg>',iconSize:[26,34],iconAnchor:[13,34]});
 heroMap.on('click',e=>chooseSite({key:'custom',lat:+e.latlng.lat.toFixed(2),lon:+e.latlng.lng.toFixed(2)}));
@@ -972,7 +1044,7 @@ function chooseSite(s){
   if(marker) marker.remove(); if(ring) ring.remove();
   marker=L.marker([s.lat,s.lon],{icon:PIN}).addTo(heroMap);
   ring=L.circle([s.lat,s.lon],{radius:400,color:'#E7F434',weight:2.5,fill:false}).addTo(heroMap);
-  heroMap.setView([s.lat,s.lon],15,{animate:false});
+  heroMap.setView([s.lat,s.lon],LAYERS[curLayer].z||15,{animate:false});
   if(window.innerWidth>760) heroMap.panBy([-260,0],{animate:false});
   renderSites(); updateReadout(); loadData();
 }
@@ -1243,7 +1315,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
