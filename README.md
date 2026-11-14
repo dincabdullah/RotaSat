@@ -89,7 +89,7 @@ Region page data: `tools/build_region_climate.py` (climate indicators from POWER
 
 ## Use of AI
 
-This project was built by one person with help from an AI assistant (Claude by Anthropic) for code, data processing scripts, design and text. All data sources, models and their references are listed above. The NASA name is used only to credit the data; RotaSat is not affiliated with or endorsed by NASA.
+This project was built by Eren Mutlu and Abdullah Dinç with help from an AI assistant (Claude by Anthropic) for code, data processing scripts, design and text. All data sources, models and their references are listed above. The NASA name is used only to credit the data; RotaSat is not affiliated with or endorsed by NASA.
 
 ## References
 
@@ -100,4 +100,4 @@ This project was built by one person with help from an AI assistant (Claude by A
 - Renard, K. G. et al. (1997). *RUSLE*. USDA Agriculture Handbook 703.
 - Stackhouse, P. W. et al. NASA POWER project documentation, power.larc.nasa.gov.
 
-Made by Eren Mutlu, TUM Campus Heilbronn.
+Made by Eren Mutlu and Abdullah Dinç, TUM Campus Heilbronn.

@@ -231,6 +231,14 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 .pshow{display:none;position:absolute;left:16px;top:16px;z-index:600;font:inherit;font-size:14px;font-weight:700;background:#E7F434;border:1px solid #151622;border-radius:4px;padding:10px 14px;cursor:pointer}
 .hero.nopanel .panel{display:none}.hero.nopanel .pshow{display:block}
 @media(max-width:760px){#heroMap{height:380px!important}.readout{top:330px!important}.navbox{width:200px;padding:6px}.nbs .nb{font-size:12px;padding:4px 6px;min-height:32px}.ptog,.pshow{display:none!important}.lybox{max-width:200px}}
+/* v1.1 soil and water rows: every gauge sits in the same column */
+.shrows{margin-top:14px;border-top:1px solid var(--line)}
+.shr{display:grid;grid-template-columns:minmax(150px,200px) minmax(220px,1.1fr) minmax(0,1fr);gap:8px 28px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.shk{display:flex;flex-direction:column;gap:2px}.shk .l{font-size:13px;color:var(--mute)}.shk b{font-family:'Fira Sans',sans-serif;font-weight:800;font-size:19px;line-height:1.2}.shk small{font-size:13px;color:var(--ink2);line-height:1.35}
+.shg .gauge{margin-top:0}.shg p.gi{margin:2px 0 0;font-size:12px;color:var(--mute);line-height:1.35}
+.shw{margin:0;font-size:14px;line-height:1.45;color:var(--ink2)}
+@media(max-width:900px){.shr{grid-template-columns:minmax(140px,180px) 1fr}.shw{grid-column:1/-1}}
+@media(max-width:560px){.shr{grid-template-columns:1fr}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -751,6 +759,17 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+sx_c:"{d} t C per ha in 20 years",
+sw_c:"More carbon in the soil holds more water and nutrients.",
+sx_b:"{e} mm heavy rain on bare soil a year",
+sw_b:"Bare soil washes away in heavy rain and loses carbon.",
+sx_n:"balance {b} kg N per ha a year",
+sw_n:"You buy about {f} kg N a year; legumes add {x} kg for free.",
+sw_n0:"You buy about {f} kg N a year; no legume adds any for free.",
+sx_w_gap:"without irrigation",
+sw_w_gap:"Water the crops miss in an average year, the main cause of lost yield here. Try the irrigation option.",
+sx_w_irr:"costs about €{c} per ha a year",
+sw_w_irr:"Crops still miss {g} mm in dry months.",
 rn_more:"More about this area: climate, crop calendar, rules, contacts (opens in a new tab)",
 srch_ph:"Search a village or town",
 srch_btn:"Search",
@@ -836,8 +855,8 @@ gloss:[["NASA POWER", "Prediction Of Worldwide Energy Resources. NASA's daily we
 u_carbon:"t C",u_bare:"months",u_nitro:"kg N",u_water:"mm",
 ideal:"IDEAL",
 ideal_c:"Ideal: no loss (0 or more)",
-ideal_b:"Ideal: 2 months or less (EU rule GAEC 6: keep soil covered in winter)",
-ideal_n:"Ideal: −10 to +30 kg (Germany's legal limit until 2020 was +50)",
+ideal_b:"Ideal: 2 months or less (EU rule GAEC 6)",
+ideal_n:"Ideal: −10 to +30 kg (German legal limit until 2020: +50)",
 ideal_w:"Ideal: under 50 mm",
 fit:"fit {s}/100",
 w_profit_h:"Average profit per hectare, compared with the best option.",
@@ -992,7 +1011,7 @@ how_h:"How it works",
 how1_h:"We read your field's weather and soil",how1_p:"Daily sun, rain, wind, humidity and temperature since 1985 from NASA POWER, plus the soil's carbon and clay content.",
 how2_h:"We work out how each crop copes",how2_p:"How much water it needs and gets, heat while it flowers, winter frost, wet harvests, and what it does to soil carbon and nitrogen.",
 how3_h:"We play each rotation through 1,000 futures",how3_p:"Each future is 20 seasons of real past weather and real past prices in a new order, set to today's warmth or moved to 2050 by one of five NASA climate model projections.",how3_s:"Bootstrap of weather 1985 to 2024 and prices 2000 to 2025, NASA NEX-GDDP-CMIP6 delta change",
-foot_made:"Made by Eren Mutlu, TUM Campus Heilbronn, for the NASA Space Apps Challenge 2026.",foot_data_h:"Data",foot_note_h:"Please note",foot_note:"Not affiliated with or endorsed by NASA. Results are estimates for comparing options. All amounts are in today's euros: crops at 2025 farm-gate prices, fertilizer and oil as selected.",
+foot_made:"Made by Eren Mutlu and Abdullah Dinç, TUM Campus Heilbronn, for the NASA Space Apps Challenge 2026.",foot_data_h:"Data",foot_note_h:"Please note",foot_note:"Not affiliated with or endorsed by NASA. Results are estimates for comparing options. All amounts are in today's euros: crops at 2025 farm-gate prices, fertilizer and oil as selected.",
 det_rr:"Profit and safety",det_rr_note:"Higher is more profit on average. Further right is safer in bad years.",det_soil:"Soil carbon over 20 years",
 det_hist:"Replay of the real years 1995 to 2024: your plan against maize every year",det_clim:"Summer heat and rain at this field",
 det_val:"Check it yourself",det_val_p:"Upload a FAOSTAT wheat yield CSV (faostat.fao.org, Crops and livestock products, Element: Yield, Item: Wheat) to compare it with this field.",
@@ -1005,6 +1024,17 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+sx_c:"20 yılda hektar başına {d} t C",
+sw_c:"Topraktaki karbon arttıkça toprak daha çok su ve besin tutar.",
+sx_b:"çıplak toprağa yılda {e} mm şiddetli yağış",
+sw_b:"Çıplak toprak şiddetli yağışta akıp gider ve karbon kaybeder.",
+sx_n:"denge: hektar başına yılda {b} kg N",
+sw_n:"Yılda yaklaşık {f} kg N satın alıyorsun; baklagiller {x} kg'ı bedavaya ekliyor.",
+sw_n0:"Yılda yaklaşık {f} kg N satın alıyorsun; bedava azot getiren baklagil yok.",
+sx_w_gap:"sulama olmadan",
+sw_w_gap:"Ortalama bir yılda bitkilerin eksik kalan suyu; buradaki verim kaybının ana nedeni. Sulama seçeneğini dene.",
+sx_w_irr:"hektar başına yılda yaklaşık {c} €",
+sw_w_irr:"Kurak aylarda bitkiler yine de {g} mm su eksikliği çekiyor.",
 rn_more:"Bu bölge hakkında daha fazlası: iklim, ekim takvimi, kurallar, danışılacak yerler (yeni sekmede açılır)",
 srch_ph:"Köy ya da ilçe ara",
 srch_btn:"Ara",
@@ -1090,8 +1120,8 @@ gloss:[["NASA POWER", "Prediction Of Worldwide Energy Resources (Dünya Enerji K
 u_carbon:"t C",u_bare:"ay",u_nitro:"kg N",u_water:"mm",
 ideal:"İDEAL",
 ideal_c:"İdeal: kayıp yok (0 veya üstü)",
-ideal_b:"İdeal: 2 ay veya daha az (AB kuralı GAEC 6: kışın toprağı örtülü tut)",
-ideal_n:"İdeal: −10 ile +30 kg arası (Almanya'nın 2020'ye kadarki yasal sınırı +50 idi)",
+ideal_b:"İdeal: 2 ay veya daha az (AB kuralı GAEC 6)",
+ideal_n:"İdeal: −10 ile +30 kg (Almanya'nın 2020'ye kadarki sınırı: +50)",
 ideal_w:"İdeal: 50 mm'nin altı",
 fit:"uyum {s}/100",
 w_profit_h:"Hektar başına ortalama kâr, en iyi seçenekle karşılaştırılarak.",
@@ -1246,7 +1276,7 @@ how_h:"Nasıl çalışır?",
 how1_h:"Tarlanın havasını ve toprağını okuruz",how1_p:"NASA POWER'dan 1985'ten bu yana günlük güneş, yağış, rüzgâr, nem ve sıcaklık; ayrıca topraktaki karbon ve kil oranı.",
 how2_h:"Her ürünün nasıl dayandığını hesaplarız",how2_p:"Ne kadar suya ihtiyacı olduğu ve ne kadar aldığı, çiçeklenmedeki sıcak, kış donu, yağışlı hasat, toprak karbonuna ve azota etkisi.",
 how3_h:"Her rotasyonu 1.000 gelecekte deneriz",how3_p:"Her gelecek, geçmişin gerçek havasından ve gerçek fiyatlarından yeni bir sırayla oluşturulan 20 sezondur. Bugünün sıcaklığına ayarlanır ya da beş NASA iklim modeli projeksiyonundan biriyle 2050'ye taşınır.",how3_s:"1985-2024 hava ve 2000-2025 fiyatlarıyla bootstrap, NASA NEX-GDDP-CMIP6 delta yöntemi",
-foot_made:"Eren Mutlu, TUM Campus Heilbronn, NASA Space Apps Challenge 2026 için yaptı.",foot_data_h:"Veri",foot_note_h:"Not",foot_note:"NASA ile bağlantılı değildir. Sonuçlar seçenekleri karşılaştırmak için tahminlerdir. Tüm tutarlar bugünün eurosu ile: tahıl 2025 piyasa seviyesinde, gübre seçtiğin gibi.",
+foot_made:"Eren Mutlu ve Abdullah Dinç, TUM Campus Heilbronn, NASA Space Apps Challenge 2026 için yaptı.",foot_data_h:"Veri",foot_note_h:"Not",foot_note:"NASA ile bağlantılı değildir. Sonuçlar seçenekleri karşılaştırmak için tahminlerdir. Tüm tutarlar bugünün eurosu ile: tahıl 2025 piyasa seviyesinde, gübre seçtiğin gibi.",
 det_rr:"Kâr ve güvence",det_rr_note:"Yukarısı ortalamada daha fazla kâr. Sağ taraf kötü yıllarda daha güvenli.",det_soil:"20 yılda toprak karbonu",
 det_hist:"Gerçek 1995 - 2024 yıllarının tekrarı: senin planın ve her yıl mısır",det_clim:"Bu tarlada yaz sıcağı ve yağış",
 det_val:"Kendin kontrol et",det_val_p:"FAOSTAT buğday verim CSV dosyası yükle (faostat.fao.org, Crops and livestock products, Element: Yield, Item: Wheat) ve bu tarlayla karşılaştır.",
@@ -1259,6 +1289,17 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+sx_c:"{d} t C je ha in 20 Jahren",
+sw_c:"Mehr Kohlenstoff im Boden hält mehr Wasser und Nährstoffe.",
+sx_b:"{e} mm Starkregen pro Jahr auf offenen Boden",
+sw_b:"Offener Boden wird bei Starkregen abgeschwemmt und verliert Kohlenstoff.",
+sx_n:"Bilanz {b} kg N je ha und Jahr",
+sw_n:"Sie kaufen etwa {f} kg N pro Jahr; Leguminosen liefern {x} kg kostenlos.",
+sw_n0:"Sie kaufen etwa {f} kg N pro Jahr; keine Leguminose liefert kostenlos welchen.",
+sx_w_gap:"ohne Beregnung",
+sw_w_gap:"So viel Wasser fehlt den Pflanzen in einem mittleren Jahr, der Hauptgrund für Ertragsverluste hier. Probieren Sie die Beregnung.",
+sx_w_irr:"kostet etwa {c} € je ha und Jahr",
+sw_w_irr:"In trockenen Monaten fehlen trotzdem {g} mm.",
 rn_more:"Mehr zu dieser Region: Klima, Anbaukalender, Regeln, Ansprechpartner (öffnet in neuem Tab)",
 srch_ph:"Dorf oder Ort suchen",
 srch_btn:"Suchen",
@@ -1344,8 +1385,8 @@ gloss:[["NASA POWER", "Prediction Of Worldwide Energy Resources. Tägliches Wett
 u_carbon:"t C",u_bare:"Monate",u_nitro:"kg N",u_water:"mm",
 ideal:"IDEAL",
 ideal_c:"Ideal: kein Verlust (0 oder mehr)",
-ideal_b:"Ideal: höchstens 2 Monate (EU-Regel GLÖZ 6: Boden im Winter bedecken)",
-ideal_n:"Ideal: −10 bis +30 kg (gesetzliche Grenze in Deutschland bis 2020: +50)",
+ideal_b:"Ideal: höchstens 2 Monate (EU-Regel GLÖZ 6)",
+ideal_n:"Ideal: −10 bis +30 kg (gesetzliche Grenze bis 2020: +50)",
 ideal_w:"Ideal: unter 50 mm",
 fit:"Passung {s}/100",
 w_profit_h:"Durchschnittlicher Gewinn je Hektar, verglichen mit der besten Option.",
@@ -1500,7 +1541,7 @@ how_h:"So funktioniert es",
 how1_h:"Wir lesen Wetter und Boden Ihres Feldes",how1_p:"Tägliche Sonne, Regen, Wind, Luftfeuchte und Temperatur seit 1985 aus NASA POWER, dazu Kohlenstoff- und Tongehalt des Bodens.",
 how2_h:"Wir berechnen, wie jede Kultur zurechtkommt",how2_p:"Wie viel Wasser sie braucht und bekommt, Hitze während der Blüte, Winterfrost, nasse Ernten und ihr Einfluss auf Bodenkohlenstoff und Stickstoff.",
 how3_h:"Wir spielen jede Fruchtfolge in 1.000 Zukünften durch",how3_p:"Jede Zukunft besteht aus 20 Jahren echten früheren Wetters und echter früherer Preise in neuer Reihenfolge, eingestellt auf die heutige Wärme oder mit einer von fünf NASA-Klimamodellprojektionen auf 2050 verschoben.",how3_s:"Bootstrap von Wetter 1985 bis 2024 und Preisen 2000 bis 2025, Delta-Methode mit NASA NEX-GDDP-CMIP6",
-foot_made:"Erstellt von Eren Mutlu, TUM Campus Heilbronn, für die NASA Space Apps Challenge 2026.",foot_data_h:"Daten",foot_note_h:"Hinweis",foot_note:"Keine Verbindung zur NASA. Ergebnisse sind Schätzungen zum Vergleichen von Optionen. Alle Beträge in heutigen Euro: Getreide zu Erzeugerpreisen 2025, Dünger wie gewählt.",
+foot_made:"Erstellt von Eren Mutlu und Abdullah Dinç, TUM Campus Heilbronn, für die NASA Space Apps Challenge 2026.",foot_data_h:"Daten",foot_note_h:"Hinweis",foot_note:"Keine Verbindung zur NASA. Ergebnisse sind Schätzungen zum Vergleichen von Optionen. Alle Beträge in heutigen Euro: Getreide zu Erzeugerpreisen 2025, Dünger wie gewählt.",
 det_rr:"Gewinn und Sicherheit",det_rr_note:"Weiter oben bedeutet mehr Gewinn im Schnitt. Weiter rechts bedeutet sicherer in schlechten Jahren.",det_soil:"Bodenkohlenstoff über 20 Jahre",
 det_hist:"Die echten Jahre 1995 bis 2024 nachgespielt: Ihr Plan gegen jedes Jahr Mais",det_clim:"Sommerhitze und Regen auf diesem Feld",
 det_val:"Selbst prüfen",det_val_p:"Laden Sie eine FAOSTAT-CSV mit Weizenerträgen hoch (faostat.fao.org, Crops and livestock products, Element: Yield, Item: Wheat), um sie mit diesem Feld zu vergleichen.",
@@ -1749,6 +1790,11 @@ function gaugeHTML(k,v,label){
   return `<div class="gauge" role="img" aria-label="${label}"><div class="gbar" style="background:linear-gradient(90deg,${grad})"></div>
     <div class="gideal" style="left:${pc(a)}%;width:${pc(b)-pc(a)}%"><span>${t('ideal')}</span></div><div class="gmark" style="left:${pc(v)}%"></div></div><div class="gends"><span>${g.min>0?'+':''}${nf(g.min)} ${t('u_'+k)}</span><span>${g.max>0&&k!=='bare'&&k!=='water'?'+':''}${nf(g.max)} ${t('u_'+k)}</span></div>`;
 }
+// one row of the soil and water block: name and value | gauge with the ideal band | why it matters
+function shRow(label,value,bad,sub,gk,gv,ideal,why){
+  return `<div class="shr"><div class="shk"><span class="l">${label}</span><b class="${bad?'bad':''}">${value}</b><small>${sub}</small></div>
+    <div class="shg">${gaugeHTML(gk,gv,label)}<p class="gi">${ideal}</p></div><p class="shw">${why}</p></div>`;
+}
 function soilWord(d){return d>1?t('soil_gain'):d>-1?t('soil_stable'):d>-4.5?t('soil_slight'):t('soil_clear');}
 function runAll(){
   if(!climate||busy) return;
@@ -1802,11 +1848,12 @@ function renderAnswer(){
     <p class="small" style="margin:10px 0 0;font-size:13px;line-height:1.5">${t('p_def')}</p>
     ${tip}
     <h3>${t('sh_h')}</h3>
-    <div class="sh">
-      <div><div class="l">${t('sh_c')}</div><div class="v2 ${best.dC<-1?'bad':''}">${soilWord(best.dC)}</div>${gaugeHTML('carbon',best.dC,t('sh_c'))}<p class="gi">${t('ideal_c')}</p><p>${t('sh_c_p',{d:sgn(best.dC)})}</p></div>
-      <div><div class="l">${t('sh_bare')}</div><div class="v2 ${best.bare>5?'bad':''}">${t('sh_bare_v',{m:f1(best.bare)})}</div>${gaugeHTML('bare',best.bare,t('sh_bare'))}<p class="gi">${t('ideal_b')}</p><p>${t('sh_bare_p',{e:nf(best.ero)})}</p></div>
-      <div><div class="l">${t('sh_n')}</div><div class="v2 ${Math.abs(best.nSur)>40?'bad':''}">${nWord(best.nSur)}</div>${gaugeHTML('nitro',best.nSur,t('sh_n'))}<p class="gi">${t('ideal_n')}</p><p>${t(best.nFix>0.5?'sh_n_p':'sh_n_p0',{f:nf(best.fert),x:nf(best.nFix),b:(best.nSur>0?'+':best.nSur<0?'−':'')+nf(Math.abs(best.nSur))})}</p></div>
-      <div><div class="l">${t('sh_w')}</div>${shift.irr>0?`<div class="v2">${t('sh_w_irr',{n:nf(best.irr)})}</div>${gaugeHTML('water',best.water,t('sh_w'))}<p class="gi">${t('ideal_w')}</p><p>${t('sh_w_irr_p',{c:nf(best.irr*irrCost(DIESEL)),g:nf(best.gap)})}</p>`:`<div class="v2 ${best.gap>100?'bad':''}">${t('sh_w_gap',{n:nf(best.gap)})}</div>${gaugeHTML('water',best.water,t('sh_w'))}<p class="gi">${t('ideal_w')}</p><p>${t('sh_w_gap_p')}</p>`}</div>
+    <div class="shrows">
+      ${shRow(t('sh_c'),soilWord(best.dC),best.dC<-1,t('sx_c',{d:sgn(best.dC)}),'carbon',best.dC,t('ideal_c'),t('sw_c'))}
+      ${shRow(t('sh_bare'),t('sh_bare_v',{m:f1(best.bare)}),best.bare>5,t('sx_b',{e:nf(best.ero)}),'bare',best.bare,t('ideal_b'),t('sw_b'))}
+      ${shRow(t('sh_n'),nWord(best.nSur),Math.abs(best.nSur)>40,t('sx_n',{b:(best.nSur>0?'+':best.nSur<0?'−':'')+nf(Math.abs(best.nSur))}),'nitro',best.nSur,t('ideal_n'),t(best.nFix>0.5?'sw_n':'sw_n0',{f:nf(best.fert),x:nf(best.nFix)}))}
+      ${shift.irr>0?shRow(t('sh_w'),t('sh_w_irr',{n:nf(best.irr)}),false,t('sx_w_irr',{c:nf(best.irr*irrCost(DIESEL))}),'water',best.water,t('ideal_w'),t('sw_w_irr',{g:nf(best.gap)}))
+                   :shRow(t('sh_w'),t('sh_w_gap',{n:nf(best.gap)}),best.gap>100,t('sx_w_gap'),'water',best.water,t('ideal_w'),t('sw_w_gap'))}
     </div>
     <p class="mono small" style="margin:8px 0 0;font-size:12px;line-height:1.5">${t('sh_note')}</p>
     <h3>${t('cmp_h')}</h3><p class="small" style="margin:0 0 14px;font-size:15px">${t('cmp_p')}</p>
