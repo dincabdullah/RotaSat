@@ -8,8 +8,7 @@ os.environ.update(GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR", CPL_VSIL_CURL_ALLOWE
                   GDAL_HTTP_MAX_RETRY="3", GDAL_HTTP_RETRY_DELAY="2", CURL_CA_BUNDLE="/root/.ccr/ca-bundle.crt")
 B = "https://sentinel-cogs.s3.us-west-2.amazonaws.com/"
 OUT = sys.argv[1]
-PTS = {"heilbronn": (49.1577, 9.1090), "borde": (52.0569, 11.3550), "gaeu": (48.8000, 12.6200),
-       "konya": (37.6300, 32.7253), "thrace": (41.1951, 27.1061)}
+PTS = {"heilbronn": (49.1577, 9.1090), "borde": (52.0569, 11.3550), "gaeu": (48.8000, 12.6200), "thrace": (41.1951, 27.1061)}
 sess = requests.Session()
 def ls(prefix):
     r = sess.get(B, params={"list-type": "2", "prefix": prefix, "delimiter": "/"}, timeout=60).text

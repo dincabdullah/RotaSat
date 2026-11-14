@@ -56,9 +56,9 @@ Model parts were chosen on 1985 to 2004 only. One candidate (a photothermal quot
 ## Limits
 
 - RotaSat compares options. It is not a yield forecast, and it does not know about pests, diseases, next year's prices or your machinery.
-- NASA POWER rain can be off in dry inland basins (Konya reads about 57 % too wet). You can enter your nearest station's yearly rain and all rain is scaled to it; the Konya example is prefilled with the MGM station normal.
+- NASA POWER rain can be off in dry inland basins. You can enter your nearest station's yearly rain and all rain is scaled to it.
 - The 2050 projection covers Europe and Türkiye (34 to 60° N, 10° W to 45° E, 1° grid). Elsewhere RotaSat falls back to the field's own warming trend and says so.
-- The satellite history is ready for the five example fields. For other fields it is the next step (NASA HLS through AppEEARS).
+- The satellite history is ready for the four example fields. For other fields it is the next step (NASA HLS through AppEEARS).
 - Germany's test-period correlation is weak (0.23). National statistics also contain disease, irrigation and management effects that weather alone cannot explain.
 
 ## Run it

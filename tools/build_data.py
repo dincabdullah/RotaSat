@@ -25,7 +25,7 @@ for mi, m in enumerate(MODELS):
                 if not ok[r, c]: continue
                 out[r, c, si, mi, 0, :] = np.clip(np.round(dT[:, r, c] / 0.05), -127, 127)
                 out[r, c, si, mi, 1, :] = np.clip(np.round(dP[:, r, c]), -100, 127)
-        for name, (la, lo) in {"Heilbronn": (49.16, 9.11), "Konya": (37.63, 32.73)}.items():
+        for name, (la, lo) in {"Heilbronn": (49.16, 9.11), "Thrace": (41.20, 27.11)}.items():
             r, c = int(la - 34), int(lo + 10)
             summary.setdefault(name, {}).setdefault(sc, []).append((m, round(float(np.nanmean(dT[:, r, c])), 2), round(float(np.nanmean(dP[5:8, r, c])), 1)))
 print(json.dumps(summary, indent=1))

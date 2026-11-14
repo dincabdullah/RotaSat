@@ -8,7 +8,7 @@ lat = g["lat"][:]; lon = g["lon"][:]; time = g["time"][:]
 d0 = datetime.date(1980, 12, 31)
 dates = [d0 + datetime.timedelta(days=int(x)) for x in time]
 i0 = next(i for i, d in enumerate(dates) if d.year == 1985); i1 = max(i for i, d in enumerate(dates) if d.year == 2024) + 1
-PTS = {"heilbronn": (49.1577, 9.1090), "borde": (52.0569, 11.3550), "gaeu": (48.8, 12.62), "konya": (37.63, 32.7253), "thrace": (41.1951, 27.1061)}
+PTS = {"heilbronn": (49.1577, 9.1090), "borde": (52.0569, 11.3550), "gaeu": (48.8, 12.62), "thrace": (41.1951, 27.1061)}
 VARS = ["T2M", "T2M_MAX", "T2M_MIN", "PRECTOTCORR", "RH2M", "WS2M"]
 for key, (la, lo) in PTS.items():
     yi = int(np.argmin(abs(lat - la))); xi = int(np.argmin(abs(lon - lo)))
