@@ -196,6 +196,19 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 /* v0.9 region note */
 .rnote{font-size:14px;line-height:1.5;background:#fff;border:1px solid var(--line2);border-left:4px solid #0050D8;border-radius:4px;padding:10px 12px;color:var(--ink2)}
 .rnote b{color:var(--ink)}.rnote button{margin-top:8px;font-size:14px;padding:8px 12px;min-height:38px}
+/* v1.0 scenario cards, glossary */
+.scards{display:flex;flex-direction:column;gap:8px}
+.scard{font:inherit;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line2);border-radius:4px;padding:10px 12px;cursor:pointer;line-height:1.4}
+.scard[aria-pressed="true"]{border:2px solid #1B2B85;padding:9px 11px;background:#eef2fb}
+.scard b{display:block;font-family:'Fira Sans',sans-serif;font-size:16px}.scard span{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
+.gloss{border-top:1px solid var(--line)}.gloss dl{margin:20px 0 0;display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:10px 24px;font-size:15px;line-height:1.5}
+.gloss dt{font-weight:700;font-family:'Fira Sans',sans-serif}.gloss dd{margin:0;color:var(--ink2)}
+@media(max-width:640px){.gloss dl{grid-template-columns:1fr;gap:2px}.gloss dd{margin-bottom:10px}}
+.chg{min-width:640px;margin-top:22px}.chg th{font-size:13px}.chg td{vertical-align:top;padding:12px 8px}
+.chg td.v{font-weight:700;white-space:nowrap;font-size:17px}.chg td.d{white-space:nowrap;font-weight:700}.chg td.m{font-size:14px;color:var(--ink2);line-height:1.45}
+.chg .worse{color:#C41C06}.chg .better{color:#2E7D32}.chg .eq{color:var(--ink2)}
+h3.fh{margin:0 0 8px;font-size:18px}#tempChart svg{display:block;width:100%;height:auto}
+@media(max-width:640px){.chg{min-width:0}.chg thead{display:none}.chg tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px 8px;border-top:1px solid var(--line);padding:10px 0}.chg td{border:0!important;padding:0}.chg td:first-child,.chg td.m{grid-column:1/-1}.chg td.v::before,.chg td.d::before{content:attr(data-l);display:block;font-size:11px;font-weight:400;color:var(--mute)}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -203,7 +216,7 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 <body>
 <header><div class="wrap">
   <a class="logo" href="#top"><svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true"><clipPath id="lgc"><circle cx="20" cy="20" r="12.5"/></clipPath><g clip-path="url(#lgc)"><rect x="6" y="6" width="28" height="28" fill="#0050D8"/><path d="M4 34 Q14 20 18 4 L23 4 Q19 21 9 36Z" fill="#2491FF"/><path d="M9 36 Q19 21 23 4 L28 4 Q24 22 14 37Z" fill="#E7F434"/><path d="M19 37 Q28 23 32 6 L36 6 L36 37Z" fill="#1B2B85"/></g><path d="M34.6 13.5 A16 16 0 1 1 26.5 5.4" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round"/><path d="M24.2 2.2 L26.5 5.4 L22.5 5.8" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g transform="rotate(45 31.6 8.4)"><rect x="29.9" y="6.7" width="3.4" height="3.4" rx=".4" fill="#fff"/><rect x="25.6" y="7.6" width="3.6" height="1.6" fill="#fff"/><rect x="34" y="7.6" width="3.6" height="1.6" fill="#fff"/></g></svg><span class="lw"><b>RotaSat</b><small>CROP ROTATION FROM ORBIT</small></span></a>
-  <nav><a href="#plan" data-i18n="nav_plan"></a><a href="#trust" data-i18n="nav_trust"></a><a href="#how" data-i18n="nav_how"></a></nav>
+  <nav><a href="#plan" data-i18n="nav_plan"></a><a href="#trust" data-i18n="nav_trust"></a><a href="#how" data-i18n="nav_how"></a><a href="#glossary" data-i18n="gl_h"></a></nav>
   <div class="langs" role="group" aria-label="Language">
     <button class="btn-s" data-lang="en" aria-pressed="true">English</button>
     <button class="btn-s" data-lang="tr" aria-pressed="false">Türkçe</button>
@@ -244,12 +257,12 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
     </fieldset>
     <fieldset>
       <legend data-i18n="q4"></legend>
-      <div class="seg" role="group">
-        <button type="button" class="btn-s" data-scen="now" aria-pressed="true" data-i18n="today"></button>
-        <button type="button" class="btn-s" data-scen="ssp245" aria-pressed="false" data-i18n="y2050_mid"></button>
-        <button type="button" class="btn-s" data-scen="ssp585" aria-pressed="false" data-i18n="y2050_high"></button>
+      <div class="scards" role="group">
+        <button type="button" class="scard" data-scen="now" aria-pressed="true"><b data-i18n="sc_now_h"></b><span id="scNow"></span></button>
+        <button type="button" class="scard" data-scen="ssp245" aria-pressed="false"><b data-i18n="sc_mid_h"></b><span id="scMid"></span></button>
+        <button type="button" class="scard" data-scen="ssp585" aria-pressed="false"><b data-i18n="sc_high_h"></b><span id="scHigh"></span></button>
       </div>
-      <p class="hint" data-i18n="scen_hint"></p>
+      <p class="hint"><span data-i18n="scen_hint"></span> <a href="#glossary" data-i18n="abbr_link"></a></p>
       <details>
         <summary data-i18n="more_opts"></summary>
         <div class="more">
@@ -301,15 +314,15 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 
 <section class="block" id="climate" hidden><div class="wrap">
   <h2 class="sec" data-i18n="clim_h"></h2>
-  <p class="sub" data-i18n="clim_p"></p>
+  <p class="sub" data-i18n="clim_p2"></p>
+  <div class="tbl"><table class="chg" id="chgTable"></table></div>
+  <p class="small" style="margin:8px 0 0" data-i18n="ch_legend"></p>
+  <figure style="margin:32px 0 0"><h3 class="fh" data-i18n="tc_h"></h3><div id="tempChart"></div>
+    <figcaption class="small" style="margin-top:6px;line-height:1.5" id="tempCap"></figcaption></figure>
   <div class="facts">
-    <div><div class="big" id="fWarm"></div><p id="fWarmT"></p></div>
-    <div><div class="big" id="fHot"></div><p id="fHotT"></p></div>
     <div id="futBox"><div class="big" id="fFut" style="color:#C41C06"></div><p id="fFutT"></p></div>
     <div style="flex:2 1 300px;font-size:17px;line-height:1.6;color:var(--ink2);padding-top:10px" id="fDry"></div>
   </div>
-  <figure style="margin:36px 0 0"><div id="stripes"></div>
-    <figcaption class="cap mono"><span>1985</span><span data-i18n="stripes_cap"></span><span>2024</span></figcaption></figure>
 </div></section>
 
 <section class="block space" id="space" hidden><div class="wrap">
@@ -358,6 +371,12 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
     <li><span class="n">2</span><div class="b"><h3 data-i18n="how2_h"></h3><p data-i18n="how2_p"></p></div><span class="s mono">FAO-56 Penman-Monteith, FAO-33, ICBM (Andrén &amp; Kätterer 1997), RUSLE erosive rain</span></li>
     <li><span class="n">3</span><div class="b"><h3 data-i18n="how3_h"></h3><p data-i18n="how3_p"></p></div><span class="s mono" data-i18n="how3_s"></span></li>
   </ol>
+</div></section>
+
+<section class="block gloss" id="glossary"><div class="wrap">
+  <h2 class="sec" data-i18n="gl_h"></h2>
+  <p class="sub" data-i18n="gl_p"></p>
+  <dl id="glossList"></dl>
 </div></section>
 
 <footer><div class="wrap">
@@ -441,13 +460,15 @@ const MDAYS=[31,28.25,31,30,31,30,31,31,30,31,30,31];
 
 // Aggregate daily data to months: mean T, Tmax, Tmin, rain sum, and daily Tmax list (for heat-stress days)
 function parsePowerDaily(j, lat){
-  const P=j.properties.parameter, by={}, ok=v=>v!=null&&v>-999;
+  const P=j.properties.parameter, by={}, fr={}, ok=v=>v!=null&&v>-999;
   for(const k of Object.keys(P.T2M)){
     const y=+k.slice(0,4), m=+k.slice(4,6)-1;
     const t=P.T2M[k], tx=P.T2M_MAX[k], tn=P.T2M_MIN[k], pr=P.PRECTOTCORR[k];
     if([t,tx,tn,pr].some(v=>v==null||v<=-999)) continue;
-    if(!by[y]) by[y]=Array.from({length:12},()=>({n:0,t:0,tx:0,tn:0,p:0,pe:0,txd:[],na:0,rh:0,ws:0,rs:0}));
+    if(!by[y]){by[y]=Array.from({length:12},()=>({n:0,t:0,tx:0,tn:0,p:0,pe:0,fd:0,hr:0,txd:[],na:0,rh:0,ws:0,rs:0})); fr[y]={lf:null,ff:null};}
     const o=by[y][m]; o.n++; o.t+=t; o.tx+=tx; o.tn+=tn; o.p+=pr; if(pr>=12.7) o.pe+=pr; o.txd.push(Math.round(tx*10)/10);
+    if(tn<0){o.fd++; const doy=Math.round((Date.UTC(y,m,+k.slice(6,8))-Date.UTC(y,0,1))/864e5)+1; if(m<6) fr[y].lf=doy; else if(m>=7&&fr[y].ff==null) fr[y].ff=doy;}
+    if(pr>=20) o.hr++;
     const rh=P.RH2M?.[k], ws=P.WS2M?.[k], rs=P.ALLSKY_SFC_SW_DWN?.[k];
     if(ok(rh)&&ok(ws)&&ok(rs)){o.na++; o.rh+=rh; o.ws+=ws; o.rs+=rs;}
   }
@@ -455,7 +476,7 @@ function parsePowerDaily(j, lat){
   for(const y of Object.keys(by).map(Number).sort()){
     const ms=by[y]; if(ms.some((o,i)=>o.n<MDAYS[i]-3)) continue;
     out.years.push(y);
-    out.byYear[y]={t:ms.map(o=>o.t/o.n), tx:ms.map(o=>o.tx/o.n), tn:ms.map(o=>o.tn/o.n), p:ms.map(o=>o.p), pe:ms.map(o=>o.pe), txd:ms.map(o=>o.txd),
+    out.byYear[y]={t:ms.map(o=>o.t/o.n), tx:ms.map(o=>o.tx/o.n), tn:ms.map(o=>o.tn/o.n), p:ms.map(o=>o.p), pe:ms.map(o=>o.pe), fd:ms.map(o=>o.fd), hr:ms.map(o=>o.hr), lf:fr[y].lf, ff:fr[y].ff, txd:ms.map(o=>o.txd),
       rh:ms.map(o=>o.na>=10?o.rh/o.na:null), u2:ms.map(o=>o.na>=10?o.ws/o.na:null), rs:ms.map(o=>o.na>=10?o.rs/o.na:null)};
   }
   if(out.years.length<15) throw new Error('too few complete years');
@@ -695,6 +716,56 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+tc_mean:"40-year average {v} °C",ch_legend:"Red: worse for crops. Green: better. Grey: mixed or no clear change.",
+clim_p2:"NASA measurements at this exact spot: the first ten years we have (1985 to 1994) against the last ten (2015 to 2024).",
+ch_what:"What",
+ch_change:"Change",
+ch_mean:"What it means for you",
+ch_same:"about the same",
+ch_earlier:"{n} days earlier",
+ch_later:"{n} days later",
+ch_t:"Average temperature",
+ch_hot:"Hot days above {th} °C, per year",
+ch_frost:"Frost days, per year",
+ch_lf:"Last spring frost (typical date)",
+ch_rain:"Rain April to September",
+ch_et:"Water crops need April to September",
+ch_heavy:"Days with heavy rain (20 mm or more), per year",
+chm_t_up:"Crops grow and ripen earlier; winter cereals are harvested sooner.",
+chm_t_dn:"Cooler seasons; crops ripen later.",
+chm_t_eq:"No clear change.",
+chm_hot_up:"More heat during flowering, which costs grain. Heat-tolerant crops and earlier sowing help.",
+chm_hot_dn:"Fewer heat days during flowering.",
+chm_hot_eq:"About as many heat days as before.",
+chm_frost_up:"More frost: harder winters for autumn-sown crops.",
+chm_frost_dn:"Milder winters: less frost damage, but more pests survive the winter.",
+chm_frost_eq:"About as many frost days as before.",
+chm_lf_up:"Spring frost comes later; early-flowering crops are more at risk.",
+chm_lf_dn:"Spring starts earlier, but a late frost can still hit crops that flower early.",
+chm_lf_eq:"Spring frost ends at about the same time.",
+chm_rain_up:"More rain in the growing season.",
+chm_rain_dn:"Less rain while crops grow: more drought stress.",
+chm_rain_eq:"About as much rain as before in the growing season.",
+chm_et_up:"Warmer, sunnier seasons make crops use more water: dry spells bite harder.",
+chm_et_dn:"Crops need a little less water than before.",
+chm_et_eq:"Crops need about as much water as before.",
+chm_heavy_up:"More heavy rain: more erosion where soil is bare.",
+chm_heavy_dn:"Fewer heavy downpours.",
+chm_heavy_eq:"About as many heavy downpours as before.",
+tc_h:"Average temperature of every year at this field",
+tc_cap:"Each bar is one year (NASA POWER), drawn up from the 40-year average if the year was warmer and down if it was cooler. Solid black lines: average of the first and of the last ten years. Dashed line: trend, {d} °C per ten years.",
+sc_now_h:"Today",
+sc_now_p:"The real weather of 1985 to 2024 at this field, brought to today's warmth.",
+sc_mid_h:"2050, middle path (SSP2-4.5)",
+sc_mid_p:"The world cuts emissions slowly after mid-century. Here: {t} warmer than today (models: {lo} to {hi}), April to September rain {p}.",
+sc_high_h:"2050, high emissions (SSP5-8.5)",
+sc_high_p:"Fossil fuel use keeps rising, the worst path the models test. Here: {t} warmer than today (models: {lo} to {hi}), April to September rain {p}.",
+sc_none:"No NASA projection for this spot. RotaSat extends this field's own warming trend instead.",
+sc_wait:"Loading this field's projection.",
+abbr_link:"What do the abbreviations mean?",
+gl_h:"Abbreviations",
+gl_p:"The short names used on this page, in plain words.",
+gloss:[["NASA POWER", "Prediction Of Worldwide Energy Resources. NASA's daily weather for any point on Earth since 1981, built from satellites and weather models."], ["MERRA-2", "Modern-Era Retrospective analysis for Research and Applications, version 2. NASA's reconstruction of past weather, the source of POWER's temperature, rain, wind and humidity."], ["CERES", "Clouds and the Earth's Radiant Energy System. NASA satellite instruments that measure the sunshine reaching the ground."], ["NEX-GDDP-CMIP6", "NASA Earth Exchange Global Daily Downscaled Projections. Results of the world's climate models, sharpened to about 25 km for local use."], ["CMIP6", "Coupled Model Intercomparison Project, phase 6. The shared experiment of the world's climate models that the IPCC reports are built on."], ["SSP", "Shared Socioeconomic Pathway: a story of how the world develops. The number after it is the extra heating in 2100, in watts per square metre."], ["SSP2-4.5", "Middle of the road. Emissions stay near today's level until about mid-century, then fall slowly."], ["SSP5-8.5", "Fossil-fuelled development. Emissions keep rising: the high end of what the models test."], ["MODIS", "Moderate Resolution Imaging Spectroradiometer. Cameras on NASA's Terra and Aqua satellites that photograph the whole Earth every day."], ["SMAP", "Soil Moisture Active Passive. A NASA satellite that measures how wet the soil is."], ["NDVI", "Normalized Difference Vegetation Index. How green and dense the plants are, from about 0 (bare soil) to 1 (thick crop)."], ["GIBS", "Global Imagery Browse Services. NASA's map service that delivers satellite pictures."], ["Sentinel-2", "European satellites (ESA Copernicus) that photograph every field every few days with 10 m pixels."], ["ET0, FAO-56", "Reference evapotranspiration: how much water a well-watered grass field uses. FAO-56 is the United Nations method to calculate it."], ["FAO-33", "United Nations method that links a shortage of water to lost yield."], ["ICBM", "Introductory Carbon Balance Model. A simple, widely used model of how carbon builds up or is lost in soil."], ["RUSLE", "Revised Universal Soil Loss Equation, the standard erosion method. Rain counts as erosive on days with 12.7 mm or more."], ["GAEC", "Good Agricultural and Environmental Condition. EU farm rules linked to subsidies, for example GAEC 6 (keep soil covered) and GAEC 7 (crop rotation)."]],
 u_carbon:"t C",u_bare:"months",u_nitro:"kg N",u_water:"mm",
 ideal:"IDEAL",
 ideal_c:"Ideal: no loss (0 or more)",
@@ -767,7 +838,7 @@ ly_n_smap:"Latest NASA SMAP root-zone soil moisture, about 9 km pixels. Blue is 
 ly_err:"NASA's map service did not answer. Try again in a moment.",
 y2050_mid:"2050 mid",
 y2050_high:"2050 high",
-scen_hint:"2050 uses NASA NEX-GDDP-CMIP6: five climate models, emission paths SSP2-4.5 (middle) and SSP5-8.5 (high).",
+scen_hint:"Both 2050 options use NASA's NEX-GDDP-CMIP6 projections from 5 climate models; each of the 1,000 futures uses one of them.",
 scen_ssp245:"climate of 2050, middle emissions path (NASA CMIP6, 5 models)",
 scen_ssp585:"climate of 2050, high emissions path (NASA CMIP6, 5 models)",
 sh_h:"Soil and water in this rotation",
@@ -867,6 +938,56 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+tc_mean:"40 yıllık ortalama {v} °C",ch_legend:"Kırmızı: bitkiler için kötüleşti. Yeşil: iyileşti. Gri: karışık etki ya da belirgin değişim yok.",
+clim_p2:"NASA'nın tam bu noktadaki ölçümleri: elimizdeki ilk on yıl (1985-1994) ile son on yıl (2015-2024) karşılaştırması.",
+ch_what:"Ne",
+ch_change:"Değişim",
+ch_mean:"Senin için ne demek",
+ch_same:"aşağı yukarı aynı",
+ch_earlier:"{n} gün daha erken",
+ch_later:"{n} gün daha geç",
+ch_t:"Ortalama sıcaklık",
+ch_hot:"{th} °C üstü sıcak gün, yılda",
+ch_frost:"Don günü, yılda",
+ch_lf:"Son ilkbahar donu (tipik tarih)",
+ch_rain:"Nisan-eylül yağışı",
+ch_et:"Bitkilerin nisan-eylül su ihtiyacı",
+ch_heavy:"Şiddetli yağışlı gün (20 mm ve üstü), yılda",
+chm_t_up:"Ürünler daha erken büyüyüp olgunlaşıyor; kışlık tahıllar daha erken hasat ediliyor.",
+chm_t_dn:"Daha serin sezonlar; ürünler daha geç olgunlaşıyor.",
+chm_t_eq:"Belirgin bir değişim yok.",
+chm_hot_up:"Çiçeklenmede daha çok sıcak, bu da tane kaybı demek. Sıcağa dayanıklı ürünler ve erken ekim yardımcı olur.",
+chm_hot_dn:"Çiçeklenmede daha az sıcak gün.",
+chm_hot_eq:"Sıcak gün sayısı eskisi gibi.",
+chm_frost_up:"Daha çok don: sonbaharda ekilen ürünler için daha sert kışlar.",
+chm_frost_dn:"Daha ılık kışlar: daha az don zararı, ama kışı atlatan zararlı daha fazla.",
+chm_frost_eq:"Don günü sayısı eskisi gibi.",
+chm_lf_up:"İlkbahar donu daha geç geliyor; erken çiçeklenen ürünler daha riskli.",
+chm_lf_dn:"İlkbahar daha erken başlıyor, ama geç bir don erken çiçeklenen ürünleri yine vurabilir.",
+chm_lf_eq:"İlkbahar donu aşağı yukarı aynı zamanda bitiyor.",
+chm_rain_up:"Yetişme döneminde daha çok yağış.",
+chm_rain_dn:"Ürün büyürken daha az yağış: daha çok kuraklık stresi.",
+chm_rain_eq:"Yetişme dönemindeki yağış eskisi gibi.",
+chm_et_up:"Daha sıcak ve güneşli sezonlarda bitkiler daha çok su kullanıyor: kurak dönemler daha sert vuruyor.",
+chm_et_dn:"Bitkilerin su ihtiyacı eskisinden biraz az.",
+chm_et_eq:"Bitkilerin su ihtiyacı eskisi gibi.",
+chm_heavy_up:"Daha çok sağanak: toprağın çıplak olduğu yerde daha çok erozyon.",
+chm_heavy_dn:"Daha az sağanak.",
+chm_heavy_eq:"Sağanak sayısı eskisi gibi.",
+tc_h:"Bu tarlada her yılın ortalama sıcaklığı",
+tc_cap:"Her çubuk bir yıl (NASA POWER): yıl sıcak geçtiyse 40 yıllık ortalamadan yukarı, serin geçtiyse aşağı çizilir. Düz siyah çizgiler: ilk ve son on yılın ortalaması. Kesikli çizgi: eğilim, on yılda {d} °C.",
+sc_now_h:"Bugün",
+sc_now_p:"Bu tarlanın 1985-2024 arasındaki gerçek havası, bugünün sıcaklığına getirilmiş.",
+sc_mid_h:"2050, orta yol (SSP2-4.5)",
+sc_mid_p:"Dünya emisyonları yüzyıl ortasından sonra yavaşça azaltır. Burada: bugünden {t} daha sıcak (modeller: {lo} ile {hi}), nisan-eylül yağışı {p}.",
+sc_high_h:"2050, yüksek emisyon (SSP5-8.5)",
+sc_high_p:"Fosil yakıt kullanımı artmaya devam eder; modellerin test ettiği en kötü yol. Burada: bugünden {t} daha sıcak (modeller: {lo} ile {hi}), nisan-eylül yağışı {p}.",
+sc_none:"Bu nokta için NASA projeksiyonu yok. RotaSat bunun yerine tarlanın kendi ısınma eğilimini uzatır.",
+sc_wait:"Bu tarlanın projeksiyonu yükleniyor.",
+abbr_link:"Kısaltmalar ne demek?",
+gl_h:"Kısaltmalar",
+gl_p:"Bu sayfadaki kısa adlar, sade bir dille.",
+gloss:[["NASA POWER", "Prediction Of Worldwide Energy Resources (Dünya Enerji Kaynakları Tahmini). NASA'nın uydular ve hava modellerinden ürettiği, 1981'den bu yana dünyanın her noktası için günlük hava verisi."], ["MERRA-2", "Modern-Era Retrospective analysis for Research and Applications, sürüm 2. NASA'nın geçmiş havayı yeniden oluşturması; POWER'daki sıcaklık, yağış, rüzgâr ve nem buradan gelir."], ["CERES", "Clouds and the Earth's Radiant Energy System. Yere ulaşan güneş ışığını ölçen NASA uydu cihazları."], ["NEX-GDDP-CMIP6", "NASA Earth Exchange Global Daily Downscaled Projections. Dünyanın iklim modellerinin sonuçları, yerel kullanım için yaklaşık 25 km'ye inceltilmiş hali."], ["CMIP6", "Coupled Model Intercomparison Project, 6. aşama. Dünyadaki iklim modellerinin ortak deneyi; IPCC raporları bunun üzerine kurulur."], ["SSP", "Shared Socioeconomic Pathway (Paylaşılan Sosyoekonomik Yol): dünyanın nasıl gelişeceğine dair bir senaryo. Arkasındaki sayı 2100'deki ek ısınma etkisidir (metrekare başına watt)."], ["SSP2-4.5", "Orta yol. Emisyonlar yüzyıl ortasına kadar bugünkü seviyeye yakın kalır, sonra yavaşça düşer."], ["SSP5-8.5", "Fosil yakıta dayalı büyüme. Emisyonlar artmaya devam eder; modellerin test ettiği en kötü uç."], ["MODIS", "Moderate Resolution Imaging Spectroradiometer. NASA'nın Terra ve Aqua uydularındaki, her gün bütün dünyayı fotoğraflayan kameralar."], ["SMAP", "Soil Moisture Active Passive. Toprağın ne kadar nemli olduğunu ölçen NASA uydusu."], ["NDVI", "Normalized Difference Vegetation Index (Normalize Fark Bitki İndeksi). Bitkilerin ne kadar yeşil ve sık olduğu: yaklaşık 0 çıplak toprak, 1 sık ürün."], ["GIBS", "Global Imagery Browse Services. Uydu görüntülerini harita olarak sunan NASA servisi."], ["Sentinel-2", "Her tarlayı birkaç günde bir 10 m pikselle fotoğraflayan Avrupa (ESA Copernicus) uyduları."], ["ET0, FAO-56", "Referans evapotranspirasyon: iyi sulanmış bir çim alanın kullandığı su. FAO-56 bunu hesaplayan Birleşmiş Milletler yöntemi."], ["FAO-33", "Su eksikliğini verim kaybına bağlayan Birleşmiş Milletler yöntemi."], ["ICBM", "Introductory Carbon Balance Model. Topraktaki karbonun nasıl biriktiğini ya da kaybolduğunu hesaplayan, yaygın kullanılan basit bir model."], ["RUSLE", "Revised Universal Soil Loss Equation, standart erozyon yöntemi. 12,7 mm ve üstü yağış alan günler erozyona yol açan yağış sayılır."], ["GAEC", "Good Agricultural and Environmental Condition (İyi Tarım ve Çevre Koşulları). AB desteklerine bağlı tarım kuralları; örneğin GAEC 6 toprağı örtülü tutmak, GAEC 7 ürün rotasyonu."]],
 u_carbon:"t C",u_bare:"ay",u_nitro:"kg N",u_water:"mm",
 ideal:"İDEAL",
 ideal_c:"İdeal: kayıp yok (0 veya üstü)",
@@ -939,7 +1060,7 @@ ly_n_smap:"NASA SMAP'ten son kök bölgesi toprak nemi, yaklaşık 9 km piksel. 
 ly_err:"NASA'nın harita servisi cevap vermedi. Biraz sonra tekrar dene.",
 y2050_mid:"2050 orta",
 y2050_high:"2050 yüksek",
-scen_hint:"2050 için NASA NEX-GDDP-CMIP6 kullanılır: beş iklim modeli, SSP2-4.5 (orta) ve SSP5-8.5 (yüksek) emisyon yolları.",
+scen_hint:"İki 2050 seçeneği de 5 iklim modelinden NASA NEX-GDDP-CMIP6 projeksiyonlarını kullanır; 1.000 geleceğin her biri bunlardan birini kullanır.",
 scen_ssp245:"2050 iklimi, orta emisyon yolu (NASA CMIP6, 5 model)",
 scen_ssp585:"2050 iklimi, yüksek emisyon yolu (NASA CMIP6, 5 model)",
 sh_h:"Bu rotasyonda toprak ve su",
@@ -1039,6 +1160,56 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+tc_mean:"40-Jahre-Mittel {v} °C",ch_legend:"Rot: schlechter für die Pflanzen. Grün: besser. Grau: gemischt oder keine klare Änderung.",
+clim_p2:"NASA-Messungen genau an diesem Ort: die ersten zehn Jahre (1985 bis 1994) im Vergleich mit den letzten zehn (2015 bis 2024).",
+ch_what:"Was",
+ch_change:"Änderung",
+ch_mean:"Was das für Sie heißt",
+ch_same:"etwa gleich",
+ch_earlier:"{n} Tage früher",
+ch_later:"{n} Tage später",
+ch_t:"Durchschnittstemperatur",
+ch_hot:"Hitzetage über {th} °C pro Jahr",
+ch_frost:"Frosttage pro Jahr",
+ch_lf:"Letzter Frühjahrsfrost (typisches Datum)",
+ch_rain:"Regen April bis September",
+ch_et:"Wasserbedarf der Pflanzen April bis September",
+ch_heavy:"Tage mit Starkregen (20 mm oder mehr) pro Jahr",
+chm_t_up:"Pflanzen wachsen und reifen früher; Wintergetreide wird früher geerntet.",
+chm_t_dn:"Kühlere Jahre; die Pflanzen reifen später.",
+chm_t_eq:"Keine klare Änderung.",
+chm_hot_up:"Mehr Hitze zur Blüte, das kostet Körner. Hitzetolerante Kulturen und frühere Saat helfen.",
+chm_hot_dn:"Weniger Hitzetage zur Blüte.",
+chm_hot_eq:"Etwa so viele Hitzetage wie früher.",
+chm_frost_up:"Mehr Frost: härtere Winter für Herbstsaaten.",
+chm_frost_dn:"Mildere Winter: weniger Frostschäden, aber mehr Schädlinge überwintern.",
+chm_frost_eq:"Etwa so viele Frosttage wie früher.",
+chm_lf_up:"Der Frühjahrsfrost kommt später; früh blühende Kulturen sind stärker gefährdet.",
+chm_lf_dn:"Das Frühjahr beginnt früher, aber ein Spätfrost kann früh blühende Kulturen trotzdem treffen.",
+chm_lf_eq:"Der Frühjahrsfrost endet etwa zur gleichen Zeit.",
+chm_rain_up:"Mehr Regen in der Wachstumszeit.",
+chm_rain_dn:"Weniger Regen, während die Pflanzen wachsen: mehr Trockenstress.",
+chm_rain_eq:"Etwa so viel Regen wie früher in der Wachstumszeit.",
+chm_et_up:"Wärmere, sonnigere Jahre lassen die Pflanzen mehr Wasser verbrauchen: Trockenphasen wirken stärker.",
+chm_et_dn:"Die Pflanzen brauchen etwas weniger Wasser als früher.",
+chm_et_eq:"Die Pflanzen brauchen etwa so viel Wasser wie früher.",
+chm_heavy_up:"Mehr Starkregen: mehr Erosion, wo der Boden offen liegt.",
+chm_heavy_dn:"Weniger Starkregen.",
+chm_heavy_eq:"Etwa so viel Starkregen wie früher.",
+tc_h:"Durchschnittstemperatur jedes Jahres an diesem Feld",
+tc_cap:"Jeder Balken ist ein Jahr (NASA POWER), nach oben vom 40-Jahre-Mittel, wenn es wärmer war, nach unten, wenn es kühler war. Schwarze Linien: Mittel der ersten und der letzten zehn Jahre. Gestrichelt: Trend, {d} °C pro zehn Jahre.",
+sc_now_h:"Heute",
+sc_now_p:"Das echte Wetter 1985 bis 2024 an diesem Feld, auf die heutige Wärme gebracht.",
+sc_mid_h:"2050, mittlerer Pfad (SSP2-4.5)",
+sc_mid_p:"Die Welt senkt die Emissionen nach der Jahrhundertmitte langsam. Hier: {t} wärmer als heute (Modelle: {lo} bis {hi}), Regen April bis September {p}.",
+sc_high_h:"2050, hohe Emissionen (SSP5-8.5)",
+sc_high_p:"Der Verbrauch fossiler Brennstoffe steigt weiter, der ungünstigste getestete Pfad. Hier: {t} wärmer als heute (Modelle: {lo} bis {hi}), Regen April bis September {p}.",
+sc_none:"Für diesen Ort gibt es keine NASA-Projektion. RotaSat verlängert stattdessen den eigenen Erwärmungstrend des Feldes.",
+sc_wait:"Projektion für dieses Feld wird geladen.",
+abbr_link:"Was bedeuten die Abkürzungen?",
+gl_h:"Abkürzungen",
+gl_p:"Die Kurznamen auf dieser Seite, in einfachen Worten.",
+gloss:[["NASA POWER", "Prediction Of Worldwide Energy Resources. Tägliches Wetter der NASA für jeden Punkt der Erde seit 1981, aus Satelliten und Wettermodellen."], ["MERRA-2", "Modern-Era Retrospective analysis for Research and Applications, Version 2. Die NASA-Rekonstruktion des vergangenen Wetters; daher stammen Temperatur, Regen, Wind und Luftfeuchte in POWER."], ["CERES", "Clouds and the Earth's Radiant Energy System. NASA-Satelliteninstrumente, die das Sonnenlicht am Boden messen."], ["NEX-GDDP-CMIP6", "NASA Earth Exchange Global Daily Downscaled Projections. Ergebnisse der Klimamodelle der Welt, für die lokale Nutzung auf etwa 25 km verfeinert."], ["CMIP6", "Coupled Model Intercomparison Project, Phase 6. Das gemeinsame Experiment der Klimamodelle der Welt, auf dem die IPCC-Berichte beruhen."], ["SSP", "Shared Socioeconomic Pathway: ein Szenario, wie sich die Welt entwickelt. Die Zahl dahinter ist die zusätzliche Erwärmungswirkung im Jahr 2100 in Watt pro Quadratmeter."], ["SSP2-4.5", "Mittlerer Weg. Die Emissionen bleiben bis etwa zur Jahrhundertmitte nahe dem heutigen Stand und sinken dann langsam."], ["SSP5-8.5", "Fossil getriebene Entwicklung. Die Emissionen steigen weiter: das obere Ende dessen, was die Modelle testen."], ["MODIS", "Moderate Resolution Imaging Spectroradiometer. Kameras auf den NASA-Satelliten Terra und Aqua, die jeden Tag die ganze Erde fotografieren."], ["SMAP", "Soil Moisture Active Passive. Ein NASA-Satellit, der misst, wie feucht der Boden ist."], ["NDVI", "Normalized Difference Vegetation Index. Wie grün und dicht die Pflanzen sind, von etwa 0 (offener Boden) bis 1 (dichter Bestand)."], ["GIBS", "Global Imagery Browse Services. Der Kartendienst der NASA für Satellitenbilder."], ["Sentinel-2", "Europäische Satelliten (ESA Copernicus), die jedes Feld alle paar Tage mit 10-m-Pixeln fotografieren."], ["ET0, FAO-56", "Referenzverdunstung: wie viel Wasser eine gut versorgte Grasfläche verbraucht. FAO-56 ist das UN-Verfahren zur Berechnung."], ["FAO-33", "UN-Verfahren, das Wassermangel mit Ertragsverlust verknüpft."], ["ICBM", "Introductory Carbon Balance Model. Ein einfaches, weit verbreitetes Modell, wie Kohlenstoff im Boden auf- oder abgebaut wird."], ["RUSLE", "Revised Universal Soil Loss Equation, das Standardverfahren für Erosion. Als erosiver Regen zählen Tage mit 12,7 mm oder mehr."], ["GAEC", "Good Agricultural and Environmental Condition (GLÖZ). EU-Regeln, an die Zahlungen geknüpft sind, z. B. GLÖZ 6 (Bodenbedeckung) und GLÖZ 7 (Fruchtwechsel)."]],
 u_carbon:"t C",u_bare:"Monate",u_nitro:"kg N",u_water:"mm",
 ideal:"IDEAL",
 ideal_c:"Ideal: kein Verlust (0 oder mehr)",
@@ -1111,7 +1282,7 @@ ly_n_smap:"Neueste Bodenfeuchte im Wurzelraum von NASA SMAP, etwa 9-km-Pixel. Bl
 ly_err:"Der NASA-Kartendienst hat nicht geantwortet. Bitte gleich noch einmal versuchen.",
 y2050_mid:"2050 mittel",
 y2050_high:"2050 hoch",
-scen_hint:"Für 2050 nutzt RotaSat NASA NEX-GDDP-CMIP6: fünf Klimamodelle, Emissionspfade SSP2-4.5 (mittel) und SSP5-8.5 (hoch).",
+scen_hint:"Beide Optionen für 2050 nutzen die NASA-Projektionen NEX-GDDP-CMIP6 aus 5 Klimamodellen; jede der 1.000 Zukünfte nutzt eines davon.",
 scen_ssp245:"Klima 2050, mittlerer Emissionspfad (NASA CMIP6, 5 Modelle)",
 scen_ssp585:"Klima 2050, hoher Emissionspfad (NASA CMIP6, 5 Modelle)",
 sh_h:"Boden und Wasser in dieser Fruchtfolge",
@@ -1315,7 +1486,7 @@ function setStatus(k,err){$('answer').innerHTML=`<p class="loading ${err?'err':'
 let loadToken=0;
 async function loadData(){
   const my=++loadToken; busy=true; $('runBtn').disabled=true; lastResults=null; climate=null;
-  const lat=site.lat, lon=site.lon, key=`rotasat_v4_${lat}_${lon}`;
+  const lat=site.lat, lon=site.lon, key=`rotasat_v5_${lat}_${lon}`;
   try{
     let cached=null; try{cached=JSON.parse(localStorage.getItem(key));}catch(e){}
     if(cached&&cached.years){if(my!==loadToken) return; climate=finishClimate(cached);}
@@ -1481,30 +1652,69 @@ function renderAnswer(){
 }
 function toggleDetails(){const d=$('details');d.hidden=!d.hidden;$('detBtn').textContent=d.hidden?t('btn_details'):t('btn_hide');if(!d.hidden){renderDetails();d.scrollIntoView({behavior:'smooth'});}}
 
+function renderScenCards(){
+  const c45=climate&&cmip(site.lat,site.lon,'ssp245'), c85=climate&&cmip(site.lat,site.lon,'ssp585');
+  $('scNow').textContent=t('sc_now_p');
+  const txt=(c,key)=>{if(!c) return t(climate?'sc_none':'sc_wait');
+    const ann=c.map(m=>CM_K*m.dT.reduce((a,b)=>a+b)/12), avg=ann.reduce((a,b)=>a+b)/ann.length;
+    const pw=climate.clim.p, ms=[3,4,5,6,7,8], pS=ms.reduce((s,m)=>s+pw[m],0);
+    const dp=CM_K*c.map(m=>ms.reduce((s,k)=>s+pw[k]*m.dP[k],0)/pS).reduce((a,b)=>a+b)/c.length, v=Math.abs(Math.round(dp));
+    return t(key,{t:'+'+f1(avg)+' °C',lo:'+'+f1(Math.min(...ann)),hi:'+'+f1(Math.max(...ann))+' °C',p:v<3?t('rain_same'):t(dp>0?'rain_more':'rain_less',{v})});};
+  $('scMid').textContent=txt(c45,'sc_mid_p'); $('scHigh').textContent=txt(c85,'sc_high_p');
+}
+function renderGlossary(){const G=I18N[LANG].gloss||I18N.en.gloss;$('glossList').innerHTML=G.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');}
 function renderClimate(){
-  const ys=climate.years, raw={mode:'raw',dT:0,dP:0};
+  const ys=climate.years, raw={mode:'raw',dT:0,dP:0}, W=ys.map(y=>weatherFor(y,raw));
   const ann=ys.map(y=>climate.byYear[y].t.reduce((a,b)=>a+b)/12);
-  const cnt=th=>{const h=ys.map(y=>climate.byYear[y].txd.flat().filter(v=>v>=th).length);return [Math.round(h.slice(0,10).reduce((x,y)=>x+y)/10),Math.round(h.slice(-10).reduce((x,y)=>x+y)/10)];};
-  let th=30,[a,b]=cnt(30); if(b<3){th=25;[a,b]=cnt(25);}
-  const wb=ys.map(y=>{const w=weatherFor(y,raw);return {y,v:[3,4,5,6,7,8].reduce((s,m)=>s+w.p[m]-w.et0[m],0)};}).sort((p,q)=>p.v-q.v);
-  const warm=climate.trend*(2024-1985);
-  $('fWarm').textContent=`${warm>=0?'+':'−'}${Math.abs(warm).toFixed(1).replace('.',LANG==='en'?'.':',')} °C`;
-  $('fWarmT').textContent=t('warm_t',{d:(climate.trend*10).toFixed(1).replace('.',LANG==='en'?'.':',')});
-  $('fHot').textContent=t('hot_big',{n:b}); $('fHotT').textContent=t('hot_t',{a,th});
+  const A=ys.slice(0,10), B=ys.slice(-10), avg=(arr,f)=>{const v=arr.map(f).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b)/v.length:null;};
+  const med=(arr,f)=>{const v=arr.map(f).filter(x=>x!=null).sort((a,b)=>a-b);return v.length>=5?v[Math.floor(v.length/2)]:null;};
+  const by=y=>climate.byYear[y], wy=y=>W[ys.indexOf(y)];
+  let th=30; const hot=y=>by(y).txd.flat().filter(v=>v>=th).length; if(avg(B,hot)<3) th=25;
+  const loc=LANG==='en'?'en-GB':LANG==='de'?'de-DE':'tr-TR', day=d=>d==null?'–':new Date(Date.UTC(2001,0,Math.round(d))).toLocaleDateString(loc,{day:'numeric',month:'long'});
+  const rows=[
+    ['t',avg(A,y=>by(y).t.reduce((a,b)=>a+b)/12),avg(B,y=>by(y).t.reduce((a,b)=>a+b)/12),v=>f1(v)+' °C',0.05],
+    ['hot',avg(A,hot),avg(B,hot),v=>nf(v),0.5],
+    ['frost',avg(A,y=>by(y).fd.reduce((a,b)=>a+b)),avg(B,y=>by(y).fd.reduce((a,b)=>a+b)),v=>nf(v),0.5],
+    ['lf',med(A,y=>by(y).lf),med(B,y=>by(y).lf),day,1,'d'],
+    ['rain',avg(A,y=>[3,4,5,6,7,8].reduce((s,m)=>s+wy(y).p[m],0)),avg(B,y=>[3,4,5,6,7,8].reduce((s,m)=>s+wy(y).p[m],0)),v=>nf(v)+' mm',5],
+    ['et',avg(A,y=>[3,4,5,6,7,8].reduce((s,m)=>s+wy(y).et0[m],0)),avg(B,y=>[3,4,5,6,7,8].reduce((s,m)=>s+wy(y).et0[m],0)),v=>nf(v)+' mm',5],
+    ['heavy',avg(A,y=>by(y).hr.reduce((a,b)=>a+b)),avg(B,y=>by(y).hr.reduce((a,b)=>a+b)),v=>f1(v),0.3]];
+  const head=`<thead><tr><th style="padding-left:0">${t('ch_what')}</th><th>${A[0]}-${A.at(-1)}</th><th>${B[0]}-${B.at(-1)}</th><th>${t('ch_change')}</th><th>${t('ch_mean')}</th></tr></thead>`;
+  const body=rows.map(([k,a,b,fmt,eps,kind])=>{
+    if(a==null||b==null) return '';
+    const d=b-a, dir=Math.abs(d)<eps?'eq':(d>0?'up':'dn');
+    const worseIfUp={t:1,hot:1,frost:0,lf:1,rain:-1,et:1,heavy:1}[k], cls=dir==='eq'||!worseIfUp?'eq':((d>0)===(worseIfUp>0)?'worse':'better');
+    const dtxt=kind==='d'?(dir==='eq'?t('ch_same'):t(d<0?'ch_earlier':'ch_later',{n:nf(Math.abs(d))})):(dir==='eq'?t('ch_same'):(d>0?'+':'−')+(k==='t'?f1(Math.abs(d))+' °C':k==='heavy'?f1(Math.abs(d)):nf(Math.abs(d))+(k==='rain'||k==='et'?' mm':'')));
+    return `<tr><td style="padding-left:0"><b>${t('ch_'+k,{th})}</b></td><td class="v" data-l="${A[0]}-${A.at(-1)}">${fmt(a)}</td><td class="v" data-l="${B[0]}-${B.at(-1)}">${fmt(b)}</td><td class="d ${cls}" data-l="${t('ch_change')}">${dtxt}</td><td class="m">${t('chm_'+k+'_'+(dir==='eq'?'eq':(d>0?'up':'dn')))}</td></tr>`;}).join('');
+  $('chgTable').innerHTML=head+'<tbody>'+body+'</tbody>';
+  // annual mean temperature: real values on a °C axis, coloured by how warm the year was, with the two ten-year means and the trend
+  const CW=900,CH=280,L=46,R=12,T=14,Bm=30, lo=Math.floor(Math.min(...ann)-0.5), hi=Math.ceil(Math.max(...ann)+0.5);
+  const X=i=>L+i*(CW-L-R)/ann.length, Y=v=>T+(hi-v)*(CH-T-Bm)/(hi-lo), bw=(CW-L-R)/ann.length;
+  const pal=['#08306b','#2171b5','#6baed6','#c6dbef','#fcbba1','#fb6a4a','#cb181d','#67000d'], m0=ann.reduce((x,y)=>x+y)/ann.length, sd=Math.sqrt(ann.reduce((s,v)=>s+(v-m0)**2,0)/ann.length)||1;
+  const col=v=>pal[Math.max(0,Math.min(7,Math.round(((v-m0)/sd/2+1)/2*7)))];
+  let g='';
+  for(let v=lo;v<=hi;v++) g+=`<line x1="${L}" x2="${CW-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#E6E9ED"/><text x="${L-6}" y="${Y(v)+4}" font-size="12" text-anchor="end" fill="#5a5e78">${v} °C</text>`;
+  const bars=ann.map((v,i)=>`<rect x="${(X(i)+1).toFixed(1)}" y="${Math.min(Y(v),Y(m0)).toFixed(1)}" width="${(bw-2).toFixed(1)}" height="${Math.max(1,Math.abs(Y(v)-Y(m0))).toFixed(1)}" fill="${col(v)}"><title>${ys[i]}: ${f1(v)} °C</title></rect>`).join('')
+    +`<line x1="${L}" x2="${CW-R}" y1="${Y(m0)}" y2="${Y(m0)}" stroke="#5a5e78"/><text x="${CW-R}" y="${Y(m0)+15}" font-size="12" text-anchor="end" fill="#5a5e78">${t('tc_mean',{v:f1(m0)})}</text>`;
+  const aA=avg(A,y=>by(y).t.reduce((a,b)=>a+b)/12), aB=avg(B,y=>by(y).t.reduce((a,b)=>a+b)/12);
+  const seg=(i0,i1,v,lab)=>`<line x1="${X(i0)}" x2="${X(i1)}" y1="${Y(v)}" y2="${Y(v)}" stroke="#151622" stroke-width="2.5"/><text x="${(X(i0)+X(i1))/2}" y="${Y(v)-7}" font-size="13" font-weight="700" text-anchor="middle" fill="#151622">${lab}</text>`;
+  const b=climate.trend, mx=(ys.length-1)/2, ty=i=>m0+b*(i-mx);
+  const trend=`<line x1="${X(0)}" x2="${X(ann.length)}" y1="${Y(ty(-0.5))}" y2="${Y(ty(ann.length-0.5))}" stroke="#151622" stroke-dasharray="5 4" stroke-width="1.5"/>`;
+  const xl=[0,10,20,30,ann.length-1].map(i=>`<text x="${X(i)+bw/2}" y="${CH-10}" font-size="12" text-anchor="middle" fill="#5a5e78">${ys[i]}</text>`).join('');
+  $('tempChart').innerHTML=`<svg role="img" aria-label="${t('tc_h')}" viewBox="0 0 ${CW} ${CH}">${g}${bars}${trend}${seg(0,10,aA,f1(aA)+' °C')}${seg(ann.length-10,ann.length,aB,f1(aB)+' °C')}${xl}</svg>`;
+  $('tempCap').textContent=t('tc_cap',{d:f1(b*10)});
+  const wb=W.map((w,i)=>({y:ys[i],v:[3,4,5,6,7,8].reduce((s,m)=>s+w.p[m]-w.et0[m],0)})).sort((p,q)=>p.v-q.v);
   $('fDry').innerHTML=t('dry_t',{y1:Math.min(wb[0].y,wb[1].y),y2:Math.max(wb[0].y,wb[1].y)});
   const c45=cmip(site.lat,site.lon,'ssp245'), c85=cmip(site.lat,site.lon,'ssp585');
   $('futBox').hidden=!c45;
   if(c45){
-    const ann=c=>CM_K*c.dT.reduce((a,b)=>a+b)/12, a45=c45.map(ann), a85=c85.map(ann), avg=a=>a.reduce((x,y)=>x+y)/a.length;
+    const an=c=>CM_K*c.dT.reduce((a,b)=>a+b)/12, a45=c45.map(an), a85=c85.map(an), av=a=>a.reduce((x,y)=>x+y)/a.length;
     const pw=climate.clim.p, ms=[3,4,5,6,7,8], pS=ms.reduce((s,m)=>s+pw[m],0);
-    const dp=CM_K*avg(c45.map(c=>ms.reduce((s,m)=>s+pw[m]*c.dP[m],0)/pS)), v=Math.abs(Math.round(dp));
-    $('fFut').textContent='+'+f1(avg(a45))+' °C';
-    $('fFutT').textContent=t('fut_t',{lo:f1(Math.min(...a45)),hi:f1(Math.max(...a45)),h:f1(avg(a85)),p:v<3?t('rain_same'):t(dp>0?'rain_more':'rain_less',{v})});
+    const dp=CM_K*av(c45.map(c=>ms.reduce((s,m)=>s+pw[m]*c.dP[m],0)/pS)), v=Math.abs(Math.round(dp));
+    $('fFut').textContent='+'+f1(av(a45))+' °C';
+    $('fFutT').textContent=t('fut_t',{lo:f1(Math.min(...a45)),hi:f1(Math.max(...a45)),h:f1(av(a85)),p:v<3?t('rain_same'):t(dp>0?'rain_more':'rain_less',{v})});
   }
-  renderSpace();
-  const pal=['#08306b','#2171b5','#6baed6','#c6dbef','#fcbba1','#fb6a4a','#cb181d','#67000d'], m=ann.reduce((x,y)=>x+y)/ann.length, W=ann.length;
-  const rect=ann.map((v,i)=>{const k=Math.max(0,Math.min(7,Math.round(((v-m)/1.6+1)/2*7)));return `<rect x="${i}" y="0" width="1.02" height="1" fill="${pal[k]}"></rect>`;}).join('');
-  $('stripes').innerHTML=`<svg role="img" aria-label="${t('stripes_cap')}" width="100%" height="120" viewBox="0 0 ${W} 1" preserveAspectRatio="none" style="display:block;border-radius:4px">${rect}</svg>`;
+  renderSpace(); renderScenCards();
   $('climate').hidden=false;
 }
 
@@ -1602,7 +1812,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
