@@ -246,7 +246,6 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
           <p class="full small" id="soilNote" style="margin:0"></p>
           <label class="full"><span data-i18n="rain_cal"></span><input id="rainCal" type="number" step="10" placeholder=""></label>
           <p class="full small" id="rainNote" style="margin:0"></p>
-          <label class="full"><span data-i18n="fert_price"></span><select id="fertP"><option value="1.2" data-i18n="fert_2024"></option><option value="2.0" data-i18n="fert_2026"></option></select></label>
           <label><span data-i18n="lat"></span><input id="lat" type="number" step="0.01"></label>
           <label><span data-i18n="lon"></span><input id="lon" type="number" step="0.01"></label>
           <label class="full" style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="rawHist"><span data-i18n="raw_hist"></span></label>
@@ -257,6 +256,12 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
       <legend data-i18n="q5"></legend>
       <label class="slider"><span><span data-i18n="irr_lbl"></span> <b id="irrV"></b></span><input id="irr" type="range" min="0" max="250" step="25" value="0"></label>
       <p class="hint" id="irrNote"></p>
+      <label class="slider" style="margin-top:14px"><span data-i18n="price_lbl"></span><select id="priceMode"><option value="hist" data-i18n="pm_hist"></option><option value="fixed" data-i18n="pm_fixed"></option><option value="y2022" data-i18n="pm_2022"></option><option value="y2026" data-i18n="pm_2026"></option></select></label>
+      <div class="more" style="margin-top:8px">
+        <label class="full"><span data-i18n="brent_lbl"></span><input id="brent" type="number" min="20" max="200" step="1" value="95"></label>
+        <label class="full"><span data-i18n="fert_price"></span><select id="fertP"><option value="1.2" data-i18n="fert_2024"></option><option value="2.0" data-i18n="fert_2026"></option></select></label>
+      </div>
+      <p class="hint" id="priceNote"></p>
     </fieldset>
     <button type="submit" class="go" id="runBtn" data-i18n="run_btn"></button>
   </form>
@@ -396,7 +401,20 @@ const PRESETS = [
 const FERT_SHARE=0.85; let N_PRICE=1.2;
 const IRR_EFF=0.8;                                  // sprinkler application efficiency
 const irrCost=diesel=>1.2*diesel+0.8;              // EUR per mm and ha: ~1.2 l diesel to pump and pressurise 10 m3, plus equipment and labour
-let DIESEL=1.30;                                   // EUR/l, farm diesel excl. VAT (set by the oil price step)              // fertilize ~85% of crop N need at the site's attainable yield, minus legume credit; €/kg N
+const dieselFromBrent=b=>0.84+0.0058*b;            // EUR/l farm diesel excl. VAT: taxes, CO2 price and margins + crude cost (Brent, US$/bbl)
+const DIESEL_2025=1.30;                            // crop costs above include fuel at this price; it is swapped for the scenario price
+let BRENT=95, DIESEL=dieselFromBrent(BRENT), PRICE_MODE='hist';
+// world price group of each crop; legumes have no world series and keep today's price
+const PGROUP={wheat:'g',barley:'g',maize:'m',sunflower:'o',rapeseed:'o',soybean:'o',sugarbeet:'s'};
+const PMEAN={}; ['g','m','o','s','u','b'].forEach(k=>PMEAN[k]=PRICES[k].reduce((a,b)=>a+b)/PRICES[k].length);
+function pxFixed(){return {g:1,m:1,o:1,s:1,n:N_PRICE,d:DIESEL};}
+function pxYear(i){ // a real year 2000-2025, centred on today's price level (keeps the size of swings and how prices move together)
+  return {g:PRICES.g[i]/PMEAN.g,m:PRICES.m[i]/PMEAN.m,o:PRICES.o[i]/PMEAN.o,s:PRICES.s[i]/PMEAN.s,n:N_PRICE*PRICES.u[i]/PMEAN.u,d:dieselFromBrent(BRENT*PRICES.b[i]/PMEAN.b)};}
+function pxScenario(mode){
+  if(mode==='y2022'){const i=PRICES.years.indexOf(2022);return {g:PRICES.g[i],m:PRICES.m[i],o:PRICES.o[i],s:PRICES.s[i],n:1.2*PRICES.u[i],d:dieselFromBrent(PRICES.b[i])};}
+  if(mode==='y2026') return {g:1,m:1,o:1,s:1,n:1.2*PRICES.u2026,d:dieselFromBrent(PRICES.b2026)};
+  return pxFixed();
+}              // fertilize ~85% of crop N need at the site's attainable yield, minus legume credit; €/kg N
 const ICBM={ky:0.8, h:0.125};                     // Andrén & Kätterer 1997 (ko solved per site, see simulate)
 const C_PER_GKG=4.05;                             // t C/ha per g/kg SOC (0–30 cm, bulk density 1.35)
 const YEARS=20, RUNS=1000;
@@ -557,8 +575,10 @@ function simulate(seq, yearList, soil, shift, opts={}){
       factor=Math.min(1.2,Wf*Hf*Nf*Of*Rf*Pf*Xf*Ff);
     }
     const yieldT=c.ym*factor;
-    const cost=(key==='fallow'||opts.validation)?c.cost:c.cost*(0.45+0.55*Math.min(1,attainable(key,soil)/c.ym)); // inputs scale with the site's yield level
-    const margin=yieldT*c.price-cost-fert*N_PRICE-irr*irrCost(DIESEL);
+    const px=(opts.px&&opts.px[i])||pxFixed(), fuelBase=(c.fuel||0)*DIESEL_2025;
+    const cost=(key==='fallow'||opts.validation)?c.cost:(c.cost-fuelBase)*(0.45+0.55*Math.min(1,attainable(key,soil)/c.ym))+fuelBase; // non-fuel inputs scale with the site's yield level
+    const price=c.price*(PGROUP[key]?px[PGROUP[key]]:1);
+    const margin=yieldT*price-(cost-fuelBase+(c.fuel||0)*px.d)-fert*px.n-irr*irrCost(px.d);
     // ---- nitrogen carry-over ----
     const nSur=fert+c.nFix-c.nT*yieldT;                     // field N balance, kg N/ha (inputs minus removal in the harvest)
     N=Math.max(0,0.3*Math.max(0,N+fert-c.nT*yieldT)+c.nFix+0.6*socg); credit=c.nFix;
@@ -596,7 +616,8 @@ function monteCarlo(seq, soil, shift, seed){
   for(let k=0;k<RUNS;k++){
     const yl=Array.from({length:YEARS},()=>ys[Math.floor(rr()*ys.length)]);
     const sh=shift.models?{...shift,cm:shift.models[k%shift.models.length]}:shift;
-    const recs=simulate(seq,yl,soil,sh);
+    const px=PRICE_MODE==='hist'?yl.map(()=>pxYear(Math.floor(rr()*PRICES.years.length))):null;
+    const recs=simulate(seq,yl,soil,sh,{px:px||Array(YEARS).fill(pxScenario(PRICE_MODE))});
     recs.forEach((x,i)=>{
       cPaths[i].push(x.C); margins.push(x.margin); ferts.push(x.fert);
       bare+=x.bare; ero+=x.ero; nSur+=x.nSur; nFix+=x.nFix; irr+=x.irr; gap+=x.gap; nr++;
@@ -657,6 +678,22 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+sh_n_p0:"You buy about {f} kg of nitrogen per hectare a year; no legume in this rotation adds any for free. Balance: {b} kg.",
+price_lbl:"Prices",
+pm_hist:"Swing as in 2000 to 2025",
+pm_fixed:"Today's prices, no swings",
+pm_2022:"2022 shock: war in Ukraine",
+pm_2026:"2026 energy shock (now)",
+brent_lbl:"Oil price (Brent, $ a barrel)",
+pn_hist:"Each season draws the prices of a real year from 2000 to 2025 (grain, oilseeds, sugar, fertilizer and oil together, inflation-adjusted), swinging around today's level. Farm diesel at today's oil price: €{d} a litre.",
+pn_fixed:"Grain at 2025 market levels, nitrogen fertilizer €{n} per kg N, farm diesel €{d} a litre from the oil price.",
+pn_2022:"Every season at 2022 world prices, inflation-adjusted: grain about {g}% above today, nitrogen fertilizer €{n} per kg N, farm diesel €{d} a litre.",
+pn_2026:"Grain at 2025 levels, but oil and fertilizer at 2026 levels after this year's price spike: Brent about ${b} a barrel, nitrogen €{n} per kg N, farm diesel €{d} a litre.",
+pn_src:"Sources: World Bank Pink Sheet and IMF commodity prices. Chickpea, lentil and vetch keep today's price (no world price series).",
+ph_hist:"prices swinging as in 2000 to 2025",
+ph_fixed:"today's prices",
+ph_y2022:"2022 shock prices",
+ph_y2026:"2026 energy shock prices",
 w_water:"Saving water",
 q5:"5. Water and prices",
 irr_lbl:"Irrigation water you can use (mm a year):",
@@ -722,7 +759,7 @@ sp_none:"no clear crop",
 btn_share:"Copy a link to this result",
 copied:"Link copied",
 ai_note:"Built with help from an AI assistant (Claude by Anthropic) for code, design and text. Data sources and methods are listed on this page and in the README.",
-fert_2026:"Spring 2026 level, about 70% higher, €2.00 per kg N",
+fert_2026:"2026 level, €2.00 per kg N",
 fert_2024:"2024 level, €1.20 per kg N",
 fert_price:"Nitrogen fertilizer price",
 rain_src:"Prefilled with the {s}.",
@@ -773,7 +810,7 @@ trust_note:"Match = Pearson r of detrended yearly yield changes against FAOSTAT 
 how_h:"How it works",
 how1_h:"We read your field's weather and soil",how1_p:"Daily sun, rain, wind, humidity and temperature since 1985 from NASA POWER, plus the soil's carbon and clay content.",
 how2_h:"We work out how each crop copes",how2_p:"How much water it needs and gets, heat while it flowers, winter frost, wet harvests, and what it does to soil carbon and nitrogen.",
-how3_h:"We play each rotation through 1,000 futures",how3_p:"Each future is 20 seasons of real past weather in a new order, set to today's warmth or moved to 2050 by one of five NASA climate model projections.",how3_s:"Bootstrap resampling, NASA NEX-GDDP-CMIP6 delta change",
+how3_h:"We play each rotation through 1,000 futures",how3_p:"Each future is 20 seasons of real past weather and real past prices in a new order, set to today's warmth or moved to 2050 by one of five NASA climate model projections.",how3_s:"Bootstrap of weather 1985 to 2024 and prices 2000 to 2025, NASA NEX-GDDP-CMIP6 delta change",
 foot_made:"Made by Eren Mutlu, TUM Campus Heilbronn, for the NASA Space Apps Challenge 2026.",foot_data_h:"Data",foot_note_h:"Please note",foot_note:"Not affiliated with or endorsed by NASA. Results are estimates for comparing options. All amounts are in today's euros: grain at 2025 market levels, fertilizer as selected.",
 det_rr:"Profit and safety",det_rr_note:"Higher is more profit on average. Further right is safer in bad years.",det_soil:"Soil carbon over 20 years",
 det_hist:"Replay of the real years 1995 to 2024: your plan against maize every year",det_clim:"Summer heat and rain at this field",
@@ -787,6 +824,22 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+sh_n_p0:"Hektar başına yılda yaklaşık {f} kg azot satın alıyorsun; bu rotasyonda bedava azot getiren baklagil yok. Denge: {b} kg.",
+price_lbl:"Fiyatlar",
+pm_hist:"2000-2025 gibi dalgalansın",
+pm_fixed:"Bugünkü fiyatlar, dalgalanma yok",
+pm_2022:"2022 şoku: Ukrayna'daki savaş",
+pm_2026:"2026 enerji şoku (şu an)",
+brent_lbl:"Petrol fiyatı (Brent, varil başına $)",
+pn_hist:"Her sezon 2000-2025 arasından gerçek bir yılın fiyatlarını çeker (tahıl, yağlı tohum, şeker, gübre ve petrol birlikte, enflasyondan arındırılmış) ve bugünkü seviyenin etrafında dalgalanır. Bugünkü petrol fiyatıyla tarla mazotu: litresi {d} €.",
+pn_fixed:"Tahıl 2025 piyasa seviyesinde, azotlu gübre kg N başına {n} €, petrol fiyatından tarla mazotu litresi {d} €.",
+pn_2022:"Her sezon enflasyondan arındırılmış 2022 dünya fiyatlarında: tahıl bugünden yaklaşık %{g} yüksek, azotlu gübre kg N başına {n} €, tarla mazotu litresi {d} €.",
+pn_2026:"Tahıl 2025 seviyesinde, ama petrol ve gübre bu yılki fiyat sıçramasından sonraki 2026 seviyesinde: Brent varil başına yaklaşık {b} $, azot kg N başına {n} €, tarla mazotu litresi {d} €.",
+pn_src:"Kaynak: Dünya Bankası Pink Sheet ve IMF emtia fiyatları. Nohut, mercimek ve fiğ bugünkü fiyatta kalır (dünya fiyat serisi yok).",
+ph_hist:"fiyatlar 2000-2025 gibi dalgalanıyor",
+ph_fixed:"bugünkü fiyatlar",
+ph_y2022:"2022 şoku fiyatları",
+ph_y2026:"2026 enerji şoku fiyatları",
 w_water:"Su tasarrufu",
 q5:"5. Su ve fiyatlar",
 irr_lbl:"Kullanabileceğin sulama suyu (yılda mm):",
@@ -852,8 +905,8 @@ sp_none:"belirgin ürün yok",
 btn_share:"Bu sonucun linkini kopyala",
 copied:"Link kopyalandı",
 ai_note:"Kod, tasarım ve metinlerde bir yapay zekâ asistanından (Anthropic'in Claude'u) yardım alınarak yapıldı. Veri kaynakları ve yöntemler bu sayfada ve README'de.",
-fert_2026:"2026 ilkbahar seviyesi, yaklaşık %70 daha yüksek, kg N başına 2,00 €",
-fert_2024:"2024 seviyesi, kg N başına 1,20 €",
+fert_2026:"2026 seviyesi, kg N 2,00 €",
+fert_2024:"2024 seviyesi, kg N 1,20 €",
 fert_price:"Azotlu gübre fiyatı",
 rain_src:"{s} ile önceden dolduruldu.",
 rain_note:"NASA verisi burada yılda {p} mm gösteriyor. Uydu tabanlı yağış, kurak iç havzalarda sapabilir; istasyonun farklı bir değer veriyorsa onu gir, tüm yağış buna göre ölçeklenir.",
@@ -903,7 +956,7 @@ trust_note:"Uyum = trendden arındırılmış yıllık verim değişimlerinin FA
 how_h:"Nasıl çalışır?",
 how1_h:"Tarlanın havasını ve toprağını okuruz",how1_p:"NASA POWER'dan 1985'ten bu yana günlük güneş, yağış, rüzgâr, nem ve sıcaklık; ayrıca topraktaki karbon ve kil oranı.",
 how2_h:"Her ürünün nasıl dayandığını hesaplarız",how2_p:"Ne kadar suya ihtiyacı olduğu ve ne kadar aldığı, çiçeklenmedeki sıcak, kış donu, yağışlı hasat, toprak karbonuna ve azota etkisi.",
-how3_h:"Her rotasyonu 1.000 gelecekte deneriz",how3_p:"Her gelecek, geçmişin gerçek havasından yeni bir sırayla oluşturulan 20 sezondur. Bugünün sıcaklığına ayarlanır ya da beş NASA iklim modeli projeksiyonundan biriyle 2050'ye taşınır.",how3_s:"Bootstrap yeniden örnekleme, NASA NEX-GDDP-CMIP6 delta yöntemi",
+how3_h:"Her rotasyonu 1.000 gelecekte deneriz",how3_p:"Her gelecek, geçmişin gerçek havasından ve gerçek fiyatlarından yeni bir sırayla oluşturulan 20 sezondur. Bugünün sıcaklığına ayarlanır ya da beş NASA iklim modeli projeksiyonundan biriyle 2050'ye taşınır.",how3_s:"1985-2024 hava ve 2000-2025 fiyatlarıyla bootstrap, NASA NEX-GDDP-CMIP6 delta yöntemi",
 foot_made:"Eren Mutlu, TUM Campus Heilbronn, NASA Space Apps Challenge 2026 için yaptı.",foot_data_h:"Veri",foot_note_h:"Not",foot_note:"NASA ile bağlantılı değildir. Sonuçlar seçenekleri karşılaştırmak için tahminlerdir. Tüm tutarlar bugünün eurosu ile: tahıl 2025 piyasa seviyesinde, gübre seçtiğin gibi.",
 det_rr:"Kâr ve güvence",det_rr_note:"Yukarısı ortalamada daha fazla kâr. Sağ taraf kötü yıllarda daha güvenli.",det_soil:"20 yılda toprak karbonu",
 det_hist:"Gerçek 1995 - 2024 yıllarının tekrarı: senin planın ve her yıl mısır",det_clim:"Bu tarlada yaz sıcağı ve yağış",
@@ -917,6 +970,22 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+sh_n_p0:"Sie kaufen etwa {f} kg Stickstoff pro Hektar und Jahr; keine Leguminose in dieser Fruchtfolge liefert kostenlos welchen. Bilanz: {b} kg.",
+price_lbl:"Preise",
+pm_hist:"Schwankungen wie 2000 bis 2025",
+pm_fixed:"Heutige Preise, ohne Schwankung",
+pm_2022:"Schock 2022: Krieg in der Ukraine",
+pm_2026:"Energieschock 2026 (jetzt)",
+brent_lbl:"Ölpreis (Brent, $ je Barrel)",
+pn_hist:"Jede Saison zieht die Preise eines echten Jahres von 2000 bis 2025 (Getreide, Ölsaaten, Zucker, Dünger und Öl zusammen, inflationsbereinigt), schwankend um das heutige Niveau. Agrardiesel beim heutigen Ölpreis: {d} € je Liter.",
+pn_fixed:"Getreide auf Marktniveau 2025, Stickstoffdünger {n} € je kg N, Agrardiesel {d} € je Liter aus dem Ölpreis.",
+pn_2022:"Jede Saison zu Weltmarktpreisen von 2022, inflationsbereinigt: Getreide etwa {g} % über heute, Stickstoffdünger {n} € je kg N, Agrardiesel {d} € je Liter.",
+pn_2026:"Getreide auf dem Niveau von 2025, aber Öl und Dünger auf dem Niveau von 2026 nach dem diesjährigen Preissprung: Brent etwa {b} $ je Barrel, Stickstoff {n} € je kg N, Agrardiesel {d} € je Liter.",
+pn_src:"Quellen: Weltbank Pink Sheet und IWF-Rohstoffpreise. Kichererbse, Linse und Wicke behalten den heutigen Preis (keine Weltmarktreihe).",
+ph_hist:"Preise schwanken wie 2000 bis 2025",
+ph_fixed:"heutige Preise",
+ph_y2022:"Preise des Schocks 2022",
+ph_y2026:"Preise des Energieschocks 2026",
 w_water:"Wasser sparen",
 q5:"5. Wasser und Preise",
 irr_lbl:"Verfügbares Beregnungswasser (mm pro Jahr):",
@@ -982,7 +1051,7 @@ sp_none:"keine klare Kultur",
 btn_share:"Link zu diesem Ergebnis kopieren",
 copied:"Link kopiert",
 ai_note:"Mit Hilfe eines KI-Assistenten (Claude von Anthropic) für Code, Gestaltung und Texte erstellt. Datenquellen und Methoden stehen auf dieser Seite und in der README.",
-fert_2026:"Stand Frühjahr 2026, etwa 70 % höher, 2,00 € je kg N",
+fert_2026:"Stand 2026, 2,00 € je kg N",
 fert_2024:"Stand 2024, 1,20 € je kg N",
 fert_price:"Preis für Stickstoffdünger",
 rain_src:"Vorausgefüllt mit dem {s}.",
@@ -1033,7 +1102,7 @@ trust_note:"Übereinstimmung = Pearson r der trendbereinigten jährlichen Ertrag
 how_h:"So funktioniert es",
 how1_h:"Wir lesen Wetter und Boden Ihres Feldes",how1_p:"Tägliche Sonne, Regen, Wind, Luftfeuchte und Temperatur seit 1985 aus NASA POWER, dazu Kohlenstoff- und Tongehalt des Bodens.",
 how2_h:"Wir berechnen, wie jede Kultur zurechtkommt",how2_p:"Wie viel Wasser sie braucht und bekommt, Hitze während der Blüte, Winterfrost, nasse Ernten und ihr Einfluss auf Bodenkohlenstoff und Stickstoff.",
-how3_h:"Wir spielen jede Fruchtfolge in 1.000 Zukünften durch",how3_p:"Jede Zukunft besteht aus 20 Jahren echten früheren Wetters in neuer Reihenfolge, eingestellt auf die heutige Wärme oder mit einer von fünf NASA-Klimamodellprojektionen auf 2050 verschoben.",how3_s:"Bootstrap-Resampling, Delta-Methode mit NASA NEX-GDDP-CMIP6",
+how3_h:"Wir spielen jede Fruchtfolge in 1.000 Zukünften durch",how3_p:"Jede Zukunft besteht aus 20 Jahren echten früheren Wetters und echter früherer Preise in neuer Reihenfolge, eingestellt auf die heutige Wärme oder mit einer von fünf NASA-Klimamodellprojektionen auf 2050 verschoben.",how3_s:"Bootstrap von Wetter 1985 bis 2024 und Preisen 2000 bis 2025, Delta-Methode mit NASA NEX-GDDP-CMIP6",
 foot_made:"Erstellt von Eren Mutlu, TUM Campus Heilbronn, für die NASA Space Apps Challenge 2026.",foot_data_h:"Daten",foot_note_h:"Hinweis",foot_note:"Keine Verbindung zur NASA. Ergebnisse sind Schätzungen zum Vergleichen von Optionen. Alle Beträge in heutigen Euro: Getreide auf Marktniveau 2025, Dünger wie gewählt.",
 det_rr:"Gewinn und Sicherheit",det_rr_note:"Weiter oben bedeutet mehr Gewinn im Schnitt. Weiter rechts bedeutet sicherer in schlechten Jahren.",det_soil:"Bodenkohlenstoff über 20 Jahre",
 det_hist:"Die echten Jahre 1995 bis 2024 nachgespielt: Ihr Plan gegen jedes Jahr Mais",det_clim:"Sommerhitze und Regen auf diesem Feld",
@@ -1197,7 +1266,16 @@ function applyRain(){
   $('rainNote').innerHTML=t('rain_note',{p:nf(pm)})+(preset&&preset.rain&&v===preset.rain?' '+t('rain_src',{s:t(preset.rainSrc)}):'');
 }
 $('rainCal').addEventListener('change',()=>{applyRain();runAll();});
-$('fertP').addEventListener('change',()=>{N_PRICE=+$('fertP').value;runAll();});
+$('fertP').addEventListener('change',()=>{N_PRICE=+$('fertP').value;priceLabel();runAll();});
+$('priceMode').addEventListener('change',()=>{PRICE_MODE=$('priceMode').value;priceLabel();runAll();});
+$('brent').addEventListener('change',()=>{BRENT=Math.max(20,Math.min(200,+$('brent').value||95));DIESEL=dieselFromBrent(BRENT);priceLabel();irrLabel();runAll();});
+function priceLabel(){
+  const eu=v=>LANG==='en'?'€'+f1(v):f1(v)+' €', d2=v=>(Math.round(v*100)/100).toLocaleString(LANG==='en'?'en-US':LANG==='de'?'de-DE':'tr-TR',{minimumFractionDigits:2});
+  const px=PRICE_MODE==='hist'?pxFixed():pxScenario(PRICE_MODE);
+  const k={hist:'pn_hist',fixed:'pn_fixed',y2022:'pn_2022',y2026:'pn_2026'}[PRICE_MODE];
+  $('priceNote').innerHTML=t(k,{d:d2(px.d),n:d2(px.n),g:Math.round((px.g-1)*100),b:PRICE_MODE==='y2026'?95:Math.round(BRENT)})+' '+t('pn_src');
+  const fixedOnly=PRICE_MODE==='hist'||PRICE_MODE==='fixed'; $('brent').disabled=!fixedOnly; $('fertP').disabled=!fixedOnly;
+}
 // ===================== Run + render =====================
 function getSoil(){return {soc:+$('soc').value||15, clay:+$('clay').value||25};}
 function getShift(){
@@ -1245,7 +1323,7 @@ function renderAnswer(){
   const {sorted,best,me,shift}=lastResults;
   const lk=Object.entries(best.lim).sort((a,b)=>b[1]-a[1])[0];
   const risk=t(lk[1]===0?'risk_none':({water:'risk_water',heat:'risk_heat',n:'risk_n'})[lk[0]]);
-  const scenTxt=t({raw:'scen_raw','2050':'scen_2050',ssp245:'scen_ssp245',ssp585:'scen_ssp585'}[shift.mode]||'scen_now')+(shift.dT?` +${shift.dT} °C`:'')+(shift.dP?`, ${shift.dP}%`:'');
+  const scenTxt=t({raw:'scen_raw','2050':'scen_2050',ssp245:'scen_ssp245',ssp585:'scen_ssp585'}[shift.mode]||'scen_now')+', '+t('ph_'+PRICE_MODE)+(shift.dT?` +${shift.dT} °C`:'')+(shift.dP?`, ${shift.dP}%`:'');
   const head=best===me?t('best_mine',{rot:rotName(best.seq,true)}):t('best_other',{rot:rotName(best.seq,true),k:sorted.indexOf(me)+1});
   const maxM=Math.max(...sorted.map(r=>r.mean),1);
   // greener alternative
@@ -1267,7 +1345,7 @@ function renderAnswer(){
     <div class="sh">
       <div><div class="l">${t('sh_c')}</div><div class="v2 ${best.dC<-1?'bad':''}">${soilWord(best.dC)}</div><p>${t('sh_c_p',{d:sgn(best.dC)})}</p></div>
       <div><div class="l">${t('sh_bare')}</div><div class="v2 ${best.bare>5?'bad':''}">${t('sh_bare_v',{m:f1(best.bare)})}</div><p>${t('sh_bare_p',{e:nf(best.ero)})}</p></div>
-      <div><div class="l">${t('sh_n')}</div><div class="v2 ${Math.abs(best.nSur)>40?'bad':''}">${nWord(best.nSur)}</div><p>${t('sh_n_p',{f:nf(best.fert),x:nf(best.nFix),b:(best.nSur>0?'+':best.nSur<0?'−':'')+nf(Math.abs(best.nSur))})}</p></div>
+      <div><div class="l">${t('sh_n')}</div><div class="v2 ${Math.abs(best.nSur)>40?'bad':''}">${nWord(best.nSur)}</div><p>${t(best.nFix>0.5?'sh_n_p':'sh_n_p0',{f:nf(best.fert),x:nf(best.nFix),b:(best.nSur>0?'+':best.nSur<0?'−':'')+nf(Math.abs(best.nSur))})}</p></div>
       <div><div class="l">${t('sh_w')}</div>${shift.irr>0?`<div class="v2">${t('sh_w_irr',{n:nf(best.irr)})}</div><p>${t('sh_w_irr_p',{c:nf(best.irr*irrCost(DIESEL)),g:nf(best.gap)})}</p>`:`<div class="v2 ${best.gap>100?'bad':''}">${t('sh_w_gap',{n:nf(best.gap)})}</div><p>${t('sh_w_gap_p')}</p>`}</div>
     </div>
     <p class="mono small" style="margin:8px 0 0;font-size:12px;line-height:1.5">${t('sh_note')}</p>
@@ -1362,7 +1440,7 @@ function renderSpace(){
 // ===================== Share link: the result is rebuilt from the URL =====================
 function stateHash(){
   const q=new URLSearchParams({lat:site.lat,lon:site.lon,site:site.key,rot:userSeq().join('.'),w:[$('wInc').value,$('wRisk').value,$('wSoil').value,$('wWater').value].join('.'),sc:scen,lang:LANG});
-  if(+$('irr').value) q.set('irr',$('irr').value);
+  if(+$('irr').value) q.set('irr',$('irr').value); if(PRICE_MODE!=='hist') q.set('pm',PRICE_MODE); if(BRENT!==95) q.set('brent',BRENT);
   if(+$('dT').value) q.set('dT',$('dT').value); if(+$('dP').value) q.set('dP',$('dP').value);
   if($('fertP').value!=='1.2') q.set('fert',$('fertP').value); if($('rainCal').value) q.set('rain',$('rainCal').value);
   return '#'+q.toString();
@@ -1378,6 +1456,8 @@ function readHash(){
     if(q.get('lang')&&I18N[q.get('lang')]) LANG=q.get('lang');
     const w=(q.get('w')||'').split('.'); ['wInc','wRisk','wSoil','wWater'].forEach((id,i)=>{if(w[i]!=null&&w[i]!=='') $(id).value=w[i];});
     if(q.get('irr')) $('irr').value=q.get('irr');
+    if(['hist','fixed','y2022','y2026'].includes(q.get('pm'))){PRICE_MODE=q.get('pm');$('priceMode').value=PRICE_MODE;}
+    if(q.get('brent')){BRENT=+q.get('brent');$('brent').value=BRENT;DIESEL=dieselFromBrent(BRENT);}
     if(['now','ssp245','ssp585'].includes(q.get('sc'))) scen=q.get('sc');
     if(q.get('dT')) $('dT').value=q.get('dT'); if(q.get('dP')) $('dP').value=q.get('dP');
     if(q.get('fert')){$('fertP').value=q.get('fert'); N_PRICE=+q.get('fert');}
@@ -1397,7 +1477,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
@@ -1408,7 +1488,7 @@ document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.datase
 $('dT').oninput=()=>$('dTv').textContent='+'+(+$('dT').value).toFixed(1)+' °C';
 $('dP').oninput=()=>$('dPv').textContent=$('dP').value+' %';
 ['dT','dP','wInc','wRisk','wSoil','wWater','irr','soc','clay','rawHist'].forEach(id=>$(id).addEventListener('change',runAll));
-function irrLabel(){const v=+$('irr').value;$('irrV').textContent=v?v+' mm':t('irr_none');$('irrNote').textContent=t('irr_note',{c:f1(irrCost(DIESEL)).replace(/[.,]\d$/,m=>m)});}
+function irrLabel(){const v=+$('irr').value;$('irrV').textContent=v?v+' mm':t('irr_none');$('irrNote').textContent=t('irr_note',{c:f1(irrCost(DIESEL))});}
 $('irr').addEventListener('input',irrLabel);
 ['lat','lon'].forEach(id=>$(id).addEventListener('change',()=>chooseSite({key:'custom',lat:+$('lat').value,lon:+$('lon').value})));
 function mkChart(id,cfg){ if(charts[id]) charts[id].destroy(); charts[id]=new Chart($(id),cfg); }

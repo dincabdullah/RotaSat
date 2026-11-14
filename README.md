@@ -28,6 +28,8 @@ It runs in the browser as one HTML file. There is no server, no login and no ins
 | Copernicus Sentinel-2 L2A (AWS Open Data) | ESA (Space Apps partner agency) | Plant-cover (NDVI) history and bare-soil days of the example fields |
 | ESA WorldCover 2021, 10 m | ESA | Checking that every example field point lies inside cropland |
 | ISRIC SoilGrids 2.0 | ISRIC | Soil organic carbon and clay, fetched live |
+| World Bank Pink Sheet, IMF Primary Commodity Prices | World Bank, IMF | World prices of grain, oilseeds, sugar, urea and Brent oil 2000 to 2025 for price risk |
+| NASA GIBS (MODIS Terra true colour, MODIS NDVI 8-day, SMAP L4 root-zone soil moisture) | NASA | Map layers |
 | FAOSTAT wheat yields | FAO | Validation |
 | Esri World Imagery | Esri | Base map |
 
@@ -37,9 +39,12 @@ It runs in the browser as one HTML file. There is no server, no login and no ins
 - **Heat, frost and wet harvests:** days above each crop's flowering heat threshold; winter-kill of autumn-sown cereals below −7 °C mean January/February minimum; a penalty when harvest-month rain is above 1.5 times normal.
 - **Soil carbon:** ICBM two-pool model (Andrén & Kätterer 1997), initialised so that the field's measured carbon is in balance with a cereal rotation today.
 - **Erosion exposure:** rain on days with 12.7 mm or more (the erosive-rain threshold used by RUSLE), counted in months when the rotation leaves the soil bare.
-- **Economics:** today's euros, grain at 2025 market levels, inputs scaled to the field's yield level; nitrogen price 2024 or spring-2026 level (selectable).
+- **Economics:** today's euros, grain at 2025 market levels, non-fuel inputs scaled to the field's yield level, fuel use per crop (l/ha) priced from the oil price (farm diesel = €0.84 + €0.0058 per $ of Brent, excl. VAT).
+- **Price risk:** prices come from World Bank Pink Sheet and IMF annual world prices 2000 to 2025, inflation-adjusted (US CPI), in `data/prices.csv`. In the default mode each simulated season draws the prices of one real year (grain, oilseeds, sugar, urea and oil together), centred on today's level, so price swings and how prices move together enter the risk. Fixed modes: today's prices, the 2022 shock (war in Ukraine) and the 2026 energy shock (oil and fertilizer at 2026 levels). Chickpea, lentil and vetch have no world price series and keep today's price.
+- **Water:** monthly FAO-56 soil-water balance. Optional irrigation tops the root zone up to the crop's stress threshold within a yearly amount (80 % efficiency), at about 1.2 l of pump diesel plus €0.80 per mm and hectare. Without irrigation the water gap (crop demand not met) is reported.
+- **Crops:** wheat, barley, maize, sunflower, rapeseed, sugar beet, chickpea, lentil, soybean, vetch/clover, fallow (FAO-56 Kc and rooting depth, FAO-33 Ky). Cereals after a legume, oilseed or root crop yield 5 % more (break-crop effect).
 - **Futures:** 1,000 runs of 20 seasons, each built from real past years in a new order (bootstrap). For 2050, each past year is first moved to today's warmth along the field's own observed trend, then shifted by the monthly change one CMIP6 model projects from today to 2050 (the model's 1995-2014 to 2041-2060 change scaled linearly by 26/46; delta-change method). This keeps the warming already observed at the field, which in Germany has run ahead of the models.
-- **Ranking:** your three priority sliders weight profit, safety (bad-year profit and failure rate) and soil health (carbon 60 %, erosion exposure 25 %, nitrogen balance 15 %).
+- **Ranking:** four priority sliders weight profit, safety (bad-year profit and failure rate), soil health (carbon 60 %, erosion exposure 25 %, nitrogen balance 15 %) and saving water (irrigation used, or the water gap without irrigation).
 
 ## Validation
 
