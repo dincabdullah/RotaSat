@@ -239,6 +239,17 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 .shw{margin:0;font-size:14px;line-height:1.45;color:var(--ink2)}
 @media(max-width:900px){.shr{grid-template-columns:minmax(140px,180px) 1fr}.shw{grid-column:1/-1}}
 @media(max-width:560px){.shr{grid-template-columns:1fr}}
+/* v1.1 my fields */
+.fields{background:#fff;border-top:1px solid var(--line)}
+.fform{display:grid;grid-template-columns:minmax(160px,1fr) minmax(220px,1.6fr) 110px auto;gap:12px;align-items:end;margin-top:22px}
+.fform label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--ink2)}
+.fform input{font:inherit;font-size:15px;padding:10px;border:1px solid var(--line2);border-radius:4px;background:#fff;min-height:44px;color:var(--ink);width:100%}.fform .go{min-height:44px;padding:10px 18px}
+@media(max-width:760px){.fform{grid-template-columns:1fr 110px}.fform .wide{grid-column:1/-1}.fform .go{grid-column:1/-1}}
+.ftab{min-width:980px;margin-top:10px;font-size:15px}.ftab td{vertical-align:top;padding:12px 8px}.ftab td small{display:block;font-size:13px;color:var(--mute);margin-top:2px;line-height:1.35}
+.ftab td b{font-weight:700}.ftab .fact button,.ftab .fact a{font:inherit;font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line2);border-radius:4px;padding:5px 8px;margin:0 4px 4px 0;cursor:pointer;color:#151622;text-decoration:none;display:inline-block}
+.ftab .fact button.del{color:#C41C06}.ftab .wait{color:var(--mute);font-style:italic}
+.ftot{font-size:16px;margin:12px 0 0;color:var(--ink2)}.ftot b{color:var(--ink)}
+@media(max-width:760px){.ftab{min-width:0}.ftab thead{display:none}.ftab tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;border-top:1px solid var(--line);padding:12px 0}.ftab td{border:0!important;padding:0}.ftab td:first-child,.ftab td.fact{grid-column:1/-1}.ftab td::before{content:attr(data-l);display:block;font-size:11px;color:var(--mute)}.ftab td:first-child::before{display:none}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -246,7 +257,7 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 <body>
 <header><div class="wrap">
   <a class="logo" href="#top"><svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true"><clipPath id="lgc"><circle cx="20" cy="20" r="12.5"/></clipPath><g clip-path="url(#lgc)"><rect x="6" y="6" width="28" height="28" fill="#0050D8"/><path d="M4 34 Q14 20 18 4 L23 4 Q19 21 9 36Z" fill="#2491FF"/><path d="M9 36 Q19 21 23 4 L28 4 Q24 22 14 37Z" fill="#E7F434"/><path d="M19 37 Q28 23 32 6 L36 6 L36 37Z" fill="#1B2B85"/></g><path d="M34.6 13.5 A16 16 0 1 1 26.5 5.4" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round"/><path d="M24.2 2.2 L26.5 5.4 L22.5 5.8" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g transform="rotate(45 31.6 8.4)"><rect x="29.9" y="6.7" width="3.4" height="3.4" rx=".4" fill="#fff"/><rect x="25.6" y="7.6" width="3.6" height="1.6" fill="#fff"/><rect x="34" y="7.6" width="3.6" height="1.6" fill="#fff"/></g></svg><span class="lw"><b>RotaSat</b><small>CROP ROTATION FROM ORBIT</small></span></a>
-  <nav><a href="#plan" data-i18n="nav_plan"></a><a href="#trust" data-i18n="nav_trust"></a><a href="#how" data-i18n="nav_how"></a><a href="#glossary" data-i18n="gl_h"></a></nav>
+  <nav><a href="#plan" data-i18n="nav_plan"></a><a href="#fields" data-i18n="fl_h"></a><a href="#trust" data-i18n="nav_trust"></a><a href="#how" data-i18n="nav_how"></a><a href="#glossary" data-i18n="gl_h"></a></nav>
   <div class="langs" role="group" aria-label="Language">
     <button class="btn-s" data-lang="en" aria-pressed="true">English</button>
     <button class="btn-s" data-lang="tr" aria-pressed="false">Türkçe</button>
@@ -326,6 +337,22 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
   </form>
 
   <div class="answer" id="answer" aria-live="polite"><p class="loading" id="status"></p></div>
+</div></section>
+
+<section class="block fields" id="fields"><div class="wrap">
+  <h2 class="sec" data-i18n="fl_h"></h2>
+  <p class="sub" data-i18n="fl_p"></p>
+  <form class="fform" id="fForm">
+    <label><span data-i18n="fl_name"></span><input id="fName" maxlength="40"></label>
+    <label class="wide"><span data-i18n="fl_place"></span><input id="fPlace" maxlength="80"></label>
+    <label class="sm"><span data-i18n="fl_ha"></span><input id="fHa" type="number" min="0" step="0.1"></label>
+    <button type="submit" class="go" data-i18n="fl_add"></button>
+  </form>
+  <p class="hint" id="fMsg" aria-live="polite"></p>
+  <div class="tbl"><table class="ftab" id="fTable"></table></div>
+  <p class="ftot" id="fTotal"></p>
+  <div class="acts"><button type="button" class="btn-o" id="fCalc" data-i18n="fl_calc"></button><button type="button" class="btn-o lite" id="fLink" data-i18n="fl_link"></button><button type="button" class="btn-o lite" id="fCsv" data-i18n="fl_csv"></button></div>
+  <p class="small" style="margin-top:14px;line-height:1.5" data-i18n="fl_note"></p>
 </div></section>
 
 <section class="details" id="details" hidden><div class="wrap">
@@ -679,7 +706,7 @@ function simulate(seq, yearList, soil, shift, opts={}){
 // Attainable yield of a crop at this site (median over today's climate, water + heat limits only); cached per site/soil
 const _att={};
 function attainable(key,soil,irr=0){
-  const id=key+'|'+soil.soc+'|'+soil.clay+'|'+climate.lat+'|'+climate.years.length+'|'+(climate.pScale||1)+'|'+irr;
+  const id=key+'|'+soil.soc+'|'+soil.clay+'|'+climate.lat+'|'+climate.lon+'|'+climate.years.length+'|'+(climate.pScale||1)+'|'+irr;
   if(_att[id]!=null) return _att[id];
   if(key==='fallow') return _att[id]=0;
   _att[id]=-1; // guard against recursion while computing
@@ -759,6 +786,40 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+fl_h:"My fields",
+fl_p:"Farm in more than one place? Add each field here. RotaSat reads NASA data for every field and shows its climate, the change by 2050 and the rotation that fits your priorities best. The list stays in this browser; copy its link to open it on another device.",
+fl_name:"Field name",
+fl_place:"Place (village or town). Leave empty to use the field chosen on the map",
+fl_ha:"Area (ha)",
+fl_add:"Add to my list",
+fl_add_cur:"Add this field to my list",
+fl_empty:"No fields yet. Choose a field on the map or type a place, give it a name and add it.",
+fl_wait:"Reading NASA data for this field.",
+fl_th_field:"Field",
+fl_th_clim:"Climate now",
+fl_th_change:"Since 1985",
+fl_th_2050:"By 2050",
+fl_th_best:"Best fit for your priorities",
+fl_th_plan:"Your plan",
+fl_rain:"{r} mm rain a year",
+fl_hot:"{h} hot days, {f} frost days a year",
+fl_lf:"last spring frost around {d}",
+fl_rank:"rank {k} of {n}",
+fl_open:"Open",
+fl_region:"Region page",
+fl_del:"Remove",
+fl_total:"{n} fields, <b>{ha} ha</b>. With the best-fit rotations they would earn about <b>{m} a year</b> in total.",
+fl_total0:"{n} fields. Enter the area of each field to see the total.",
+fl_calc:"Recalculate with my current priorities",
+fl_link:"Copy a link to my list",
+fl_csv:"Download as CSV (Excel)",
+fl_msg_added:"Added {n}. NASA data is being read.",
+fl_msg_noname:"Give the field a name first.",
+fl_msg_search:"Searching the place.",
+fl_msg_notfound:"Place not found. Choose the field on the map instead.",
+fl_msg_cur:"Give a name to {p} and press Add.",
+fl_imported:"{n} fields loaded from the link.",
+fl_note:"Each field is calculated for today's climate and the price setting above, without irrigation, with soil from ISRIC SoilGrids at that spot and the rotation you had planned when you added it. Open a field to change these and see every detail.",
 sx_c:"{d} t C per ha in 20 years",
 sw_c:"More carbon in the soil holds more water and nutrients.",
 sx_b:"{e} mm heavy rain on bare soil a year",
@@ -1024,6 +1085,40 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+fl_h:"Tarlalarım",
+fl_p:"Birden fazla yerde tarlan mı var? Her birini buraya ekle. RotaSat her tarla için NASA verisini okur ve iklimini, 2050'ye kadarki değişimi ve önceliklerine en uygun rotasyonu gösterir. Liste bu tarayıcıda saklanır; başka bir cihazda açmak için linkini kopyala.",
+fl_name:"Tarla adı",
+fl_place:"Yer (köy ya da ilçe). Haritada seçili tarlayı kullanmak için boş bırak",
+fl_ha:"Alan (ha)",
+fl_add:"Listeme ekle",
+fl_add_cur:"Bu tarlayı listeme ekle",
+fl_empty:"Henüz tarla yok. Haritada bir tarla seç ya da bir yer yaz, ona bir ad ver ve ekle.",
+fl_wait:"Bu tarla için NASA verisi okunuyor.",
+fl_th_field:"Tarla",
+fl_th_clim:"Şu anki iklim",
+fl_th_change:"1985'ten beri",
+fl_th_2050:"2050'ye kadar",
+fl_th_best:"Önceliklerine en uygun",
+fl_th_plan:"Senin planın",
+fl_rain:"yılda {r} mm yağış",
+fl_hot:"yılda {h} sıcak gün, {f} don günü",
+fl_lf:"son ilkbahar donu {d} civarı",
+fl_rank:"{n} seçenek içinde {k}.",
+fl_open:"Aç",
+fl_region:"Bölge sayfası",
+fl_del:"Sil",
+fl_total:"{n} tarla, <b>{ha} ha</b>. En uygun rotasyonlarla toplamda yılda yaklaşık <b>{m}</b> kazandırır.",
+fl_total0:"{n} tarla. Toplamı görmek için her tarlanın alanını gir.",
+fl_calc:"Şu anki önceliklerimle yeniden hesapla",
+fl_link:"Listemin linkini kopyala",
+fl_csv:"CSV olarak indir (Excel)",
+fl_msg_added:"{n} eklendi. NASA verisi okunuyor.",
+fl_msg_noname:"Önce tarlaya bir ad ver.",
+fl_msg_search:"Yer aranıyor.",
+fl_msg_notfound:"Yer bulunamadı. Bunun yerine tarlayı haritada seç.",
+fl_msg_cur:"{p} için bir ad yaz ve Ekle'ye bas.",
+fl_imported:"Linkten {n} tarla yüklendi.",
+fl_note:"Her tarla bugünkü iklim ve yukarıdaki fiyat ayarıyla, sulamasız, o noktadaki ISRIC SoilGrids toprağıyla ve eklediğin anda planladığın rotasyonla hesaplanır. Bunları değiştirmek ve tüm ayrıntıları görmek için tarlayı aç.",
 sx_c:"20 yılda hektar başına {d} t C",
 sw_c:"Topraktaki karbon arttıkça toprak daha çok su ve besin tutar.",
 sx_b:"çıplak toprağa yılda {e} mm şiddetli yağış",
@@ -1289,6 +1384,40 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+fl_h:"Meine Felder",
+fl_p:"Sie bewirtschaften Felder an mehreren Orten? Fügen Sie jedes hier hinzu. RotaSat liest für jedes Feld NASA-Daten und zeigt sein Klima, die Änderung bis 2050 und die Fruchtfolge, die am besten zu Ihren Prioritäten passt. Die Liste bleibt in diesem Browser; kopieren Sie den Link, um sie auf einem anderen Gerät zu öffnen.",
+fl_name:"Feldname",
+fl_place:"Ort (Dorf oder Stadt). Leer lassen für das auf der Karte gewählte Feld",
+fl_ha:"Fläche (ha)",
+fl_add:"Zur Liste hinzufügen",
+fl_add_cur:"Dieses Feld zur Liste hinzufügen",
+fl_empty:"Noch keine Felder. Wählen Sie ein Feld auf der Karte oder geben Sie einen Ort ein, benennen Sie es und fügen Sie es hinzu.",
+fl_wait:"NASA-Daten für dieses Feld werden gelesen.",
+fl_th_field:"Feld",
+fl_th_clim:"Klima heute",
+fl_th_change:"Seit 1985",
+fl_th_2050:"Bis 2050",
+fl_th_best:"Passt am besten zu Ihren Prioritäten",
+fl_th_plan:"Ihr Plan",
+fl_rain:"{r} mm Regen pro Jahr",
+fl_hot:"{h} Hitzetage, {f} Frosttage pro Jahr",
+fl_lf:"letzter Frühjahrsfrost um den {d}",
+fl_rank:"Platz {k} von {n}",
+fl_open:"Öffnen",
+fl_region:"Regionsseite",
+fl_del:"Entfernen",
+fl_total:"{n} Felder, <b>{ha} ha</b>. Mit den passendsten Fruchtfolgen brächten sie zusammen etwa <b>{m} pro Jahr</b>.",
+fl_total0:"{n} Felder. Geben Sie die Fläche jedes Feldes ein, um die Summe zu sehen.",
+fl_calc:"Mit meinen aktuellen Prioritäten neu berechnen",
+fl_link:"Link zu meiner Liste kopieren",
+fl_csv:"Als CSV herunterladen (Excel)",
+fl_msg_added:"{n} hinzugefügt. NASA-Daten werden gelesen.",
+fl_msg_noname:"Bitte zuerst einen Namen eingeben.",
+fl_msg_search:"Ort wird gesucht.",
+fl_msg_notfound:"Ort nicht gefunden. Wählen Sie das Feld stattdessen auf der Karte.",
+fl_msg_cur:"Geben Sie {p} einen Namen und klicken Sie auf Hinzufügen.",
+fl_imported:"{n} Felder aus dem Link geladen.",
+fl_note:"Jedes Feld wird für das heutige Klima und die Preiseinstellung oben berechnet, ohne Beregnung, mit dem Boden aus ISRIC SoilGrids an diesem Punkt und der Fruchtfolge, die beim Hinzufügen geplant war. Öffnen Sie ein Feld, um das zu ändern und alle Details zu sehen.",
 sx_c:"{d} t C je ha in 20 Jahren",
 sw_c:"Mehr Kohlenstoff im Boden hält mehr Wasser und Nährstoffe.",
 sx_b:"{e} mm Starkregen pro Jahr auf offenen Boden",
@@ -1689,21 +1818,43 @@ function setStatus(k,err){$('answer').innerHTML=`<p class="loading ${err?'err':'
 
 // ===================== Data loading =====================
 let loadToken=0;
+// NASA POWER daily weather for one point, cached in this browser
+async function fetchClimate(lat,lon){
+  const key=`rotasat_v5_${lat}_${lon}`;
+  let cached=null; try{cached=JSON.parse(localStorage.getItem(key));}catch(e){}
+  let c;
+  if(cached&&cached.years) c=finishClimate(cached);
+  else{
+    const url=`https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,RH2M,WS2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=${lon}&latitude=${lat}&start=19850101&end=20241231&format=JSON`;
+    const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status);
+    c=parsePowerDaily(await r.json(), lat);
+    try{const {lat:a,z,years,byYear}=c;localStorage.setItem(key,JSON.stringify({lat:a,z,years,byYear}));}catch(e){}
+  }
+  c.lon=lon; return c;
+}
+// ISRIC SoilGrids organic carbon and clay (5-30 cm); tries a few nearby points if the spot is a road or village
+async function fetchSoil(lat,lon){
+  const offs=[[0,0],[0.03,0],[0,0.04],[-0.03,-0.04]];
+  for(const [dy,dx] of offs){
+    const la=(lat+dy).toFixed(3), lo=(lon+dx).toFixed(3);
+    const r=await fetch(`https://rest.isric.org/soilgrids/v2.0/properties/query?lon=${lo}&lat=${la}&property=soc&property=clay&depth=0-5cm&depth=5-15cm&depth=15-30cm&value=mean`);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    if(!j.properties.layers.every(Lr=>Lr.depths.some(d=>d.values.mean!=null))) continue;
+    const get=name=>{const Lr=j.properties.layers.find(l=>l.name===name);const w=name==='soc'?[0,10,15]:[5,10,15],vals=Lr.depths.map((d,i)=>d.values.mean==null||!w[i]?null:[d.values.mean/Lr.unit_measure.d_factor,w[i]]).filter(Boolean);return vals.reduce((a,[v,wt])=>a+v*wt,0)/vals.reduce((a,[,wt])=>a+wt,0);};
+    const clay=get('clay');
+    return {soc:get('soc'),clay:clay>100?clay/10:clay,used:[la,lo],moved:(+la!==lat||+lo!==lon)};
+  }
+  return null;
+}
 async function loadData(){
   const my=++loadToken; busy=true; $('runBtn').disabled=true; lastResults=null; climate=null;
-  const lat=site.lat, lon=site.lon, key=`rotasat_v5_${lat}_${lon}`;
+  const lat=site.lat, lon=site.lon;
   try{
-    let cached=null; try{cached=JSON.parse(localStorage.getItem(key));}catch(e){}
-    if(cached&&cached.years){if(my!==loadToken) return; climate=finishClimate(cached);}
-    else{
-      setStatus('loading_power');
-      const url=`https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,RH2M,WS2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=${lon}&latitude=${lat}&start=19850101&end=20241231&format=JSON`;
-      const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status);
-      const parsed=parsePowerDaily(await r.json(), lat);
-      try{const {lat:a,z,years,byYear}=parsed;localStorage.setItem(key,JSON.stringify({lat:a,z,years,byYear}));}catch(e){}
-      if(my!==loadToken) return; // the user picked another field meanwhile
-      climate=parsed;
-    }
+    setStatus('loading_power');
+    const c=await fetchClimate(lat,lon);
+    if(my!==loadToken) return; // the user picked another field meanwhile
+    climate=c;
   }catch(e){ if(my!==loadToken) return; setStatus('err_power',true); busy=false; $('runBtn').disabled=false; return; }
   applyRain();
   setStatus('loading_soil');
@@ -1715,21 +1866,11 @@ async function loadData(){
 async function loadSoil(lat,lon,my){
   const note=$('soilNote');
   try{
-    const offs=[[0,0],[0.03,0],[0,0.04],[-0.03,-0.04]]; let j=null, used=null;
-    for(const [dy,dx] of offs){
-      const la=(lat+dy).toFixed(3), lo=(lon+dx).toFixed(3);
-      const r=await fetch(`https://rest.isric.org/soilgrids/v2.0/properties/query?lon=${lo}&lat=${la}&property=soc&property=clay&depth=0-5cm&depth=5-15cm&depth=15-30cm&value=mean`);
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      const jj=await r.json();
-      if(jj.properties.layers.every(Lr=>Lr.depths.some(d=>d.values.mean!=null))){j=jj;used=[la,lo];break;}
-    }
+    const sg=await fetchSoil(lat,lon);
     if(my!==loadToken) return;
-    if(!j) throw new Error('none');
-    const get=name=>{const Lr=j.properties.layers.find(l=>l.name===name);const w=name==='soc'?[0,10,15]:[5,10,15],vals=Lr.depths.map((d,i)=>d.values.mean==null||!w[i]?null:[d.values.mean/Lr.unit_measure.d_factor,w[i]]).filter(Boolean);return vals.reduce((a,[v,wt])=>a+v*wt,0)/vals.reduce((a,[,wt])=>a+wt,0);};
-    const soc=get('soc'), clay=get('clay');
-    $('soc').value=soc.toFixed(1); $('clay').value=(clay>100?clay/10:clay).toFixed(0);
-    const moved=(+used[0]!==lat||+used[1]!==lon);
-    note.dataset.k=moved?'soil_near':'soil_ok'; note.dataset.p=moved?`${used[0]}, ${used[1]}`:'';
+    if(!sg) throw new Error('none');
+    $('soc').value=sg.soc.toFixed(1); $('clay').value=sg.clay.toFixed(0);
+    note.dataset.k=sg.moved?'soil_near':'soil_ok'; note.dataset.p=sg.moved?`${sg.used[0]}, ${sg.used[1]}`:'';
   }catch(e){ note.dataset.k='soil_fail'; }
   note.textContent=t(note.dataset.k,{p:note.dataset.p||''});
 }
@@ -1801,14 +1942,12 @@ function runAll(){
   setStatus('running');
   setTimeout(()=>{ try{ runAllNow(); }catch(e){ console.error(e); setStatus('err_power',true);} },30);
 }
-function runAllNow(){
-  if(!climate) return;
-  const soil=getSoil(), shift=getShift(), c0=soil.soc*C_PER_GKG;
-  const mine=userSeq();
+// Ranks the preset rotations plus the farmer's own plan for the climate currently in `climate`.
+function rankRotations(soil,shift,mine){
+  const c0=soil.soc*C_PER_GKG;
   const rots=PRESETS.filter(p=>p.seq.join()!==mine.join()).map(p=>({seq:p.seq})).concat([{seq:mine,mine:true}]);
   rots.forEach((ro,i)=>Object.assign(ro,monteCarlo(ro.seq,soil,shift,12345+i)));
   const w={inc:+$('wInc').value,risk:+$('wRisk').value,soil:+$('wSoil').value,water:+$('wWater').value}, ws=w.inc+w.risk+w.soil+w.water||1;
-  const norm=(k,inv)=>{const v=rots.map(r=>r[k]),lo=Math.min(...v),hi=Math.max(...v);return r=>hi===lo?0.5:(inv?(hi-r[k]):(r[k]-lo))/(hi-lo);};
   // profit and safety: share of the best option; soil and water: fixed scales (see GAUGES)
   const maxM=Math.max(...rots.map(r=>r.mean)), maxP=Math.max(...rots.map(r=>r.p10));
   rots.forEach(r=>{r.dC=r.cEnd-c0;
@@ -1817,7 +1956,13 @@ function runAllNow(){
     r.health=0.6*gScore('carbon',r.dC)+0.25*gScore('bare',r.bare)+0.15*gScore('nitro',r.nSur);
     r.sWater=gScore('water',r.water);
     r.score=100*(w.inc*r.sProfit+w.risk*r.sSafe+w.soil*r.health+w.water*r.sWater)/ws;});
-  const sorted=[...rots].sort((a,b)=>b.score-a.score), best=sorted[0], me=rots.find(r=>r.mine);
+  const sorted=[...rots].sort((a,b)=>b.score-a.score);
+  return {rots,sorted,best:sorted[0],me:rots.find(r=>r.mine)};
+}
+function runAllNow(){
+  if(!climate) return;
+  const soil=getSoil(), shift=getShift();
+  const {rots,sorted,best,me}=rankRotations(soil,shift,userSeq());
   if(PRICE_MODE!=='fixed'){const keep=PRICE_MODE; PRICE_MODE='fixed'; best.meanToday=monteCarlo(best.seq,soil,shift,777).mean; PRICE_MODE=keep;} else best.meanToday=null;
   lastResults={rots,sorted,best,me,soil,shift};
   renderAnswer(); renderClimate(); renderDetails();
@@ -1859,7 +2004,7 @@ function renderAnswer(){
     <h3>${t('cmp_h')}</h3><p class="small" style="margin:0 0 14px;font-size:15px">${t('cmp_p')}</p>
     <div class="tbl"><table class="cmp"><thead><tr><th style="padding-left:0">${t('th_rot')}</th><th style="width:36%">${t('th_profit')}</th><th class="r">${t('th_bad')}</th><th>${t('th_soil')}</th><th class="r">${t('th_water')}</th></tr></thead><tbody>${rows}</tbody></table></div>
     ${crash}
-    <div class="acts"><button type="button" class="btn-o" onclick="printReport()">${t('btn_print')}</button><button type="button" class="btn-o lite" id="detBtn" onclick="toggleDetails()">${$('details').hidden?t('btn_details'):t('btn_hide')}</button><button type="button" class="btn-o lite" onclick="shareLink(this)">${t('btn_share')}</button></div>`;
+    <div class="acts"><button type="button" class="btn-o" onclick="printReport()">${t('btn_print')}</button><button type="button" class="btn-o lite" id="detBtn" onclick="toggleDetails()">${$('details').hidden?t('btn_details'):t('btn_hide')}</button><button type="button" class="btn-o lite" onclick="shareLink(this)">${t('btn_share')}</button><button type="button" class="btn-o lite" onclick="addCurrentField()">${t('fl_add_cur')}</button></div>`;
 }
 function toggleDetails(){const d=$('details');d.hidden=!d.hidden;$('detBtn').textContent=d.hidden?t('btn_details'):t('btn_hide');if(!d.hidden){renderDetails();d.scrollIntoView({behavior:'smooth'});}}
 
@@ -2011,6 +2156,103 @@ function readHash(){
   }catch(e){return null;}
 }
 
+// ===================== My fields: several fields, each with its own NASA data =====================
+let FIELDS=[]; const FRES={}; let fBusy=false;
+try{FIELDS=JSON.parse(localStorage.getItem('rotasat_fields')||'[]');}catch(e){FIELDS=[];}
+function saveFields(){try{localStorage.setItem('rotasat_fields',JSON.stringify(FIELDS));}catch(e){}}
+const fid=()=>Math.random().toString(36).slice(2,9);
+async function placeName(lat,lon){
+  try{const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=12&lat=${lat}&lon=${lon}&accept-language=${LANG}`);const j=await r.json();const a=j.address||{};
+    return [a.village||a.town||a.city||a.municipality||a.suburb,a.county||a.state_district||a.state].filter(Boolean).join(', ')||`${lat}, ${lon}`;}catch(e){return `${lat}, ${lon}`;}
+}
+function addCurrentField(){ $('fPlace').value=''; $('fName').value=''; document.getElementById('fields').scrollIntoView({behavior:'smooth'}); setTimeout(()=>$('fName').focus(),400); $('fMsg').textContent=t('fl_msg_cur',{p:siteLabel()}); }
+$('fForm').addEventListener('submit',async e=>{
+  e.preventDefault(); const name=$('fName').value.trim(), q=$('fPlace').value.trim(), ha=+$('fHa').value||0;
+  if(!name){$('fMsg').textContent=t('fl_msg_noname'); $('fName').focus(); return;}
+  let lat, lon, place, key='';
+  if(q){
+    $('fMsg').textContent=t('fl_msg_search');
+    try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&accept-language='+LANG+'&q='+encodeURIComponent(q)); const j=await r.json();
+      if(!j.length){$('fMsg').textContent=t('fl_msg_notfound'); return;}
+      lat=+(+j[0].lat).toFixed(3); lon=+(+j[0].lon).toFixed(3); place=j[0].display_name.split(',').slice(0,2).join(',');
+    }catch(err){$('fMsg').textContent=t('srch_err'); return;}
+  }else{
+    lat=site.lat; lon=site.lon; const pre=SITES.find(x=>x.key===site.key);
+    if(pre){key=pre.key; place=pre.near[LANG];} else place=await placeName(lat,lon);
+  }
+  FIELDS.push({id:fid(),name,lat,lon,ha,place,key,rot:userSeq()}); saveFields();
+  $('fName').value=''; $('fPlace').value=''; $('fHa').value=''; $('fMsg').textContent=t('fl_msg_added',{n:name});
+  renderFields(); computeFields();
+});
+async function computeField(f){
+  const c=await fetchClimate(f.lat,f.lon);
+  if(!f.soil){try{const sg=await fetchSoil(f.lat,f.lon); f.soil=sg?{soc:+sg.soc.toFixed(1),clay:Math.round(sg.clay)}:{soc:15,clay:25,typ:true};}catch(e){f.soil={soc:15,clay:25,typ:true};} saveFields();}
+  const keep=climate; climate=c;
+  try{
+    const ys=c.years, B=ys.slice(-10), avg=a=>a.reduce((x,y)=>x+y,0)/a.length, med=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);return v.length?v[Math.floor(v.length/2)]:null;};
+    const cm=cmip(f.lat,f.lon,'ssp245');
+    const rk=rankRotations(f.soil,{mode:'now',dT:0,dP:0,irr:0},f.rot&&f.rot.length?f.rot:['wheat']);
+    FRES[f.id]={t:avg(B.map(y=>c.byYear[y].t.reduce((a,b)=>a+b)/12)), rain:c.pMean, warm:c.trend*(2024-1985),
+      hot:avg(B.map(y=>c.byYear[y].txd.flat().filter(v=>v>=30).length)), frost:avg(B.map(y=>(c.byYear[y].fd||[]).reduce((a,b)=>a+b,0))), lf:med(B.map(y=>c.byYear[y].lf)),
+      fut:cm?avg(cm.map(m=>CM_K*m.dT.reduce((a,b)=>a+b)/12)):null,
+      best:{seq:rk.best.seq,mean:rk.best.mean,dC:rk.best.cEnd-f.soil.soc*C_PER_GKG}, me:{mean:rk.me.mean,k:rk.sorted.indexOf(rk.me)+1,n:rk.sorted.length}};
+  }finally{climate=keep;}
+}
+async function computeFields(all){
+  if(fBusy) return; fBusy=true;
+  try{for(const f of FIELDS){ if(!all&&FRES[f.id]) continue; FRES[f.id]={wait:true}; renderFields();
+      try{await computeField(f);}catch(e){FRES[f.id]={err:true};} renderFields(); }}
+  finally{fBusy=false;}
+}
+function renderFields(){
+  const tb=$('fTable'); if(!tb) return;
+  if(!FIELDS.length){tb.innerHTML=`<tbody><tr><td class="small" style="padding-left:0">${t('fl_empty')}</td></tr></tbody>`; $('fTotal').textContent=''; return;}
+  const loc=LANG==='en'?'en-GB':LANG==='de'?'de-DE':'tr-TR', day=d=>d==null?'–':new Date(Date.UTC(2001,0,d)).toLocaleDateString(loc,{day:'numeric',month:'long'});
+  const H=['fl_th_field','fl_th_clim','fl_th_change','fl_th_2050','fl_th_best','fl_th_plan',''].map(k=>k?t(k):'');
+  tb.innerHTML=`<thead><tr>${H.map((h,i)=>`<th${i?'':' style="padding-left:0"'}>${h}</th>`).join('')}</tr></thead><tbody>`+FIELDS.map(f=>{
+    const R=FRES[f.id]||{}, pre=SITES.find(x=>x.key===f.key);
+    const head=`<td style="padding-left:0"><b>${f.name.replace(/</g,'&lt;')}</b><small>${(f.place||'').replace(/</g,'&lt;')}${f.ha?`, ${f1(f.ha)} ha`:''}</small><small>${rotShort(f.rot||['wheat'])}</small></td>`;
+    let mid;
+    if(R.wait||!R.t&&!R.err) mid=`<td class="wait" colspan="5">${t('fl_wait')}</td>`;
+    else if(R.err) mid=`<td class="wait" colspan="5">${t('err_power')}</td>`;
+    else mid=`<td data-l="${H[1]}"><b>${f1(R.t)} °C</b><small>${t('fl_rain',{r:nf(R.rain)})}</small></td>
+      <td data-l="${H[2]}"><b>${R.warm>=0?'+':'−'}${f1(Math.abs(R.warm))} °C</b><small>${t('fl_hot',{h:nf(R.hot),f:nf(R.frost)})}</small><small>${t('fl_lf',{d:day(R.lf)})}</small></td>
+      <td data-l="${H[3]}"><b>${R.fut!=null?'+'+f1(R.fut)+' °C':'–'}</b><small>SSP2-4.5</small></td>
+      <td data-l="${H[4]}"><b>${cap1(rotShort(R.best.seq))}</b><small>${money(R.best.mean)} /ha, ${soilWord(R.best.dC).toLowerCase()}</small></td>
+      <td data-l="${H[5]}"><b>${t('fl_rank',{k:R.me.k,n:R.me.n})}</b><small>${money(R.me.mean)} /ha</small></td>`;
+    const acts=`<td class="fact"><button type="button" data-open="${f.id}">${t('fl_open')}</button>${pre?`<a href="region.html?r=${pre.key}&lang=${LANG}" target="_blank" rel="noopener">${t('fl_region')}</a>`:''}<button type="button" class="del" data-del="${f.id}">${t('fl_del')}</button></td>`;
+    return `<tr>${head}${mid}${acts}</tr>`;}).join('')+'</tbody>';
+  tb.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{const f=FIELDS.find(x=>x.id===b.dataset.open); if(!f) return;
+    if(f.rot&&f.rot.length) for(let i=0;i<4;i++) $('slot'+i).value=f.rot[i]||'';
+    chooseSite(SITES.find(x=>x.key===f.key)||{key:'custom',lat:f.lat,lon:f.lon}); document.getElementById('top').scrollIntoView({behavior:'smooth'});});
+  tb.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{FIELDS=FIELDS.filter(x=>x.id!==b.dataset.del); saveFields(); renderFields();});
+  const done=FIELDS.filter(f=>FRES[f.id]&&FRES[f.id].best), ha=FIELDS.reduce((a,f)=>a+(f.ha||0),0);
+  const sum=done.reduce((a,f)=>a+(f.ha||0)*FRES[f.id].best.mean,0);
+  $('fTotal').innerHTML=ha&&done.length===FIELDS.length?t('fl_total',{n:FIELDS.length,ha:f1(ha),m:money(sum)}):t('fl_total0',{n:FIELDS.length});
+}
+$('fCalc').onclick=()=>computeFields(true);
+$('fLink').onclick=async ()=>{
+  const data=FIELDS.map(f=>[f.name,f.lat,f.lon,f.ha||0,(f.rot||[]).join('.'),f.key||'',f.place||'']);
+  const url=location.href.split('#')[0]+'#fl='+encodeURIComponent(JSON.stringify(data))+'&lang='+LANG;
+  try{await navigator.clipboard.writeText(url); $('fLink').textContent=t('copied');}catch(e){window.prompt(t('fl_link'),url);}
+};
+$('fCsv').onclick=()=>{
+  const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const head=['name','place','lat','lon','area_ha','planned_rotation','temp_now_C','rain_mm_year','warming_since_1985_C','hot_days_30C','frost_days','warming_by_2050_C','best_rotation','best_profit_eur_ha','plan_rank','plan_profit_eur_ha'];
+  const rows=FIELDS.map(f=>{const R=FRES[f.id]||{};return [f.name,f.place,f.lat,f.lon,f.ha||'',(f.rot||[]).join('-'),R.t?.toFixed(1),R.rain?.toFixed(0),R.warm?.toFixed(1),R.hot?.toFixed(0),R.frost?.toFixed(0),R.fut?.toFixed(1),R.best?.seq.join('-'),R.best?.mean.toFixed(0),R.me?.k,R.me?.mean.toFixed(0)];});
+  const csv=[head,...rows].map(r=>r.map(q).join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'})); a.download='rotasat-fields.csv'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+};
+function importFieldsFromHash(){
+  try{const q=new URLSearchParams(location.hash.slice(1)); const fl=q.get('fl'); if(!fl) return 0;
+    if(q.get('lang')&&I18N[q.get('lang')]) LANG=q.get('lang');
+    let n=0; for(const [name,lat,lon,ha,rot,key,place] of JSON.parse(fl)){
+      if(FIELDS.some(f=>f.name===name&&f.lat===lat&&f.lon===lon)) continue;
+      FIELDS.push({id:fid(),name,lat,lon,ha,rot:(rot||'').split('.').filter(k=>CROPS[k]),key,place}); n++;}
+    saveFields(); return n||-1;
+  }catch(e){return 0;}
+}
+
 // ===================== Report =====================
 function printReport(){
   if(!lastResults) return;
@@ -2023,7 +2265,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); renderNavBox(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); renderNavBox(); renderFields(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
@@ -2034,6 +2276,7 @@ document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.datase
 $('dT').oninput=()=>$('dTv').textContent='+'+(+$('dT').value).toFixed(1)+' °C';
 $('dP').oninput=()=>$('dPv').textContent=$('dP').value+' %';
 ['dT','dP','wInc','wRisk','wSoil','wWater','irr','soc','clay','rawHist'].forEach(id=>$(id).addEventListener('change',runAll));
+['wInc','wRisk','wSoil','wWater','priceMode','fertP','brent'].forEach(id=>$(id).addEventListener('change',()=>{if(FIELDS.length) setTimeout(()=>computeFields(true),400);}));
 function prioLabel(){
   const ids=['wInc','wRisk','wSoil','wWater'], v=ids.map(i=>+$(i).value), tot=v.reduce((a,b)=>a+b,0);
   ids.forEach((id,i)=>$(id+'V').textContent=t('lvl'+v[i]));
@@ -2047,8 +2290,12 @@ $('pShow').onclick=()=>{document.getElementById('top').classList.remove('nopanel
 ['lat','lon'].forEach(id=>$(id).addEventListener('change',()=>chooseSite({key:'custom',lat:+$('lat').value,lon:+$('lon').value})));
 function mkChart(id,cfg){ if(charts[id]) charts[id].destroy(); charts[id]=new Chart($(id),cfg); }
 
-const fromLink=readHash();
+const fromList=importFieldsFromHash();
+const fromLink=fromList?null:readHash();
 applyLang();
+renderFields();
+if(fromList){ $('fMsg').textContent=fromList>0?t('fl_imported',{n:fromList}):''; setTimeout(()=>document.getElementById('fields').scrollIntoView(),300); }
+setTimeout(()=>computeFields(),1500);
 if(fromLink){
   if(fromLink.rot.length){for(let i=0;i<4;i++) $('slot'+i).value=fromLink.rot[i]||'';}
   document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.scen===scen));
