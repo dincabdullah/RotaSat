@@ -250,6 +250,8 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 .ftab .fact button.del{color:#C41C06}.ftab .wait{color:var(--mute);font-style:italic}
 .ftot{font-size:16px;margin:12px 0 0;color:var(--ink2)}.ftot b{color:var(--ink)}
 @media(max-width:760px){.ftab{min-width:0}.ftab thead{display:none}.ftab tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;border-top:1px solid var(--line);padding:12px 0}.ftab td{border:0!important;padding:0}.ftab td:first-child,.ftab td.fact{grid-column:1/-1}.ftab td::before{content:attr(data-l);display:block;font-size:11px;color:var(--mute)}.ftab td:first-child::before{display:none}}
+/* v1.2 header: languages stay top right, menu items wrap inside the menu */
+@media(min-width:761px){header .wrap{flex-wrap:nowrap}header nav{gap:6px 20px;font-size:15px}header .logo,header .langs{flex:0 0 auto}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>

@@ -4,7 +4,9 @@
 
 RotaSat is a free decision-support tool for farmers and farm advisers, built for the NASA Space Apps Challenge 2026 challenge *Field Shift: Adapting Farms with NASA Data*. You click your field on a satellite map, say what matters most to you (profit, safety in bad years, healthy soil), and RotaSat tests each crop rotation in 1,000 possible futures, today and in 2050.
 
-It runs in the browser as one HTML file. There is no server, no login and no install.
+Try it: **https://dincabdullah.github.io/RotaSat/**
+
+It runs in the browser as a static page. There is no server, no login and no install.
 
 ## What it shows for a field
 
@@ -71,6 +73,10 @@ Model parts were chosen on 1985 to 2004 only. One candidate (a photothermal quot
 - The 2050 projection covers Europe and Türkiye (34 to 60° N, 10° W to 45° E, 1° grid). Elsewhere RotaSat falls back to the field's own warming trend and says so.
 - The satellite history is ready for the four example fields. For other fields it is the next step (NASA HLS through AppEEARS).
 - Germany's test-period correlation is weak (0.23). National statistics also contain disease, irrigation and management effects that weather alone cannot explain.
+
+## Test it
+
+See `docs/TEST_PLAN.md` for every feature with what it should do, and `tests/` for the browser tests.
 
 ## Run it
 
