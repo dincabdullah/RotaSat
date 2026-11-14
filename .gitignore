@@ -5,3 +5,4 @@ fixtures/
 test-shots/
 tests/node_modules
 tests/package-lock.json
+.claude/worktrees/
