@@ -1,0 +1,91 @@
+# RotaSat
+
+**Which crop rotation will still pay off on your field in 2050?**
+
+RotaSat is a free decision-support tool for farmers and farm advisers, built for the NASA Space Apps Challenge 2026 challenge *Field Shift: Adapting Farms with NASA Data*. You click your field on a satellite map, say what matters most to you (profit, safety in bad years, healthy soil), and RotaSat tests each crop rotation in 1,000 possible futures, today and in 2050.
+
+It runs in the browser as one HTML file. There is no server, no login and no install.
+
+## What it shows for a field
+
+- **The best rotation for your priorities**, in one sentence: average profit in €/ha, what is left in a run of bad years, and how often the rotation goes badly wrong.
+- **A soil health scorecard** for each rotation:
+  - organic carbon after 20 years (ICBM soil carbon model)
+  - months of bare soil per year, and the heavy rain that falls on that bare soil (the erosion risk)
+  - the nitrogen balance: fertilizer plus legume fixation, minus the nitrogen that leaves the field with the harvest
+- **Today vs. 2050:** the 2050 climate comes from NASA NEX-GDDP-CMIP6 (five climate models, two emission paths). Each of the 1,000 futures uses one of the five models, so the spread between models is part of the risk.
+- **What has already changed on this field** since 1985: warming, hot days, the driest seasons and climate stripes.
+- **What the satellite saw on this field** (for the example fields): Sentinel-2 plant-cover history since 2017, bare-soil days per year, and winter or summer crop per year.
+- **How reliable it is:** a back-test against 39 years of real wheat harvests in Germany and Türkiye.
+- A printable one-page report, a shareable link that rebuilds the same result, and English, Turkish and German text.
+
+## Data
+
+| Data | Agency | Used for |
+|---|---|---|
+| NASA POWER daily point API (meteorology from GMAO MERRA-2, solar from CERES) | NASA | 40 years of daily temperature, rain, humidity, wind and sunshine, 1985 to 2024, fetched live for any clicked field |
+| NASA NEX-GDDP-CMIP6 v2.0 (AWS Open Data) | NASA | 2050 climate: monthly change 2041 to 2060 vs. 1995 to 2014 for MPI-ESM1-2-HR, EC-Earth3, GFDL-ESM4, IPSL-CM6A-LR and MRI-ESM2-0, SSP2-4.5 and SSP5-8.5 |
+| Copernicus Sentinel-2 L2A (AWS Open Data) | ESA (Space Apps partner agency) | Plant-cover (NDVI) history and bare-soil days of the example fields |
+| ESA WorldCover 2021, 10 m | ESA | Checking that every example field point lies inside cropland |
+| ISRIC SoilGrids 2.0 | ISRIC | Soil organic carbon and clay, fetched live |
+| FAOSTAT wheat yields | FAO | Validation |
+| Esri World Imagery | Esri | Base map |
+
+## Methods
+
+- **Crop water and yield:** FAO-56 Penman-Monteith reference evapotranspiration, FAO-56 crop coefficients and a monthly soil-water balance, FAO-33 yield response to water (Ky).
+- **Heat, frost and wet harvests:** days above each crop's flowering heat threshold; winter-kill of autumn-sown cereals below −7 °C mean January/February minimum; a penalty when harvest-month rain is above 1.5 times normal.
+- **Soil carbon:** ICBM two-pool model (Andrén & Kätterer 1997), initialised so that the field's measured carbon is in balance with a cereal rotation today.
+- **Erosion exposure:** rain on days with 12.7 mm or more (the erosive-rain threshold used by RUSLE), counted in months when the rotation leaves the soil bare.
+- **Economics:** today's euros, grain at 2025 market levels, inputs scaled to the field's yield level; nitrogen price 2024 or spring-2026 level (selectable).
+- **Futures:** 1,000 runs of 20 seasons, each built from real past years in a new order (bootstrap). For 2050, each past year is first moved to today's warmth along the field's own observed trend, then shifted by the monthly change one CMIP6 model projects from today to 2050 (the model's 1995-2014 to 2041-2060 change scaled linearly by 26/46; delta-change method). This keeps the warming already observed at the field, which in Germany has run ahead of the models.
+- **Ranking:** your three priority sliders weight profit, safety (bad-year profit and failure rate) and soil health (carbon 60 %, erosion exposure 25 %, nitrogen balance 15 %).
+
+## Validation
+
+We ran RotaSat on 39 years of past weather at 7 wheat regions per country and compared the yearly ups and downs with FAOSTAT national wheat yields (area-weighted, detrended).
+
+| | Germany | Türkiye |
+|---|---|---|
+| Correlation, 1985 to 2023 | r = 0.43 (p ≈ 0.006) | r = 0.41 (p ≈ 0.01) |
+| Correlation on years not used for tuning, 2005 to 2023 | r = 0.23 | r = 0.57 |
+| Worst 5 harvests found | 5 of 5 (incl. 2003, 2018) | 2 of 5 |
+
+Model parts were chosen on 1985 to 2004 only. One candidate (a photothermal quotient term) made the training fit worse and was switched off. The test period was looked at once, at the end.
+
+## Limits
+
+- RotaSat compares options. It is not a yield forecast, and it does not know about pests, diseases, next year's prices or your machinery.
+- NASA POWER rain can be off in dry inland basins (Konya reads about 57 % too wet). You can enter your nearest station's yearly rain and all rain is scaled to it; the Konya example is prefilled with the MGM station normal.
+- The 2050 projection covers Europe and Türkiye (34 to 60° N, 10° W to 45° E, 1° grid). Elsewhere RotaSat falls back to the field's own warming trend and says so.
+- The satellite history is ready for the five example fields. For other fields it is the next step (NASA HLS through AppEEARS).
+- Germany's test-period correlation is weak (0.23). National statistics also contain disease, irrigation and management effects that weather alone cannot explain.
+
+## Run it
+
+Open `index.html` in a browser. It needs an internet connection for NASA POWER, SoilGrids and the map.
+
+## Rebuild the embedded data
+
+```bash
+python3 tools/cmip6_process.py <workdir>       # streams 300 NEX-GDDP-CMIP6 files from AWS, keeps monthly means
+python3 tools/s2_ndvi.py <workdir>             # Sentinel-2 NDVI at the example fields
+python3 tools/build_data.py <workdir> index.html
+```
+
+`tools/power_from_s3.py` writes NASA POWER test data from the POWER AWS store for offline testing.
+
+## Use of AI
+
+This project was built by one person with help from an AI assistant (Claude by Anthropic) for code, data processing scripts, design and text. All data sources, models and their references are listed above. The NASA name is used only to credit the data; RotaSat is not affiliated with or endorsed by NASA.
+
+## References
+
+- Allen, R. G. et al. (1998). *Crop evapotranspiration*. FAO Irrigation and Drainage Paper 56.
+- Doorenbos, J. & Kassam, A. H. (1979). *Yield response to water*. FAO Irrigation and Drainage Paper 33.
+- Andrén, O. & Kätterer, T. (1997). ICBM: the introductory carbon balance model. *Ecological Applications* 7(4).
+- Thrasher, B. et al. (2022). NASA Global Daily Downscaled Projections, CMIP6. *Scientific Data* 9, 262.
+- Renard, K. G. et al. (1997). *RUSLE*. USDA Agriculture Handbook 703.
+- Stackhouse, P. W. et al. NASA POWER project documentation, power.larc.nasa.gov.
+
+Made by Eren Mutlu, TUM Campus Heilbronn.

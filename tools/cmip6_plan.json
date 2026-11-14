@@ -1,0 +1,402 @@
+{
+"MPI-ESM1-2-HR": {
+"historical": {
+"tas": [
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2013_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/historical/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_historical_r1i1p1f1_gn_2013_v2.0.nc"
+]
+},
+"ssp245": {
+"tas": [
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp245/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp245_r1i1p1f1_gn_2059_v2.0.nc"
+]
+},
+"ssp585": {
+"tas": [
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/tas/tas_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MPI-ESM1-2-HR/ssp585/r1i1p1f1/pr/pr_day_MPI-ESM1-2-HR_ssp585_r1i1p1f1_gn_2059_v2.0.nc"
+]
+}
+},
+"EC-Earth3": {
+"historical": {
+"tas": [
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/tas/tas_day_EC-Earth3_historical_r1i1p1f1_gr_2013_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/historical/r1i1p1f1/pr/pr_day_EC-Earth3_historical_r1i1p1f1_gr_2013_v2.0.nc"
+]
+},
+"ssp245": {
+"tas": [
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/tas/tas_day_EC-Earth3_ssp245_r1i1p1f1_gr_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp245/r1i1p1f1/pr/pr_day_EC-Earth3_ssp245_r1i1p1f1_gr_2059_v2.0.nc"
+]
+},
+"ssp585": {
+"tas": [
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/tas/tas_day_EC-Earth3_ssp585_r1i1p1f1_gr_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/EC-Earth3/ssp585/r1i1p1f1/pr/pr_day_EC-Earth3_ssp585_r1i1p1f1_gr_2059_v2.0.nc"
+]
+}
+},
+"GFDL-ESM4": {
+"historical": {
+"tas": [
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/tas/tas_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2013_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/historical/r1i1p1f1/pr/pr_day_GFDL-ESM4_historical_r1i1p1f1_gr1_2013_v2.0.nc"
+]
+},
+"ssp245": {
+"tas": [
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp245/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp245_r1i1p1f1_gr1_2059_v2.0.nc"
+]
+},
+"ssp585": {
+"tas": [
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/tas/tas_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/GFDL-ESM4/ssp585/r1i1p1f1/pr/pr_day_GFDL-ESM4_ssp585_r1i1p1f1_gr1_2059_v2.0.nc"
+]
+}
+},
+"IPSL-CM6A-LR": {
+"historical": {
+"tas": [
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2013_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/historical/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_historical_r1i1p1f1_gr_2013_v2.0.nc"
+]
+},
+"ssp245": {
+"tas": [
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp245/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp245_r1i1p1f1_gr_2059_v2.0.nc"
+]
+},
+"ssp585": {
+"tas": [
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/tas/tas_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/IPSL-CM6A-LR/ssp585/r1i1p1f1/pr/pr_day_IPSL-CM6A-LR_ssp585_r1i1p1f1_gr_2059_v2.0.nc"
+]
+}
+},
+"MRI-ESM2-0": {
+"historical": {
+"tas": [
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/tas/tas_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2013_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_1995_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_1997_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_1999_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2001_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2003_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2005_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2007_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2009_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2011_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/historical/r1i1p1f1/pr/pr_day_MRI-ESM2-0_historical_r1i1p1f1_gn_2013_v2.0.nc"
+]
+},
+"ssp245": {
+"tas": [
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp245/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp245_r1i1p1f1_gn_2059_v2.0.nc"
+]
+},
+"ssp585": {
+"tas": [
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/tas/tas_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2059_v2.0.nc"
+],
+"pr": [
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2041_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2043_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2045_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2047_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2049_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2051_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2053_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2055_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2057_v2.0.nc",
+"NEX-GDDP-CMIP6/MRI-ESM2-0/ssp585/r1i1p1f1/pr/pr_day_MRI-ESM2-0_ssp585_r1i1p1f1_gn_2059_v2.0.nc"
+]
+}
+}
+}
