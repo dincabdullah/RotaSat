@@ -14,7 +14,9 @@ It runs in the browser as one HTML file. There is no server, no login and no ins
   - months of bare soil per year, and the heavy rain that falls on that bare soil (the erosion risk)
   - the nitrogen balance: fertilizer plus legume fixation, minus the nitrogen that leaves the field with the harvest
 - **Water and prices:** an irrigation option with a yearly amount and its pumping cost, a saving-water priority, and price risk from real world prices 2000 to 2025, plus two shock scenarios (2022 war in Ukraine, 2026 energy shock) and the current oil price.
-- **A short note for each example region** (Heilbronn, Magdeburg Börde, Gäuboden, Thrace) with suggested priorities.
+- **A short note for each example region** (Heilbronn, Magdeburg Börde, Gäuboden, Thrace) with suggested priorities, and a **region page** (`region.html`, opens in a new tab) for farmers: climate normals 1991 to 2020, then-vs-now indicators (frost, heat, dry spells, growing degree days, frost dates), the 2050 change month by month, a crop calendar with expected yields and margins, rules (EU GAEC 5, 6, 7, German fertiliser ordinance; for Thrace ÇKS, TMO, DSİ) and who to ask.
+- **Soil and water gauges** from red to green with the ideal band, a then-vs-now table and a real-axis temperature chart, a plain-language reliability section and a glossary of every abbreviation.
+- **Easier map:** place search, my location, back to my field, confirm before choosing a field.
 - **NASA map layers:** MODIS true colour from yesterday, MODIS plant cover (NDVI) and SMAP soil moisture through NASA GIBS.
 - **Today vs. 2050:** the 2050 climate comes from NASA NEX-GDDP-CMIP6 (five climate models, two emission paths). Each of the 1,000 futures uses one of the five models, so the spread between models is part of the risk.
 - **What has already changed on this field** since 1985: warming, hot days, the driest seasons and climate stripes.
@@ -81,7 +83,9 @@ python3 tools/s2_ndvi.py <workdir>             # Sentinel-2 NDVI at the example 
 python3 tools/build_data.py <workdir> index.html
 ```
 
-`tools/power_from_s3.py` writes NASA POWER test data from the POWER AWS store for offline testing.
+`tools/power_from_s3.py` writes NASA POWER test data (MERRA-2 weather; SRB and CERES SYN1deg sunshine) from the POWER AWS store for offline testing.
+
+Region page data: `tools/build_region_climate.py` (climate indicators from POWER daily data), `tools/region_model.js` (yields, margins and CMIP6 change from the app's own model, run in a headless browser), `tools/region_content.json` (texts) and `tools/build_region_page.py` (writes them into `region.html`). Results are kept in `data/`.
 
 ## Use of AI
 

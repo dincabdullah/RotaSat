@@ -195,7 +195,7 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 @media(max-width:760px){.lybox{max-width:190px;padding:8px 10px}.lybox label{font-size:13px;padding:2px 0}.lybox p{display:none}}
 /* v0.9 region note */
 .rnote{font-size:14px;line-height:1.5;background:#fff;border:1px solid var(--line2);border-left:4px solid #0050D8;border-radius:4px;padding:10px 12px;color:var(--ink2)}
-.rnote b{color:var(--ink)}.rnote button{margin-top:8px;font-size:14px;padding:8px 12px;min-height:38px}
+.rnote b{color:var(--ink)}.rnote .rnmore{display:inline-block;margin-top:8px;margin-left:6px;font-weight:600;font-size:14px}.rnote button{margin-top:8px;font-size:14px;padding:8px 12px;min-height:38px}
 /* v1.0 scenario cards, glossary */
 .scards{display:flex;flex-direction:column;gap:8px}
 .scard{font:inherit;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line2);border-radius:4px;padding:10px 12px;cursor:pointer;line-height:1.4}
@@ -266,7 +266,7 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 <section class="plan" id="plan"><div class="wrap">
   <form class="form" onsubmit="event.preventDefault();runAll()">
     <div class="fieldsum"><span data-i18n="field_lbl"></span> <b id="fieldName"></b> <a href="#top" data-i18n="change"></a></div>
-    <div class="rnote" id="regionNote" hidden><b data-i18n="rn_h"></b> <span id="rnText"></span><br><button type="button" class="btn-o lite" id="rnBtn" data-i18n="rn_btn"></button></div>
+    <div class="rnote" id="regionNote" hidden><b data-i18n="rn_h"></b> <span id="rnText"></span><br><button type="button" class="btn-o lite" id="rnBtn" data-i18n="rn_btn"></button> <a id="rnMore" class="rnmore" target="_blank" rel="noopener"></a></div>
     <fieldset>
       <legend data-i18n="q2"></legend>
       <div id="slots"></div>
@@ -429,6 +429,8 @@ const PRICES={"years":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,20
 // Economics: 2025 farm-gate prices in Germany (BMLEH Erntebericht 2025, Destatis); sugar beet estimated after the 2025 EU sugar price fall.
 // cost = variable costs per ha at a full yield level: seed, P and K, crop protection, insurance, drying, machinery and fuel (EUR 1.30/l).
 // Checked against Schleswig-Holstein Kalkulationsplan 2024/25 (winter wheat EUR 868-1,129/ha incl. N) and LfULG Saxony 5-year values.
+// Yield levels checked against typical German yields with full NASA POWER inputs (wheat ~8 t, sugar beet ~70-80 t, rapeseed ~4 t, soybean ~3 t);
+// chickpea and lentil are niche crops in Germany: conservative yields and prices.
 // kc: Jan..Sep values for the harvest year; autumn: Kc in Oct–Dec when this crop is the NEXT crop (0 = spring-sown, bare soil).
 // season: months used for the ETa/ETc ratio. ym: potential yield t/ha. cin: soil C input = a + b*yield (t C/ha).
 const CROPS = {
@@ -441,18 +443,18 @@ const CROPS = {
   sunflower:{name:"Sunflower", fam:"oil", kc:[0,0,0,0.35,0.6,1.05,1.05,0.6,0], autumn:0, season:[4,5,6,7,8], ky:0.95, root:1.2, p:0.45,
              heatM:[7], heatT:35, heatL:0.012, gf:[7], wetM:[8], ym:3.6, price:450, cost:650, nT:32, nFix:0,   cin:[0.5,0.3], fuel:85},
   chickpea: {name:"Chickpea", fam:"legume", kc:[0,0,0.4,0.7,1.0,0.8,0,0,0], autumn:0, season:[3,4,5,6], ky:1.15, root:0.8, p:0.5,
-             heatM:[5,6], heatT:32, heatL:0.015, gf:[5], wetM:[7], ym:2.6, price:600, cost:600, nT:8,  nFix:40,  cin:[0.4,0.35], fuel:75},
+             heatM:[5,6], heatT:32, heatL:0.015, gf:[5], wetM:[7], ym:2.2, price:550, cost:600, nT:8,  nFix:40,  cin:[0.4,0.35], fuel:75},
   vetch:    {name:"Vetch–clover (cover + forage)", fam:"legume", kc:[0.5,0.5,0.6,0.9,1.0,1.0,0.95,0.9,0.8], autumn:0.5, season:[4,5,6,7,8], ky:1.1, root:1.0, p:0.55,
              heatM:[], heatT:99, heatL:0, ym:7.0, price:110, cost:350, nT:0, nFix:110, cin:[2.2,0.15], fuel:45},
   fallow:   {name:"Fallow", fam:"none", kc:[0,0,0,0,0,0,0,0,0], autumn:0, season:[], ky:0, root:1.5, p:0.5,
              heatM:[], heatT:99, heatL:0, ym:0, price:0, cost:80, nT:0, nFix:0, cin:[0.15,0], fuel:25},
   // added v0.9: FAO-56 Table 12 Kc (ini/mid/end) and Table 22 rooting depth, FAO-33 Ky; EU 2025 indicative prices and costs
-  sugarbeet:{name:"Sugar beet", fam:"root", kc:[0,0,0,0.35,0.55,1.0,1.2,1.2,1.05], autumn:0, season:[5,6,7,8,9], ky:1.0, root:1.0, p:0.55,
+  sugarbeet:{name:"Sugar beet", fam:"root", kc:[0,0,0,0.35,0.55,1.0,1.2,1.2,1.05], autumn:0, season:[5,6,7,8,9], ky:0.9, root:1.2, p:0.55,
              heatM:[7,8], heatT:33, heatL:0.006, gf:[], wetM:[], ym:85, price:35, cost:1700, nT:1.8, nFix:0, cin:[0.5,0.012], fuel:150},
   rapeseed: {name:"Winter rapeseed", fam:"oil", kc:[0.55,0.6,0.8,1.05,1.1,0.95,0.4,0,0], autumn:0.55, season:[3,4,5,6], ky:0.9, root:1.5, p:0.6,
-             heatM:[5], heatT:30, heatL:0.015, gf:[5], wetM:[7], winter:true, ym:4.4, price:446, cost:900, nT:38, nFix:0, cin:[1.0,0.35], fuel:95},
+             heatM:[5], heatT:30, heatL:0.015, gf:[5], wetM:[7], winter:true, ym:4.0, price:446, cost:900, nT:38, nFix:0, cin:[1.0,0.35], fuel:95},
   lentil:   {name:"Lentil", fam:"legume", kc:[0,0,0.4,0.7,1.05,0.95,0.3,0,0], autumn:0, season:[3,4,5,6], ky:1.1, root:0.8, p:0.5,
-             heatM:[6], heatT:32, heatL:0.015, gf:[6], wetM:[7], ym:2.0, price:750, cost:550, nT:8, nFix:35, cin:[0.35,0.35], fuel:75},
+             heatM:[6], heatT:32, heatL:0.015, gf:[6], wetM:[7], ym:1.6, price:700, cost:550, nT:8, nFix:35, cin:[0.35,0.35], fuel:75},
   soybean:  {name:"Soybean", fam:"legume", kc:[0,0,0,0,0.4,0.75,1.15,1.1,0.6], autumn:0, season:[5,6,7,8,9], ky:0.85, root:1.0, p:0.5,
              heatM:[7], heatT:34, heatL:0.012, gf:[7], wetM:[9], ym:3.6, price:410, cost:700, nT:8, nFix:40, cin:[0.4,0.3], fuel:85}
 };
@@ -749,6 +751,7 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+rn_more:"More about this area: climate, crop calendar, rules, contacts (opens in a new tab)",
 srch_ph:"Search a village or town",
 srch_btn:"Search",
 srch_none:"Nothing found. Try a nearby town.",
@@ -1002,6 +1005,7 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+rn_more:"Bu bölge hakkında daha fazlası: iklim, ekim takvimi, kurallar, danışılacak yerler (yeni sekmede açılır)",
 srch_ph:"Köy ya da ilçe ara",
 srch_btn:"Ara",
 srch_none:"Bulunamadı. Yakındaki bir yeri dene.",
@@ -1255,6 +1259,7 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+rn_more:"Mehr zu dieser Region: Klima, Anbaukalender, Regeln, Ansprechpartner (öffnet in neuem Tab)",
 srch_ph:"Dorf oder Ort suchen",
 srch_btn:"Suchen",
 srch_none:"Nichts gefunden. Versuchen Sie einen Nachbarort.",
@@ -1511,7 +1516,7 @@ const SITES=[ // points checked against ESA WorldCover 2021 (10 m): inside cropl
  {key:'heilbronn',lat:49.1577,lon:9.1090,dry:false,name:{en:'Heilbronn farmland',tr:'Heilbronn tarlaları',de:'Heilbronner Land'},near:{en:'Leingarten, near Heilbronn, Germany',tr:'Leingarten, Heilbronn yakını, Almanya',de:'bei Leingarten, Landkreis Heilbronn'},tag:{en:'warm',tr:'ılık',de:'warm'},note:{"en": "Kraichgau loess around Heilbronn is fertile but among the most erosion-prone farmland in Germany, and this is one of the country's warmest areas. Keep the soil covered over winter and plan for drier springs.", "tr": "Heilbronn çevresindeki Kraichgau lösü verimli, ama Almanya'nın erozyona en açık tarım topraklarından biri; bölge de ülkenin en sıcak yerlerinden. Toprağı kışın örtülü tut ve daha kurak ilkbaharlara göre planla.", "de": "Der Kraichgau-Löss um Heilbronn ist fruchtbar, gehört aber zu den erosionsanfälligsten Ackerböden Deutschlands, und die Gegend zählt zu den wärmsten des Landes. Halten Sie den Boden über Winter bedeckt und planen Sie mit trockeneren Frühjahren."},pri:[3, 3, 5, 2],top:"wheat",common:["barley", "maize", "sugarbeet", "rapeseed"]},
  {key:'borde',lat:52.0569,lon:11.3550,dry:true,name:{en:'Magdeburg Börde',tr:'Magdeburg Börde',de:'Magdeburger Börde'},near:{en:'near Magdeburg, Germany',tr:'Magdeburg yakını, Almanya',de:'bei Magdeburg, Sachsen-Anhalt'},tag:{en:'dry',tr:'kurak',de:'trocken'},note:{"en": "The black-earth soils here are among the best in Germany, but the Harz mountains keep the rain away: this is one of the driest farming areas in the country. Drought years such as 2018 are the main risk.", "tr": "Buradaki kara topraklar Almanya'nın en iyileri arasında, ama Harz dağları yağmuru tutuyor: ülkenin en kurak tarım bölgelerinden biri. 2018 gibi kurak yıllar asıl risk.", "de": "Die Schwarzerden hier gehören zu den besten Böden Deutschlands, doch der Harz hält den Regen ab: eine der trockensten Ackerbauregionen des Landes. Dürrejahre wie 2018 sind das Hauptrisiko."},pri:[3, 5, 2, 4],top:"wheat",common:["sugarbeet", "barley", "rapeseed"]},
  {key:'gaeu',lat:48.8000,lon:12.6200,dry:false,name:{en:'Gäuboden plain',tr:'Gäuboden ovası',de:'Gäuboden'},near:{en:'near Straubing, Bavaria, Germany',tr:'Straubing yakını, Bavyera, Almanya',de:'bei Straubing, Bayern'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'},note:{"en": "Deep loess and more rain make this Bavaria's granary. Summer storms on bare fields and nitrate in groundwater are the concerns, so cover crops and a balanced nitrogen budget pay off.", "tr": "Derin lös toprak ve daha fazla yağmur burayı Bavyera'nın tahıl ambarı yapıyor. Çıplak tarlalara düşen yaz sağanakları ve yeraltı suyundaki nitrat başlıca kaygılar; bu yüzden örtü bitkisi ve dengeli azot karşılığını verir.", "de": "Tiefer Löss und mehr Regen machen den Gäuboden zur Kornkammer Bayerns. Sommergewitter auf offenen Feldern und Nitrat im Grundwasser sind die Sorgen, deshalb lohnen sich Zwischenfrüchte und eine ausgeglichene Stickstoffbilanz."},pri:[4, 2, 4, 1],top:"wheat",common:["sugarbeet", "maize", "barley"]},
- {key:'thrace',lat:41.1951,lon:27.1061,dry:false,name:{en:'Thrace',tr:'Trakya',de:'Thrakien'},near:{en:'near Hayrabolu, Tekirdağ, Türkiye',tr:'Hayrabolu yakını, Tekirdağ',de:'bei Hayrabolu, Tekirdağ, Türkei'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'},note:{"en": "Thrace is Türkiye's leading sunflower region and a high-yield wheat area. Summers are long and dry, so rain-fed crops live on autumn to spring rain, and water for irrigation is limited.", "tr": "Trakya, Türkiye'nin başlıca ayçiçeği bölgesi ve verimli bir buğday bölgesi. Yazlar uzun ve kurak; yağmura bağlı ürünler sonbahar-ilkbahar yağışıyla yaşıyor ve sulama suyu sınırlı.", "de": "Thrakien ist die wichtigste Sonnenblumenregion der Türkei und ein ertragreiches Weizengebiet. Die Sommer sind lang und trocken, Regenfeldbau lebt vom Herbst- bis Frühjahrsregen, und Wasser für Beregnung ist knapp."},pri:[3, 5, 3, 5],top:"wheat",common:["sunflower", "rapeseed", "barley"]}
+ {key:'thrace',lat:41.1951,lon:27.1061,dry:false,name:{en:'Thrace',tr:'Trakya',de:'Thrakien'},near:{en:'near Hayrabolu, Tekirdağ, Türkiye',tr:'Hayrabolu yakını, Tekirdağ',de:'bei Hayrabolu, Tekirdağ, Türkei'},tag:{en:'wetter',tr:'daha yağışlı',de:'feuchter'},note:{"en": "Thrace is Türkiye's leading sunflower region and a high-yield wheat area. Summers are long and dry, so rain-fed crops live on autumn to spring rain, and water for irrigation is limited. Profit here uses EU prices and German costs; Turkish prices (TMO) and costs differ.", "tr": "Trakya, Türkiye'nin başlıca ayçiçeği bölgesi ve verimli bir buğday bölgesi. Yazlar uzun ve kurak; yağmura bağlı ürünler sonbahar-ilkbahar yağışıyla yaşıyor ve sulama suyu sınırlı. Buradaki kâr AB fiyatları ve Alman maliyetleriyle hesaplanır; Türkiye'de fiyatlar (TMO) ve maliyetler farklıdır.", "de": "Thrakien ist die wichtigste Sonnenblumenregion der Türkei und ein ertragreiches Weizengebiet. Die Sommer sind lang und trocken, Regenfeldbau lebt vom Herbst- bis Frühjahrsregen, und Wasser für Beregnung ist knapp. Der Gewinn rechnet hier mit EU-Preisen und deutschen Kosten; türkische Preise (TMO) und Kosten weichen ab."},pri:[3, 5, 3, 5],top:"wheat",common:["sunflower", "rapeseed", "barley"]}
 ];
 let LANG='en';
 try{const s=localStorage.getItem('rotasat_lang'); if(s&&I18N[s]) LANG=s; else if(/^tr/i.test(navigator.language)) LANG='tr'; else if(/^de/i.test(navigator.language)) LANG='de';}catch(e){}
@@ -1625,6 +1630,7 @@ function updateReadout(){$('roCoord').textContent=`${Math.abs(site.lat).toFixed(
 function renderRegionNote(){
   const s=SITES.find(x=>x.key===site.key); $('regionNote').hidden=!(s&&s.note); if(!s||!s.note) return;
   $('rnText').textContent=s.note[LANG]+' '+t('rn_crops',{list:[s.top,...s.common].map(cropName).join(', ')});
+  $('rnMore').textContent=t('rn_more'); $('rnMore').href=`region.html?r=${s.key}&lang=${LANG}`;
   $('rnBtn').onclick=()=>{['wInc','wRisk','wSoil','wWater'].forEach((id,i)=>$(id).value=s.pri[i]); prioLabel(); runAll();};
 }
 function renderSites(){
