@@ -216,6 +216,21 @@ h3.fh{margin:0 0 8px;font-size:18px}#tempChart svg{display:block;width:100%;heig
 .gfor ul{margin:0;padding-left:20px;font-size:15px;line-height:1.55;color:var(--ink2)}.gfor li{margin:4px 0}.gfor ul{list-style:'✓  '}.gfor ul.no{list-style:'✗  '}
 details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px;font-size:15px}details.expert summary{color:var(--ink);font-weight:600}
 @media(max-width:760px){.tcards{grid-template-columns:1fr}.tcards>div,.tcards>div+div{padding:14px 0;border-left:0}.tcards>div+div{border-top:1px solid var(--line)}.gfor{grid-template-columns:1fr}}
+/* v1.0 map navigation */
+.navbox{background:#fff;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.25);padding:8px;width:250px;font-family:Overpass,system-ui,sans-serif}
+.navbox form{display:flex;gap:6px}.navbox input{flex:1;min-width:0;font:inherit;font-size:14px;padding:8px;border:1px solid var(--line2);border-radius:4px;min-height:38px}
+.nb{font:inherit;font-size:13px;font-weight:600;background:#fff;color:#151622;border:1px solid var(--line2);border-radius:4px;padding:6px 9px;min-height:36px;cursor:pointer}
+.nb:hover{border-color:#1B2B85}.nbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.nbs #zIn,.nbs #zOut{min-width:38px;font-size:18px;padding:2px 8px}
+#srchR{list-style:none;margin:6px 0 0;padding:0;max-height:180px;overflow:auto}#srchR li button{display:block;width:100%;text-align:left;font:inherit;font-size:13px;background:none;border:0;border-bottom:1px solid var(--line);padding:7px 4px;cursor:pointer;color:#151622}
+#srchR li button:hover{background:#eef2fb}#srchR li.m{font-size:12px;color:var(--mute);padding:5px 4px}
+.pick{display:flex;flex-direction:column;gap:6px;font-family:Overpass,system-ui,sans-serif}.pick b{font-size:15px}.pick small{color:var(--mute)}.pick .btn-o{background:#E7F434;border-color:#151622;font-size:14px;padding:8px 12px;min-height:38px}
+.wheelhint{position:absolute;inset:0;z-index:650;display:flex;align-items:center;justify-content:center;background:rgba(21,22,34,.45);color:#fff;font-size:18px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;text-align:center;padding:20px}
+.wheelhint.on{opacity:1}
+@media(min-width:761px){.hero:not(.nopanel) .wheelhint{padding-left:min(560px,45%)}}
+.ptog{float:right;font:inherit;font-size:12px;font-weight:600;background:none;border:1px solid var(--line2);border-radius:4px;padding:4px 8px;margin:-8px -8px 6px 8px;cursor:pointer;color:var(--ink2)}
+.pshow{display:none;position:absolute;left:16px;top:16px;z-index:600;font:inherit;font-size:14px;font-weight:700;background:#E7F434;border:1px solid #151622;border-radius:4px;padding:10px 14px;cursor:pointer}
+.hero.nopanel .panel{display:none}.hero.nopanel .pshow{display:block}
+@media(max-width:760px){#heroMap{height:380px!important}.readout{top:330px!important}.navbox{width:200px;padding:6px}.nbs .nb{font-size:12px;padding:4px 6px;min-height:32px}.ptog,.pshow{display:none!important}.lybox{max-width:200px}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}}
 </style>
@@ -235,6 +250,7 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
   <div id="heroMap" role="application" aria-label="Satellite map. Click to choose your field."></div>
   <div class="wrap heroin">
     <div class="panel">
+      <button type="button" class="ptog" id="pHide" data-i18n="panel_hide"></button>
       <h1 data-i18n="hero_h1"></h1>
       <p class="lede" data-i18n="hero_p"></p>
       <p class="qh" data-i18n="q1"></p>
@@ -243,6 +259,7 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
       <a class="cta" href="#plan" data-i18n="hero_cta2"></a>
     </div>
   </div>
+  <button type="button" class="pshow" id="pShow" data-i18n="panel_show"></button>
   <div class="readout"><span id="roCoord"></span><span id="roName"></span><span id="roSrc">Esri, Maxar, Earthstar Geographics</span></div>
 </section>
 
@@ -732,6 +749,19 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+srch_ph:"Search a village or town",
+srch_btn:"Search",
+srch_none:"Nothing found. Try a nearby town.",
+srch_err:"Search is not available right now.",
+srch_src:"Search by OpenStreetMap Nominatim",
+loc_btn:"My location",
+back_btn:"Back to my field",
+loc_err:"Your browser did not share a location. You can search or click on the map instead.",
+pick_q:"Use this spot as your field?",
+pick_btn:"Choose this field",
+wheel_hint:"Hold Ctrl (Cmd on a Mac) and scroll to zoom the map",
+panel_hide:"Show the whole map",
+panel_show:"Show the questions",
 tr_how:"To test a tool, ask it about the past. We gave RotaSat the real weather of every year from 1985 to 2023 and asked one question: will the wheat harvest be better or worse than normal? Then we compared its answers with the official wheat harvests of Germany and Türkiye. RotaSat never saw those harvests; it only had NASA weather.",
 tr_c1:"Germany's five worst wheat harvests since 1985: RotaSat flagged all five, including the drought years 2003 and 2018.",
 tr_c2:"Türkiye's five worst harvests: it flagged two. There, many bad years come from things weather data cannot see.",
@@ -921,7 +951,7 @@ nav_plan:"Plan my field",nav_trust:"How reliable is it?",nav_how:"How it works",
 hero_h1:"Which crop rotation will still pay off on your field in 2050?",
 hero_p:"Click your field on the satellite map. RotaSat reads 40 years of NASA weather for that exact spot, adds NASA's climate projections for 2050, and tests each crop rotation in 1,000 possible futures: profit, bad years and soil health, side by side.",
 hero_cta:"Plan my field",ro_weather:"Weather: NASA POWER, daily, 1985 to 2024",
-q1:"1. Where is your field?",q1_or:"Or click your own field on the map.",q2:"2. What would you plant?",year:"Year",none:"(nothing)",
+q1:"1. Where is your field?",q1_or:"Or find your field on the map: search a place, then click your field.",q2:"2. What would you plant?",year:"Year",none:"(nothing)",
 q3:"3. What matters most to you?",w_profit:"Profit",w_safe:"Safety in bad years",w_soil:"Healthy soil",
 q4:"4. Which climate?",today:"Today",y2050:"In 2050",more_opts:"More options: extra warming, less rain, your own soil test",
 extra_warm:"Extra warming",rain_change:"Change in summer rain",soil_soc:"Soil organic carbon (g/kg)",soil_clay:"Clay (%)",lat:"Latitude",lon:"Longitude",
@@ -972,6 +1002,19 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+srch_ph:"Köy ya da ilçe ara",
+srch_btn:"Ara",
+srch_none:"Bulunamadı. Yakındaki bir yeri dene.",
+srch_err:"Arama şu an kullanılamıyor.",
+srch_src:"Arama: OpenStreetMap Nominatim",
+loc_btn:"Konumum",
+back_btn:"Tarlama dön",
+loc_err:"Tarayıcın konum paylaşmadı. Bunun yerine arama yapabilir ya da haritaya tıklayabilirsin.",
+pick_q:"Bu nokta senin tarlan mı?",
+pick_btn:"Bu tarlayı seç",
+wheel_hint:"Haritayı yakınlaştırmak için Ctrl tuşuna (Mac'te Cmd) basılı tutup kaydır",
+panel_hide:"Haritanın tamamını göster",
+panel_show:"Soruları göster",
 tr_how:"Bir aracı test etmenin yolu ona geçmişi sormaktır. RotaSat'a 1985-2023 arasındaki her yılın gerçek havasını verdik ve tek bir soru sorduk: buğday hasadı normalden iyi mi olur, kötü mü? Sonra cevaplarını Almanya ve Türkiye'nin resmi buğday hasatlarıyla karşılaştırdık. RotaSat bu hasatları hiç görmedi; elinde sadece NASA hava verisi vardı.",
 tr_c1:"Almanya'nın 1985'ten bu yana en kötü beş buğday hasadı: RotaSat beşini de buldu; 2003 ve 2018 kuraklıkları dahil.",
 tr_c2:"Türkiye'nin en kötü beş hasadı: ikisini buldu. Orada kötü yılların çoğu hava verisinin göremediği nedenlerden geliyor.",
@@ -1161,7 +1204,7 @@ nav_plan:"Tarlamı planla",nav_trust:"Ne kadar güvenilir?",nav_how:"Nasıl çal
 hero_h1:"Hangi ürün rotasyonu 2050'de de tarlanda kazandırır?",
 hero_p:"Uydu haritasında tarlana tıkla. RotaSat tam o nokta için 40 yıllık NASA hava verisini okur, NASA'nın 2050 iklim projeksiyonlarını ekler ve her ürün rotasyonunu 1.000 olası gelecekte dener: kâr, kötü yıllar ve toprak sağlığı yan yana.",
 hero_cta:"Tarlamı planla",ro_weather:"Hava: NASA POWER, günlük, 1985 - 2024",
-q1:"1. Tarlan nerede?",q1_or:"Ya da haritada kendi tarlana tıkla.",q2:"2. Ne ekmeyi düşünüyorsun?",year:"Yıl",none:"(boş)",
+q1:"1. Tarlan nerede?",q1_or:"Ya da tarlanı haritada bul: bir yer ara, sonra tarlana tıkla.",q2:"2. Ne ekmeyi düşünüyorsun?",year:"Yıl",none:"(boş)",
 q3:"3. Senin için en önemli ne?",w_profit:"Kâr",w_safe:"Kötü yıllarda güvence",w_soil:"Sağlıklı toprak",
 q4:"4. Hangi iklim?",today:"Bugün",y2050:"2050'de",more_opts:"Diğer seçenekler: ek ısınma, daha az yağış, kendi toprak analizin",
 extra_warm:"Ek ısınma",rain_change:"Yaz yağışında değişim",soil_soc:"Topraktaki organik karbon (g/kg)",soil_clay:"Kil (%)",lat:"Enlem",lon:"Boylam",
@@ -1212,6 +1255,19 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+srch_ph:"Dorf oder Ort suchen",
+srch_btn:"Suchen",
+srch_none:"Nichts gefunden. Versuchen Sie einen Nachbarort.",
+srch_err:"Die Suche ist gerade nicht verfügbar.",
+srch_src:"Suche: OpenStreetMap Nominatim",
+loc_btn:"Mein Standort",
+back_btn:"Zurück zum Feld",
+loc_err:"Ihr Browser hat keinen Standort geteilt. Sie können stattdessen suchen oder auf die Karte klicken.",
+pick_q:"Diesen Punkt als Ihr Feld nehmen?",
+pick_btn:"Dieses Feld wählen",
+wheel_hint:"Strg (auf dem Mac Cmd) gedrückt halten und scrollen, um die Karte zu zoomen",
+panel_hide:"Ganze Karte zeigen",
+panel_show:"Fragen zeigen",
 tr_how:"Ein Werkzeug prüft man, indem man es nach der Vergangenheit fragt. Wir haben RotaSat das echte Wetter jedes Jahres von 1985 bis 2023 gegeben und eine Frage gestellt: Wird die Weizenernte besser oder schlechter als normal? Dann haben wir die Antworten mit den amtlichen Weizenernten Deutschlands und der Türkei verglichen. RotaSat hat diese Ernten nie gesehen, es hatte nur NASA-Wetterdaten.",
 tr_c1:"Die fünf schlechtesten Weizenernten Deutschlands seit 1985: RotaSat hat alle fünf erkannt, auch die Dürrejahre 2003 und 2018.",
 tr_c2:"Die fünf schlechtesten Ernten der Türkei: zwei erkannt. Dort haben viele schlechte Jahre Ursachen, die Wetterdaten nicht sehen.",
@@ -1401,7 +1457,7 @@ nav_plan:"Mein Feld planen",nav_trust:"Wie zuverlässig ist das?",nav_how:"So fu
 hero_h1:"Welche Fruchtfolge lohnt sich auf Ihrem Feld auch 2050 noch?",
 hero_p:"Klicken Sie Ihr Feld auf der Satellitenkarte an. RotaSat liest 40 Jahre NASA-Wetter für genau diesen Ort, ergänzt die NASA-Klimaprojektionen für 2050 und testet jede Fruchtfolge in 1.000 möglichen Zukünften: Gewinn, schlechte Jahre und Bodengesundheit nebeneinander.",
 hero_cta:"Mein Feld planen",ro_weather:"Wetter: NASA POWER, täglich, 1985 bis 2024",
-q1:"1. Wo liegt Ihr Feld?",q1_or:"Oder klicken Sie Ihr eigenes Feld auf der Karte an.",q2:"2. Was möchten Sie anbauen?",year:"Jahr",none:"(nichts)",
+q1:"1. Wo liegt Ihr Feld?",q1_or:"Oder finden Sie Ihr Feld auf der Karte: Ort suchen, dann auf das Feld klicken.",q2:"2. Was möchten Sie anbauen?",year:"Jahr",none:"(nichts)",
 q3:"3. Was ist Ihnen am wichtigsten?",w_profit:"Gewinn",w_safe:"Sicherheit in schlechten Jahren",w_soil:"Gesunder Boden",
 q4:"4. Welches Klima?",today:"Heute",y2050:"Im Jahr 2050",more_opts:"Weitere Optionen: zusätzliche Erwärmung, weniger Regen, eigene Bodenprobe",
 extra_warm:"Zusätzliche Erwärmung",rain_change:"Änderung des Sommerregens",soil_soc:"Organischer Kohlenstoff im Boden (g/kg)",soil_clay:"Ton (%)",lat:"Breitengrad",lon:"Längengrad",
@@ -1479,7 +1535,6 @@ function siteLabel(){const s=SITES.find(x=>x.key===site.key);return s?s.name[LAN
 const ESRI='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 const LABELS='https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
 const heroMap=L.map('heroMap',{zoomControl:false,scrollWheelZoom:false,attributionControl:false}).setView([site.lat,site.lon],14);
-L.control.zoom({position:'bottomleft'}).addTo(heroMap);
 // NASA GIBS imagery through its WMS endpoint (EPSG:3857). No TIME = latest available composite.
 const GIBS='https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi';
 const YDAY=new Date(Date.now()-864e5).toISOString().slice(0,10);
@@ -1519,7 +1574,40 @@ function renderLayerBox(){
 const labelsL=L.tileLayer(LABELS,{maxZoom:18,opacity:.85}).addTo(heroMap);
 let marker=null;
 const PIN=L.divIcon({className:'',html:'<svg width="26" height="34" viewBox="0 0 26 34" aria-hidden="true"><path d="M13 0C5.8 0 0 5.8 0 13c0 9.8 13 21 13 21s13-11.2 13-21C26 5.8 20.2 0 13 0z" fill="#fff" stroke="#15191E" stroke-width="1.5"/><circle cx="13" cy="13" r="5" fill="#E52207"/></svg>',iconSize:[26,34],iconAnchor:[13,34]});
-heroMap.on('click',e=>chooseSite({key:'custom',lat:+e.latlng.lat.toFixed(2),lon:+e.latlng.lng.toFixed(2)}));
+// ---------- map navigation: confirm before choosing, search, my location, back to field, Ctrl+scroll zoom
+function offerPick(latlng){
+  const lat=+latlng.lat.toFixed(3), lon=+latlng.lng.toFixed(3);
+  // the content is a real element with its own handler, so it survives Leaflet re-rendering the popup
+  const el=document.createElement('div'); el.className='pick';
+  el.innerHTML=`<b>${t('pick_q')}</b><small>${lat.toFixed(3)}, ${lon.toFixed(3)}</small><button type="button" class="btn-o" id="pickBtn">${t('pick_btn')}</button>`;
+  el.querySelector('button').addEventListener('click',()=>{heroMap.closePopup(); chooseSite({key:'custom',lat,lon});});
+  L.popup({className:'pickpop'}).setLatLng(latlng).setContent(el).openOn(heroMap);
+}
+heroMap.on('click',e=>offerPick(e.latlng));
+const NavCtl=L.Control.extend({options:{position:'topright'},onAdd(){
+  const d=L.DomUtil.create('div','navbox'); d.id='navBox'; L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d); return d;}});
+{const nc=new NavCtl().addTo(heroMap), el=nc.getContainer(); el.parentNode.prepend(el);}
+function renderNavBox(){
+  const d=$('navBox'); if(!d) return; const q=d.querySelector('input')?.value||'';
+  d.innerHTML=`<form id="srchF" role="search"><input type="search" id="srchQ" placeholder="${t('srch_ph')}" aria-label="${t('srch_ph')}" value="${q.replace(/"/g,'&quot;')}"><button type="submit" class="nb" aria-label="${t('srch_btn')}">${t('srch_btn')}</button></form><ul id="srchR"></ul>
+    <div class="nbs"><button type="button" class="nb" id="locBtn">${t('loc_btn')}</button><button type="button" class="nb" id="backBtn">${t('back_btn')}</button><button type="button" class="nb" id="zIn" aria-label="Zoom in">+</button><button type="button" class="nb" id="zOut" aria-label="Zoom out">−</button></div>`;
+  $('srchF').onsubmit=async e=>{e.preventDefault(); const q=$('srchQ').value.trim(); if(!q) return; const ul=$('srchR'); ul.innerHTML=`<li class="m">…</li>`;
+    try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language='+LANG+'&q='+encodeURIComponent(q)); const j=await r.json();
+      ul.innerHTML=j.length?j.map((x,i)=>`<li><button type="button" data-i="${i}">${x.display_name.split(',').slice(0,3).join(',')}</button></li>`).join('')+`<li class="m">${t('srch_src')}</li>`:`<li class="m">${t('srch_none')}</li>`;
+      ul.querySelectorAll('button').forEach(b=>b.onclick=()=>{const x=j[+b.dataset.i]; ul.innerHTML=''; heroMap.setView([+x.lat,+x.lon],14);});
+    }catch(err){ul.innerHTML=`<li class="m">${t('srch_err')}</li>`;}};
+  $('locBtn').onclick=()=>{ if(!navigator.geolocation){alert(t('loc_err'));return;}
+    navigator.geolocation.getCurrentPosition(pos=>{const ll=L.latLng(pos.coords.latitude,pos.coords.longitude); heroMap.setView(ll,16); offerPick(ll);},()=>alert(t('loc_err')),{timeout:10000}); };
+  $('backBtn').onclick=()=>heroMap.setView([site.lat,site.lon],LAYERS[curLayer].z||15);
+  $('zIn').onclick=()=>heroMap.zoomIn(); $('zOut').onclick=()=>heroMap.zoomOut();
+}
+(function(){ // Ctrl or Cmd + scroll zooms the map; plain scrolling keeps scrolling the page and shows a hint
+  const mc=heroMap.getContainer(), hint=L.DomUtil.create('div','wheelhint',mc); let acc=0, ht=null;
+  mc.addEventListener('wheel',e=>{
+    if(e.ctrlKey||e.metaKey){e.preventDefault(); acc+=e.deltaY; if(Math.abs(acc)>60){heroMap.setZoomAround(heroMap.mouseEventToLatLng(e),heroMap.getZoom()+(acc<0?1:-1)); acc=0;}}
+    else{hint.textContent=t('wheel_hint'); hint.classList.add('on'); clearTimeout(ht); ht=setTimeout(()=>hint.classList.remove('on'),1400);}
+  },{passive:false});
+})();
 let ring=null;
 
 function chooseSite(s){
@@ -1882,7 +1970,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); renderNavBox(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
@@ -1901,6 +1989,8 @@ function prioLabel(){
 ['wInc','wRisk','wSoil','wWater'].forEach(id=>$(id).addEventListener('input',prioLabel));
 function irrLabel(){const v=+$('irr').value;$('irrV').textContent=v?v+' mm':t('irr_none');$('irrNote').textContent=t('irr_note',{c:f1(irrCost(DIESEL))});}
 $('irr').addEventListener('input',irrLabel);
+$('pHide').onclick=()=>{document.getElementById('top').classList.add('nopanel'); heroMap.invalidateSize();};
+$('pShow').onclick=()=>{document.getElementById('top').classList.remove('nopanel');};
 ['lat','lon'].forEach(id=>$(id).addEventListener('change',()=>chooseSite({key:'custom',lat:+$('lat').value,lon:+$('lon').value})));
 function mkChart(id,cfg){ if(charts[id]) charts[id].destroy(); charts[id]=new Chart($(id),cfg); }
 
