@@ -119,7 +119,7 @@ section.block .wrap{padding-top:56px;padding-bottom:56px}
 footer{background:var(--dark);color:#B9C1CB}
 footer .wrap{padding-top:32px;padding-bottom:32px;display:flex;flex-wrap:wrap;gap:16px 48px;font-size:14px;line-height:1.6}
 footer .wrap>div{flex:1 1 260px}footer b{color:#fff}
-@media(max-width:640px){.stats>div{flex-basis:100%;padding:14px 0!important;border-left:0!important}.stats>div+div{border-top:1px solid var(--line)}.cmp{min-width:0}.cmp thead{display:none}.cmp tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 8px;border-top:1px solid var(--line);padding:12px 6px}.cmp td{border:0!important;padding:0;background:none!important}.cmp td:first-child{grid-column:1/-1}.cmp td::before{content:attr(data-l);display:block;font-size:12px;font-weight:400;color:var(--mute)}.cmp td:first-child::before{display:none}.cmp td.r{text-align:left}.cmp .bar i{display:none}tr.me{background:#EDF4EE}}
+@media(max-width:640px){.stats>div{flex-basis:100%;padding:14px 0!important;border-left:0!important}.stats>div+div{border-top:1px solid var(--line)}.cmp{min-width:0}.cmp thead{display:none}.cmp tr{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;border-top:1px solid var(--line);padding:12px 6px}.cmp td{border:0!important;padding:0;background:none!important}.cmp td:first-child{grid-column:1/-1}.cmp td::before{content:attr(data-l);display:block;font-size:12px;font-weight:400;color:var(--mute)}.cmp td:first-child::before{display:none}.cmp td.r{text-align:left}.cmp .bar i{display:none}tr.me{background:#EDF4EE}}
 /* v0.5 identity */
 body{font-family:Barlow,system-ui,sans-serif;font-size:17px;color:#1A1A17}
 h1,h2,h3,legend,.logo,.big,.stats .v,.qh{font-family:'Barlow Semi Condensed',Barlow,sans-serif}
@@ -167,9 +167,10 @@ footer{background:#151622}
 input[type=range]{accent-color:#1B2B85}
 @media(max-width:640px){.lw small{display:none}.lw b{font-size:22px}tr.me{background:#eaf0fc}}
 /* v0.7 soil health, space panel, logo */
-.sh{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sh{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sh>div{padding:16px 16px 16px 0}.sh>div+div{padding-left:16px;border-left:1px solid var(--line)}
 .sh .l{font-size:14px;color:var(--mute)}.sh .v2{font-family:'Fira Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px}.sh p{margin:6px 0 0;font-size:14px;line-height:1.45;color:var(--ink2)}
+@media(max-width:1100px){.sh{grid-template-columns:repeat(2,minmax(0,1fr))}.sh>div:nth-child(3){padding-left:0;border-left:0}.sh>div:nth-child(n+3){border-top:1px solid var(--line)}}
 @media(max-width:760px){.sh{grid-template-columns:1fr}.sh>div,.sh>div+div{padding:14px 0;border-left:0}.sh>div+div{border-top:1px solid var(--line)}}
 td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margin-top:2px}
 .space{border-top:1px solid var(--line);background:#fff}
@@ -225,6 +226,7 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
       <label class="slider"><span data-i18n="w_profit"></span><input id="wInc" type="range" min="0" max="5" value="3"></label>
       <label class="slider"><span data-i18n="w_safe"></span><input id="wRisk" type="range" min="0" max="5" value="3"></label>
       <label class="slider"><span data-i18n="w_soil"></span><input id="wSoil" type="range" min="0" max="5" value="3"></label>
+      <label class="slider"><span data-i18n="w_water"></span><input id="wWater" type="range" min="0" max="5" value="2"></label>
     </fieldset>
     <fieldset>
       <legend data-i18n="q4"></legend>
@@ -250,6 +252,11 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
           <label class="full" style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="rawHist"><span data-i18n="raw_hist"></span></label>
         </div>
       </details>
+    </fieldset>
+    <fieldset>
+      <legend data-i18n="q5"></legend>
+      <label class="slider"><span><span data-i18n="irr_lbl"></span> <b id="irrV"></b></span><input id="irr" type="range" min="0" max="250" step="25" value="0"></label>
+      <p class="hint" id="irrNote"></p>
     </fieldset>
     <button type="submit" class="go" id="runBtn" data-i18n="run_btn"></button>
   </form>
@@ -386,7 +393,10 @@ const PRESETS = [
   {name:"Sugar beet – Wheat – Barley",seq:["sugarbeet","wheat","barley"]},
   {name:"Maize – Soybean – Wheat",    seq:["maize","soybean","wheat"]}
 ];
-const FERT_SHARE=0.85; let N_PRICE=1.2;              // fertilize ~85% of crop N need at the site's attainable yield, minus legume credit; €/kg N
+const FERT_SHARE=0.85; let N_PRICE=1.2;
+const IRR_EFF=0.8;                                  // sprinkler application efficiency
+const irrCost=diesel=>1.2*diesel+0.8;              // EUR per mm and ha: ~1.2 l diesel to pump and pressurise 10 m3, plus equipment and labour
+let DIESEL=1.30;                                   // EUR/l, farm diesel excl. VAT (set by the oil price step)              // fertilize ~85% of crop N need at the site's attainable yield, minus legume credit; €/kg N
 const ICBM={ky:0.8, h:0.125};                     // Andrén & Kätterer 1997 (ko solved per site, see simulate)
 const C_PER_GKG=4.05;                             // t C/ha per g/kg SOC (0–30 cm, bulk density 1.35)
 const YEARS=20, RUNS=1000;
@@ -492,7 +502,7 @@ function simulate(seq, yearList, soil, shift, opts={}){
     const key=seq[i%seq.length], c=CROPS[key], nx=CROPS[seq[(i+1)%seq.length]];
     const w=weatherFor(yearList[i],shift);
     const socg=(Y+O)/C_PER_GKG, awNow=aw*(1+0.02*(socg-15)); // more organic matter holds more water
-    let sumETc=0,sumETa=0, bareWinter=false, bare=0, ero=0;
+    let sumETc=0,sumETa=0, bareWinter=false, bare=0, ero=0, irr=0, gap=0, qLeft=shift.irr||0;
     // ---- monthly soil-water balance (FAO-56 single crop coefficient) ----
     for(let m=0;m<12;m++){
       const crop = m<9 ? c : nx;
@@ -503,10 +513,15 @@ function simulate(seq, yearList, soil, shift, opts={}){
       const Peff=0.85*w.p[m];
       let ETa;
       if(kc>0){
+        const inSeason=m<9&&c.season.includes(m+1);
+        if(inSeason&&qLeft>0){                             // irrigate up to the stress threshold, within the yearly amount
+          const RAW0=crop.p*TAW, net=Math.max(0,(TAW-RAW0)-Math.min(S,TAW)), gross=Math.min(qLeft,net/IRR_EFF);
+          S=Math.min(TAWstore,S+gross*IRR_EFF); qLeft-=gross; irr+=gross;
+        }
         const ETc=kc*w.et0[m], RAW=crop.p*TAW, avail=Math.min(S,TAW);
         const Ks= avail>=TAW-RAW ? 1 : Math.max(0,avail/(TAW-RAW));
         ETa=ETc*Ks;
-        if(m<9 && c.season.includes(m+1)){sumETc+=ETc; sumETa+=ETa;}
+        if(inSeason){sumETc+=ETc; sumETa+=ETa; gap+=ETc-ETa;}
       }else{
         ETa=0.25*w.et0[m]*Math.min(1,S/40);              // bare-soil evaporation, slows as surface dries
         if(m>=9||m<=1) bareWinter=true;
@@ -521,7 +536,7 @@ function simulate(seq, yearList, soil, shift, opts={}){
       for(const hm of c.heatM) for(const v of w.txd[hm-1]) if(v+w.dTm[hm-1]>c.heatT) hot++;
       Hf=Math.max(0.4,1-c.heatL*hot);
       if(!opts.validation){
-        const need=c.nT*attainable(key,soil);
+        const need=c.nT*attainable(key,soil,shift.irr||0);   // fertilise for the yield this field reaches with the chosen irrigation
         fert=Math.max(0,FERT_SHARE*need-0.6*credit);
         Nf=need?Math.min(1,0.55+0.45*(N+fert)/need):1;
         Of=0.85+0.15*Math.min(1,socg/20);
@@ -543,7 +558,7 @@ function simulate(seq, yearList, soil, shift, opts={}){
     }
     const yieldT=c.ym*factor;
     const cost=(key==='fallow'||opts.validation)?c.cost:c.cost*(0.45+0.55*Math.min(1,attainable(key,soil)/c.ym)); // inputs scale with the site's yield level
-    const margin=yieldT*c.price-cost-fert*N_PRICE;
+    const margin=yieldT*c.price-cost-fert*N_PRICE-irr*irrCost(DIESEL);
     // ---- nitrogen carry-over ----
     const nSur=fert+c.nFix-c.nT*yieldT;                     // field N balance, kg N/ha (inputs minus removal in the harvest)
     N=Math.max(0,0.3*Math.max(0,N+fert-c.nT*yieldT)+c.nFix+0.6*socg); credit=c.nFix;
@@ -553,7 +568,7 @@ function simulate(seq, yearList, soil, shift, opts={}){
     const Ynew=Y*Math.exp(-a)+inp*(1-Math.exp(-a))/a;
     O=O*Math.exp(-ko*r)+ICBM.h*(Y+inp-Ynew)-(bareWinter?0.1:0);  // erosion loss on bare winter soil
     Y=Ynew;
-    recs.push({year:yearList[i],crop:key,factor,yieldT,margin,fert,Wf,Hf,Nf,hot,C:Y+O,socg:(Y+O)/C_PER_GKG,bare,ero,nSur,nFix:c.nFix});
+    recs.push({year:yearList[i],crop:key,factor,yieldT,margin,fert,Wf,Hf,Nf,hot,C:Y+O,socg:(Y+O)/C_PER_GKG,bare,ero,nSur,nFix:c.nFix,irr,gap});
     prev2=prev; prev=key;
   }
   return recs;
@@ -562,12 +577,12 @@ function simulate(seq, yearList, soil, shift, opts={}){
 
 // Attainable yield of a crop at this site (median over today's climate, water + heat limits only); cached per site/soil
 const _att={};
-function attainable(key,soil){
-  const id=key+'|'+soil.soc+'|'+soil.clay+'|'+climate.lat+'|'+climate.years.length+'|'+(climate.pScale||1);
+function attainable(key,soil,irr=0){
+  const id=key+'|'+soil.soc+'|'+soil.clay+'|'+climate.lat+'|'+climate.years.length+'|'+(climate.pScale||1)+'|'+irr;
   if(_att[id]!=null) return _att[id];
   if(key==='fallow') return _att[id]=0;
   _att[id]=-1; // guard against recursion while computing
-  const ys=simulate([key],climate.years,soil,{mode:'now',dT:0,dP:0},{validation:true}).map(r=>r.yieldT).sort((a,b)=>a-b);
+  const ys=simulate([key],climate.years,soil,{mode:'now',dT:0,dP:0,irr},{validation:true}).map(r=>r.yieldT).sort((a,b)=>a-b);
   return _att[id]=Math.max(0.3,ys[Math.floor(ys.length/2)]);
 }
 // ICBM climate rate modifier for today's climate (reference for steady-state initialisation)
@@ -577,14 +592,14 @@ function siteRref(){ if(climate.rRef==null){ climate.rRef=climate.years.map(y=>c
 
 function monteCarlo(seq, soil, shift, seed){
   const rr=rng(seed), ys=climate.years, margins=[], windows=[], fails=[], ferts=[], cPaths=Array.from({length:YEARS},()=>[]);
-  const lim={water:0,heat:0,n:0}; let bare=0,ero=0,nSur=0,nFix=0,nr=0;
+  const lim={water:0,heat:0,n:0}; let bare=0,ero=0,nSur=0,nFix=0,nr=0,irr=0,gap=0;
   for(let k=0;k<RUNS;k++){
     const yl=Array.from({length:YEARS},()=>ys[Math.floor(rr()*ys.length)]);
     const sh=shift.models?{...shift,cm:shift.models[k%shift.models.length]}:shift;
     const recs=simulate(seq,yl,soil,sh);
     recs.forEach((x,i)=>{
       cPaths[i].push(x.C); margins.push(x.margin); ferts.push(x.fert);
-      bare+=x.bare; ero+=x.ero; nSur+=x.nSur; nFix+=x.nFix; nr++;
+      bare+=x.bare; ero+=x.ero; nSur+=x.nSur; nFix+=x.nFix; irr+=x.irr; gap+=x.gap; nr++;
       if(i>=2) windows.push((x.margin+recs[i-1].margin+recs[i-2].margin)/3);
       if(x.crop!=='fallow'){ fails.push(x.yieldT<0.6*attainable(x.crop,soil)?1:0);
         const m=Math.min(x.Wf,x.Hf,x.Nf); if(m<0.9){ if(m===x.Wf)lim.water++; else if(m===x.Hf)lim.heat++; else lim.n++; } }
@@ -595,7 +610,7 @@ function monteCarlo(seq, soil, shift, seed){
   const cMed=cPaths.map(med);
   return {mean:margins.reduce((a,b)=>a+b)/margins.length, p10:windows[Math.floor(windows.length*0.1)],
           fail:fails.length?fails.reduce((a,b)=>a+b)/fails.length:0, fert:ferts.reduce((a,b)=>a+b)/ferts.length,
-          cEnd:cMed[YEARS-1], cMed, lim, bare:bare/nr, ero:ero/nr, nSur:nSur/nr, nFix:nFix/nr};
+          cEnd:cMed[YEARS-1], cMed, lim, bare:bare/nr, ero:ero/nr, nSur:nSur/nr, nFix:nFix/nr, irr:irr/nr, gap:gap/nr, water:(shift.irr>0?irr:gap)/nr};
 }
 
 
@@ -642,6 +657,19 @@ function drawValidation(){
 // ===================== Language =====================
 const I18N={
 en:{
+w_water:"Saving water",
+q5:"5. Water and prices",
+irr_lbl:"Irrigation water you can use (mm a year):",
+irr_none:"no irrigation",
+irr_note:"Irrigation starts when the soil dries below the point where crops get stressed and tops it back up to that point, until your yearly amount is used. Cost: about €{c} per mm and hectare (pump diesel, equipment, labour).",
+sh_w:"Water",
+sh_w_irr:"{n} mm irrigation a year",
+sh_w_gap:"{n} mm short a year",
+sh_w_irr_p:"Irrigation costs about €{c} per hectare a year. Even so, crops still miss {g} mm in dry months.",
+sh_w_gap_p:"Without irrigation the crops miss this much water in an average year, the main cause of lost yield here. Try the irrigation option to compare.",
+th_water:"Water",
+th_w_irr:"irrigation a year",
+th_w_gap:"short a year",
 crop_sugarbeet:"sugar beet",
 crop_rapeseed:"rapeseed",
 crop_lentil:"lentil",
@@ -662,7 +690,7 @@ y2050_high:"2050 high",
 scen_hint:"2050 uses NASA NEX-GDDP-CMIP6: five climate models, emission paths SSP2-4.5 (middle) and SSP5-8.5 (high).",
 scen_ssp245:"climate of 2050, middle emissions path (NASA CMIP6, 5 models)",
 scen_ssp585:"climate of 2050, high emissions path (NASA CMIP6, 5 models)",
-sh_h:"Soil health of this rotation",
+sh_h:"Soil and water in this rotation",
 sh_c:"Organic carbon",
 sh_c_p:"{d} t of carbon per hectare over 20 years. More carbon holds more water and nutrients.",
 sh_bare:"Bare soil",
@@ -673,7 +701,7 @@ n_bal:"Balanced",
 n_sur:"Surplus",
 n_mine:"Soil being drained",
 sh_n_p:"You buy about {f} kg of nitrogen per hectare a year; legumes add {x} kg for free. Balance: {b} kg.",
-sh_note:"Carbon: ICBM soil model. Heavy rain: days with 12.7 mm or more in NASA POWER (the erosive-rain threshold of RUSLE). Nitrogen balance: fertilizer plus legume fixation minus nitrogen taken off with the harvest.",
+sh_note:"Carbon: ICBM soil model. Heavy rain: days with 12.7 mm or more in NASA POWER (the erosive-rain threshold of RUSLE). Nitrogen balance: fertilizer plus legume fixation minus nitrogen taken off with the harvest. Water: monthly FAO-56 soil-water balance; short = crop demand not met by rain and stored water.",
 bare_short:"{m} bare months",
 fut_t:"more by 2050, on top of the warming already seen here. NASA NEX-GDDP-CMIP6 projection: 5 climate models, middle emissions path (range {lo} to {hi} °C). Rain from April to September: {p}. On the high emissions path: +{h} °C.",
 rain_more:"{v}% more",
@@ -759,6 +787,19 @@ mono:"{c} every year",then:", then ",
 rep_title:"RotaSat rotation report",rep_foot:"Data: NASA POWER daily weather 1985 to 2024 (MERRA-2, CERES), NASA NEX-GDDP-CMIP6 for 2050, ISRIC SoilGrids. Methods: FAO-56 and FAO-33 crop water model, ICBM soil carbon model, 1,000 simulated futures. Estimates for comparing options; discuss them with your advisor."
 },
 tr:{
+w_water:"Su tasarrufu",
+q5:"5. Su ve fiyatlar",
+irr_lbl:"Kullanabileceğin sulama suyu (yılda mm):",
+irr_none:"sulama yok",
+irr_note:"Toprak, bitkinin strese girdiği noktanın altına kuruyunca sulama başlar ve toprağı o seviyeye geri getirir; yıllık miktarın bitene kadar. Maliyet: hektar ve mm başına yaklaşık {c} € (pompa mazotu, ekipman, işçilik).",
+sh_w:"Su",
+sh_w_irr:"yılda {n} mm sulama",
+sh_w_gap:"yılda {n} mm su açığı",
+sh_w_irr_p:"Sulama hektar başına yılda yaklaşık {c} € tutuyor. Yine de kurak aylarda bitkiler {g} mm su eksikliği çekiyor.",
+sh_w_gap_p:"Sulama olmadan bitkiler ortalama bir yılda bu kadar su eksikliği çekiyor; buradaki verim kaybının ana nedeni bu. Karşılaştırmak için sulama seçeneğini dene.",
+th_water:"Su",
+th_w_irr:"yılda sulama",
+th_w_gap:"yılda su açığı",
 crop_sugarbeet:"şeker pancarı",
 crop_rapeseed:"kanola",
 crop_lentil:"mercimek",
@@ -779,7 +820,7 @@ y2050_high:"2050 yüksek",
 scen_hint:"2050 için NASA NEX-GDDP-CMIP6 kullanılır: beş iklim modeli, SSP2-4.5 (orta) ve SSP5-8.5 (yüksek) emisyon yolları.",
 scen_ssp245:"2050 iklimi, orta emisyon yolu (NASA CMIP6, 5 model)",
 scen_ssp585:"2050 iklimi, yüksek emisyon yolu (NASA CMIP6, 5 model)",
-sh_h:"Bu rotasyonda toprak sağlığı",
+sh_h:"Bu rotasyonda toprak ve su",
 sh_c:"Organik karbon",
 sh_c_p:"20 yılda hektar başına {d} ton karbon değişimi. Daha çok karbon, daha çok su ve besin tutar.",
 sh_bare:"Çıplak toprak",
@@ -790,7 +831,7 @@ n_bal:"Dengeli",
 n_sur:"Fazla",
 n_mine:"Toprak tükeniyor",
 sh_n_p:"Hektar başına yılda yaklaşık {f} kg azot satın alıyorsun; baklagiller {x} kg'ı bedavaya ekliyor. Denge: {b} kg.",
-sh_note:"Karbon: ICBM toprak modeli. Şiddetli yağış: NASA POWER'da 12,7 mm ve üstü günler (RUSLE erozyon eşiği). Azot dengesi: gübre artı baklagillerin bağladığı azot, eksi hasatla tarladan çıkan azot.",
+sh_note:"Karbon: ICBM toprak modeli. Şiddetli yağış: NASA POWER'da 12,7 mm ve üstü günler (RUSLE erozyon eşiği). Azot dengesi: gübre artı baklagillerin bağladığı azot, eksi hasatla tarladan çıkan azot. Su: aylık FAO-56 toprak suyu dengesi; açık = yağış ve topraktaki suyun karşılamadığı bitki ihtiyacı.",
 bare_short:"yılda {m} ay çıplak",
 fut_t:"2050'ye kadar, burada şimdiden görülen ısınmanın üstüne eklenecek. NASA NEX-GDDP-CMIP6 projeksiyonu: 5 iklim modeli, orta emisyon yolu (aralık {lo} ile {hi} °C). Nisan-eylül yağışı: {p}. Yüksek emisyon yolunda: +{h} °C.",
 rain_more:"%{v} daha fazla",
@@ -876,6 +917,19 @@ mono:"her yıl {c}",then:", sonra ",
 rep_title:"RotaSat rotasyon raporu",rep_foot:"Veri: NASA POWER günlük hava 1985 - 2024 (MERRA-2, CERES), 2050 için NASA NEX-GDDP-CMIP6, ISRIC SoilGrids. Yöntem: FAO-56 ve FAO-33 bitki su modeli, ICBM toprak karbonu modeli, 1.000 simüle gelecek. Seçenekleri karşılaştırmak için tahminlerdir; danışmanınla konuş."
 },
 de:{
+w_water:"Wasser sparen",
+q5:"5. Wasser und Preise",
+irr_lbl:"Verfügbares Beregnungswasser (mm pro Jahr):",
+irr_none:"keine Beregnung",
+irr_note:"Beregnet wird, sobald der Boden unter die Stressgrenze der Pflanzen austrocknet, und zwar bis zu dieser Grenze, bis die Jahresmenge verbraucht ist. Kosten: etwa {c} € je mm und Hektar (Pumpendiesel, Technik, Arbeit).",
+sh_w:"Wasser",
+sh_w_irr:"{n} mm Beregnung pro Jahr",
+sh_w_gap:"{n} mm Defizit pro Jahr",
+sh_w_irr_p:"Die Beregnung kostet etwa {c} € pro Hektar und Jahr. Trotzdem fehlen den Pflanzen in trockenen Monaten noch {g} mm.",
+sh_w_gap_p:"Ohne Beregnung fehlt den Pflanzen in einem durchschnittlichen Jahr so viel Wasser; das ist hier der Hauptgrund für Ertragsverluste. Probieren Sie die Beregnung aus, um zu vergleichen.",
+th_water:"Wasser",
+th_w_irr:"Beregnung pro Jahr",
+th_w_gap:"Defizit pro Jahr",
 crop_sugarbeet:"Zuckerrübe",
 crop_rapeseed:"Raps",
 crop_lentil:"Linse",
@@ -896,7 +950,7 @@ y2050_high:"2050 hoch",
 scen_hint:"Für 2050 nutzt RotaSat NASA NEX-GDDP-CMIP6: fünf Klimamodelle, Emissionspfade SSP2-4.5 (mittel) und SSP5-8.5 (hoch).",
 scen_ssp245:"Klima 2050, mittlerer Emissionspfad (NASA CMIP6, 5 Modelle)",
 scen_ssp585:"Klima 2050, hoher Emissionspfad (NASA CMIP6, 5 Modelle)",
-sh_h:"Bodengesundheit dieser Fruchtfolge",
+sh_h:"Boden und Wasser in dieser Fruchtfolge",
 sh_c:"Organischer Kohlenstoff",
 sh_c_p:"{d} t Kohlenstoff pro Hektar in 20 Jahren. Mehr Kohlenstoff hält mehr Wasser und Nährstoffe.",
 sh_bare:"Offener Boden",
@@ -907,7 +961,7 @@ n_bal:"Ausgeglichen",
 n_sur:"Überschuss",
 n_mine:"Boden wird ausgezehrt",
 sh_n_p:"Sie kaufen etwa {f} kg Stickstoff pro Hektar und Jahr; Leguminosen liefern {x} kg kostenlos. Bilanz: {b} kg.",
-sh_note:"Kohlenstoff: ICBM-Bodenmodell. Starkregen: Tage mit 12,7 mm oder mehr in NASA POWER (Erosionsschwelle der RUSLE). Stickstoffbilanz: Dünger plus Fixierung durch Leguminosen minus Stickstoff, der mit der Ernte das Feld verlässt.",
+sh_note:"Kohlenstoff: ICBM-Bodenmodell. Starkregen: Tage mit 12,7 mm oder mehr in NASA POWER (Erosionsschwelle der RUSLE). Stickstoffbilanz: Dünger plus Fixierung durch Leguminosen minus Stickstoff, der mit der Ernte das Feld verlässt. Wasser: monatliche FAO-56-Bodenwasserbilanz; Defizit = Pflanzenbedarf, den Regen und Bodenwasser nicht decken.",
 bare_short:"{m} Mon. offen",
 fut_t:"mehr bis 2050, zusätzlich zur hier schon gemessenen Erwärmung. NASA-Projektion NEX-GDDP-CMIP6: 5 Klimamodelle, mittlerer Emissionspfad (Spanne {lo} bis {hi} °C). Regen April bis September: {p}. Beim hohen Emissionspfad: +{h} °C.",
 rain_more:"{v} % mehr",
@@ -1147,7 +1201,7 @@ $('fertP').addEventListener('change',()=>{N_PRICE=+$('fertP').value;runAll();});
 // ===================== Run + render =====================
 function getSoil(){return {soc:+$('soc').value||15, clay:+$('clay').value||25};}
 function getShift(){
-  const s={mode:$('rawHist').checked?'raw':scen, dT:+$('dT').value, dP:+$('dP').value};
+  const s={mode:$('rawHist').checked?'raw':scen, dT:+$('dT').value, dP:+$('dP').value, irr:+$('irr').value};
   if(s.mode==='ssp245'||s.mode==='ssp585'){const cm=cmip(site.lat,site.lon,s.mode); if(cm) s.models=cm; else s.mode='2050';}
   return s;
 }
@@ -1177,11 +1231,11 @@ function runAllNow(){
   const mine=userSeq();
   const rots=PRESETS.filter(p=>p.seq.join()!==mine.join()).map(p=>({seq:p.seq})).concat([{seq:mine,mine:true}]);
   rots.forEach((ro,i)=>Object.assign(ro,monteCarlo(ro.seq,soil,shift,12345+i)));
-  const w={inc:+$('wInc').value,risk:+$('wRisk').value,soil:+$('wSoil').value}, ws=w.inc+w.risk+w.soil||1;
+  const w={inc:+$('wInc').value,risk:+$('wRisk').value,soil:+$('wSoil').value,water:+$('wWater').value}, ws=w.inc+w.risk+w.soil+w.water||1;
   const norm=(k,inv)=>{const v=rots.map(r=>r[k]),lo=Math.min(...v),hi=Math.max(...v);return r=>hi===lo?0.5:(inv?(hi-r[k]):(r[k]-lo))/(hi-lo);};
   rots.forEach(r=>r.nAbs=Math.abs(r.nSur));
-  const nI=norm('mean'),nR=norm('p10'),nF=norm('fail',true),nS=norm('cEnd'),nE=norm('ero',true),nN=norm('nAbs',true);
-  rots.forEach(r=>{r.health=0.6*nS(r)+0.25*nE(r)+0.15*nN(r); r.score=100*(w.inc*nI(r)+w.risk*(0.5*nR(r)+0.5*nF(r))+w.soil*r.health)/ws; r.dC=r.cEnd-c0;});
+  const nI=norm('mean'),nR=norm('p10'),nF=norm('fail',true),nS=norm('cEnd'),nE=norm('ero',true),nN=norm('nAbs',true),nW=norm('water',true);
+  rots.forEach(r=>{r.health=0.6*nS(r)+0.25*nE(r)+0.15*nN(r); r.score=100*(w.inc*nI(r)+w.risk*(0.5*nR(r)+0.5*nF(r))+w.soil*r.health+w.water*nW(r))/ws; r.dC=r.cEnd-c0;});
   const sorted=[...rots].sort((a,b)=>b.score-a.score), best=sorted[0], me=rots.find(r=>r.mine);
   lastResults={rots,sorted,best,me,soil,shift};
   renderAnswer(); renderClimate(); renderDetails();
@@ -1201,7 +1255,7 @@ function renderAnswer(){
   const crash=worst?`<p class="note">${t('crash_line',{name:rotName(worst.seq,true),n:Math.max(2,Math.round(1/worst.fail))})}</p>`:'';
   const rows=sorted.map((r,i)=>`<tr class="${r.mine?'me':''}"><td>${i+1}. ${r.mine?t('your_plan')+': '+rotShort(r.seq):cap1(rotShort(r.seq))}</td>
     <td data-l="${t('th_profit')}"><div class="bar"><i style="width:${Math.max(4,70*Math.max(0,r.mean)/maxM)}%;${r.dC<-4.5||r.mean<maxM*0.5?'background:var(--orange2)':''}"></i><span>${money(r.mean)}</span></div></td>
-    <td data-l="${t('th_bad')}" class="r ${r.p10<0.3*maxM?'bad':''}">${money(r.p10)}</td><td data-l="${t('th_soil')}" class="${r.dC<=-4.5?'bad':''}">${soilWord(r.dC)}<small class="sd">${t('bare_short',{m:f1(r.bare)})}</small></td></tr>`).join('');
+    <td data-l="${t('th_bad')}" class="r ${r.p10<0.3*maxM?'bad':''}">${money(r.p10)}</td><td data-l="${t('th_soil')}" class="${r.dC<=-4.5?'bad':''}">${soilWord(r.dC)}<small class="sd">${t('bare_short',{m:f1(r.bare)})}</small></td><td data-l="${t('th_water')}" class="r">${nf(r.water)} mm<small class="sd">${t(shift.irr>0?'th_w_irr':'th_w_gap')}</small></td></tr>`).join('');
   $('answer').innerHTML=`<p class="mono small" style="margin:0;font-size:13px">${t('res_head',{site:siteLabel(),scen:scenTxt})}</p>
     <h2>${head}</h2>
     <p class="lead">${best.p10<0?t('res_p_neg',{mean:nf(best.mean),p10:nf(-best.p10),risk}):t('res_p',{mean:nf(best.mean),p10:nf(best.p10),risk})}</p>
@@ -1214,10 +1268,11 @@ function renderAnswer(){
       <div><div class="l">${t('sh_c')}</div><div class="v2 ${best.dC<-1?'bad':''}">${soilWord(best.dC)}</div><p>${t('sh_c_p',{d:sgn(best.dC)})}</p></div>
       <div><div class="l">${t('sh_bare')}</div><div class="v2 ${best.bare>5?'bad':''}">${t('sh_bare_v',{m:f1(best.bare)})}</div><p>${t('sh_bare_p',{e:nf(best.ero)})}</p></div>
       <div><div class="l">${t('sh_n')}</div><div class="v2 ${Math.abs(best.nSur)>40?'bad':''}">${nWord(best.nSur)}</div><p>${t('sh_n_p',{f:nf(best.fert),x:nf(best.nFix),b:(best.nSur>0?'+':best.nSur<0?'−':'')+nf(Math.abs(best.nSur))})}</p></div>
+      <div><div class="l">${t('sh_w')}</div>${shift.irr>0?`<div class="v2">${t('sh_w_irr',{n:nf(best.irr)})}</div><p>${t('sh_w_irr_p',{c:nf(best.irr*irrCost(DIESEL)),g:nf(best.gap)})}</p>`:`<div class="v2 ${best.gap>100?'bad':''}">${t('sh_w_gap',{n:nf(best.gap)})}</div><p>${t('sh_w_gap_p')}</p>`}</div>
     </div>
     <p class="mono small" style="margin:8px 0 0;font-size:12px;line-height:1.5">${t('sh_note')}</p>
     <h3>${t('cmp_h')}</h3><p class="small" style="margin:0 0 14px;font-size:15px">${t('cmp_p')}</p>
-    <div class="tbl"><table class="cmp"><thead><tr><th style="padding-left:0">${t('th_rot')}</th><th style="width:36%">${t('th_profit')}</th><th class="r">${t('th_bad')}</th><th>${t('th_soil')}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="tbl"><table class="cmp"><thead><tr><th style="padding-left:0">${t('th_rot')}</th><th style="width:36%">${t('th_profit')}</th><th class="r">${t('th_bad')}</th><th>${t('th_soil')}</th><th class="r">${t('th_water')}</th></tr></thead><tbody>${rows}</tbody></table></div>
     ${crash}
     <div class="acts"><button type="button" class="btn-o" onclick="printReport()">${t('btn_print')}</button><button type="button" class="btn-o lite" id="detBtn" onclick="toggleDetails()">${$('details').hidden?t('btn_details'):t('btn_hide')}</button><button type="button" class="btn-o lite" onclick="shareLink(this)">${t('btn_share')}</button></div>`;
 }
@@ -1306,7 +1361,8 @@ function renderSpace(){
 
 // ===================== Share link: the result is rebuilt from the URL =====================
 function stateHash(){
-  const q=new URLSearchParams({lat:site.lat,lon:site.lon,site:site.key,rot:userSeq().join('.'),w:[$('wInc').value,$('wRisk').value,$('wSoil').value].join('.'),sc:scen,lang:LANG});
+  const q=new URLSearchParams({lat:site.lat,lon:site.lon,site:site.key,rot:userSeq().join('.'),w:[$('wInc').value,$('wRisk').value,$('wSoil').value,$('wWater').value].join('.'),sc:scen,lang:LANG});
+  if(+$('irr').value) q.set('irr',$('irr').value);
   if(+$('dT').value) q.set('dT',$('dT').value); if(+$('dP').value) q.set('dP',$('dP').value);
   if($('fertP').value!=='1.2') q.set('fert',$('fertP').value); if($('rainCal').value) q.set('rain',$('rainCal').value);
   return '#'+q.toString();
@@ -1320,7 +1376,8 @@ function readHash(){
   try{
     const q=new URLSearchParams(location.hash.slice(1)); if(!q.get('lat')) return null;
     if(q.get('lang')&&I18N[q.get('lang')]) LANG=q.get('lang');
-    const w=(q.get('w')||'').split('.'); ['wInc','wRisk','wSoil'].forEach((id,i)=>{if(w[i]!=null&&w[i]!=='') $(id).value=w[i];});
+    const w=(q.get('w')||'').split('.'); ['wInc','wRisk','wSoil','wWater'].forEach((id,i)=>{if(w[i]!=null&&w[i]!=='') $(id).value=w[i];});
+    if(q.get('irr')) $('irr').value=q.get('irr');
     if(['now','ssp245','ssp585'].includes(q.get('sc'))) scen=q.get('sc');
     if(q.get('dT')) $('dT').value=q.get('dT'); if(q.get('dP')) $('dP').value=q.get('dP');
     if(q.get('fert')){$('fertP').value=q.get('fert'); N_PRICE=+q.get('fert');}
@@ -1340,7 +1397,7 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); irrLabel();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
@@ -1350,7 +1407,9 @@ document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{LANG=b.datase
 document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.dataset.scen;document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x===b));runAll();});
 $('dT').oninput=()=>$('dTv').textContent='+'+(+$('dT').value).toFixed(1)+' °C';
 $('dP').oninput=()=>$('dPv').textContent=$('dP').value+' %';
-['dT','dP','wInc','wRisk','wSoil','soc','clay','rawHist'].forEach(id=>$(id).addEventListener('change',runAll));
+['dT','dP','wInc','wRisk','wSoil','wWater','irr','soc','clay','rawHist'].forEach(id=>$(id).addEventListener('change',runAll));
+function irrLabel(){const v=+$('irr').value;$('irrV').textContent=v?v+' mm':t('irr_none');$('irrNote').textContent=t('irr_note',{c:f1(irrCost(DIESEL)).replace(/[.,]\d$/,m=>m)});}
+$('irr').addEventListener('input',irrLabel);
 ['lat','lon'].forEach(id=>$(id).addEventListener('change',()=>chooseSite({key:'custom',lat:+$('lat').value,lon:+$('lon').value})));
 function mkChart(id,cfg){ if(charts[id]) charts[id].destroy(); charts[id]=new Chart($(id),cfg); }
 
