@@ -3,5 +3,5 @@ __pycache__/
 *.pyc
 fixtures/
 test-shots/
-tests/node_modules/
+tests/node_modules
 tests/package-lock.json
