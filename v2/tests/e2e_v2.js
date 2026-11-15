@@ -7,7 +7,11 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   const cards = p => p.evaluate(() => ({ strat: document.querySelectorAll('.strat').length, cal: document.querySelectorAll('.strat .cal').length, xp: [...document.querySelectorAll('.strat .xp')].map(d => d.querySelectorAll('dt').length),
     why: document.querySelectorAll('.strat .why').length, pills: document.querySelectorAll('.strat .pill').length, glance: document.querySelectorAll('.glance .grow').length,
     rows: document.querySelectorAll('.cmp tbody tr').length, dash: document.body.innerText.includes('—') || document.getElementById('answer').textContent.includes('—') || document.getElementById('evidence').textContent.includes('—'), raw: /\{[a-z0-9]+\}|undefined|NaN/.test(document.getElementById('answer').textContent + document.getElementById('evidence').textContent),
-    top: Math.round(document.getElementById('answer').getBoundingClientRect().top + scrollY) }));
+    top: Math.round(document.getElementById('answer').getBoundingClientRect().top + scrollY),
+    h2b: Math.round(document.querySelector('#answer h2').getBoundingClientRect().bottom + scrollY), stripB: document.querySelector('#answer .bstrip') ? Math.round(document.querySelector('#answer .bstrip').getBoundingClientRect().bottom + scrollY) : 1e9,
+    strip: [...document.querySelectorAll('#answer .bstrip .bsrow:not(.bshd)')].map(r => r.querySelectorAll('.bc').length + (r.getAttribute('role') === 'img' && r.getAttribute('aria-label').length > 30 ? '' : 'noalt')).join(','),
+    stripCol: (() => { const a = document.querySelector('#answer .bc i.g'), b = document.querySelector('.strat .cal .c.g'), x = document.querySelector('#answer .bc i.b'), y = document.querySelector('.strat .cal .c.b');
+      return !!(a && b && x && y) && getComputedStyle(a).backgroundColor === getComputedStyle(b).backgroundColor && getComputedStyle(x).backgroundImage === getComputedStyle(y).backgroundImage; })() }));
   // 1. every language at every width, default field
   for (const lang of ['en', 'tr', 'de']) for (const [w, h] of [[1440, 900], [1000, 800], [390, 844], [320, 640]]) {
     const { ctx, p, errors } = await open(browser, w, h, { lang }); await p.goto(APP); await ready(p);
@@ -16,7 +20,10 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
     ok(c.glance === 8 && c.rows >= 10, `${tag}: comparison table rows ${c.glance}, all rotations ${c.rows}`);
     ok(!c.dash, `${tag}: em dash in the page text`); ok(!c.raw, `${tag}: unfilled placeholder or NaN in the answer`);
     ok(ov <= 1, `${tag}: horizontal overflow ${ov}px`);
-    ok(w > 760 ? c.top < 900 : c.top < 1200, `${tag}: answer starts at ${c.top}px`);
+    ok(w >= 1440 ? c.top < 560 : c.top < 760, `${tag}: answer starts at ${c.top}px`);
+    ok(c.strip === '12,12', `${tag}: bare soil strip has two rows of 12 months with a text alternative (${c.strip})`);
+    ok(c.stripCol, `${tag}: strip colours are the calendar colours`);
+    if (w === 1440) ok(c.h2b <= h && c.stripB <= h, `${tag}: answer headline and strip above the fold (${c.h2b}, ${c.stripB} of ${h}px)`);
     ok(await p.evaluate(() => document.documentElement.lang) === lang, `${tag}: html lang`);
     // widest element check inside the answer (cards, calendar, tables may scroll inside their own box only)
     const wide = await p.evaluate(() => [...document.querySelectorAll('#answer *, #ground *, #limits *')].filter(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.right > innerWidth + 1 && !e.closest('.tbl'); }).length);
@@ -82,6 +89,7 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   // glossary, ground section, layer switch
   ok(await p.evaluate(() => document.querySelectorAll('#termList dt').length === 11 && document.querySelectorAll('#glossList dt').length >= 18 && document.querySelectorAll('#resBody tr').length === 6 && document.querySelectorAll('.judge li').length === 5), 'glossary terms, data table and judgement list are filled');
   await p.click('#ground summary'); await p.click('#openOwn'); ok(await p.evaluate(() => document.getElementById('moreOpts').open), 'ground: button opens the rain and soil inputs');
+  await p.click('#lyBox .lyt');
   for (const k of ['ndvi', 'smap', 'esri']) { await p.check(`#lyBox input[value="${k}"]`); await p.waitForTimeout(200); }
   // print report
   await p.evaluate(() => { window.print = () => {}; printReport(); }); ok(await p.evaluate(() => document.getElementById('report').querySelectorAll('.strat').length >= 1), 'report: contains the strategy cards');
@@ -106,6 +114,49 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   ({ ctx, p, errors } = await open(browser, 1440, 900, {})); await p.goto(APP + '#lat=49.1577&lon=9.109&site=heilbronn&rot=wheat.chickpea.maize&lang=en&pm=fixed'); await ready(p);
   ok(await p.evaluate(() => userSeq().join('.') === 'wheat.chickpea.maize' && !document.getElementById('slots').hidden && document.querySelector('#rotChips .rchip.other').getAttribute('aria-pressed') === 'true' && document.getElementById('moreOpts').open), 'share link with an unusual rotation: selects shown, "something else" pressed, options open');
   errs.push(...errors); await ctx.close();
+  // 2c. climate switch above the answer, small map beside it, larger map with search (desktop), map behind "change" (phone)
+  ({ ctx, p, errors } = await open(browser, 1440, 900, { lang: 'tr' })); await p.goto(APP); await ready(p);
+  const sw0 = await snap(p);
+  ok(await p.evaluate(() => { const s = document.querySelector('.scen').getBoundingClientRect(), a = document.querySelector('#answer h2').getBoundingClientRect(); return document.querySelectorAll('.seg [data-scen]').length === 3 && s.bottom <= a.top && s.top > 0 && !document.querySelector('.scard'); }), 'switch: three buttons directly above the answer, old cards gone');
+  await p.click('.seg [data-scen="ssp245"]'); await ready(p);
+  ok(await p.evaluate(() => lastResults.shift.mode === 'ssp245' && /sc=ssp245/.test(location.hash) && document.querySelector('.seg [data-scen="ssp245"]').getAttribute('aria-pressed') === 'true' && /SSP2-4\.5/.test(document.getElementById('scDesc').textContent)), 'switch: 2050 middle changes the scenario, the description and the address');
+  ok(JSON.stringify((await snap(p)).strat) !== JSON.stringify(sw0.strat), 'switch: numbers change with the climate');
+  await p.click('.seg [data-scen="ssp585"]'); await ready(p);
+  ok(await p.evaluate(() => lastResults.shift.mode === 'ssp585' && /sc=ssp585/.test(location.hash)), 'switch: 2050 high');
+  const swHash = await p.evaluate(() => location.hash);
+  await p.reload(); await ready(p);
+  ok(await p.evaluate(() => scen === 'ssp585' && document.querySelector('.seg [data-scen="ssp585"]').getAttribute('aria-pressed') === 'true' && lastResults.shift.mode === 'ssp585'), 'switch: reload with the address keeps 2050 high ' + swHash);
+  await p.click('.seg [data-scen="now"]'); await ready(p);
+  ok(JSON.stringify((await snap(p)).strat) === JSON.stringify(sw0.strat) && await p.evaluate(() => /sc=now/.test(location.hash)), 'switch: back to today gives the first numbers');
+  const mapBox = async () => p.evaluate(() => { const r = document.getElementById('heroMap').getBoundingClientRect(), z = heroMap.getSize(); return { x: r.left, y: r.top + scrollY, w: Math.round(r.width), h: Math.round(r.height), lw: z.x, lh: z.y }; });
+  let mb = await mapBox(); const ans = await p.evaluate(() => document.querySelector('.anscol').getBoundingClientRect().toJSON());
+  ok(mb.w >= 300 && mb.h >= 250 && mb.lw === mb.w && mb.lh === mb.h && mb.x > ans.right && mb.y < 900, 'small map: beside the answer, Leaflet size matches ' + JSON.stringify(mb));
+  await p.evaluate(() => scrollTo(0, 0)); mb = await mapBox();
+  await p.mouse.click(mb.x + mb.w / 2 - 60, mb.y + mb.h - 50); await p.waitForSelector('#pickBtn', { timeout: 5000 }); await p.click('#pickBtn'); await p.waitForTimeout(200); await ready(p);
+  ok(await p.evaluate(() => site.key === 'custom' && /\d/.test(document.getElementById('fieldName').textContent) && lastResults && document.querySelectorAll('.strat').length === 3), 'small map: a click on the map picks a field and recalculates');
+  await p.click('#mapBtn'); await p.waitForTimeout(300); mb = await mapBox();
+  ok(await p.evaluate(() => document.getElementById('plan').classList.contains('mapbig') && document.getElementById('mapBtn').getAttribute('aria-expanded') === 'true') && mb.h > 450 && mb.lh === mb.h && mb.lw === mb.w, 'larger map: opens and Leaflet follows the new size ' + JSON.stringify(mb));
+  await p.fill('#srchQ', 'Straubing'); await p.press('#srchQ', 'Enter'); await p.waitForSelector('#srchR button'); await p.click('#srchR button'); await p.waitForTimeout(200);
+  ok(await p.evaluate(() => Math.abs(heroMap.getCenter().lat - 48.8) < 0.05), 'larger map: search moves the map');
+  mb = await mapBox(); await p.evaluate(y => scrollTo(0, y - 100), mb.y); mb = await mapBox();
+  const sy = await p.evaluate(() => scrollY); await p.mouse.click(mb.x + mb.w / 2, mb.y - sy + mb.h / 2 + 60); await p.waitForSelector('#pickBtn', { timeout: 5000 }); await p.click('#pickBtn'); await p.waitForTimeout(200); await ready(p);
+  ok(await p.evaluate(() => site.key === 'custom' && Math.abs(site.lat - 48.8) < 0.1 && !document.getElementById('plan').classList.contains('mapbig')), 'larger map: picking a field there closes it again');
+  await p.click('[data-site="heilbronn"]'); await p.waitForTimeout(200); await ready(p);
+  ok(await p.evaluate(() => site.key === 'heilbronn' && !/[#&]site=custom/.test(location.hash)), 'example field chip after a map pick; address follows');
+  errs.push(...errors); await ctx.close();
+  for (const [w, h, lang] of [[390, 844, 'tr'], [320, 640, 'de']]) {
+    ({ ctx, p, errors } = await open(browser, w, h, { lang })); await p.goto(APP); await ready(p);
+    ok(await p.evaluate(() => getComputedStyle(document.getElementById('mapCol')).display === 'none' && getComputedStyle(document.getElementById('sitePick')).display === 'none'), `${lang} ${w}px: map and field list closed at first`);
+    await p.click('#fieldChg'); await p.waitForTimeout(300); mb = await mapBox();
+    ok(mb.w >= w - 40 && mb.h >= 250 && mb.lw === mb.w && mb.lh === mb.h && await p.evaluate(() => document.getElementById('fieldChg').getAttribute('aria-expanded') === 'true'), `${lang} ${w}px: "change" opens the map at full size ` + JSON.stringify(mb));
+    ok(await overflow(p) <= 1, `${lang} ${w}px: no overflow with the map open`);
+    await p.evaluate(y => scrollTo(0, y - 20), mb.y); const sy2 = await p.evaluate(() => scrollY);
+    await p.mouse.click(mb.x + 50, mb.y - sy2 + mb.h - 40); await p.waitForSelector('#pickBtn', { timeout: 5000 }); await p.click('#pickBtn'); await p.waitForTimeout(200); await ready(p);
+    ok(await p.evaluate(() => site.key === 'custom' && getComputedStyle(document.getElementById('mapCol')).display === 'none' && document.querySelectorAll('.strat').length === 3), `${lang} ${w}px: a field picked on the map, map closes, answer recalculated`);
+    await p.click('#fieldChg'); await p.click('[data-site="thrace"]'); await p.waitForTimeout(200); await ready(p);
+    ok(await p.evaluate(() => site.key === 'thrace' && getComputedStyle(document.getElementById('sitePick')).display === 'none'), `${lang} ${w}px: example field chosen from the opened list`);
+    errs.push(...errors); await ctx.close();
+  }
   // 3. My fields on a phone
   ({ ctx, p, errors } = await open(browser, 390, 844, { lang: 'tr' })); await p.goto(APP); await ready(p);
   await p.click('#fields summary'); await p.fill('#fName', 'Ev tarlası'); await p.fill('#fHa', '12'); await p.click('#fForm button[type=submit]');

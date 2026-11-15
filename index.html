@@ -29,18 +29,7 @@ nav a{color:var(--ink);text-decoration:none}nav a:hover{text-decoration:underlin
 .langs{display:flex;gap:4px}
 .btn-s{font:inherit;font-size:14px;background:#fff;color:var(--ink);border:1px solid var(--line2);border-radius:4px;padding:8px 12px;min-height:40px;cursor:pointer}
 .btn-s[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.hero{position:relative;color:#fff;overflow:hidden;background:#2B2F22;min-height:520px}
-#heroMap{position:absolute;inset:0;z-index:0}
-.hero .shade{position:absolute;inset:0;background:rgba(8,11,14,.6);z-index:1;pointer-events:none}
-.hero .wrap{position:relative;z-index:2;padding-top:96px;padding-bottom:36px;pointer-events:none}
-.hero .wrap a{pointer-events:auto}
-.hero h1{margin:0;font-size:54px;line-height:1.08;font-weight:800;letter-spacing:-.02em;max-width:760px}
-@media(max-width:640px){.hero h1{font-size:36px}}
-.hero p{margin:22px 0 0;font-size:20px;line-height:1.55;color:#E3E7EC;max-width:640px}
-.cta{display:inline-block;margin-top:30px;background:#fff;color:var(--ink)!important;text-decoration:none;font-weight:700;font-size:17px;padding:15px 26px;border-radius:4px}
-.readout{margin-top:64px;padding-top:14px;border-top:1px solid rgba(255,255,255,.25);display:flex;flex-wrap:wrap;gap:8px 40px;font-size:13px;color:#C9D0D8}
 .plan{background:var(--bg2);border-bottom:1px solid var(--line)}
-.plan>.wrap{padding-top:48px;padding-bottom:48px;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
 .form{flex:1 1 320px;max-width:390px;display:flex;flex-direction:column;gap:28px}
 @media(max-width:760px){.form{max-width:none}}
 fieldset{border:0;padding:0;margin:0;min-width:0}
@@ -49,7 +38,6 @@ legend{font-size:20px;font-weight:700;padding:0;margin-bottom:12px}
 .site[aria-pressed="true"]{border:2px solid var(--ink);padding:9px 13px}
 .site b{font-size:16px}.site small{font-size:14px;color:var(--mute)}
 .tag{font-size:13px;font-weight:600}.tag.dry{color:var(--orange)}.tag.wet{color:var(--blue)}
-#pickMap{height:200px;border-radius:4px;margin-top:10px;border:1px solid var(--line2)}
 .hint{margin:8px 0 0;font-size:14px;color:var(--mute)}
 .row{display:flex;align-items:center;gap:12px;font-size:15px;margin-bottom:8px}
 .row span{width:60px;color:var(--mute)}
@@ -121,27 +109,15 @@ h1,h2,h3,legend,.logo,.big,.stats .v,.qh{font-family:'Barlow Semi Condensed',Bar
 .mono{font-family:inherit;letter-spacing:.01em}
 .logo{gap:10px;font-size:23px;font-weight:700;letter-spacing:-.01em}
 header{position:sticky;top:0;z-index:1000}
-.hero{position:relative;min-height:640px;background:#3c4430;color:var(--ink);overflow:visible}
-#heroMap{position:absolute;inset:0;z-index:1;cursor:crosshair}
-.hero .wrap.heroin{position:relative;z-index:500;padding-top:36px;padding-bottom:36px;pointer-events:none}
-.panel{pointer-events:auto;background:#fff;max-width:440px;border-radius:6px;padding:28px 28px 24px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.panel h1{margin:0;font-size:40px;line-height:1.05;font-weight:800;letter-spacing:-.01em;color:#1A1A17}
-.panel .lede{margin:14px 0 0;font-size:17px;line-height:1.5;color:var(--ink2)}
-.panel p.qh{margin:22px 0 10px;font-size:21px;font-weight:700;color:#1A1A17;line-height:1.2}
-.panel p.hint{margin:10px 0 0;font-size:15px;color:var(--mute);line-height:1.4}
-.panel p.lede{color:var(--ink2)}
 .sites{display:flex;flex-direction:column;gap:8px}
-.cta{display:block;text-align:center;margin-top:18px;background:#F2C230;color:#1A1A17!important;font-weight:700;font-size:17px;padding:14px 20px;border-radius:4px;text-decoration:none}
-.cta:hover{background:#E5B21E}
 .go{background:#F2C230;color:#1A1A17}.go:hover{background:#E5B21E}
-.readout{position:absolute;right:12px;bottom:12px;z-index:500;background:rgba(26,26,23,.78);color:#fff;font-size:13px;padding:6px 10px;border-radius:4px;display:flex;flex-wrap:wrap;gap:4px 14px;max-width:calc(100% - 24px)}
+.readout{background:#151622;color:#fff;font-size:12.5px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:2px 14px}
 .fieldsum{font-size:16px;background:#fff;border:1px solid var(--line2);border-radius:4px;padding:12px 14px}.fieldsum a{margin-left:6px}
 .leaflet-container{font-family:Barlow,sans-serif}
-@media(max-width:760px){.hero{min-height:0}#heroMap{position:relative;height:300px}.hero .wrap.heroin{padding-top:0;padding-bottom:20px;margin-top:-40px}.panel{max-width:none;padding:22px}.panel h1{font-size:32px}.readout{top:250px;bottom:auto}}
 /* v0.6 Space Apps identity */
 :root{--ink:#151622;--ink2:#383b52;--mute:#5a5e78;--line:#dde1ec;--line2:#c3c8d8;--bg2:#f3f5fa;--green:#0050D8;--green2:#7fa8e8;--orange:#C41C06;--orange2:#f0a090;--blue:#0050D8;--dark:#151622}
 body{font-family:Overpass,system-ui,sans-serif;color:#151622}
-h1,h2,h3,legend,.big,.stats .v,.panel p.qh,.lw b{font-family:'Fira Sans',sans-serif}
+h1,h2,h3,legend,.big,.stats .v,.qh,.lw b{font-family:'Fira Sans',sans-serif}
 h1,h2.sec,.answer h2,.big,.stats .v{font-weight:900}
 header{background:#151622;border-bottom:0}
 header .wrap{padding-top:12px;padding-bottom:12px}
@@ -151,12 +127,11 @@ nav a{color:#e6e9f5}nav a:hover{color:#E7F434;text-decoration:none}
 .langs .btn-s{background:transparent;color:#e6e9f5;border-color:#3a3f63}
 .langs .btn-s[aria-pressed="true"]{background:#E7F434;color:#151622;border-color:#E7F434}
 .cta,.go{background:#E7F434!important;color:#151622!important}.cta:hover,.go:hover{background:#d6e31f!important}
-.panel h1{color:#151622}
 .ring-note{display:none}
 .site[aria-pressed="true"]{border-color:#0050D8}
 .seg .btn-s[aria-pressed="true"]{background:#1B2B85;border-color:#1B2B85;color:#fff}
 tr.me td{background:#eaf0fc}
-.fieldsum a,a{color:#0050D8}
+a{color:#0050D8}
 .steps .n{color:#0050D8}
 footer{background:#151622}
 input[type=range]{accent-color:#1B2B85}
@@ -191,10 +166,6 @@ td small.sd{display:block;font-size:13px;font-weight:400;color:var(--mute);margi
 .rnote{font-size:14px;line-height:1.5;background:#fff;border:1px solid var(--line2);border-left:4px solid #0050D8;border-radius:4px;padding:10px 12px;color:var(--ink2)}
 .rnote b{color:var(--ink)}.rnote .rnmore{display:inline-block;margin-top:8px;margin-left:6px;font-weight:600;font-size:14px}.rnote button{margin-top:8px;font-size:14px;padding:8px 12px;min-height:38px}
 /* v1.0 scenario cards, glossary */
-.scards{display:flex;flex-direction:column;gap:8px}
-.scard{font:inherit;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line2);border-radius:4px;padding:10px 12px;cursor:pointer;line-height:1.4}
-.scard[aria-pressed="true"]{border:2px solid #1B2B85;padding:9px 11px;background:#eef2fb}
-.scard b{display:block;font-family:'Fira Sans',sans-serif;font-size:16px}.scard span{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
 .gloss{border-top:1px solid var(--line)}.gloss dl{margin:20px 0 0;display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:10px 24px;font-size:15px;line-height:1.5}
 .gloss dt{font-weight:700;font-family:'Fira Sans',sans-serif}.gloss dd{margin:0;color:var(--ink2)}
 @media(max-width:640px){.gloss dl{grid-template-columns:1fr;gap:2px}.gloss dd{margin-bottom:10px}}
@@ -220,11 +191,7 @@ details.expert{margin-top:18px;border-top:1px solid var(--line);padding-top:10px
 .pick{display:flex;flex-direction:column;gap:6px;font-family:Overpass,system-ui,sans-serif}.pick b{font-size:15px}.pick small{color:var(--mute)}.pick .btn-o{background:#E7F434;border-color:#151622;font-size:14px;padding:8px 12px;min-height:38px}
 .wheelhint{position:absolute;inset:0;z-index:650;display:flex;align-items:center;justify-content:center;background:rgba(21,22,34,.45);color:#fff;font-size:18px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;text-align:center;padding:20px}
 .wheelhint.on{opacity:1}
-@media(min-width:761px){.hero:not(.nopanel) .wheelhint{padding-left:min(560px,45%)}}
-.ptog{float:right;font:inherit;font-size:12px;font-weight:600;background:none;border:1px solid var(--line2);border-radius:4px;padding:4px 8px;margin:-8px -8px 6px 8px;cursor:pointer;color:var(--ink2)}
-.pshow{display:none;position:absolute;left:16px;top:16px;z-index:600;font:inherit;font-size:14px;font-weight:700;background:#E7F434;border:1px solid #151622;border-radius:4px;padding:10px 14px;cursor:pointer}
-.hero.nopanel .panel{display:none}.hero.nopanel .pshow{display:block}
-@media(max-width:760px){#heroMap{height:380px!important}.readout{top:330px!important}.navbox{width:200px;padding:6px}.nbs .nb{font-size:12px;padding:4px 6px;min-height:32px}.ptog,.pshow{display:none!important}.lybox{max-width:200px}}
+@media(max-width:760px){.navbox{width:200px;padding:6px}.nbs .nb{font-size:12px;padding:4px 6px;min-height:32px}.lybox{max-width:200px}}
 /* v1.1 soil and water rows: every gauge sits in the same column */
 .shrows{margin-top:14px;border-top:1px solid var(--line)}
 .shr{display:grid;grid-template-columns:minmax(150px,200px) minmax(220px,1.1fr) minmax(0,1fr);gap:8px 28px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
@@ -259,17 +226,13 @@ section,[id]{scroll-margin-top:84px}
   header nav a{display:inline-block;padding:6px 0}
   .lfull{display:none}.lshort{display:inline}
   .langs .btn-s{padding:6px 9px;min-height:36px;font-size:13px}
-  .readout{position:relative!important;top:auto!important;right:auto!important;bottom:auto!important;max-width:none;border-radius:0;margin:0}
-  .hero .wrap.heroin{margin-top:0!important;padding-top:12px}
   .lyt{cursor:pointer;margin:0}.lyt::after{content:' ▾'}.lybox.open .lyt::after{content:' ▴'}
   .lybox:not(.open) label,.lybox:not(.open) p{display:none}.lybox.open .lyt{margin-bottom:6px}
   .nbs #zIn,.nbs #zOut{display:none}
   .navbox{width:min(230px,62vw)}
 }
 /* ===== v2: farmer-first layout ===== */
-.plan>.wrap{display:grid;grid-template-columns:350px minmax(0,1fr);grid-template-areas:"a ans" "b ans";grid-template-rows:auto 1fr;gap:28px 36px;align-items:start;padding-top:36px;padding-bottom:48px}
-.form{max-width:none}.form.fa{grid-area:a;gap:16px}.form.fb{grid-area:b}.answer{grid-area:ans;padding:30px}
-@media(max-width:940px){.plan>.wrap{grid-template-columns:minmax(0,1fr);grid-template-areas:"a" "ans" "b";grid-template-rows:auto;gap:20px;padding-top:20px}}
+.form{max-width:none}
 @media(max-width:640px){.answer{padding:18px 16px}.answer h2{font-size:25px}.lead{font-size:16.5px}}
 .qsub{margin:-6px 0 10px!important}
 #slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -334,21 +297,13 @@ h3.jh{margin:34px 0 0;font-size:22px;font-family:'Fira Sans',sans-serif}
 .judge{margin:14px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 .judge li{border-left:4px solid #E7F434;background:var(--bg2);padding:10px 14px;font-size:15px;line-height:1.5;color:var(--ink2);border-radius:0 4px 4px 0}.judge li b{color:var(--ink);display:block}
 .gloss dl{margin-top:12px}
-.hero{min-height:0}.hero .wrap.heroin{padding-top:28px;padding-bottom:28px}
-.panel{padding:22px 24px 20px}.panel h1{font-size:31px;line-height:1.1}.panel .lede{font-size:16px;margin-top:10px}.panel p.qh{margin:16px 0 8px;font-size:20px}
-.sites{display:grid;grid-template-columns:1fr 1fr;gap:8px}.site{flex-direction:column;align-items:flex-start;gap:2px;padding:8px 12px}.site[aria-pressed="true"]{padding:7px 11px}.site b{font-size:15.5px}.site small{font-size:13px;line-height:1.25;display:block}.site br{display:none}
-.panel p.hint{font-size:14px;margin-top:8px}.cta{margin-top:12px;padding:12px 18px}
-@media(min-width:761px){.hero{min-height:560px}}
 .cmp td{padding:10px 8px}.cmp td small.sd{white-space:nowrap}
 .grow .gv.top::after{content:none}.grow .gv.top .mv::after{content:' ✓';font-weight:700}
 .strat .why{margin:14px 0 0;font-size:15.5px;line-height:1.5;color:var(--ink2)}.strat .why b{color:var(--ink)}
 details.xpd{margin-top:10px;font-size:15px;color:var(--ink)}details.xpd>summary{font-weight:700;color:#0050D8;font-size:15px}details.xpd .xp{margin-top:6px}
 /* phone: short way to the answer */
 @media(max-width:760px){
-  #heroMap{height:230px!important}.panel .lede,.qsub{display:none}.plan>.wrap{padding-top:14px;gap:14px}.form.fa{gap:10px}.fieldsum{padding:9px 12px}
-  .panel{padding:16px 16px 14px}.panel h1{font-size:25px;line-height:1.12}.panel .lede{font-size:15px;margin-top:8px}.panel p.qh{margin:14px 0 8px;font-size:18px}
-  .sites{display:grid;grid-template-columns:1fr 1fr;gap:6px}.site{min-height:46px;padding:7px 10px;flex-direction:column;align-items:flex-start;gap:0}.site[aria-pressed="true"]{padding:6px 9px}.site b{font-size:14.5px;line-height:1.2}.site small,.site br{display:none}.panel p.hint{display:none}.tag{font-size:12px}
-  .cta{margin-top:10px;padding:11px 14px;font-size:16px}
+  .qsub{display:none}
   legend{font-size:18px;margin-bottom:8px}
 }
 @media(max-width:360px){.wrap{padding-left:12px;padding-right:12px}.cal{font-size:10.5px;grid-template-columns:minmax(58px,max-content) repeat(12,minmax(0,1fr))}}
@@ -361,7 +316,6 @@ details.xpd{margin-top:10px;font-size:15px;color:var(--ink)}details.xpd>summary{
 #slots[hidden]{display:none}
 #slots{margin-top:10px}
 @media(max-width:760px){.rchip{font-size:14px;padding:7px 12px;min-height:40px}}
-@media(max-width:360px){#heroMap{height:200px!important}}   /* the chip rows are taller on the smallest phones; keep the answer within reach */
 details.sect{margin:0;font-size:inherit;color:inherit}   /* undo the small grey default of details */
 details.sect>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;list-style:none;min-height:48px;cursor:pointer}
 details.sect>summary::-webkit-details-marker{display:none}
@@ -391,6 +345,83 @@ details.evmore .ev2{margin-top:16px}
 @media(max-width:900px){.evbox{grid-template-columns:minmax(0,1fr)}}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px}#report table{font-size:13px}#report .terms,#report .tchips,#report .evstrip{display:none}#report .strat{break-inside:avoid}#report details>*{display:block}}
+/* v4: first screen with the answer: headline, two question rows, the answer beside a small map */
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-areas:"intro intro" "q1 q1" "q2 q2" "ans map" "ans fb";grid-template-rows:auto auto auto auto 1fr;gap:12px 28px;align-items:start;padding-top:20px;padding-bottom:48px}
+.intro{grid-area:intro}.q1{grid-area:q1}.q2{grid-area:q2}.mapcol{grid-area:map}.anscol{grid-area:ans;min-width:0}.form.fb{grid-area:fb;gap:24px}
+.pgrid.mapbig{grid-template-areas:"intro intro" "q1 q1" "map map" "q2 q2" "ans fb"}
+.intro h1{margin:0;font-size:34px;line-height:1.12;letter-spacing:-.01em;color:#151622}
+.intro .lede{margin:6px 0 0;font-size:16px;line-height:1.45;color:var(--ink2);max-width:1000px}
+.qrow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:2px 20px;align-items:start;border-top:1px solid var(--line);padding-top:12px}
+.qrow .qh{margin:9px 0 0;font-size:17px;font-weight:700;line-height:1.2;color:#151622}
+.qrow .qbody{grid-column:2;grid-row:1/span 2;min-width:0}
+.qrow .qsub{display:none}
+.qrow .pestline{margin-top:6px}
+.fieldsum{display:none}
+.sitepick{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sites{display:flex;flex-direction:row;flex-wrap:wrap;gap:6px}
+.site{width:auto;justify-content:flex-start;min-height:44px;padding:6px 10px;border-radius:22px;gap:6px;flex-direction:row;align-items:center;font-weight:600}
+.site[aria-pressed="true"]{background:#151622;color:#fff;border:1px solid #151622;padding:6px 10px}
+.site b{font-size:14.5px}.site small,.site br{display:none}.site .tag{font-size:12px}
+.site[aria-pressed="true"] .tag{color:#E7F434}
+.site:focus-visible,.mapbtn:focus-visible,.seg button:focus-visible,.linkbtn:focus-visible{outline:2px solid #0050D8;outline-offset:2px}
+.mapbtn{font:inherit;font-size:14.5px;font-weight:600;background:#fff;color:#0050D8;border:1px dashed #0050D8;border-radius:22px;padding:6px 10px;min-height:44px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.mapbtn::before{content:'';width:10px;height:10px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#E52207;flex:0 0 auto}
+.linkbtn{font:inherit;font-size:inherit;font-weight:600;background:none;border:0;padding:4px 2px;margin-left:4px;color:#0050D8;text-decoration:underline;cursor:pointer;min-height:36px}
+.mapcol{background:#fff;border:1px solid var(--line2);border-radius:4px;overflow:hidden;min-width:0}
+#heroMap{position:relative;height:320px;z-index:1;cursor:crosshair;background:#3c4430}
+.pgrid.mapbig #heroMap{height:min(540px,62vh)}
+.readout{position:static}
+.maphint{margin:0!important;padding:8px 10px;font-size:13px!important;line-height:1.4}
+.lyt{cursor:pointer;margin:0}.lyt::after{content:' \25BE'}.lybox.open .lyt::after{content:' \25B4'}
+.lybox:not(.open) label,.lybox:not(.open) p{display:none}.lybox.open .lyt{margin-bottom:6px}
+.lybox{padding:7px 10px}.navbox{width:min(330px,calc(100vw - 60px));padding:6px}
+.pgrid:not(.mapbig) .mapcol .leaflet-top.leaflet-right{left:10px}.pgrid:not(.mapbig) .mapcol .leaflet-top.leaflet-right .navbox{float:none;width:auto;max-width:none}
+.pgrid.mapbig .navbox{width:340px}
+.navbox .nbs .nb{white-space:nowrap}
+.anscol{background:#fff;border:1px solid var(--line);border-radius:4px}
+.anscol .answer{border:0;border-radius:4px;background:transparent;padding:16px 28px 28px}
+.anscol .answer h2{font-size:27px;line-height:1.22;margin-top:6px}
+.scen{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 28px;border-bottom:1px solid var(--line);background:#fafbfd;border-radius:4px 4px 0 0}
+.scl{font-family:'Fira Sans',sans-serif;font-weight:700;font-size:15px}
+.seg{display:inline-flex;border:1px solid #151622;border-radius:4px;overflow:hidden;max-width:100%}
+.seg button{font:inherit;font-size:14.5px;font-weight:600;background:#fff;color:#151622;border:0;border-left:1px solid #151622;padding:7px 14px;min-height:40px;cursor:pointer;white-space:nowrap}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:#151622;color:#fff}
+.scdesc{flex:1 1 100%;margin:0;font-size:13px;line-height:1.45;color:var(--mute)}.scdesc b{color:var(--ink2)}
+.bstrip{margin:14px 0 4px;max-width:640px}
+.bsh{margin:0 0 4px;font-size:13px;font-weight:700}
+.bsrow{display:grid;grid-template-columns:var(--bl,104px) repeat(12,minmax(0,1fr));gap:3px;align-items:center;margin-top:3px}
+.bsrow .bl{padding-right:8px;font-size:13.5px;font-weight:700;line-height:1.15;hyphens:auto}
+.bsrow .mh{text-align:center;font-size:11.5px;font-weight:600;color:var(--mute)}
+.bc{height:26px;border-radius:3px;display:flex;flex-direction:column;overflow:hidden;background:#f4ecd8}
+.bc i{display:block;flex:0 0 auto}
+.bc i.g{background:#8cc68f}.bc i.n{background:#c5e3c6}.bc i.b{background:repeating-linear-gradient(45deg,#e3d3ad,#e3d3ad 3px,#f4ecd8 3px,#f4ecd8 6px)}
+.bstrip .calleg{margin-top:6px}
+.bsnote{margin:8px 0 0;font-size:15.5px;font-weight:600;line-height:1.4}
+@media(max-width:1100px){.pgrid{grid-template-columns:minmax(0,1fr) 330px}}
+@media(max-width:940px){
+  .pgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"intro" "q1" "map" "q2" "ans" "fb";grid-template-rows:auto;gap:12px;padding-top:14px}
+  .pgrid.mapbig{grid-template-areas:"intro" "q1" "map" "q2" "ans" "fb"}
+  .qrow{grid-template-columns:minmax(0,1fr);border-top:0;padding-top:0}
+  .qrow .qbody{grid-column:1;grid-row:auto}
+  .q1 .qh{display:none}
+  .qrow .qh{margin:0 0 8px;font-size:18px}
+  .fieldsum{display:block;padding:6px 12px}
+  .sitepick,.mapbtn,.mapcol{display:none}
+  .pgrid.pickopen .sitepick{display:flex;margin-top:8px}
+  .pgrid.pickopen .mapcol{display:block}
+  #heroMap{height:300px}
+}
+@media(max-width:760px){
+  .intro h1{font-size:24px;line-height:1.15}.intro .lede{display:none}
+  .anscol .answer{padding:14px 16px 18px}.anscol .answer h2{font-size:22px}
+  .scen{padding:10px 16px}.scl{display:none}.scdesc.now{display:none}
+  .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.seg button{padding:7px 4px;font-size:14px;white-space:normal;line-height:1.15}
+  .site{min-height:40px;padding:6px 12px}.site[aria-pressed="true"]{padding:6px 12px}.site b{font-size:14px}
+  .bsrow{--bl:78px;gap:2px}.bsrow .bl{font-size:12.5px;padding-right:6px}.bc{height:24px}
+  .bsnote{font-size:15px}
+}
+@media(max-width:360px){.bsrow{--bl:74px}.bsrow .bl{font-size:11.5px;padding-right:4px}.bsrow .mh{font-size:10.5px}.seg button{font-size:13px;padding:7px 5px}}
 </style>
 </head>
 <body>
@@ -404,40 +435,49 @@ details.evmore .ev2{margin-top:16px}
   </div>
 </div></header>
 
-<section class="hero" id="top">
-  <div id="heroMap" role="application" aria-label="Satellite map. Click to choose your field."></div>
-  <div class="wrap heroin">
-    <div class="panel">
-      <button type="button" class="ptog" id="pHide" data-i18n="panel_hide"></button>
-      <h1 data-i18n="hero_h1"></h1>
-      <p class="lede" data-i18n="hero_p"></p>
-      <p class="qh" data-i18n="q1"></p>
-      <div id="sites" class="sites"></div>
-      <p class="hint" data-i18n="q1_or"></p>
-      <a class="cta" href="#plan" data-i18n="hero_cta2"></a>
+<section class="plan" id="top"><div class="wrap pgrid" id="plan">
+  <div class="intro">
+    <h1 data-i18n="hero_h1"></h1>
+    <p class="lede" data-i18n="hero_p"></p>
+  </div>
+  <div class="qrow q1" role="group" aria-labelledby="q1L">
+    <p class="qh" id="q1L" data-i18n="q1"></p>
+    <div class="qbody">
+      <div class="fieldsum"><span data-i18n="field_lbl"></span> <b id="fieldName"></b> <button type="button" class="linkbtn" id="fieldChg" aria-expanded="false" aria-controls="sitePick mapCol"></button></div>
+      <div class="sitepick" id="sitePick">
+        <div id="sites" class="sites"></div>
+        <button type="button" class="mapbtn" id="mapBtn" aria-expanded="false" aria-controls="mapCol"></button>
+      </div>
     </div>
   </div>
-  <button type="button" class="pshow" id="pShow" data-i18n="panel_show"></button>
-  <div class="readout"><span id="roCoord"></span><span id="roName"></span><span id="roSrc">Esri, Maxar, Earthstar Geographics</span></div>
-</section>
-
-<section class="plan" id="plan"><div class="wrap">
-  <div class="form fa">
-    <div class="fieldsum"><span data-i18n="field_lbl"></span> <b id="fieldName"></b> <a href="#top" data-i18n="change"></a></div>
-    <details class="rnote" id="regionNote" hidden><summary><b data-i18n="rn_h"></b></summary><span id="rnText"></span><br><button type="button" class="btn-o lite" id="rnBtn" data-i18n="rn_btn"></button> <a id="rnMore" class="rnmore" target="_blank" rel="noopener"></a></details>
-    <fieldset>
-      <legend data-i18n="q2"></legend>
-      <p class="hint qsub" data-i18n="q2_h"></p>
-      <div id="rotChips" class="rchips" role="group"></div>
+  <div class="qrow q2" role="group" aria-labelledby="q2L">
+    <p class="qh" id="q2L" data-i18n="q2"></p>
+    <div class="qbody">
+      <div id="rotChips" class="rchips" role="group" aria-describedby="q2sub"></div>
       <p class="hint" id="rotOtherHint" data-i18n="rot_other_h" hidden></p>
       <div id="slots"></div>
       <p class="hint pestline" id="myPest" aria-live="polite"></p>
-    </fieldset>
+    </div>
+    <p class="hint qsub" id="q2sub" data-i18n="q2_h"></p>
+  </div>
+  <div class="mapcol" id="mapCol">
+    <div id="heroMap" role="application" aria-label="Satellite map. Click to choose your field."></div>
+    <div class="readout"><span id="roCoord"></span><span id="roName"></span><span id="roSrc">Esri, Maxar, Earthstar Geographics</span></div>
+    <p class="hint maphint" data-i18n="q1_or"></p>
+  </div>
+  <div class="anscol">
+    <div class="scen">
+      <span class="scl" id="scenL" data-i18n="sw_h"></span>
+      <div class="seg" role="group" aria-labelledby="scenL">
+        <button type="button" data-scen="now" aria-pressed="true" data-i18n="sw_now"></button><button type="button" data-scen="ssp245" aria-pressed="false" data-i18n="sw_mid"></button><button type="button" data-scen="ssp585" aria-pressed="false" data-i18n="sw_high"></button>
+      </div>
+      <p class="scdesc" id="scDesc" aria-live="polite"></p>
+    </div>
+    <div class="answer" id="answer" aria-live="polite"><p class="loading" id="status"></p></div>
   </div>
 
-  <div class="answer" id="answer" aria-live="polite"><p class="loading" id="status"></p></div>
-
   <form class="form fb" novalidate onsubmit="event.preventDefault();runAll()">
+    <details class="rnote" id="regionNote" hidden><summary><b data-i18n="rn_h"></b></summary><span id="rnText"></span><br><button type="button" class="btn-o lite" id="rnBtn" data-i18n="rn_btn"></button> <a id="rnMore" class="rnmore" target="_blank" rel="noopener"></a></details>
     <fieldset>
       <legend data-i18n="q3"></legend>
       <label class="slider prio"><span><span data-i18n="w_profit"></span>: <b id="wIncV"></b></span><small data-i18n="w_profit_h"></small><input id="wInc" type="range" min="0" max="5" value="3"></label>
@@ -461,15 +501,7 @@ details.evmore .ev2{margin-top:16px}
       <label class="chk" style="margin-top:8px"><input type="checkbox" id="forage" checked><span data-i18n="forage_lbl"></span></label>
       <p class="hint" id="limNote" aria-live="polite"></p>
     </fieldset>
-    <fieldset>
-      <legend data-i18n="q4"></legend>
-      <div class="scards" role="group">
-        <button type="button" class="scard" data-scen="now" aria-pressed="true"><b data-i18n="sc_now_h"></b><span id="scNow"></span></button>
-        <button type="button" class="scard" data-scen="ssp245" aria-pressed="false"><b data-i18n="sc_mid_h"></b><span id="scMid"></span></button>
-        <button type="button" class="scard" data-scen="ssp585" aria-pressed="false"><b data-i18n="sc_high_h"></b><span id="scHigh"></span></button>
-      </div>
-      <p class="hint"><span data-i18n="scen_hint"></span> <a href="#glossary" data-i18n="abbr_link"></a></p>
-      <details id="moreOpts">
+    <details id="moreOpts">
         <summary data-i18n="more_opts"></summary>
         <div class="more">
           <label class="full"><span><span data-i18n="extra_warm"></span> <b id="dTv">+0.0 °C</b></span><input id="dT" type="range" min="0" max="3" step="0.5" value="0"></label>
@@ -491,7 +523,6 @@ details.evmore .ev2{margin-top:16px}
         </div>
         <p class="hint" id="priceNote"></p>
       </details>
-    </fieldset>
   </form>
 </div></section>
 
@@ -1421,6 +1452,11 @@ q4:"5. Which climate?",
 more_opts:"More options: prices, your own rain and soil test, extra warming, less rain",
 hero_p:"Pick your field and tap what you grow today. RotaSat compares your rotation with other strategies for profit, soil and water, using 40 years of NASA weather for that exact spot. You can also test it against NASA's climate projections for 2050.",
 hero_cta2:"Next: what do you grow now?",
+sw_h:"Climate",sw_now:"Today",sw_mid:"2050 middle",sw_high:"2050 high",
+pick_map:"Pick on the map",map_small:"Smaller map",map_close:"Close map",
+bs_h:"Bare soil through the year",bs_mine:"Yours",bs_rec:"Recommended",bs_alt:"Next best",
+bs_less:"{rot} leaves the soil bare {m} months less a year than yours.",bs_more:"{rot} leaves the soil bare {m} months more a year than yours.",bs_same:"{rot} leaves the soil bare about as long as yours.",
+bs_row:"{name}, {rot}: bare about {m} months a year. Bare in most years: {list}.",bs_none:"no month",bs_part:"part filled: only in some years of the rotation",
 retry:"Try again",
 price_h:"Prices and costs",
 rot_other:"Something else",
@@ -1925,6 +1961,11 @@ q4:"5. Hangi iklim?",
 more_opts:"Diğer seçenekler: fiyatlar, kendi yağış ölçümün ve toprak analizin, ek ısınma, daha az yağış",
 hero_p:"Tarlanı seç, bugün ne ektiğine dokun. RotaSat rotasyonunu başka stratejilerle kâr, toprak ve su açısından karşılaştırır; bunun için tam o noktanın 40 yıllık NASA hava verisini kullanır. İstersen NASA'nın 2050 iklim projeksiyonlarıyla da deneyebilirsin.",
 hero_cta2:"Devam: şu an ne ekiyorsun?",
+sw_h:"İklim",sw_now:"Bugün",sw_mid:"2050 orta",sw_high:"2050 yüksek",
+pick_map:"Haritadan seç",map_small:"Haritayı küçült",map_close:"Haritayı kapat",
+bs_h:"Yıl boyunca çıplak toprak",bs_mine:"Seninki",bs_rec:"Önerilen",bs_alt:"Sıradaki",
+bs_less:"{rot}, toprağı seninkinden yılda {m} ay daha az çıplak bırakır.",bs_more:"{rot}, toprağı seninkinden yılda {m} ay daha uzun çıplak bırakır.",bs_same:"{rot}, toprağı aşağı yukarı seninki kadar çıplak bırakır.",
+bs_row:"{name}, {rot}: yılda yaklaşık {m} ay çıplak. Çoğu yıl çıplak kalan aylar: {list}.",bs_none:"yok",bs_part:"kısmen dolu: rotasyonun yalnız bazı yıllarında",
 retry:"Tekrar dene",
 price_h:"Fiyatlar ve maliyetler",
 rot_other:"Başka",
@@ -2429,6 +2470,11 @@ q4:"5. Welches Klima?",
 more_opts:"Weitere Optionen: Preise, eigener Niederschlag und eigene Bodenprobe, zusätzliche Erwärmung, weniger Regen",
 hero_p:"Wählen Sie Ihr Feld und tippen Sie an, was Sie heute anbauen. RotaSat vergleicht Ihre Fruchtfolge mit anderen Strategien nach Gewinn, Boden und Wasser, mit 40 Jahren NASA-Wetter genau für diesen Ort. Auf Wunsch auch mit den NASA-Klimaprojektionen für 2050.",
 hero_cta2:"Weiter: Was bauen Sie heute an?",
+sw_h:"Klima",sw_now:"Heute",sw_mid:"2050 mittel",sw_high:"2050 hoch",
+pick_map:"Auf der Karte wählen",map_small:"Karte verkleinern",map_close:"Karte schließen",
+bs_h:"Offener Boden übers Jahr",bs_mine:"Ihre",bs_rec:"Empfohlen",bs_alt:"Nächstbeste",
+bs_less:"{rot} lässt den Boden {m} Monate im Jahr weniger offen als Ihre Fruchtfolge.",bs_more:"{rot} lässt den Boden {m} Monate im Jahr länger offen als Ihre Fruchtfolge.",bs_same:"{rot} lässt den Boden etwa so lange offen wie Ihre Fruchtfolge.",
+bs_row:"{name}, {rot}: etwa {m} Monate im Jahr offen. In den meisten Jahren offen: {list}.",bs_none:"kein Monat",bs_part:"teilweise gefüllt: nur in manchen Jahren der Fruchtfolge",
 retry:"Erneut versuchen",
 price_h:"Preise und Kosten",
 rot_other:"Etwas anderes",
@@ -2649,11 +2695,10 @@ function setLayer(k){
   if(b.over) b.over.addTo(heroMap);
   if(labelsL) labelsL.bringToFront();
   curLayer=k; lyErr=false;
-  heroMap.setView([site.lat,site.lon],b.z||15,{animate:false});
-  if(window.innerWidth>760) heroMap.panBy([-260,0],{animate:false});
+  centerField(b.z||15);
   renderLayerBox();
 }
-const LayerCtl=L.Control.extend({options:{position:'topright'},onAdd(){const d=L.DomUtil.create('div','lybox');d.id='lyBox';L.DomEvent.disableClickPropagation(d);L.DomEvent.disableScrollPropagation(d);return d;}});
+const LayerCtl=L.Control.extend({options:{position:'bottomright'},onAdd(){const d=L.DomUtil.create('div','lybox');d.id='lyBox';L.DomEvent.disableClickPropagation(d);L.DomEvent.disableScrollPropagation(d);return d;}});
 new LayerCtl().addTo(heroMap);
 function renderLayerBox(){
   const d=$('lyBox'); if(!d) return;
@@ -2692,7 +2737,7 @@ function renderNavBox(){
     }catch(err){ul.innerHTML=`<li class="m">${t('srch_err')}</li>`;}};
   $('locBtn').onclick=()=>{ if(!navigator.geolocation){alert(t('loc_err'));return;}
     navigator.geolocation.getCurrentPosition(pos=>{const ll=L.latLng(pos.coords.latitude,pos.coords.longitude); heroMap.setView(ll,16); offerPick(ll);},()=>alert(t('loc_err')),{timeout:10000}); };
-  $('backBtn').onclick=()=>heroMap.setView([site.lat,site.lon],LAYERS[curLayer].z||15);
+  $('backBtn').onclick=()=>centerField();
   $('zIn').onclick=()=>heroMap.zoomIn(); $('zOut').onclick=()=>heroMap.zoomOut();
 }
 (function(){ // Ctrl or Cmd + scroll zooms the map; plain scrolling keeps scrolling the page and shows a hint
@@ -2703,6 +2748,7 @@ function renderNavBox(){
   },{passive:false});
 })();
 let ring=null;
+function centerField(z){ heroMap.setView([site.lat,site.lon],z||LAYERS[curLayer].z||15,{animate:false}); heroMap.panBy([0,-40],{animate:false}); }   // the search box covers the top of the map
 let rotTouched=false, rotCustom=false;   // rotTouched: the rotation came from the user, a link or a saved field; rotCustom: "Something else" is open
 
 function chooseSite(s){
@@ -2711,11 +2757,28 @@ function chooseSite(s){
   if(marker) marker.remove(); if(ring) ring.remove();
   marker=L.marker([s.lat,s.lon],{icon:PIN}).addTo(heroMap);
   ring=L.circle([s.lat,s.lon],{radius:400,color:'#E7F434',weight:2.5,fill:false}).addTo(heroMap);
-  heroMap.setView([s.lat,s.lon],LAYERS[curLayer].z||15,{animate:false});
-  if(window.innerWidth>760) heroMap.panBy([-260,0],{animate:false});
+  centerField();
   if(!rotTouched){ rotCustom=false; setSeq(regionRots()[0]); }
+  if(mapOpen) setMapOpen(false);   // a field was chosen: back to the answer
   renderSites(); renderRegionNote(); renderSlots(); updateReadout(); loadData();
 }
+// v4: the map sits small beside the answer (desktop) or opens on request (narrow screens). Leaflet must be told when its box changes size.
+let mapOpen=false;
+const narrow=()=>window.matchMedia('(max-width:940px)').matches;
+function setMapOpen(o){
+  mapOpen=!!o; const g=$('plan'); g.classList.toggle('pickopen',mapOpen&&narrow()); g.classList.toggle('mapbig',mapOpen&&!narrow());
+  renderMapBtns();
+  requestAnimationFrame(()=>{ heroMap.invalidateSize(); centerField(); });
+}
+function renderMapBtns(){
+  const f=$('fieldChg'), m=$('mapBtn'); if(!f||!m) return;
+  f.textContent=t(mapOpen?'map_close':'change'); f.setAttribute('aria-expanded',mapOpen);
+  m.textContent=t(mapOpen?'map_small':'pick_map'); m.setAttribute('aria-expanded',mapOpen);
+}
+$('fieldChg').onclick=()=>setMapOpen(!mapOpen);
+$('mapBtn').onclick=()=>setMapOpen(!mapOpen);
+if(typeof ResizeObserver!=='undefined') new ResizeObserver(()=>heroMap.invalidateSize()).observe($('heroMap'));
+window.matchMedia('(max-width:940px)').addEventListener('change',()=>{ if(mapOpen) setMapOpen(true); });
 function updateReadout(){$('roCoord').textContent=`${Math.abs(site.lat).toFixed(2)}° ${site.lat>=0?'N':'S'}, ${Math.abs(site.lon).toFixed(2)}° ${site.lon>=0?'E':'W'}`;
   const s=SITES.find(x=>x.key===site.key);$('roName').textContent=s?`${s.name[LANG]}, ${s.near[LANG]}`:t('your_field');$('fieldName').textContent=siteLabel();}
 function renderRegionNote(){
@@ -2956,7 +3019,7 @@ async function runAllNow(my){
   if(PRICE_MODE!=='fixed'){ const x=await mcJobs([{seq:R.best.seq,soil,shift,seed:777}],mkCtx(clim,{PRICE_MODE:'fixed'}),'main'); if(my!==runToken||clim!==climate) return; R.best.meanToday=x[0].mean; }
   lastResults=Object.assign(R,{soil,shift});
   const a=$('answer'); a.classList.remove('upd'); a.removeAttribute('aria-busy');
-  renderAnswer(); renderClimate(); renderDetails(); a.dataset.done=my;
+  renderAnswer(); renderClimate(); renderDetails(); syncHash(); a.dataset.done=my;
 }
 // v3: one line under the result with the three proofs, linking to the evidence section
 function evStrip(){
@@ -2999,6 +3062,7 @@ function renderAnswer(){
   $('answer').dataset.upd=t('upd');
   $('answer').innerHTML=`<p class="mono small" style="margin:0;font-size:13px">${t('res_head',{site:siteLabel(),scen:scenTxt})}</p>
     <h2>${head}</h2>
+    ${bareStrip(R,S)}
     <p class="lead">${lead}</p>${climate?evStrip():''}
     <h3 style="margin-top:26px">${t('gl_h3')}</h3><p class="small" style="margin:0;font-size:15px">${t('gl_p3')}</p>
     ${glance}${few}
@@ -3023,6 +3087,28 @@ function renderAnswer(){
     <div class="acts"><button type="button" class="btn-o" onclick="printReport()">${t('btn_print')}</button><button type="button" class="btn-o lite" id="detBtn" onclick="toggleDetails()">${$('details').hidden?t('btn_details'):t('btn_hide')}</button><button type="button" class="btn-o lite" onclick="shareLink(this)">${t('btn_share')}</button><button type="button" class="btn-o lite" onclick="addCurrentField()">${t('fl_add_cur')}</button></div>`;
   $('answer').querySelectorAll('[data-term]').forEach(b=>b.onclick=()=>{openTerm=openTerm===b.dataset.term?null:b.dataset.term;
     $('answer').querySelectorAll('[data-term]').forEach(x=>x.setAttribute('aria-expanded',x.dataset.term===openTerm)); $('termBox').innerHTML=termHTML();});
+}
+// v4: bare soil strip, two rows of twelve months: the farmer's rotation and the recommended one. Each cell shows in how many of the
+// rotation's years that month has a crop growing, the next crop sown, or bare soil (same colours as the calendar in the cards).
+function stripCells(r){
+  const rows=calData(r), n=rows.length;
+  return [...Array(12)].map((_,m)=>{ let g=0,x=0,b=0; rows.forEach(ro=>{const c=ro.cells[m]; if(c.bare) b++; else if(c.next) x++; else g++;}); return {g:g/n,n:x/n,b:b/n}; });
+}
+function bareStrip(R,S){
+  const alt=S[1]; if(!alt) return '';
+  const pct=v=>Math.round(v*1000)/10+'%';
+  const rows=[{lbl:t('bs_mine'),r:R.me},{lbl:t(alt.role==='best'?'bs_rec':'bs_alt'),r:alt.r}];
+  let mixed=false;
+  const html=rows.map(({lbl,r})=>{ const cells=stripCells(r);
+    const often=cells.map((c,m)=>c.b>=0.5?m:-1).filter(m=>m>=0);
+    const desc=t('bs_row',{name:lbl,rot:rotShort(r.seq),m:f1(r.bare),list:often.length?monRanges(often):t('bs_none')});
+    return `<div class="bsrow" role="img" aria-label="${desc.replace(/"/g,'')}"><span class="bl" aria-hidden="true">${lbl}</span>`+cells.map(c=>{ if(c.g%1&&c.g>0||c.n%1&&c.n>0||c.b%1&&c.b>0) mixed=true;
+      return `<span class="bc">${c.b?`<i class="b" style="height:${pct(c.b)}"></i>`:''}${c.n?`<i class="n" style="height:${pct(c.n)}"></i>`:''}${c.g?`<i class="g" style="height:${pct(c.g)}"></i>`:''}</span>`; }).join('')+'</div>'; }).join('');
+  const d=R.me.bare-alt.r.bare, rot=cap1(rotShort(alt.r.seq));
+  const note=Math.abs(d)<0.25?t('bs_same',{rot}):t(d>0?'bs_less':'bs_more',{rot,m:f1(Math.abs(d))});
+  const head=`<div class="bsrow bshd" aria-hidden="true"><span class="bl"></span>${[...Array(12)].map((_,m)=>`<span class="mh">${monName(m,'narrow')}</span>`).join('')}</div>`;
+  const leg=`<span><i style="background:#8cc68f"></i>${t('cl_crop')}</span><span><i style="background:#c5e3c6"></i>${t('cl_next')}</span><span><i style="background:repeating-linear-gradient(45deg,#e3d3ad,#e3d3ad 3px,#f4ecd8 3px,#f4ecd8 6px)"></i>${t('cl_bare')}</span>${mixed?`<span>${t('bs_part')}</span>`:''}`;
+  return `<div class="bstrip"><p class="bsh">${t('bs_h')}</p>${head}${html}<p class="calleg">${leg}</p><p class="bsnote">${note}</p></div>`;
 }
 let openTerm=null;
 function termHTML(){const T=I18N[LANG].terms||I18N.en.terms, x=T.find(r=>r[0]===openTerm); return x?`<p class="tbox"><b>${x[1]}.</b> ${x[2]}</p>`:'';}
@@ -3139,14 +3225,17 @@ function toggleDetails(){const d=$('details');d.hidden=!d.hidden;$('detBtn').tex
 
 function renderScenCards(){
   const c45=climate&&cmip(site.lat,site.lon,'ssp245'), c85=climate&&cmip(site.lat,site.lon,'ssp585');
-  $('scNow').textContent=t('sc_now_p');
   const txt=(c,key)=>{if(!c) return t(climate?'sc_none':'sc_wait');
     const ann=c.map(m=>CM_K*m.dT.reduce((a,b)=>a+b)/12), avg=ann.reduce((a,b)=>a+b)/ann.length;
     const pw=climate.clim.p, ms=[3,4,5,6,7,8], pS=ms.reduce((s,m)=>s+pw[m],0);
     const dp=CM_K*c.map(m=>ms.reduce((s,k)=>s+pw[k]*m.dP[k],0)/pS).reduce((a,b)=>a+b)/c.length, v=Math.abs(Math.round(dp));
     return t(key,{t:'+'+f1(avg)+' °C',lo:'+'+f1(Math.min(...ann)),hi:'+'+f1(Math.max(...ann))+' °C',p:v<3?t('rain_same'):t(dp>0?'rain_more':'rain_less',{v})});};
-  $('scMid').textContent=txt(c45,'sc_mid_p'); $('scHigh').textContent=txt(c85,'sc_high_p');
+  const d=$('scDesc'); if(!d) return; d.classList.toggle('now',scen==='now');
+  d.innerHTML=scen==='now'?t('sc_now_p'):`<b>${t(scen==='ssp245'?'sc_mid_h':'sc_high_h')}.</b> ${txt(scen==='ssp245'?c45:c85,scen==='ssp245'?'sc_mid_p':'sc_high_p')}`;
+  document.querySelectorAll('.seg [data-scen]').forEach(b=>b.title=t({now:'sc_now_h',ssp245:'sc_mid_h',ssp585:'sc_high_h'}[b.dataset.scen]));
 }
+// v4: keep the address bar in step with what is on screen once it carries a state (after a shared link or a climate switch)
+function syncHash(force){ if(force||/(^|[#&])lat=/.test(location.hash)){ try{history.replaceState(null,'',stateHash());}catch(e){} } }
 function renderGlossary(){const G=I18N[LANG].gloss||I18N.en.gloss;$('glossList').innerHTML=G.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');
   const T=I18N[LANG].terms||I18N.en.terms; $('termList').innerHTML=T.map(([,a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');
   const Rs=I18N[LANG].res||I18N.en.res; $('resBody').innerHTML=Rs.map(r=>`<tr>${r.map((c,i)=>`<td data-l="${t(['gr_t_what','gr_t_src','gr_t_px','gr_t_time'][i])}">${c}</td>`).join('')}</tr>`).join('');}
@@ -3418,15 +3507,15 @@ function applyLang(){
   $('dTv').textContent='+'+f1(+$('dT').value)+' °C'; $('dPv').textContent=nf(+$('dP').value)+' %';
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n);});
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
-  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); renderNavBox(); renderFields(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary(); renderLimits();
+  renderSites(); renderSlots(); updateReadout(); drawTrust(); renderLayerBox(); renderNavBox(); renderFields(); irrLabel(); priceLabel(); renderRegionNote(); prioLabel(); renderScenCards(); renderGlossary(); renderLimits(); renderMapBtns();
   document.querySelectorAll('.num').forEach(el=>el.textContent=LANG==='en'?el.dataset.v:el.dataset.v.replace('.',','));
   const n=$('soilNote'); if(n.dataset.k) n.textContent=t(n.dataset.k,{p:n.dataset.p||''});
   if(climate) applyRain();
   if(lastResults){renderAnswer();renderClimate();renderDetails();} else if(statusKey) setStatus(statusKey,statusErr);
   heroMap.invalidateSize();
 }
-document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;try{localStorage.setItem('rotasat_lang',LANG);}catch(e){};applyLang();});
-document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.dataset.scen;document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x===b));runAll();});
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;try{localStorage.setItem('rotasat_lang',LANG);}catch(e){};applyLang();syncHash();});
+document.querySelectorAll('[data-scen]').forEach(b=>b.onclick=()=>{scen=b.dataset.scen;document.querySelectorAll('[data-scen]').forEach(x=>x.setAttribute('aria-pressed',x===b));renderScenCards();syncHash(true);runAll();});
 $('dT').oninput=()=>$('dTv').textContent='+'+f1(+$('dT').value)+' °C';
 $('dP').oninput=()=>$('dPv').textContent=nf(+$('dP').value)+' %';
 ['dT','dP','wInc','wRisk','wSoil','wWater','irr','soc','clay','rawHist'].forEach(id=>$(id).addEventListener('change',runAll));
@@ -3439,8 +3528,6 @@ function prioLabel(){
 ['wInc','wRisk','wSoil','wWater'].forEach(id=>$(id).addEventListener('input',prioLabel));
 function irrLabel(){const v=+$('irr').value;$('irrV').textContent=v?v+' mm':t('irr_none');$('irrNote').textContent=t('irr_note',{c:f1(irrCost(DIESEL))});}
 $('irr').addEventListener('input',irrLabel);
-$('pHide').onclick=()=>{document.getElementById('top').classList.add('nopanel'); heroMap.invalidateSize();};
-$('pShow').onclick=()=>{document.getElementById('top').classList.remove('nopanel');};
 ['lat','lon'].forEach(id=>$(id).addEventListener('change',()=>chooseSite({key:'custom',lat:+$('lat').value,lon:+$('lon').value})));
 function mkChart(id,cfg){ if(charts[id]) charts[id].destroy(); charts[id]=new Chart($(id),cfg); }
 
