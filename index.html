@@ -127,6 +127,13 @@ body[data-step="1"] #s1,body[data-step="2"] #s2,body[data-step="3"] #s3{display:
 .pickpop .leaflet-popup-content-wrapper{border-radius:16px}
 .pick{display:flex;flex-direction:column;gap:6px}.pick b{font-size:15px}.pick small{color:var(--mute)}
 .pick button{font-weight:700;font-size:14px;background:var(--lime);color:var(--navy);border:1px solid var(--navy);border-radius:12px;padding:9px 12px;cursor:pointer}
+#fMsg .lcbox{max-width:560px;margin-top:4px}.lcact{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.pick button.sec{background:#fff;font-weight:600;border-color:var(--line2)}.pick button[aria-busy=true]{opacity:.7;cursor:progress}
+.lcq{display:flex;align-items:center;gap:7px}.lcq .spin{width:12px;height:12px;border-radius:50%;border:2px solid rgba(12,18,51,.18);border-top-color:var(--navy);animation:sp 1s linear infinite;flex:none}
+.lcbox{border-radius:12px;padding:8px 10px;font-size:13px;line-height:1.35;background:#EEF6F0;color:#14532F}
+.lcbox b{display:flex;align-items:center;gap:6px;font-size:14px}.lcbox b svg{flex:none;font-size:15px}
+.lcbox.lv1{background:#FFF6E0;color:#6B4400}.lcbox.lv2{background:#FFF1EE;color:#9A1605}
+.lcs{list-style:none;margin:4px 0 0;padding:0;color:var(--ink2)}.lcs li{margin-top:3px}.lcs span{display:block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
 /* search with suggestions */
 .sb{position:relative}
 .sb-in{display:flex;align-items:center;gap:10px;height:54px;padding:0 10px 0 16px;border-radius:16px;background:#fff;border:1px solid var(--s-line);box-shadow:var(--s-sh);transition:box-shadow .15s,border-color .15s}
@@ -759,7 +766,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
               <label class="sm"><span data-i18n="fl_ha"></span><input id="fHa" type="number" min="0" step="0.1"></label>
               <button type="submit" class="go" data-i18n="fl_add"></button>
             </form>
-            <p class="hint" id="fMsg" aria-live="polite"></p>
+            <div class="hint" id="fMsg" aria-live="polite"></div>
             <div class="tbl"><table class="ftab" id="fTable"></table></div>
             <p class="ftot" id="fTotal"></p>
             <div class="acts"><button type="button" class="btn-o pri" id="fCalc" data-i18n="fl_calc"></button><button type="button" class="btn-o" id="fLink" data-i18n="fl_link"></button><button type="button" class="btn-o" id="fCsv" data-i18n="fl_csv"></button></div>
@@ -795,7 +802,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
           <summary><h2 class="sec" data-i18n="how_h"></h2></summary>
           <div class="sectbody">
             <ol class="steps">
-              <li><span class="n">1</span><div class="b"><h3 data-i18n="how1_h"></h3><p data-i18n="how1_p"></p></div><span class="s mono">NASA POWER (MERRA-2, CERES), ISRIC SoilGrids 2.0, ESA WorldCover</span></li>
+              <li><span class="n">1</span><div class="b"><h3 data-i18n="how1_h"></h3><p data-i18n="how1_p"></p></div><span class="s mono">NASA POWER (MERRA-2, CERES), ISRIC SoilGrids 2.0, NASA MODIS land cover (MCD12Q1), OpenStreetMap, ESA WorldCover</span></li>
               <li><span class="n">2</span><div class="b"><h3 data-i18n="how2_h"></h3><p data-i18n="how2_p"></p></div><span class="s mono">FAO-56 Penman-Monteith, FAO-33, ICBM (Andrén &amp; Kätterer 1997), RUSLE erosive rain</span></li>
               <li><span class="n">3</span><div class="b"><h3 data-i18n="how3_h"></h3><p data-i18n="how3_p"></p></div><span class="s mono" data-i18n="how3_s"></span></li>
             </ol>
@@ -838,7 +845,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
 <footer class="foot"><div class="fw">
   <div><b style="font-size:16px">RotaSat</b><div data-i18n="foot_made"></div>
     <nav aria-label="RotaSat"><a href="#fields" data-i18n="fl_h"></a><a href="#how" data-i18n="how_h"></a><a href="#ground" data-i18n="nav_ground"></a><a href="#glossary" data-i18n="nav_gloss"></a><a href="#trust" data-i18n="nav_trust"></a></nav></div>
-  <div><b data-i18n="foot_data_h"></b><div>NASA POWER (MERRA-2, CERES), NASA NEX-GDDP-CMIP6, NASA GIBS (MODIS, SMAP), ESA Copernicus Sentinel-2, ESA WorldCover, ISRIC SoilGrids, FAOSTAT, Esri World Imagery, OpenStreetMap Nominatim</div></div>
+  <div><b data-i18n="foot_data_h"></b><div>NASA POWER (MERRA-2, CERES), NASA NEX-GDDP-CMIP6, NASA GIBS (MODIS, SMAP), NASA MODIS land cover (MCD12Q1, 500 m), ESA Copernicus Sentinel-2, ESA WorldCover, ISRIC SoilGrids, FAOSTAT, Esri World Imagery, OpenStreetMap (Nominatim, Overpass)</div></div>
   <div><b data-i18n="foot_note_h"></b><div data-i18n="foot_note"></div><div style="margin-top:8px" data-i18n="ai_note"></div></div>
 </div></footer>
 <div id="report"></div>
@@ -1423,6 +1430,20 @@ back_btn:"Back to my field",
 loc_err:"Your browser did not share a location. You can search or click on the map instead.",
 pick_q:"Use this spot as your field?",
 pick_btn:"Choose this field",
+lc_checking:"Checking the land cover",
+lc_ok:"Looks like farmland",
+lc_ok0:"No buildings or water found here",
+lc_bld:"Looks like buildings here",
+lc_warn:"This may not be farmland",
+lc_block:"This spot is water, not a field",
+lc_other:"Choose another spot",
+lc_anyway:"Use it anyway",
+lc_hint:"Tap a spot inside your field",
+lc_src_m:"NASA MODIS land cover 500 m",
+lc_src_o:"OpenStreetMap",
+lc_m_crop:"cropland",lc_m_grass:"grassland or shrubs, fine as pasture or once ploughed",lc_m_urban:"town or city",lc_m_water:"water",lc_m_forest:"forest",lc_m_wet:"wetland",lc_m_snow:"snow or ice",lc_m_barren:"bare land with few plants",
+lc_o_water:"a lake, river or reservoir",lc_o_sea:"no land mapped here, probably the sea",lc_o_bld:"buildings within 15 m of this spot",lc_o_town:"a built-up area (houses, industry, railway or a cemetery)",lc_o_farmyard:"a farmyard with buildings",lc_o_forest:"forest",lc_o_nat:"wetland, rock or sand",lc_o_park:"a park or sports ground",lc_o_farm:"farmland or grassland",lc_o_none:"no farmland or buildings mapped",
+lc_coarse:"MODIS sees squares of 500 m, so it cannot see single buildings. OpenStreetMap can.",
 wheel_hint:"Hold Ctrl (Cmd on a Mac) and scroll to zoom the map",
 panel_hide:"Show the whole map",
 panel_show:"Show the questions",
@@ -1650,7 +1671,7 @@ cities_de:"<b>Checked near these cities in Germany:</b> Hanover, Magdeburg, Kiel
 cities_tr:"<b>In Türkiye:</b> Konya, Ankara, Eskişehir, Tekirdağ, Adana, Şanlıurfa, Diyarbakır.",
 trust_note:"Match = Pearson r of detrended yearly yield changes against FAOSTAT national wheat yields, area-weighted over 7 regions per country. Model parts were chosen on 1985 to 2004 only. p < 0.05 for both countries.",
 how_h:"How it works",
-how1_h:"We read your field's weather and soil",how1_p:"Daily sun, rain, wind, humidity and temperature since 1985 from NASA POWER, plus the soil's carbon and clay content.",
+how1_h:"We read your field's weather and soil",how1_p:"Daily sun, rain, wind, humidity and temperature since 1985 from NASA POWER, plus the soil's carbon and clay content. First NASA MODIS land cover (500 m) and OpenStreetMap check that the spot looks like farmland and not water or buildings.",
 how2_h:"We work out how each crop copes",how2_p:"How much water it needs and gets, heat while it flowers, winter frost, wet harvests, and what it does to soil carbon and nitrogen.",
 how3_h:"We play each rotation through 1,000 futures",how3_p:"Each future is 20 seasons of real past weather and real past prices in a new order, set to today's warmth or moved to 2050 by one of five NASA climate model projections.",how3_s:"Bootstrap of weather 1985 to 2024 and prices 2000 to 2025, NASA NEX-GDDP-CMIP6 delta change",
 foot_made:"Made by Eren Mutlu and Abdullah Dinç, TUM Campus Heilbronn, for the NASA Space Apps Challenge 2026.",foot_data_h:"Data",foot_note_h:"Please note",
@@ -1864,7 +1885,7 @@ jd_5:"<b>Rules and support.</b> Soil cover rules, fertilizer rules, water rights
 and:" and ",
 your_plan:"Your rotation",
 terms:[["et", "Evapotranspiration", "Water that leaves the field into the air: evaporation from the soil plus the water plants give off through their leaves. On a hot, sunny, windy day a full crop uses 5 to 7 mm, which is 50 to 70 cubic metres per hectare. RotaSat works it out from NASA sunshine, temperature, wind and humidity (FAO-56 method)."], ["wb", "Water balance, water short", "Rain coming in, minus the water that crops and soil give off, plus what the soil has stored. When the store runs dry, the crop gets less water than it needs. \"Water short\" is that missing amount in mm a year (1 mm is 10 cubic metres per hectare)."], ["sma", "Soil moisture anomaly", "How much wetter or drier the soil is than normal for that place and time of year. A minus means drier than usual. NASA's SMAP satellite measures soil moisture from space; the map layer \"NASA SMAP soil moisture\" shows the latest picture."], ["ndvi", "NDVI, plant cover", "A number from 0 to 1 that satellites work out from red and infrared light. Green growing plants give high values (0.6 to 0.9), bare soil gives low values (under 0.25). It shows when a field is green and when it lies bare."], ["frost", "Frost risk", "How often it freezes when a crop can be hurt: in spring around emergence and flowering, or in hard winters (in RotaSat: winter kill when January or February nights average below minus 7 °C). The typical date of the last spring frost is shown under \"What has already changed on this field\"."], ["bare", "Bare months", "Months without a growing crop or a cover crop. Bare soil washes away in heavy rain, loses carbon, and rain runs off instead of soaking in."], ["soc", "Organic carbon, humus", "The dark part of the soil made from old roots, straw and manure. More of it holds more water and nutrients and keeps the soil crumbly, so that rain soaks in."], ["nbal", "Nitrogen balance", "Nitrogen put on the field (fertilizer plus what legumes take from the air) minus the nitrogen that leaves with the harvest. A large plus can wash into groundwater. A large minus drains the soil."], ["fut", "1,000 futures, bad years", "Nobody knows next year's weather. RotaSat plays every rotation through 1,000 possible 20-year futures built from real past years. \"Bad years\" is the yearly profit in the worst tenth of all three-year runs."], ["brk", "Crop break, pest cycle", "Many diseases, pests and weeds live on one crop. If that crop stays away for some years, they die back. That is why rapeseed, sunflower and sugar beet should return only about every 4 years. RotaSat uses this rule of thumb; it cannot see the pests on your field. A break that is too short also lowers the fit score."], ["cov", "Legumes, cover crops, deep roots", "Legumes (chickpea, lentil, soybean, vetch, clover) take nitrogen from the air with the help of root bacteria and leave some for the next crop. Cover crops keep the soil covered between main crops, feed soil life and stop erosion. Deep-rooting crops (rapeseed, sunflower, sugar beet) open channels in the subsoil so that water soaks in. Early or drought-tolerant crops (barley, chickpea, lentil) finish before the driest weeks."]],
-res:[["Weather: temperature, rain, sun, wind", "NASA POWER (MERRA-2, CERES)", "about 50 km", "every day, 1985 to 2024"], ["Climate of 2050", "NASA NEX-GDDP-CMIP6, five models", "about 25 km, used here on a 1 degree grid", "monthly change, 2041 to 2060"], ["Soil moisture (map layer)", "NASA SMAP", "about 9 km", "latest picture, every 2 to 3 days"], ["Plant cover, NDVI (map layer)", "NASA MODIS", "250 m", "every 8 days"], ["Field history, bare soil", "Copernicus Sentinel-2", "10 m", "about every 5 days when cloud-free, since 2017"], ["Soil carbon and clay", "ISRIC SoilGrids", "250 m", "one map, no time series"]]
+res:[["Weather: temperature, rain, sun, wind", "NASA POWER (MERRA-2, CERES)", "about 50 km", "every day, 1985 to 2024"], ["Climate of 2050", "NASA NEX-GDDP-CMIP6, five models", "about 25 km, used here on a 1 degree grid", "monthly change, 2041 to 2060"], ["Soil moisture (map layer)", "NASA SMAP", "about 9 km", "latest picture, every 2 to 3 days"], ["Plant cover, NDVI (map layer)", "NASA MODIS", "250 m", "every 8 days"], ["Field history, bare soil", "Copernicus Sentinel-2", "10 m", "about every 5 days when cloud-free, since 2017"], ["Soil carbon and clay", "ISRIC SoilGrids", "250 m", "one map, no time series"], ["Is the spot farmland? (check before loading)", "NASA MODIS land cover (MCD12Q1, IGBP classes) and OpenStreetMap", "500 m; OpenStreetMap sees single buildings", "one map a year; OpenStreetMap as mapped today"]]
 },
 tr:{
 st_1:"Tarlan",
@@ -2001,6 +2022,20 @@ back_btn:"Tarlama dön",
 loc_err:"Tarayıcın konum paylaşmadı. Bunun yerine arama yapabilir ya da haritaya tıklayabilirsin.",
 pick_q:"Bu nokta senin tarlan mı?",
 pick_btn:"Bu tarlayı seç",
+lc_checking:"Arazi örtüsü kontrol ediliyor",
+lc_ok:"Tarım arazisine benziyor",
+lc_ok0:"Burada bina ya da su bulunmadı",
+lc_bld:"Burada bina var gibi görünüyor",
+lc_warn:"Burası tarım arazisi olmayabilir",
+lc_block:"Bu nokta su, tarla değil",
+lc_other:"Başka bir nokta seç",
+lc_anyway:"Yine de kullan",
+lc_hint:"Tarlanın içinde bir noktaya dokun",
+lc_src_m:"NASA MODIS arazi örtüsü 500 m",
+lc_src_o:"OpenStreetMap",
+lc_m_crop:"tarım arazisi",lc_m_grass:"çayır ya da çalılık; mera olarak ya da sürülünce uygun",lc_m_urban:"yerleşim yeri",lc_m_water:"su",lc_m_forest:"orman",lc_m_wet:"sulak alan",lc_m_snow:"kar ya da buz",lc_m_barren:"bitkisi az, çıplak arazi",
+lc_o_water:"göl, nehir ya da baraj gölü",lc_o_sea:"burada kara haritalanmamış, büyük olasılıkla deniz",lc_o_bld:"bu noktanın 15 m yakınında bina var",lc_o_town:"yerleşim alanı (ev, sanayi, demiryolu ya da mezarlık)",lc_o_farmyard:"binaları olan bir çiftlik avlusu",lc_o_forest:"orman",lc_o_nat:"sulak alan, kaya ya da kum",lc_o_park:"park ya da spor alanı",lc_o_farm:"tarım arazisi ya da çayır",lc_o_none:"tarla ya da bina haritalanmamış",
+lc_coarse:"MODIS 500 m'lik kareler görür, bu yüzden tek tek binaları göremez. OpenStreetMap görebilir.",
 wheel_hint:"Haritayı yakınlaştırmak için Ctrl tuşuna (Mac'te Cmd) basılı tutup kaydır",
 panel_hide:"Haritanın tamamını göster",
 panel_show:"Soruları göster",
@@ -2228,7 +2263,7 @@ cities_de:"<b>Almanya'da şu şehirlerin yakınında test edildi:</b> Hannover, 
 cities_tr:"<b>Türkiye'de:</b> Konya, Ankara, Eskişehir, Tekirdağ, Adana, Şanlıurfa, Diyarbakır.",
 trust_note:"Uyum = trendden arındırılmış yıllık verim değişimlerinin FAOSTAT ulusal buğday verimleriyle Pearson korelasyonu; ülke başına 7 bölge, ekim alanına göre ağırlıklı. Model bileşenleri yalnızca 1985 - 2004 verisiyle seçildi. İki ülkede de p < 0,05.",
 how_h:"Nasıl çalışır?",
-how1_h:"Tarlanın havasını ve toprağını okuruz",how1_p:"NASA POWER'dan 1985'ten bu yana günlük güneş, yağış, rüzgâr, nem ve sıcaklık; ayrıca topraktaki karbon ve kil oranı.",
+how1_h:"Tarlanın havasını ve toprağını okuruz",how1_p:"NASA POWER'dan 1985'ten bu yana günlük güneş, yağış, rüzgâr, nem ve sıcaklık; ayrıca topraktaki karbon ve kil oranı. Önce NASA MODIS arazi örtüsü (500 m) ve OpenStreetMap, noktanın su ya da bina değil tarım arazisi gibi göründüğünü kontrol eder.",
 how2_h:"Her ürünün nasıl dayandığını hesaplarız",how2_p:"Ne kadar suya ihtiyacı olduğu ve ne kadar aldığı, çiçeklenmedeki sıcak, kış donu, yağışlı hasat, toprak karbonuna ve azota etkisi.",
 how3_h:"Her rotasyonu 1.000 gelecekte deneriz",how3_p:"Her gelecek, geçmişin gerçek havasından ve gerçek fiyatlarından yeni bir sırayla oluşturulan 20 sezondur. Bugünün sıcaklığına ayarlanır ya da beş NASA iklim modeli projeksiyonundan biriyle 2050'ye taşınır.",how3_s:"1985-2024 hava ve 2000-2025 fiyatlarıyla bootstrap, NASA NEX-GDDP-CMIP6 delta yöntemi",
 foot_made:"Eren Mutlu ve Abdullah Dinç, TUM Campus Heilbronn, NASA Space Apps Challenge 2026 için yaptı.",foot_data_h:"Veri",foot_note_h:"Not",
@@ -2442,7 +2477,7 @@ jd_4:"<b>Makine, işgücü ve zamanlama.</b> Ekim ve hasat, makinelerine ve en y
 jd_5:"<b>Kurallar ve destekler.</b> Toprak örtüsü kuralları, gübreleme kuralları, su hakları ve destek ödemeleri ülkeye ve yıla göre değişir.",
 and:" ve ",
 terms:[["et", "Evapotranspirasyon (buharlaşma ve terleme)", "Tarladan havaya giden su: topraktan buharlaşan su ile bitkilerin yapraklarından verdiği suyun toplamı. Sıcak, güneşli ve rüzgârlı bir günde gelişmiş bir ürün 5 ila 7 mm su kullanır; bu hektar başına 50 ila 70 metreküp eder. RotaSat bunu NASA'nın güneşlenme, sıcaklık, rüzgâr ve nem verisinden hesaplar (FAO-56 yöntemi)."], ["wb", "Su dengesi, su açığı", "Gelen yağmur, eksi bitkilerin ve toprağın havaya verdiği su, artı toprağın depoladığı su. Depo boşalınca bitki ihtiyacından az su alır. \"Su açığı\" bu eksik miktardır, yılda mm olarak (1 mm, hektar başına 10 metreküp demektir)."], ["sma", "Toprak nemi anomalisi", "Toprağın, o yer ve yılın o zamanı için normalden ne kadar daha ıslak ya da daha kuru olduğu. Eksi değer, normalden kuru demektir. NASA'nın SMAP uydusu toprak nemini uzaydan ölçer; haritadaki \"NASA SMAP toprak nemi\" katmanı en son durumu gösterir."], ["ndvi", "NDVI, bitki örtüsü", "Uyduların kırmızı ve kızılötesi ışıktan hesapladığı 0 ile 1 arasında bir sayı. Yeşil ve büyüyen bitkiler yüksek değer verir (0,6 ila 0,9), çıplak toprak düşük değer verir (0,25'in altı). Tarlanın ne zaman yeşil, ne zaman çıplak olduğunu gösterir."], ["frost", "Don riski", "Ürünün zarar görebileceği zamanlarda ne sıklıkta don olduğu: ilkbaharda çıkış ve çiçeklenme döneminde ya da sert kışlarda (RotaSat'ta: ocak veya şubat gecelerinin ortalaması eksi 7 °C'nin altına düşerse kış zararı). Son ilkbahar donunun tipik tarihi \"Bu tarlada şimdiden ne değişti\" bölümündedir."], ["bare", "Çıplak aylar", "Tarlada büyüyen bir ürünün ya da örtü bitkisinin olmadığı aylar. Çıplak toprak şiddetli yağışta akıp gider, karbon kaybeder ve yağmur toprağa işlemeden yüzeyden akar."], ["soc", "Organik karbon, humus", "Toprağın eski kök, sap ve ahır gübresinden oluşan koyu kısmı. Humus arttıkça toprak daha çok su ve besin tutar, kırıntılı kalır ve yağmur toprağa işler."], ["nbal", "Azot dengesi", "Tarlaya verilen azot (gübre ve baklagillerin havadan aldığı) eksi hasatla tarladan giden azot. Büyük bir fazla yeraltı suyuna karışabilir. Büyük bir eksik toprağı fakirleştirir."], ["fut", "1.000 gelecek, kötü yıllar", "Gelecek yılın havasını kimse bilmez. RotaSat her rotasyonu, gerçek geçmiş yıllardan kurulmuş 20 yıllık 1.000 olası gelecekte dener. \"Kötü yıllar\", üç yıllık dönemlerin en kötü onda birindeki yıllık kârdır."], ["brk", "Ekim arası, zararlı döngüsü", "Birçok hastalık, zararlı ve yabancı ot tek bir üründe yaşar. O ürün birkaç yıl ekilmezse bunlar azalır. Bu yüzden kanola, ayçiçeği ve şeker pancarı aynı tarlaya ancak yaklaşık 4 yılda bir gelmelidir. RotaSat bu pratik kuralı kullanır; tarlandaki zararlıları göremez. Çok kısa bir ekim arası uyum puanını da düşürür."], ["cov", "Baklagiller, örtü bitkileri, derin kökler", "Baklagiller (nohut, mercimek, soya, fiğ, üçgül) kök bakterilerinin yardımıyla havadan azot alır ve bir kısmını sonraki ürüne bırakır. Örtü bitkileri ana ürünler arasında toprağı örtülü tutar, toprak canlılarını besler ve erozyonu durdurur. Derin köklü ürünler (kanola, ayçiçeği, şeker pancarı) alt toprakta kanallar açar, su toprağa işler. Erken ya da kurağa dayanıklı ürünler (arpa, nohut, mercimek) en kurak haftalardan önce olgunlaşır."]],
-res:[["Hava: sıcaklık, yağış, güneş, rüzgâr", "NASA POWER (MERRA-2, CERES)", "yaklaşık 50 km", "her gün, 1985-2024"], ["2050 iklimi", "NASA NEX-GDDP-CMIP6, beş model", "yaklaşık 25 km, burada 1 derecelik ızgarada", "aylık değişim, 2041-2060"], ["Toprak nemi (harita katmanı)", "NASA SMAP", "yaklaşık 9 km", "en son görüntü, 2 ila 3 günde bir"], ["Bitki örtüsü, NDVI (harita katmanı)", "NASA MODIS", "250 m", "8 günde bir"], ["Tarla geçmişi, çıplak toprak", "Copernicus Sentinel-2", "10 m", "bulutsuzsa yaklaşık 5 günde bir, 2017'den beri"], ["Toprak karbonu ve kil", "ISRIC SoilGrids", "250 m", "tek harita, zaman serisi yok"]]
+res:[["Hava: sıcaklık, yağış, güneş, rüzgâr", "NASA POWER (MERRA-2, CERES)", "yaklaşık 50 km", "her gün, 1985-2024"], ["2050 iklimi", "NASA NEX-GDDP-CMIP6, beş model", "yaklaşık 25 km, burada 1 derecelik ızgarada", "aylık değişim, 2041-2060"], ["Toprak nemi (harita katmanı)", "NASA SMAP", "yaklaşık 9 km", "en son görüntü, 2 ila 3 günde bir"], ["Bitki örtüsü, NDVI (harita katmanı)", "NASA MODIS", "250 m", "8 günde bir"], ["Tarla geçmişi, çıplak toprak", "Copernicus Sentinel-2", "10 m", "bulutsuzsa yaklaşık 5 günde bir, 2017'den beri"], ["Toprak karbonu ve kil", "ISRIC SoilGrids", "250 m", "tek harita, zaman serisi yok"], ["Nokta tarım arazisi mi? (yüklemeden önce kontrol)", "NASA MODIS arazi örtüsü (MCD12Q1, IGBP sınıfları) ve OpenStreetMap", "500 m; OpenStreetMap tek tek binaları görür", "yılda bir harita; OpenStreetMap bugünkü haliyle"]]
 },
 de:{
 st_1:"Ihr Feld",
@@ -2579,6 +2614,20 @@ back_btn:"Zurück zum Feld",
 loc_err:"Ihr Browser hat keinen Standort geteilt. Sie können stattdessen suchen oder auf die Karte klicken.",
 pick_q:"Diesen Punkt als Ihr Feld nehmen?",
 pick_btn:"Dieses Feld wählen",
+lc_checking:"Landbedeckung wird geprüft",
+lc_ok:"Sieht nach Ackerland aus",
+lc_ok0:"Hier wurden weder Gebäude noch Wasser gefunden",
+lc_bld:"Hier stehen wohl Gebäude",
+lc_warn:"Das ist vielleicht kein Ackerland",
+lc_block:"Dieser Punkt liegt im Wasser, nicht auf einem Feld",
+lc_other:"Anderen Punkt wählen",
+lc_anyway:"Trotzdem verwenden",
+lc_hint:"Tippen Sie auf einen Punkt in Ihrem Feld",
+lc_src_m:"NASA MODIS Landbedeckung 500 m",
+lc_src_o:"OpenStreetMap",
+lc_m_crop:"Ackerland",lc_m_grass:"Grünland oder Gebüsch, passt als Weide oder nach Umbruch",lc_m_urban:"Siedlung oder Stadt",lc_m_water:"Wasser",lc_m_forest:"Wald",lc_m_wet:"Feuchtgebiet",lc_m_snow:"Schnee oder Eis",lc_m_barren:"kahles Land mit wenig Pflanzen",
+lc_o_water:"ein See, Fluss oder Stausee",lc_o_sea:"hier ist kein Land kartiert, wahrscheinlich das Meer",lc_o_bld:"Gebäude im Umkreis von 15 m",lc_o_town:"bebaute Fläche (Häuser, Gewerbe, Bahn oder Friedhof)",lc_o_farmyard:"eine Hofstelle mit Gebäuden",lc_o_forest:"Wald",lc_o_nat:"Feuchtgebiet, Fels oder Sand",lc_o_park:"ein Park oder Sportplatz",lc_o_farm:"Acker- oder Grünland",lc_o_none:"weder Acker noch Gebäude kartiert",
+lc_coarse:"MODIS sieht Quadrate von 500 m und erkennt daher keine einzelnen Gebäude. OpenStreetMap schon.",
 wheel_hint:"Strg (auf dem Mac Cmd) gedrückt halten und scrollen, um die Karte zu zoomen",
 panel_hide:"Ganze Karte zeigen",
 panel_show:"Fragen zeigen",
@@ -2806,7 +2855,7 @@ cities_de:"<b>Geprüft in Deutschland bei:</b> Hannover, Magdeburg, Kiel, Rostoc
 cities_tr:"<b>In der Türkei:</b> Konya, Ankara, Eskişehir, Tekirdağ, Adana, Şanlıurfa, Diyarbakır.",
 trust_note:"Übereinstimmung = Pearson r der trendbereinigten jährlichen Ertragsänderungen gegenüber den nationalen FAOSTAT-Weizenerträgen, flächengewichtet über 7 Regionen je Land. Modellteile wurden nur mit 1985 bis 2004 ausgewählt. p < 0,05 für beide Länder.",
 how_h:"So funktioniert es",
-how1_h:"Wir lesen Wetter und Boden Ihres Feldes",how1_p:"Tägliche Sonne, Regen, Wind, Luftfeuchte und Temperatur seit 1985 aus NASA POWER, dazu Kohlenstoff- und Tongehalt des Bodens.",
+how1_h:"Wir lesen Wetter und Boden Ihres Feldes",how1_p:"Tägliche Sonne, Regen, Wind, Luftfeuchte und Temperatur seit 1985 aus NASA POWER, dazu Kohlenstoff- und Tongehalt des Bodens. Vorher prüfen NASA MODIS Landbedeckung (500 m) und OpenStreetMap, ob der Punkt nach Ackerland aussieht und nicht nach Wasser oder Gebäuden.",
 how2_h:"Wir berechnen, wie jede Kultur zurechtkommt",how2_p:"Wie viel Wasser sie braucht und bekommt, Hitze während der Blüte, Winterfrost, nasse Ernten und ihr Einfluss auf Bodenkohlenstoff und Stickstoff.",
 how3_h:"Wir spielen jede Fruchtfolge in 1.000 Zukünften durch",how3_p:"Jede Zukunft besteht aus 20 Jahren echten früheren Wetters und echter früherer Preise in neuer Reihenfolge, eingestellt auf die heutige Wärme oder mit einer von fünf NASA-Klimamodellprojektionen auf 2050 verschoben.",how3_s:"Bootstrap von Wetter 1985 bis 2024 und Preisen 2000 bis 2025, Delta-Methode mit NASA NEX-GDDP-CMIP6",
 foot_made:"Erstellt von Eren Mutlu und Abdullah Dinç, TUM Campus Heilbronn, für die NASA Space Apps Challenge 2026.",foot_data_h:"Daten",foot_note_h:"Hinweis",
@@ -3020,7 +3069,7 @@ jd_4:"<b>Technik, Arbeit und Termine.</b> Ob Saat und Ernte zu Ihren Maschinen u
 jd_5:"<b>Regeln und Förderung.</b> Regeln zur Bodenbedeckung, Düngeregeln, Wasserrechte und Fördergelder unterscheiden sich je nach Land und Jahr.",
 and:" und ",
 terms:[["et", "Evapotranspiration (Verdunstung)", "Wasser, das vom Feld in die Luft geht: Verdunstung aus dem Boden plus das Wasser, das Pflanzen über ihre Blätter abgeben. An einem heißen, sonnigen, windigen Tag braucht ein voller Bestand 5 bis 7 mm, das sind 50 bis 70 Kubikmeter pro Hektar. RotaSat berechnet sie aus NASA-Daten zu Sonne, Temperatur, Wind und Luftfeuchte (Methode FAO-56)."], ["wb", "Wasserbilanz, Wasserdefizit", "Regen, der ankommt, minus das Wasser, das Pflanzen und Boden abgeben, plus der Vorrat im Boden. Ist der Vorrat leer, bekommt die Kultur weniger Wasser, als sie braucht. Das \"Defizit\" ist diese fehlende Menge in mm pro Jahr (1 mm sind 10 Kubikmeter pro Hektar)."], ["sma", "Bodenfeuchte-Anomalie", "Wie viel nasser oder trockener der Boden ist als normal für diesen Ort und diese Jahreszeit. Ein Minus heißt trockener als üblich. Der NASA-Satellit SMAP misst die Bodenfeuchte aus dem All; die Kartenebene \"NASA SMAP Bodenfeuchte\" zeigt das neueste Bild."], ["ndvi", "NDVI, Pflanzendecke", "Eine Zahl von 0 bis 1, die Satelliten aus rotem und infrarotem Licht berechnen. Grüne, wachsende Pflanzen ergeben hohe Werte (0,6 bis 0,9), offener Boden niedrige (unter 0,25). Man sieht daran, wann ein Feld grün ist und wann es offen liegt."], ["frost", "Frostrisiko", "Wie oft es friert, wenn eine Kultur Schaden nehmen kann: im Frühjahr um Aufgang und Blüte oder in strengen Wintern (in RotaSat: Auswinterung, wenn die Nächte im Januar oder Februar im Mittel unter minus 7 °C liegen). Den typischen Termin des letzten Frühjahrsfrosts finden Sie unter \"Was sich auf diesem Feld schon geändert hat\"."], ["bare", "Monate mit offenem Boden", "Monate ohne wachsende Kultur oder Zwischenfrucht. Offener Boden wird bei Starkregen abgeschwemmt, verliert Kohlenstoff, und Regen läuft ab, statt zu versickern."], ["soc", "Organischer Kohlenstoff, Humus", "Der dunkle Teil des Bodens aus alten Wurzeln, Stroh und Mist. Mehr davon hält mehr Wasser und Nährstoffe und hält den Boden krümelig, sodass Regen versickert."], ["nbal", "Stickstoffbilanz", "Stickstoff, der aufs Feld kommt (Dünger plus das, was Leguminosen aus der Luft holen), minus Stickstoff, der mit der Ernte das Feld verlässt. Ein großes Plus kann ins Grundwasser gelangen. Ein großes Minus zehrt den Boden aus."], ["fut", "1.000 Zukünfte, schlechte Jahre", "Niemand kennt das Wetter des nächsten Jahres. RotaSat spielt jede Fruchtfolge in 1.000 möglichen Zukünften von je 20 Jahren durch, gebaut aus echten vergangenen Jahren. \"Schlechte Jahre\" ist der Jahresgewinn im schlechtesten Zehntel aller Drei-Jahres-Folgen."], ["brk", "Anbaupause, Schädlingszyklus", "Viele Krankheiten, Schädlinge und Unkräuter leben von einer Kultur. Bleibt diese Kultur einige Jahre weg, gehen sie zurück. Deshalb sollten Raps, Sonnenblume und Zuckerrübe nur etwa alle 4 Jahre auf dasselbe Feld. RotaSat nutzt diese Faustregel; die Schädlinge auf Ihrem Feld sieht es nicht. Eine zu kurze Anbaupause senkt auch die Passung."], ["cov", "Leguminosen, Zwischenfrüchte, tiefe Wurzeln", "Leguminosen (Kichererbse, Linse, Soja, Wicke, Klee) holen mit Hilfe von Knöllchenbakterien Stickstoff aus der Luft und lassen einen Teil für die Folgekultur zurück. Zwischenfrüchte halten den Boden zwischen den Hauptkulturen bedeckt, füttern das Bodenleben und bremsen Erosion. Tiefwurzler (Raps, Sonnenblume, Zuckerrübe) öffnen Poren im Unterboden, sodass Wasser versickert. Frühe oder trockenheitsverträgliche Kulturen (Gerste, Kichererbse, Linse) sind vor den trockensten Wochen fertig."]],
-res:[["Wetter: Temperatur, Regen, Sonne, Wind", "NASA POWER (MERRA-2, CERES)", "etwa 50 km", "täglich, 1985 bis 2024"], ["Klima 2050", "NASA NEX-GDDP-CMIP6, fünf Modelle", "etwa 25 km, hier auf einem 1-Grad-Gitter", "monatliche Änderung, 2041 bis 2060"], ["Bodenfeuchte (Kartenebene)", "NASA SMAP", "etwa 9 km", "neuestes Bild, alle 2 bis 3 Tage"], ["Pflanzendecke, NDVI (Kartenebene)", "NASA MODIS", "250 m", "alle 8 Tage"], ["Feldgeschichte, offener Boden", "Copernicus Sentinel-2", "10 m", "etwa alle 5 Tage bei wolkenfreiem Himmel, seit 2017"], ["Bodenkohlenstoff und Ton", "ISRIC SoilGrids", "250 m", "eine Karte, keine Zeitreihe"]]
+res:[["Wetter: Temperatur, Regen, Sonne, Wind", "NASA POWER (MERRA-2, CERES)", "etwa 50 km", "täglich, 1985 bis 2024"], ["Klima 2050", "NASA NEX-GDDP-CMIP6, fünf Modelle", "etwa 25 km, hier auf einem 1-Grad-Gitter", "monatliche Änderung, 2041 bis 2060"], ["Bodenfeuchte (Kartenebene)", "NASA SMAP", "etwa 9 km", "neuestes Bild, alle 2 bis 3 Tage"], ["Pflanzendecke, NDVI (Kartenebene)", "NASA MODIS", "250 m", "alle 8 Tage"], ["Feldgeschichte, offener Boden", "Copernicus Sentinel-2", "10 m", "etwa alle 5 Tage bei wolkenfreiem Himmel, seit 2017"], ["Bodenkohlenstoff und Ton", "ISRIC SoilGrids", "250 m", "eine Karte, keine Zeitreihe"], ["Ist der Punkt Ackerland? (Prüfung vor dem Laden)", "NASA MODIS Landbedeckung (MCD12Q1, IGBP-Klassen) und OpenStreetMap", "500 m; OpenStreetMap sieht einzelne Gebäude", "eine Karte pro Jahr; OpenStreetMap im heutigen Stand"]]
 }};
 const SITES=[ // points checked against ESA WorldCover 2021 (10 m): inside cropland, 690 to 1,180 m from the nearest non-crop pixel
  {key:'heilbronn',lat:49.1577,lon:9.1090,dry:false,name:{en:'Heilbronn farmland',tr:'Heilbronn tarlaları',de:'Heilbronner Land'},near:{en:'Leingarten, near Heilbronn, Germany',tr:'Leingarten, Heilbronn yakını, Almanya',de:'bei Leingarten, Landkreis Heilbronn'},tag:{en:'warm',tr:'ılık',de:'warm'},note:{"en": "Kraichgau loess around Heilbronn is fertile but among the most erosion-prone farmland in Germany, and this is one of the country's warmest areas. Keep the soil covered over winter and plan for drier springs.", "tr": "Heilbronn çevresindeki Kraichgau lösü verimli, ama Almanya'nın erozyona en açık tarım topraklarından biri; bölge de ülkenin en sıcak yerlerinden. Toprağı kışın örtülü tut ve daha kurak ilkbaharlara göre planla.", "de": "Der Kraichgau-Löss um Heilbronn ist fruchtbar, gehört aber zu den erosionsanfälligsten Ackerböden Deutschlands, und die Gegend zählt zu den wärmsten des Landes. Halten Sie den Boden über Winter bedeckt und planen Sie mit trockeneren Frühjahren."},pri:[3, 3, 5, 2],top:"wheat",common:["barley", "maize", "sugarbeet", "rapeseed"]},
@@ -3115,14 +3164,92 @@ let marker=null, ring=null;
 const PIN_SVG='<svg viewBox="0 0 40 50" width="40" height="50" aria-hidden="true"><path d="M20 1.5C9.8 1.5 1.5 9.7 1.5 19.8c0 13.2 16.2 27.4 17.7 28.6.5.4 1.1.4 1.6 0 1.5-1.2 17.7-15.4 17.7-28.6C38.5 9.7 30.2 1.5 20 1.5z" fill="#E7F434" stroke="#0B1238" stroke-width="2"/><circle cx="20" cy="19.5" r="6.5" fill="#0B1238"/></svg>';
 const coordTxt=()=>`${Math.abs(site.lat).toFixed(2)}° ${site.lat>=0?'N':'S'}, ${Math.abs(site.lon).toFixed(2)}° ${site.lon>=0?'E':'W'}`;
 const pinIcon=tag=>L.divIcon({className:'',html:`<div class="fpin">${PIN_SVG}${tag?`<span class="tagc"><b>${t('your_field')}</b>${coordTxt()}</span>`:''}</div>`,iconSize:[0,0],iconAnchor:[0,0]});
+// ===================== Land check: is the chosen spot plausibly farmland? =====================
+// Two sources, each with a 5 s limit; a source that fails or is slow is skipped silently, so the check never blocks the page.
+// NASA MODIS land cover (MCD12Q1, IGBP classes, 500 m) through GIBS: one pixel of a tiny WMS picture, its colour gives the class.
+// 500 m squares cannot see single buildings, so OpenStreetMap (Overpass) adds buildings within 15 m and the mapped land use.
+const LC_LAYER='MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual';
+const IGBP=[[1,5,69,10],[2,8,106,16],[3,84,167,8],[4,120,210,3],[5,0,153,0],[6,198,176,68],[7,220,209,89],[8,218,222,72],[9,251,255,19],[10,182,255,5],[11,39,255,135],[12,194,79,68],[13,165,165,165],[14,255,109,76],[15,105,255,248],[16,249,255,164],[17,28,13,255]];
+function igbpOf(r,g,b){ let k=0,d=1e9; for(const [c,R,G,B] of IGBP){ const x=(R-r)**2+(G-g)**2+(B-b)**2; if(x<d){d=x;k=c;} } return d<=3*40*40?k:0; }
+function modisClass(lat,lon,ms=5000){
+  return new Promise(res=>{ const img=new Image(); let done=false;
+    const fin=v=>{ if(done) return; done=true; clearTimeout(tm); img.onload=img.onerror=null; res(v); }, tm=setTimeout(()=>fin(null),ms);
+    img.crossOrigin='anonymous';
+    img.onload=()=>{ try{ const c=document.createElement('canvas'); c.width=c.height=5; const x=c.getContext('2d'); x.imageSmoothingEnabled=false; x.drawImage(img,0,0,5,5);
+      const d=x.getImageData(2,2,1,1).data; fin(d[3]<128?null:igbpOf(d[0],d[1],d[2])||null); }catch(e){ fin(null); } };   // canvas blocked (no CORS): skip MODIS
+    img.onerror=()=>fin(null);
+    const h=0.0025; img.src=`https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=${LC_LAYER}&STYLES=&FORMAT=image/png&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX=${(lon-h).toFixed(4)},${(lat-h).toFixed(4)},${(lon+h).toFixed(4)},${(lat+h).toFixed(4)}&WIDTH=5&HEIGHT=5`;
+  });
+}
+async function osmLand(lat,lon,ms=5000){
+  const q=`[out:json][timeout:5];(way(around:15,${lat},${lon})[building];relation(around:15,${lat},${lon})[building];);out count;is_in(${lat},${lon})->.a;.a out count;area.a[~"^(landuse|natural|water|waterway|place|aeroway|leisure)$"~"."];out tags;`;
+  const c=new AbortController(), id=setTimeout(()=>c.abort(),ms);
+  try{ const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(q),signal:c.signal});
+    if(!r.ok) return null; const el=(await r.json()).elements||[], cnt=el.filter(e=>e.type==='count'); if(cnt.length<2) return null;
+    return {bld:+cnt[0].tags.total||0, areas:+cnt[1].tags.total||0, tags:el.filter(e=>e.type==='area').map(e=>e.tags||{})};
+  }catch(e){ return null; } finally{ clearTimeout(id); }
+}
+function modisVerdict(c){ if(!c) return null;
+  if(c===12||c===14) return {lv:0,k:'crop'}; if(c>=6&&c<=10) return {lv:0,k:'grass'}; if(c===17) return {lv:2,k:'water'}; if(c===13) return {lv:1,k:'urban'};
+  return {lv:1,k:c<=5?'forest':c===11?'wet':c===15?'snow':'barren'}; }
+function osmVerdict(o){ if(!o) return null;
+  const has=(k,re)=>o.tags.some(x=>x[k]!=null&&(!re||re.test(x[k])));
+  if(has('natural',/^(water|bay|strait)$/)||has('water')||has('waterway',/^(riverbank|dock|canal)$/)||has('landuse',/^(reservoir|basin)$/)||has('place',/^(sea|ocean)$/)) return {lv:2,k:'water'};
+  if(!o.areas) return {lv:2,k:'sea'};   // not even a country around the point: open sea
+  if(o.bld) return {lv:1,k:'bld'};
+  if(has('landuse',/^farmyard$/)) return {lv:1,k:'farmyard'};
+  if(has('landuse',/^(residential|industrial|commercial|retail|railway|cemetery|construction|garages|military|brownfield)$/)||has('aeroway',/^(aerodrome|runway|apron)$/)) return {lv:1,k:'town'};
+  if(has('leisure',/^(park|pitch|golf_course|stadium|sports_centre|playground)$/)) return {lv:1,k:'park'};
+  if(has('landuse',/^forest$/)||has('natural',/^wood$/)) return {lv:1,k:'forest'};
+  if(has('natural',/^(wetland|bare_rock|scree|sand|beach|glacier)$/)) return {lv:1,k:'nat'};
+  if(has('landuse',/^(farmland|meadow|orchard|vineyard|allotments|greenhouse_horticulture|plant_nursery|grass)$/)) return {lv:0,k:'farm'};
+  return {lv:0,k:'none'};
+}
+// lv 0 = fine, 1 = warn (choose another spot or use it anyway), 2 = block (water)
+function landCombine(m,o){
+  let lv=Math.max(m?m.lv:0,o?o.lv:0);
+  if(o&&o.k==='farm'&&m&&m.lv>0) lv=0;   // OpenStreetMap maps single fields: its farmland outweighs a coarse 500 m pixel
+  const bld=(o&&/^(bld|town|farmyard)$/.test(o.k))||(m&&m.k==='urban'&&!(o&&o.lv===0));
+  return {lv, m, o, none:!m&&!o, bld:!!bld, farm:!!((m&&m.k==='crop')||(o&&o.k==='farm'))};
+}
+const LANDC=new Map();   // results per point rounded to 3 decimals (about 100 m)
+function landCheck(lat,lon){
+  const k=(+lat).toFixed(3)+','+(+lon).toFixed(3);
+  if(LANDC.has(k)) return LANDC.get(k);
+  const pr=Promise.all([modisClass(+lat,+lon),osmLand(+lat,+lon)]).then(([mc,os])=>{ const r=landCombine(modisVerdict(mc),osmVerdict(os)); if(r.none) LANDC.delete(k); return r; });
+  LANDC.set(k,pr); return pr;
+}
+// what the sources said, as short lines with the source named
+function landLines(r){ const L=[];
+  if(r.o) L.push(`<li><span>${t('lc_src_o')}</span> ${t('lc_o_'+r.o.k)}</li>`);
+  if(r.m) L.push(`<li><span>${t('lc_src_m')}</span> ${t('lc_m_'+r.m.k)}</li>`);
+  return `<ul class="lcs">${L.join('')}</ul>`; }
+function landHead(r){ return r.lv===2?t('lc_block'):r.lv===1?(r.bld?t('lc_bld'):t('lc_warn')):r.farm?t('lc_ok'):t('lc_ok0'); }
+function landText(r){ return landHead(r)+'. '+[r.o&&t('lc_src_o')+': '+t('lc_o_'+r.o.k),r.m&&t('lc_src_m')+': '+t('lc_m_'+r.m.k)].filter(Boolean).join('. ')+'.'; }
+function landBox(r){ if(!r||r.none) return ''; return `<div class="lcbox lv${r.lv}"><b>${r.lv?IC.info:IC.check}${landHead(r)}</b>${landLines(r)}</div>`; }
 // ---------- map navigation: confirm before choosing, search, my location, back to field
 function offerPick(latlng){
   const lat=+latlng.lat.toFixed(3), lon=+latlng.lng.toFixed(3);
-  // the content is a real element with its own handler, so it survives Leaflet re-rendering the popup
+  // the content is a real element with its own handlers, so it survives Leaflet re-rendering the popup
   const el=document.createElement('div'); el.className='pick';
-  el.innerHTML=`<b>${t('pick_q')}</b><small>${lat.toFixed(3)}, ${lon.toFixed(3)}</small><button type="button" id="pickBtn">${t('pick_btn')}</button>`;
-  el.querySelector('button').addEventListener('click',()=>{heroMap.closePopup(); chooseSite({key:'custom',lat,lon});});
-  L.popup({className:'pickpop'}).setLatLng(latlng).setContent(el).openOn(heroMap);
+  const pw=Math.min(290,heroMap.getSize().x-100), pop=L.popup({className:'pickpop',maxWidth:pw,minWidth:Math.min(240,pw),autoPanPadding:[12,12],autoPanPaddingTopLeft:[12,84]}).setLatLng(latlng).setContent(el);
+  let res=null, want=false;
+  const use=e=>{ if(e&&e.stopPropagation) e.stopPropagation(); heroMap.closePopup(); chooseSite({key:'custom',lat,lon}); };
+  L.DomEvent.disableClickPropagation(el);   // a click on a button that is replaced must not reach the map as a new tap
+  const draw=()=>{
+    if(res&&res.lv>0){
+      el.innerHTML=`<small>${lat.toFixed(3)}, ${lon.toFixed(3)}</small>${landBox(res)}<button type="button" id="lcOther">${t('lc_other')}</button>`+(res.lv===1?`<button type="button" class="sec" id="lcAnyway">${t('lc_anyway')}</button>`:'');
+      el.querySelector('#lcOther').addEventListener('click',e=>{ e.stopPropagation(); heroMap.closePopup(); mapHint('lc_hint'); });
+      if(res.lv===1) el.querySelector('#lcAnyway').addEventListener('click',use);
+    }else{
+      el.innerHTML=`<b>${t('pick_q')}</b><small>${lat.toFixed(3)}, ${lon.toFixed(3)}</small>`+(res?landBox(res):`<small class="lcq"><span class="spin"></span>${t('lc_checking')}</small>`)+
+        `<button type="button" id="pickBtn">${t('pick_btn')}</button>`;
+      el.querySelector('#pickBtn').addEventListener('click',e=>{ e.stopPropagation(); if(res) use(); else { want=true; const b=e.currentTarget; b.textContent=t('lc_checking'); b.setAttribute('aria-busy','true'); } });
+    }
+    if(pop.isOpen()) pop.update();
+  };
+  draw(); pop.openOn(heroMap);
+  landCheck(lat,lon).then(r=>{ res=r; if(!pop.isOpen()) return; if(want&&r.lv===0){ use(); return; } draw(); });
 }
 heroMap.on('click',e=>offerPick(e.latlng));
 $('zIn').onclick=()=>heroMap.zoomIn(); $('zOut').onclick=()=>heroMap.zoomOut();
@@ -3990,10 +4117,21 @@ $('fForm').addEventListener('submit',async e=>{
     lat=site.lat; lon=site.lon; const pre=SITES.find(x=>x.key===site.key);
     if(pre){key=pre.key; place=pre.near[LANG];} else place=await placeName(lat,lon);
   }
+  if(!key){   // the land check of feature 1: water is refused, buildings or forest ask first
+    $('fMsg').textContent=t('lc_checking'); const lr=await landCheck(lat,lon);
+    if(lr.lv===2){ $('fMsg').innerHTML=landBox(lr); return; }
+    if(lr.lv===1&&!(await landAsk(lr))) return;
+    $('fMsg').textContent='';
+  }
   FIELDS.push({id:fid(),name,lat,lon,ha,place,key,rot:userSeq()}); saveFields();
   $('fName').value=''; $('fPlace').value=''; $('fHa').value=''; $('fMsg').textContent=t('fl_msg_added',{n:name});
   renderFields(); computeFields();
 });
+// a warning of the land check under the form: "Choose another spot" (back to the place box) or "Use it anyway"
+function landAsk(r){ return new Promise(res=>{ const m=$('fMsg');
+  m.innerHTML=landBox(r)+`<div class="lcact"><button type="button" class="btn-o pri" id="lcFOther">${t('lc_other')}</button><button type="button" class="btn-o" id="lcFAny">${t('lc_anyway')}</button></div>`;
+  $('lcFOther').onclick=()=>{ m.textContent=''; $('fPlace').value=''; $('fPlace').focus(); res(false); };
+  $('lcFAny').onclick=()=>{ m.textContent=''; res(true); }; }); }
 async function computeField(f){
   const c=await fetchClimate(f.lat,f.lon);
   if(!f.soil){try{const sg=await fetchSoil(f.lat,f.lon); f.soil=sg?{soc:+sg.soc.toFixed(1),clay:Math.round(sg.clay)}:{soc:15,clay:25,typ:true};}catch(e){f.soil={soc:15,clay:25,typ:true};} saveFields();}

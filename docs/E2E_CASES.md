@@ -9,7 +9,7 @@ Run (all offline, every outside service is answered by `v2/tests/harness.js`):
 ```
 export ROTASAT_NODE_MODULES=/path/to/tests/node_modules ROTASAT_FIXTURES=/path/to/fixtures ROTASAT_SHOTS=/tmp/shots
 cd v2/tests
-node check_i18n.js && node check_model.js && node check_soil_timeout.js && node e2e_v2.js && node e2e_cases.js && node check_cases.js
+node check_i18n.js && node check_model.js && node check_soil_timeout.js && node e2e_v2.js && node e2e_cases.js && node e2e_land.js && node check_cases.js
 ```
 
 | ID | Feature | Steps | Expected result | Test file |
@@ -56,3 +56,8 @@ node check_i18n.js && node check_model.js && node check_soil_timeout.js && node 
 | E40 | Region page and links | Open the region link of an example field (region note, My fields) and the region pages in three languages. | The region page is filled in each language, has no em dash, fits a phone and links back to the planner. | e2e_v2.js |
 | E41 | Words explained and header links | Tap a term, the header link "Words explained", the footer link "My fields", "Enter your own" under ground data. | The explanation opens in place; links open the right section on the plan step; "enter your own" opens the soil and rain inputs on step 2. | e2e_v2.js |
 | E42 | Speed and fallback | Run without Web Worker; measure the page while calculating. | Same numbers on the main thread as in the worker; the page never freezes for more than 400 ms. | e2e_v2.js |
+| E43 | Land check: farmland | Tap a spot on farmland on the map (also via search or My location), then "Choose this field"; tap an example field. | Before the field loads, the popup says "Looks like farmland" and names its sources (OpenStreetMap, NASA MODIS land cover 500 m); the field is chosen. The four example fields are never checked. | e2e_land.js |
+| E44 | Land check: buildings or forest | Tap a spot with buildings within 15 m (or in a forest); press "Choose another spot", tap it again and press "Use it anyway"; also on a 320 px phone in Turkish. | The popup warns "Looks like buildings here" (or "This may not be farmland") with the reason of each source; "Choose another spot" is the main button, closes the popup, keeps the old field and asks for a new tap; "Use it anyway" chooses the spot. The warning fits on a phone. | e2e_land.js |
+| E45 | Land check: water | Tap a lake or the open sea; add a field in My fields whose place lies in a lake. | The popup says the spot is water, not a field, and offers only "Choose another spot"; the field does not change. My fields does not add the field and says why. | e2e_land.js |
+| E46 | Land check: services slow or down | Tap a spot while Overpass and GIBS never answer, press "Choose this field"; repeat while both fail at once. | The popup says the land cover is being checked; after at most 5 s the field is chosen anyway, nothing alarming is shown and the empty result is not cached. When both fail at once the field is chosen straight away. | e2e_land.js |
+| E47 | Land check: cache | Tap the same spot twice. | The second time no service is asked again; results are kept per point rounded to 3 decimals. | e2e_land.js |

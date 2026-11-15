@@ -2,7 +2,7 @@
 const fs = require('fs'); const path = require('path');
 const md = fs.readFileSync(path.resolve(__dirname, '..', '..', 'docs', 'E2E_CASES.md'), 'utf8');
 const ids = [...md.matchAll(/^\| (E\d\d) \|/gm)].map(m => m[1]);
-const src = ['e2e_v2.js', 'e2e_cases.js', 'check_soil_timeout.js', 'check_i18n.js'].map(f => fs.readFileSync(path.join(__dirname, f), 'utf8')).join('\n');
+const src = ['e2e_v2.js', 'e2e_cases.js', 'e2e_land.js', 'e2e_import.js', 'check_soil_timeout.js', 'check_i18n.js'].filter(f => fs.existsSync(path.join(__dirname, f))).map(f => fs.readFileSync(path.join(__dirname, f), 'utf8')).join('\n');
 const missing = ids.filter(id => !new RegExp('[\'"`](E\\d\\d )*' + id + '\\b').test(src));
 console.log('cases:', ids.length, '| without an automated check:', missing.length ? missing.join(', ') : 'none');
 process.exit(missing.length || !ids.length ? 1 : 0);
