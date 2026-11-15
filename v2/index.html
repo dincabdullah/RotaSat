@@ -2881,24 +2881,32 @@ async function fetchClimate(lat,lon){
   if(cached&&cached.years) c=finishClimate(cached);
   else{
     const url=`https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,RH2M,WS2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=${lon}&latitude=${lat}&start=19850101&end=20241231&format=JSON`;
-    const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status);
+    const r=await fetchT(url,90000); if(!r.ok) throw new Error('HTTP '+r.status);
     c=parsePowerDaily(await r.json(), lat);
     try{const {lat:a,z,years,byYear}=c;localStorage.setItem(key,JSON.stringify({lat:a,z,years,byYear}));}catch(e){}
   }
   c.lon=lon; return c;
 }
 // ISRIC SoilGrids organic carbon and clay (5-30 cm); tries a few nearby points if the spot is a road or village
+// fetch with a time limit, so a slow service cannot leave the page waiting forever
+function fetchT(url,ms){const c=new AbortController(),id=setTimeout(()=>c.abort(),ms);return fetch(url,{signal:c.signal}).finally(()=>clearTimeout(id));}
 async function fetchSoil(lat,lon){
+  const ck='rotasat_soil_'+lat.toFixed(3)+'_'+lon.toFixed(3);
+  try{const v=JSON.parse(localStorage.getItem(ck)||'null'); if(v&&v.soc>0) return v;}catch(e){}
+  const t0=Date.now();
   const offs=[[0,0],[0.03,0],[0,0.04],[-0.03,-0.04]];
   for(const [dy,dx] of offs){
     const la=(lat+dy).toFixed(3), lo=(lon+dx).toFixed(3);
-    const r=await fetch(`https://rest.isric.org/soilgrids/v2.0/properties/query?lon=${lo}&lat=${la}&property=soc&property=clay&depth=0-5cm&depth=5-15cm&depth=15-30cm&value=mean`);
+    const left=10000-(Date.now()-t0); if(left<1500) return null;   // SoilGrids is often slow: give up after about 10 s and use typical values
+    const r=await fetchT(`https://rest.isric.org/soilgrids/v2.0/properties/query?lon=${lo}&lat=${la}&property=soc&property=clay&depth=0-5cm&depth=5-15cm&depth=15-30cm&value=mean`,left);
     if(!r.ok) throw new Error('HTTP '+r.status);
     const j=await r.json();
     if(!j.properties.layers.every(Lr=>Lr.depths.some(d=>d.values.mean!=null))) continue;
     const get=name=>{const Lr=j.properties.layers.find(l=>l.name===name);const w=name==='soc'?[0,10,15]:[5,10,15],vals=Lr.depths.map((d,i)=>d.values.mean==null||!w[i]?null:[d.values.mean/Lr.unit_measure.d_factor,w[i]]).filter(Boolean);return vals.reduce((a,[v,wt])=>a+v*wt,0)/vals.reduce((a,[,wt])=>a+wt,0);};
     const clay=get('clay');
-    return {soc:get('soc'),clay:clay>100?clay/10:clay,used:[la,lo],moved:(dy!==0||dx!==0)};
+    const out={soc:get('soc'),clay:clay>100?clay/10:clay,used:[la,lo],moved:(dy!==0||dx!==0)};
+    try{localStorage.setItem(ck,JSON.stringify(out));}catch(e){}
+    return out;
   }
   return null;
 }
