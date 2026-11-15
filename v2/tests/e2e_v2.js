@@ -115,7 +115,7 @@ const { chromium, open, ready, overflow, snap, APP, REGION, OUT, path } = requir
   await p.evaluate(() => chooseSite({ key: 'custom', lat: 41.0, lon: -95.0 })); await p.waitForTimeout(200); await ready(p);
   await p.click('.fieldcard [data-scen="ssp245"]'); await ready(p);
   ok(await p.evaluate(() => lastResults.shift.mode === '2050' && document.querySelector('#s2 [data-scen="ssp245"]').getAttribute('aria-pressed') === 'true'), 'E15 outside Europe: 2050 falls back to the trend; both climate switches agree');
-  ok(await p.evaluate(() => document.querySelectorAll('#termList dt').length === 11 && document.querySelectorAll('#glossList dt').length >= 18 && document.querySelectorAll('#resBody tr').length === 7 && document.querySelectorAll('.judge li').length === 5), 'E41 glossary terms, data table and judgement list are filled');
+  ok(await p.evaluate(() => document.querySelectorAll('#termList dt').length === 14 && document.querySelectorAll('#glossList dt').length >= 18 && document.querySelectorAll('#resBody tr').length === 7 && document.querySelectorAll('.judge li').length === 5), 'E41 glossary terms, data table and judgement list are filled');
   await p.click('#ground summary'); await p.click('#openOwn'); await p.waitForTimeout(200);
   ok(await p.evaluate(() => document.getElementById('moreOpts').open && +document.body.dataset.step === 2), 'E41 E18 ground: button opens the rain and soil inputs in step 2');
   // layer thumbnails: real pictures of each layer, the NASA ones from GIBS
