@@ -8,7 +8,7 @@ Try it: **https://dincabdullah.github.io/RotaSat/**
 
 It is a single static page that runs in the browser. No server, no login, nothing to install.
 
-Made by Eren Mutlu and Abdullah Dinç (team "Ground Control to Major TUM-ATO") at the Space Apps local event in Heilbronn.
+Made by Eren Mutlu and Abdullah Dinç (team "Ground Control to Major TUM-ATO") at the Space Apps local event in Heilbronn. We pitched it for 5 minutes at OpenSpace, Weipertstraße 8–10, 74076 Heilbronn on 15 November 2026.
 
 ## How it works: three steps
 
