@@ -181,6 +181,59 @@ const { chromium, open, ready, overflow, snap, APP, OUT, path, fs } = require('.
   ok(await p.evaluate(() => curLayer === 'esri' && !!lastResults), 'E11 NASA layer error: back to the satellite photo, the page keeps working');
   errs.push(...errors.filter(e => !/503|Failed to load resource/.test(e))); await ctx.close();   // the failed tile requests are expected here
 
+  // ---------- E59 profit in 1,000 futures (histogram of A and B) ----------
+  // fut: what the page shows; ref: the same counts straight from the model results (r.fut of strategies A and B)
+  const fut = p => p.evaluate(() => { const f = document.getElementById('futures'); if (!f) return null;
+    const S = pickStrategies(lastResults).slice(0, 2), c = charts.futChart, cv = document.getElementById('futChart').getBoundingClientRect();
+    const txt = f.querySelector('.fs').textContent;
+    return { txt, aria: f.querySelector('[role=img]').getAttribute('aria-label'), sum: f.dataset.sum, neg: f.dataset.neg, lang: LANG, mode: lastResults.shift.mode,
+      ref: S.map(s => ({ n: s.r.fut.length, neg: Array.from(s.r.fut).filter(v => v < 0).length, mean: Array.from(s.r.fut).reduce((a, b) => a + b, 0) / s.r.fut.length, rmean: s.r.mean })),
+      chart: c ? c.data.datasets.map(d => d.data.reduce((a, b) => a + b, 0)) : null, cw: cv.width, ch: cv.height, box: f.getBoundingClientRect().right, vw: innerWidth,
+      leg: [...f.querySelectorAll('.fleg li b')].map(b => b.textContent), cap: [...f.querySelectorAll('.fcap')].map(x => x.textContent).join(' '),
+      none: t('fd_none'), afterCards: f.previousElementSibling && f.previousElementSibling.classList.contains('strat'), mid: S.map(s => Math.round(Array.from(s.r.fut).sort((a, b) => a - b)[500])) }; });
+  // numbers in the first sentence, without the "1,000"; the word for "none" counts as 0
+  const sentNums = x => { const out = []; const re = new RegExp('(\\d+)|\\b(' + x.none + ')\\b', 'g'); let m; const s = x.txt.replace(/1[.,]000/g, '').split(/[.!]\s/)[0];
+    while ((m = re.exec(s))) out.push(m[1] ? +m[1] : 0); return out; };
+  const checkFut = (x, tag) => {
+    ok(!!x && x.afterCards, `E59 ${tag}: the 1,000 futures chart sits right after the A/B/C cards`);
+    if (!x) return;
+    ok(x.ref.length === 2 && x.ref.every(r => r.n === 1000) && x.sum === '1000,1000' && JSON.stringify(x.chart) === '[1000,1000]', `E59 ${tag}: counts add up to 1,000 per strategy (${x.sum}, chart ${JSON.stringify(x.chart)})`);
+    ok(x.neg === x.ref.map(r => r.neg).join(','), `E59 ${tag}: losing futures ${x.neg} match the model results ${x.ref.map(r => r.neg)}`);
+    ok(x.ref.every(r => Math.abs(r.mean - r.rmean) < 0.5), `E59 ${tag}: the futures average to the profit shown in the cards`);
+    const sn = sentNums(x), want = x.ref.map(r => r.neg);
+    ok(want[0] + want[1] === 0 ? sn.length >= 1 && sn.every(v => v === 0) : JSON.stringify(sn) === JSON.stringify(want), `E59 ${tag}: the sentence names the real counts ${JSON.stringify(sn)} vs ${JSON.stringify(want)}: "${x.txt}"`);
+    ok(x.aria.includes(String(want[0])) && x.aria.includes(String(want[1])) && x.leg.length === 2 && /^A: /.test(x.leg[0]) && /^B: /.test(x.leg[1]), `E59 ${tag}: role=img text with the counts and a legend in words`);
+    ok(x.cw >= 240 && x.ch >= 150 && x.box <= x.vw + 0.5, `E59 ${tag}: chart drawn ${Math.round(x.cw)}x${Math.round(x.ch)} inside the screen`);
+    ok(!/\{[a-z]+\}|undefined|NaN|—/.test(x.txt + x.aria + x.cap + x.leg.join('')), `E59 ${tag}: no placeholder, NaN or em dash`);
+  };
+  ({ ctx, p, errors } = await open(browser, 1440, 900, { lang: 'en' }));
+  await p.goto(APP); await ready(p); await go(p, 3); await p.waitForTimeout(300);
+  let F = await fut(p); checkFut(F, 'EN Heilbronn today');
+  ok(/40 years of NASA POWER weather and real 2000 to 2025 prices/.test(F.cap) && !/2050/.test(F.cap), 'E59 caption names NASA POWER weather and the real prices');
+  await p.click('.fieldcard [data-scen="ssp585"]'); await ready(p); await p.waitForTimeout(200);
+  const F2 = await fut(p); checkFut(F2, 'EN Heilbronn 2050 high');
+  ok(F2.mode === 'ssp585' && JSON.stringify(F2.mid) !== JSON.stringify(F.mid) && /2050/.test(F2.cap), `E59 switching to 2050 redraws the chart (middle futures ${F.mid} to ${F2.mid})`);
+  console.log('  E59 Heilbronn today:', F.txt, '| 2050 high:', F2.txt);
+  await p.click('.fieldcard [data-scen="now"]'); await ready(p);
+  await p.evaluate(() => chooseSite(SITES.find(s => s.key === 'thrace'))); await p.waitForTimeout(200); await ready(p);
+  await p.evaluate(() => { for (let i = 0; i < 4; i++) document.getElementById('slot' + i).value = ['wheat', 'sunflower'][i] || ''; runAll(); }); await ready(p);
+  const F3 = await fut(p); checkFut(F3, 'EN Thrace wheat, sunflower');
+  ok(F3.ref[0].neg > 0 && F3.txt.includes(' ' + F3.ref[0].neg + ','), `E59 Thrace wheat, sunflower: your rotation loses money in some futures (${F3.ref[0].neg})`);
+  console.log('  E59 Thrace wheat, sunflower:', F3.txt);
+  for (const l of ['tr', 'de']) { await p.click(`[data-lang="${l}"]`); await p.waitForTimeout(300);
+    const x = await fut(p); checkFut(x, l.toUpperCase() + ' Thrace');
+    ok(x.lang === l && x.txt !== F3.txt && x.neg === F3.neg && /NASA.POWER/.test(x.cap), `E59 ${l.toUpperCase()}: sentence and caption translated, same counts: "${x.txt}"`); }
+  await p.evaluate(() => { window.print = () => {}; printReport(); });
+  ok(await p.evaluate(() => { const r = document.getElementById('report'); return !r.querySelector('canvas') && /^data:image\/png/.test((r.querySelector('.futc img') || {}).src || ''); }), 'E59 print report: the chart is included as a picture');
+  errs.push(...errors); await ctx.close();
+  for (const [w, h, l] of [[390, 844, 'tr'], [320, 640, 'de']]) {
+    ({ ctx, p, errors } = await open(browser, w, h, { lang: l }));
+    await p.goto(APP); await ready(p); await go(p, 3); await p.waitForTimeout(300);
+    await p.evaluate(() => document.getElementById('futures').scrollIntoView()); await p.waitForTimeout(100);
+    const x = await fut(p); checkFut(x, `${l.toUpperCase()} ${w}px`);
+    ok(await overflow(p) <= 1, `E59 ${w}px: no sideways scrolling with the chart`);
+    errs.push(...errors); await ctx.close(); }
+
   console.log(`\ncases covered here: ${[...seen].sort().join(' ')}`);
   console.log(`checks: ${n}, failed: ${bad}`); console.log('ERRORS', errs.length, errs.slice(0, 10));
   await browser.close(); process.exit(bad || errs.length ? 1 : 0);

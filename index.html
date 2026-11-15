@@ -345,6 +345,16 @@ details.xpd>summary{font-weight:700;color:var(--blue);cursor:pointer;font-size:1
 .cal .c.r{box-shadow:inset 0 0 0 2px #B4370F;background:#ffd9a8}
 .calleg{display:flex;flex-wrap:wrap;gap:4px 14px;margin:8px 0 0;font-size:12px;color:var(--ink2)}.calleg span{display:inline-flex;align-items:center;gap:6px}.calleg i{display:inline-block;width:12px;height:12px;border-radius:3px;font-style:normal;font-size:9px;font-weight:700;text-align:center;line-height:12px}
 .calnote{margin:8px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink2)}.calnote b{color:var(--ink)}
+/* v6: profit in 1,000 futures */
+.futc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.1fr);gap:8px 32px;align-items:start}
+.futc h3{font-size:18px;font-weight:700;margin:0 0 10px}
+.futc .fs{margin:0 0 14px;font-size:16px;font-weight:600;line-height:1.45;color:var(--ink)}
+.fleg{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.fleg li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.35;color:var(--ink2)}
+.fleg i{flex:none;width:14px;height:14px;border-radius:3px;margin-top:2px}
+.fleg b{color:var(--ink);font-weight:700}.fleg .fr{display:block}.fleg small{display:block;font-size:12.5px;color:var(--mute)}
+.fcv{position:relative;height:250px;min-width:0}
+.fcap{margin:8px 0 0;font-size:12.5px;line-height:1.45;color:var(--mute)}
 /* bare soil strip */
 .soilc{grid-column:span 7!important}
 .soilc h3{font-size:18px;font-weight:700;margin:0 0 14px}
@@ -484,7 +494,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
 .foot .fw>div{flex:1 1 260px}.foot b{color:#fff}
 .foot nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px}.foot nav a{color:#E7F434;font-weight:600}
 #report{display:none}
-@media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px;color:#000}#report table{font-size:12px}#report .terms,#report .tchips,#report .acts{display:none}#report .strat{break-inside:avoid;border:1px solid #ccc;border-radius:10px;padding:10px;margin:8px 0}#report details>*{display:block}#report .hero{background:#fff;border:2px solid #000;min-height:0}#report .hero .big{font-size:48px}}
+@media print{body>*:not(#report){display:none!important}#report .futc{display:block;break-inside:avoid}#report{display:block;padding:24px;font-size:13px;color:#000}#report table{font-size:12px}#report .terms,#report .tchips,#report .acts{display:none}#report .strat{break-inside:avoid;border:1px solid #ccc;border-radius:10px;padding:10px;margin:8px 0}#report details>*{display:block}#report .hero{background:#fff;border:2px solid #000;min-height:0}#report .hero .big{font-size:48px}}
 /* ---------- narrower screens ---------- */
 @media (min-width:1700px){
   .step{max-width:1560px}
@@ -503,6 +513,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
 }
 @media (max-width:980px){
   .opt{grid-column:1/-1!important}.opt h4{min-height:0}
+  .futc{grid-template-columns:minmax(0,1fr)}
   #s2{grid-template-columns:minmax(0,1fr)}
   .evbox{grid-template-columns:minmax(0,1fr)}.grid2{grid-template-columns:1fr}.gcols{grid-template-columns:1fr}
   .fform{grid-template-columns:1fr 110px}.fform .wide{grid-column:1/-1}.fform .go{grid-column:1/-1}
@@ -539,6 +550,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
   .hero{padding:20px;border-radius:24px;min-height:0}.hero h2{font-size:25px}.hero .big{font-size:76px}.hero .row{gap:12px}.hero .lead{font-size:14.5px}
   .fieldcard{flex-direction:column;padding:0!important}#miniMap{min-height:150px;flex:none;height:150px}
   .opt{padding:16px}.opt .val{font-size:32px}
+  .futc{grid-template-columns:minmax(0,1fr);gap:4px}.futc .fs{font-size:15px}.fcv{height:210px;margin-top:10px}.fleg{gap:8px}
   .tiles{gap:8px}.tile{padding:12px}.tile .v{font-size:22px}.tile .k{font-size:11px}.tile .s{font-size:11px}
   .bsrow{--bl:92px;grid-template-columns:var(--bl) repeat(12,minmax(0,1fr)) 46px;gap:2px}.bsrow .bl{font-size:11.5px;padding-right:4px;overflow-wrap:anywhere}.bsrow .bv{font-size:12px;padding-left:4px}.bc{height:22px;border-radius:4px}
   .sech h3{font-size:21px}
@@ -1229,12 +1241,14 @@ function siteRref(){ if(climate.rRef==null){ climate.rRef=climate.years.map(y=>c
 function monteCarlo(seq, soil, shift, seed){
   const rr=rng(seed), ys=climate.years, margins=[], windows=[], fails=[], ferts=[], cPaths=Array.from({length:YEARS},()=>[]);
   const lim={water:0,heat:0,n:0}; let bare=0,ero=0,nSur=0,nFix=0,nr=0,irr=0,gap=0;
+  const fut=new Float32Array(RUNS);
   const z12=()=>seq.map(()=>Array(12).fill(0)), cal={n:seq.map(()=>0),dry:z12(),hot:z12(),wet:z12(),frost:z12()};   // v2: how often each month is risky, per rotation year
   for(let k=0;k<RUNS;k++){
     const yl=Array.from({length:YEARS},()=>ys[Math.floor(rr()*ys.length)]);
     const sh=shift.models?{...shift,cm:shift.models[k%shift.models.length]}:shift;
     const px=PRICE_MODE==='hist'?yl.map(()=>pxYear(Math.floor(rr()*PRICES.years.length))):null;
     const recs=simulate(seq,yl,soil,sh,{px:px||Array(YEARS).fill(pxScenario(PRICE_MODE)),cal,off:k%seq.length});
+    let fs=0; for(const x of recs) fs+=x.margin; fut[k]=fs/recs.length;   // v6: average yearly profit of this one future (only shown, not used in any score)
     recs.forEach((x,i)=>{
       cPaths[i].push(x.C); margins.push(x.margin); ferts.push(x.fert);
       bare+=x.bare; ero+=x.ero; nSur+=x.nSur; nFix+=x.nFix; irr+=x.irr; gap+=x.gap; nr++;
@@ -1248,7 +1262,7 @@ function monteCarlo(seq, soil, shift, seed){
   const cMed=cPaths.map(med);
   return {mean:margins.reduce((a,b)=>a+b)/margins.length, p10:windows[Math.floor(windows.length*0.1)],
           fail:fails.length?fails.reduce((a,b)=>a+b)/fails.length:0, fert:ferts.reduce((a,b)=>a+b)/ferts.length,
-          cEnd:cMed[YEARS-1], cMed, lim, cal, bare:bare/nr, ero:ero/nr, nSur:nSur/nr, nFix:nFix/nr, irr:irr/nr, gap:gap/nr, water:(shift.irr>0?irr:gap)/nr};
+          cEnd:cMed[YEARS-1], cMed, lim, cal, bare:bare/nr, ero:ero/nr, nSur:nSur/nr, nFix:nFix/nr, irr:irr/nr, gap:gap/nr, water:(shift.irr>0?irr:gap)/nr, fut};
 }
 
 /*@MODEL-END*/
@@ -1803,6 +1817,11 @@ hero_p:"Pick your field and tap what you grow today. RotaSat compares your rotat
 hero_cta2:"Next: what do you grow now?",
 sw_h:"Climate",sw_now:"Today",sw_mid:"2050 middle",sw_high:"2050 high",
 pick_map:"Pick on the map",map_small:"Smaller map",map_close:"Close map",
+fd_h:"Profit in {n} possible futures",fd_s:"In {n} possible futures your rotation loses money in {a}, {rot} in {b}.",fd_s0:"In none of {n} possible futures does your rotation or {rot} lose money on average.",fd_s1:"In {n} possible futures your rotation loses money in {a}.",fd_cnt:"{k}",fd_none:"none",fd_min:"Even the weakest future earns {a} a year with A and {b} with B.",
+fd_best:"the best fit",fd_next:"the best alternative",fd_mid:"middle future: {v}",fd_x:"Average profit per year (€/ha)",fd_y:"Futures",fd_zero:"break-even",fd_bin:"{a} to {b} €/ha",
+fd_cap:"Each bar counts futures with that average profit. Futures are built from {y} years of NASA POWER weather and real 2000 to 2025 prices.",fd_cap_px:"Each bar counts futures with that average profit. Futures are built from {y} years of NASA POWER weather, at the prices you chose.",fd_cap_fut:"Each weather year is shifted to the climate of 2050.",
+fd_note:"Here a future loses money when its profit, averaged over its 20 seasons, is below zero. The “In bad years” number in the cards is a different measure: the weakest 3 years in a row, 1 time in 10.",
+fd_aria:"Bar chart of the average yearly profit in {n} simulated futures. {a}: {x} futures lose money, middle future {ma}. {b}: {y} futures lose money, middle future {mb}.",fd_aria1:"Bar chart of the average yearly profit in {n} simulated futures. {a}: {x} futures lose money, middle future {ma}.",
 bs_h:"Bare soil through the year",bs_mine:"Yours",bs_rec:"Recommended",bs_alt:"Next best",
 bs_less:"{rot} leaves the soil bare {m} months less a year than yours.",bs_more:"{rot} leaves the soil bare {m} months more a year than yours.",bs_same:"{rot} leaves the soil bare about as long as yours.",
 bs_row:"{name}, {rot}: bare about {m} months a year. Bare in most years: {list}.",bs_none:"no month",bs_part:"part filled: only in some years of the rotation",
@@ -2432,6 +2451,11 @@ hero_p:"Tarlanı seç, bugün ne ektiğine dokun. RotaSat rotasyonunu başka str
 hero_cta2:"Devam: şu an ne ekiyorsun?",
 sw_h:"İklim",sw_now:"Bugün",sw_mid:"2050 orta",sw_high:"2050 yüksek",
 pick_map:"Haritadan seç",map_small:"Haritayı küçült",map_close:"Haritayı kapat",
+fd_h:"{n} olası gelecekte kâr",fd_s:"{n} olası gelecekte rotasyonun {a} zarar ediyor, {rot} ise {b}.",fd_s0:"{n} olası geleceğin hiçbirinde ne rotasyonun ne de {rot} ortalamada zarar ediyor.",fd_s1:"{n} olası gelecekte rotasyonun {a} zarar ediyor.",fd_cnt:"{k} tanesinde",fd_none:"hiçbirinde",fd_min:"En zayıf gelecekte bile A yılda {a}, B ise {b} kazandırıyor.",
+fd_best:"sana en uygun seçenek",fd_next:"en iyi alternatif",fd_mid:"ortanca gelecek: {v}",fd_x:"Yıllık ortalama kâr (€/ha)",fd_y:"Gelecek sayısı",fd_zero:"başa baş",fd_bin:"{a} ile {b} €/ha arası",
+fd_cap:"Her çubuk, ortalama kârı o aralıkta olan gelecekleri sayar. Gelecekler {y} yıllık NASA POWER hava verisinden ve 2000-2025'in gerçek fiyatlarından kuruldu.",fd_cap_px:"Her çubuk, ortalama kârı o aralıkta olan gelecekleri sayar. Gelecekler {y} yıllık NASA POWER hava verisinden, seçtiğin fiyatlarla kuruldu.",fd_cap_fut:"Her hava yılı 2050 iklimine kaydırıldı.",
+fd_note:"Burada bir gelecek, 20 sezonluk ortalama kârı sıfırın altındaysa zarar sayılır. Kartlardaki “Kötü yıllarda” değeri başka bir ölçüdür: arka arkaya en zayıf 3 yıl, 10 seferde 1.",
+fd_aria:"{n} simüle edilmiş gelecekte yıllık ortalama kârın çubuk grafiği. {a}: {x} gelecekte zarar, ortanca gelecek {ma}. {b}: {y} gelecekte zarar, ortanca gelecek {mb}.",fd_aria1:"{n} simüle edilmiş gelecekte yıllık ortalama kârın çubuk grafiği. {a}: {x} gelecekte zarar, ortanca gelecek {ma}.",
 bs_h:"Yıl boyunca çıplak toprak",bs_mine:"Seninki",bs_rec:"Önerilen",bs_alt:"Sıradaki",
 bs_less:"{rot}, toprağı seninkinden yılda {m} ay daha az çıplak bırakır.",bs_more:"{rot}, toprağı seninkinden yılda {m} ay daha uzun çıplak bırakır.",bs_same:"{rot}, toprağı aşağı yukarı seninki kadar çıplak bırakır.",
 bs_row:"{name}, {rot}: yılda yaklaşık {m} ay çıplak. Çoğu yıl çıplak kalan aylar: {list}.",bs_none:"yok",bs_part:"kısmen dolu: rotasyonun yalnız bazı yıllarında",
@@ -3061,6 +3085,11 @@ hero_p:"Wählen Sie Ihr Feld und tippen Sie an, was Sie heute anbauen. RotaSat v
 hero_cta2:"Weiter: Was bauen Sie heute an?",
 sw_h:"Klima",sw_now:"Heute",sw_mid:"2050 mittel",sw_high:"2050 hoch",
 pick_map:"Auf der Karte wählen",map_small:"Karte verkleinern",map_close:"Karte schließen",
+fd_h:"Gewinn in {n} möglichen Zukünften",fd_s:"In {n} möglichen Zukünften macht Ihre Fruchtfolge in {a} Verlust, {rot} in {b}.",fd_s0:"In keiner der {n} möglichen Zukünfte macht Ihre Fruchtfolge oder {rot} im Schnitt Verlust.",fd_s1:"In {n} möglichen Zukünften macht Ihre Fruchtfolge in {a} Verlust.",fd_cnt:"{k}",fd_none:"keiner",fd_min:"Selbst die schwächste Zukunft bringt mit A {a} im Jahr und mit B {b}.",
+fd_best:"die beste Wahl",fd_next:"die beste Alternative",fd_mid:"mittlere Zukunft: {v}",fd_x:"Durchschnittlicher Gewinn pro Jahr (€/ha)",fd_y:"Zukünfte",fd_zero:"Gewinnschwelle",fd_bin:"{a} bis {b} €/ha",
+fd_cap:"Jeder Balken zählt die Zukünfte mit diesem Durchschnittsgewinn. Die Zukünfte entstehen aus {y} Jahren NASA-POWER-Wetter und den echten Preisen von 2000 bis 2025.",fd_cap_px:"Jeder Balken zählt die Zukünfte mit diesem Durchschnittsgewinn. Die Zukünfte entstehen aus {y} Jahren NASA-POWER-Wetter, mit den von Ihnen gewählten Preisen.",fd_cap_fut:"Jedes Wetterjahr ist auf das Klima von 2050 verschoben.",
+fd_note:"Eine Zukunft macht hier Verlust, wenn ihr Gewinn im Schnitt ihrer 20 Jahre unter null liegt. Der Wert „In schlechten Jahren“ in den Karten ist ein anderes Maß: die schwächsten 3 Jahre am Stück, 1 Mal in 10.",
+fd_aria:"Balkendiagramm des durchschnittlichen Jahresgewinns in {n} simulierten Zukünften. {a}: {x} Zukünfte mit Verlust, mittlere Zukunft {ma}. {b}: {y} Zukünfte mit Verlust, mittlere Zukunft {mb}.",fd_aria1:"Balkendiagramm des durchschnittlichen Jahresgewinns in {n} simulierten Zukünften. {a}: {x} Zukünfte mit Verlust, mittlere Zukunft {ma}.",
 bs_h:"Offener Boden übers Jahr",bs_mine:"Ihre",bs_rec:"Empfohlen",bs_alt:"Nächstbeste",
 bs_less:"{rot} lässt den Boden {m} Monate im Jahr weniger offen als Ihre Fruchtfolge.",bs_more:"{rot} lässt den Boden {m} Monate im Jahr länger offen als Ihre Fruchtfolge.",bs_same:"{rot} lässt den Boden etwa so lange offen wie Ihre Fruchtfolge.",
 bs_row:"{name}, {rot}: etwa {m} Monate im Jahr offen. In den meisten Jahren offen: {list}.",bs_none:"kein Monat",bs_part:"teilweise gefüllt: nur in manchen Jahren der Fruchtfolge",
@@ -3823,6 +3852,7 @@ function renderAnswer(){
   $('ansRest').hidden=false;
   $('ansRest').innerHTML=`<div class="sech"><div><h3>${t('gl_h3')}</h3><p>${t('opt_p')}</p></div></div>
     ${cards}
+    ${futHTML(R,S)}
     <section class="card soilc">${bareStrip(R,S)}</section>
     ${climate?evTiles(R):''}
     <section class="card notes">${best.meanToday!=null?`<p>${t(best.meanToday<0?'today_neg':'today_line',{v:money(Math.abs(best.meanToday)),rot:rotName(best.seq,true)})}</p>`:''}${few}
@@ -3847,7 +3877,57 @@ function renderAnswer(){
     <p class="srcline">${t('src_line')}</p>`;
   $('ansRest').querySelectorAll('[data-term]').forEach(b=>b.onclick=()=>{openTerm=openTerm===b.dataset.term?null:b.dataset.term;
     $('ansRest').querySelectorAll('[data-term]').forEach(x=>x.setAttribute('aria-expanded',x.dataset.term===openTerm)); $('termBox').innerHTML=termHTML();});
+  drawFut(S);
   renderBar();
+}
+// v6: "1,000 futures". Each Monte Carlo run is one possible future of 20 seasons; monteCarlo keeps the average yearly profit of every run
+// (r.fut). Here A (your rotation) and B (the best fit, or the best alternative) are counted in the same bins, with a line at zero.
+const FUT_C=['#A9ADBD','#1B2B85'];
+function futData(S){
+  const ss=S.slice(0,2).filter(s=>s.r.fut&&s.r.fut.length);
+  if(!ss.length) return null;
+  let lo=0,hi=0; ss.forEach(s=>{for(const v of s.r.fut){if(v<lo)lo=v;if(v>hi)hi=v;}});
+  // the axis always includes zero; a round bin width gives at most 30 bins, with zero on a bin edge
+  const w=[5,10,20,25,50,100,200,250,500,1000,2000].find(w=>Math.ceil(hi/w)-Math.floor(lo/w)<=30)||5000;
+  const b0=Math.floor(lo/w)*w, nb=Math.max(1,Math.ceil(hi/w)-Math.floor(lo/w));
+  const rows=ss.map(s=>{const c=Array(nb).fill(0), a=Array.from(s.r.fut).sort((x,y)=>x-y); let neg=0;
+    for(const v of s.r.fut){c[Math.min(nb-1,Math.max(0,Math.floor((v-b0)/w)))]++; if(v<0) neg++;}
+    return {s,c,neg,n:s.r.fut.length,mid:a[Math.floor(a.length/2)],min:a[0]};});
+  return {w,b0,nb,rows};
+}
+function futHTML(R,S){
+  const D=futData(S); if(!D) return '';
+  const [A,B]=D.rows, N=nf(A.n), rot=B?t(B.s.role==='next'?'fd_next':'fd_best'):'';
+  const k=v=>v?t('fd_cnt',{k:nf(v)}):t('fd_none');
+  const sent=!B?t('fd_s1',{n:N,a:k(A.neg)}):A.neg+B.neg===0?t('fd_s0',{n:N,rot})+' '+t('fd_min',{a:money(A.min),b:money(B.min)}):t('fd_s',{n:N,a:k(A.neg),rot,b:k(B.neg)});
+  const nm=x=>'ABC'[S.indexOf(x.s)]+', '+t('role_'+x.s.role);
+  const aria=B?t('fd_aria',{n:N,a:nm(A),x:nf(A.neg),ma:money(A.mid),b:nm(B),y:nf(B.neg),mb:money(B.mid)}):t('fd_aria1',{n:N,a:nm(A),x:nf(A.neg),ma:money(A.mid)});
+  const leg=D.rows.map((x,i)=>`<li><i style="background:${FUT_C[i]}"></i><span><b>${'AB'[i]}: ${t('role_'+x.s.role)}</b> <span class="fr">${cap1(rotShort(x.s.r.seq))}</span><small>${t('fd_mid',{v:money(x.mid)})}</small></span></li>`).join('');
+  const fut=['2050','ssp245','ssp585'].includes(R.shift.mode)?' '+t('fd_cap_fut'):'';
+  return `<section class="card futc" id="futures" data-neg="${D.rows.map(x=>x.neg).join(',')}" data-sum="${D.rows.map(x=>x.c.reduce((a,b)=>a+b,0)).join(',')}">
+    <div class="futt"><h3>${t('fd_h',{n:N})}</h3><p class="fs">${sent}</p><ul class="fleg">${leg}</ul></div>
+    <div class="futg"><div class="fcv" role="img" aria-label="${aria.replace(/"/g,'')}"><canvas id="futChart" aria-hidden="true"></canvas></div>
+    <p class="fcap">${t(PRICE_MODE==='hist'?'fd_cap':'fd_cap_px',{y:climate?climate.years.length:40})}${fut}</p><p class="fcap">${t('fd_note')}</p></div></section>`;
+}
+function drawFut(S){
+  if(typeof Chart==='undefined'||!$('futChart')) return;
+  const D=futData(S); if(!D) return;
+  const ph=window.innerWidth<=820, lab=[...Array(D.nb)].map((_,i)=>D.b0+i*D.w);
+  // bars sit on a hidden category axis (one per bin); a linear axis over the same width carries the € ticks and the zero line
+  const zero={id:'zero',afterDatasetsDraw(c){ const ar=c.chartArea, px=c.scales.xv.getPixelForValue(0);
+    if(px<ar.left-1||px>ar.right+1) return; const g=c.ctx; g.save(); g.strokeStyle='#C41C06'; g.lineWidth=1.5; g.setLineDash([5,4]);
+    g.beginPath(); g.moveTo(px,ar.top); g.lineTo(px,ar.bottom); g.stroke(); g.setLineDash([]);
+    g.fillStyle='#C41C06'; g.font='600 11px Inter,system-ui,sans-serif'; const tx=t('fd_zero'), tw=g.measureText(tx).width;
+    g.textAlign=px+tw+8>ar.right?'right':'left'; g.fillText(tx,px+(g.textAlign==='left'?5:-5),ar.top+11); g.restore(); }};
+  const fmt=v=>(v<0?'−':'')+nf(Math.abs(v));
+  mkChart('futChart',{type:'bar',data:{labels:lab,datasets:D.rows.map((x,i)=>({label:'AB'[i]+': '+t('role_'+x.s.role),data:x.c,backgroundColor:FUT_C[i],borderWidth:0,barPercentage:1,categoryPercentage:.86}))},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:it=>{const a=lab[it[0].dataIndex]; return t('fd_bin',{a:fmt(a),b:fmt(a+D.w)});},
+        label:it=>`${it.dataset.label}: ${nf(it.raw)}`}}},
+      scales:{x:{display:false},
+        xv:{type:'linear',position:'bottom',min:D.b0,max:D.b0+D.nb*D.w,title:{display:true,text:t('fd_x'),font:{size:ph?11:12}},grid:{display:false},ticks:{font:{size:ph?10:11},maxRotation:0,maxTicksLimit:ph?5:8,includeBounds:false,callback:v=>fmt(v)}},
+        y:{title:{display:!ph,text:t('fd_y'),font:{size:12}},beginAtZero:true,ticks:{font:{size:ph?10:11},precision:0,maxTicksLimit:5},grid:{color:'rgba(12,18,51,.07)'}}}},
+    plugins:[zero]});
 }
 // v4: bare soil strip, two rows of twelve months: the farmer's rotation and the recommended one. Each cell shows in how many of the
 // rotation's years that month has a crop growing, the next crop sown, or bare soil (same colours as the calendar in the cards).
@@ -4557,6 +4637,9 @@ function printReport(){
   const rest=$('ansRest').innerHTML.replace(/<div class="acts">[\s\S]*?<\/div>/,'');
   $('report').innerHTML=`<h2>${t('rep_title')}</h2><p>${siteLabel()} (${site.lat.toFixed(2)}, ${site.lon.toFixed(2)}). ${$('fcScen').textContent}</p><div class="hero">${$('ansHero').innerHTML}</div>${rest}<p style="font-size:11px">${t('rep_foot')}</p>`;
   $('report').querySelectorAll('details').forEach(d=>d.open=true);
+  const fc=$('report').querySelector('#futChart'); if(fc){ let img=null; try{ if(charts.futChart) img=charts.futChart.toBase64Image(); }catch(e){}   // the canvas is not copied, so the chart goes in as a picture
+    const box=fc.parentElement; box.innerHTML=img?`<img src="${img}" alt="" style="width:100%;max-width:640px;height:auto">`:''; box.style.height='auto'; }
+  $('report').querySelectorAll('[id]').forEach(e=>{ if(e.id==='futures') e.removeAttribute('id'); });
   try{window.print();}catch(e){}
 }
 

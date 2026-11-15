@@ -32,6 +32,7 @@ Made by Eren Mutlu and Abdullah Dinç (team "Ground Control to Major TUM-ATO") a
 
 - **The answer in one sentence:** the best rotation for your priorities, its average profit in €/ha and how it compares with what you grow now.
 - **Three strategies:** A is what you grow now, B and C are the two alternatives that fit you best. Each card opens to show why it was chosen, the season calendar (which months the soil is covered or bare and when the crop was under stress), the evidence behind it, the benefits for the soil, what RotaSat does not know, and what to check locally.
+- **Profit in 1,000 futures:** under the cards, a bar chart counts the 1,000 simulated futures of your rotation (A) and the best fit (B) by their average yearly profit, with a line at zero, and one sentence says in how many futures each one loses money.
 - **Soil health scorecard:** organic carbon after 20 years (ICBM model), bare months and the heavy rain falling on bare soil (erosion risk), nitrogen balance, and water gap or irrigation, each on a red to green scale with the ideal band.
 - **Evidence section:** what changed at this field in 40 years of NASA weather, what the satellite saw on the field, and how the model did against real harvests.
 - **Words explained:** a glossary of farming and climate terms (including nitrogen-fixing, cover, deep-rooting and drought-tolerant crops) and of every abbreviation used.
@@ -101,7 +102,7 @@ Open `index.html` in a browser. It needs an internet connection for NASA POWER, 
 
 ## Testing
 
-The browser tests are in `v2/tests`. `docs/E2E_CASES.md` lists 58 user-level cases (E01 to E58); every automated check carries the ID of the case it covers, and `check_cases.js` fails if a case has no check. All tests run offline: `v2/tests/harness.js` answers every outside service from saved fixtures.
+The browser tests are in `v2/tests`. `docs/E2E_CASES.md` lists 59 user-level cases (E01 to E59); every automated check carries the ID of the case it covers, and `check_cases.js` fails if a case has no check. All tests run offline: `v2/tests/harness.js` answers every outside service from saved fixtures.
 
 Set these first:
 
