@@ -35,7 +35,12 @@ async function open(browser, vw, vh, opts = {}) {
       const q = new URL(u).searchParams; const k = nearest(+q.get('latitude'), +q.get('longitude'));
       return r.fulfill({ path: path.join(FX, `power_${k}.json`), contentType: 'application/json' }); }
     if (u.includes('rest.isric.org')) return r.fulfill({ contentType: 'application/json', body: SOIL });
-    if (u.includes('nominatim') && u.includes('/search')) return r.fulfill({ contentType: 'application/json', body: JSON.stringify([{ lat: '48.80', lon: '12.62', display_name: 'Straubing, Bayern, Deutschland' }]) });
+    if (u.includes('nominatim') && u.includes('/search')) { const q = (new URL(u).searchParams.get('q') || '').toLowerCase();   // a small fake of OpenStreetMap search
+      const all = [{ lat: '48.8819', lon: '12.5690', name: 'Straubing', display_name: 'Straubing, Niederbayern, Bayern, Deutschland', address: { county: 'Niederbayern', state: 'Bayern', country: 'Deutschland' } },
+        { lat: '48.9500', lon: '12.7000', name: 'Straubing-Bogen', display_name: 'Landkreis Straubing-Bogen, Bayern, Deutschland', address: { state: 'Bayern', country: 'Deutschland' } },
+        { lat: '41.1300', lon: '27.0900', name: 'Hayrabolu', display_name: 'Hayrabolu, Tekirdağ, Türkiye', address: { state: 'Tekirdağ', country: 'Türkiye' } }];
+      const hit = all.filter(x => x.display_name.toLowerCase().includes(q.split(',')[0].trim()));
+      return r.fulfill({ contentType: 'application/json', body: JSON.stringify(q.startsWith('straubing') && q.length > 9 && !hit.length ? [all[0]] : hit) }); }
     if (u.includes('nominatim')) return r.fulfill({ contentType: 'application/json', body: JSON.stringify({ address: { village: 'Testdorf', county: 'Testkreis' } }) });
     if (u.includes('arcgisonline') || u.includes('gibs.earthdata')) return r.fulfill({ body: png, contentType: 'image/png' });
     if (u.includes('fonts.g')) return r.fulfill({ body: '', contentType: 'text/css' });
