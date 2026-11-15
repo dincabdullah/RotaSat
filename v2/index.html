@@ -127,6 +127,45 @@ body[data-step="1"] #s1,body[data-step="2"] #s2,body[data-step="3"] #s3{display:
 .pickpop .leaflet-popup-content-wrapper{border-radius:16px}
 .pick{display:flex;flex-direction:column;gap:6px}.pick b{font-size:15px}.pick small{color:var(--mute)}
 .pick button{font-weight:700;font-size:14px;background:var(--lime);color:var(--navy);border:1px solid var(--navy);border-radius:12px;padding:9px 12px;cursor:pointer}
+/* import of a list of fields */
+.impbox{align-self:stretch;margin-top:10px;border:1.5px dashed #C9C5B5;border-radius:16px;background:rgba(255,255,255,.55);padding:6px 10px 7px}
+.impup{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:4px 2px;font-size:14.5px;font-weight:700;color:var(--navy);cursor:pointer;text-align:left}
+.impup svg{font-size:16px;flex:none;width:30px;height:30px;padding:7px;border-radius:9px;background:var(--lime);color:var(--navy)}
+.impup:hover span{text-decoration:underline}
+.impsub{margin:0 0 0 42px;font-size:12.5px;color:var(--mute);line-height:1.4}
+.imq{flex:1 1 100%;color:var(--ink2);font-weight:600}
+@media (min-width:821px) and (max-height:860px){.step h1{font-size:40px}.exl{margin-top:16px}.impbox{margin-top:8px}.lede{margin-top:10px;font-size:15px}.ex{gap:6px}.site{min-height:50px;padding:6px 12px}.site .dot{width:32px;height:32px}.ownf{margin-top:8px;padding:7px 12px}}
+.lnk{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--navy2);text-decoration:underline;cursor:pointer}
+.tpl{white-space:nowrap}
+body.dragf .impbox,body.dragf .impline{border-color:var(--navy2);background:#F4F7C8}
+.impline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:14px;padding:10px 12px;border:1.5px dashed #C9C5B5;border-radius:14px;font-size:13.5px;color:var(--mute)}
+.fprog{display:flex;align-items:center;gap:8px;margin:12px 0 0;font-size:14px;font-weight:600;color:var(--navy2)}
+.fprog .spin,.impst .spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(12,18,51,.18);border-top-color:var(--navy);animation:sp 1s linear infinite;flex:none}
+.ftab .fname{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.ftab .fname:hover{text-decoration-color:var(--navy)}
+.ftab small.fwarn{color:#8A5300}
+.ib{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;background:#E3F1E7;color:#14532F}
+.ib.warn{background:#FFF0C9;color:#6B4400}.ib.rej{background:#FFE3DD;color:#9A1605}
+.ftab .ib{margin-left:8px;vertical-align:1px}
+.impdlg{border:0;border-radius:22px;padding:0;width:min(980px,calc(100vw - 32px));max-height:calc(100vh - 48px);box-shadow:var(--s-sh2);color:var(--ink);background:#fff;display:none;flex-direction:column;overflow:hidden}
+.impdlg[open]{display:flex}
+.impdlg::backdrop{background:rgba(12,18,51,.5)}
+.imphd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px 6px}
+.imphd h2{font-size:21px;font-weight:800;letter-spacing:-.02em;margin:0}
+.imphd .x{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:#fff;display:grid;place-items:center;cursor:pointer;font-size:17px;color:var(--ink);flex:none}
+.impbody{padding:4px 22px 12px;overflow:auto;min-height:0}
+.impfile{margin:0;font-size:13.5px;color:var(--mute);overflow-wrap:anywhere}
+.impst{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;margin:14px 0 8px}
+.impbar{height:8px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-bottom:12px}.impbar i{display:block;height:100%;background:var(--navy2);border-radius:99px;transition:width .2s}
+.imperr{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:#FFF1EE;color:#9A1605;font-size:14px}
+.impsum .ib.zero{background:var(--bg2);color:var(--mute)}
+.impsum{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}.impsum .ib{font-size:13.5px;padding:5px 12px}
+.imptbl{margin-top:10px}
+.imptab{width:100%;border-collapse:collapse;font-size:14px}.imptab th{text-align:left;font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;padding:8px;border-bottom:1px solid var(--line)}
+.imptab td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}.imptab td small{display:block;font-size:12.5px;color:var(--mute);margin-top:3px;line-height:1.35}
+.imptab td:first-child{color:var(--mute);width:44px}.imptab .nw{white-space:nowrap}.imptab td.st{min-width:200px}.imptab td.st small.why{color:var(--ink2)}
+.imptab tr.rej td{background:#FFF8F6}.imptab tr.rej td:not(.st){color:var(--mute)}
+.impfoot{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;padding:14px 22px 18px;border-top:1px solid var(--line)}
 #fMsg .lcbox{max-width:560px;margin-top:4px}.lcact{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .pick button.sec{background:#fff;font-weight:600;border-color:var(--line2)}.pick button[aria-busy=true]{opacity:.7;cursor:progress}
 .lcq{display:flex;align-items:center;gap:7px}.lcq .spin{width:12px;height:12px;border-radius:50%;border:2px solid rgba(12,18,51,.18);border-top-color:var(--navy);animation:sp 1s linear infinite;flex:none}
@@ -509,6 +548,11 @@ h3.jh{margin:30px 0 0;font-size:20px}
   .cmp{min-width:0}.cmp thead{display:none}.cmp tr{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;border-top:1px solid var(--line);padding:12px 6px}.cmp td{border:0!important;padding:0;background:none!important}.cmp td:first-child{grid-column:1/-1}.cmp td::before{content:attr(data-l);display:block;font-size:12px;font-weight:400;color:var(--mute)}.cmp td:first-child::before{display:none}.cmp td.r{text-align:left}.cmp .bar i{display:none}tr.me{background:#F7F9D2}
   .chg{min-width:0}.chg thead{display:none}.chg tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px 8px;border-top:1px solid var(--line);padding:10px 0}.chg td{border:0!important;padding:0}.chg td:first-child,.chg td.m{grid-column:1/-1}.chg td.v::before,.chg td.d::before{content:attr(data-l);display:block;font-size:11px;font-weight:400;color:var(--mute)}
   .gfor{grid-template-columns:1fr}.gloss dl{grid-template-columns:1fr;gap:2px}.gloss dd{margin-bottom:10px}
+  .impdlg{width:calc(100vw - 16px);max-height:calc(100vh - 16px);border-radius:18px}.imphd{padding:14px 16px 4px}.impbody{padding:4px 16px 10px}.impfoot{padding:12px 16px 14px}.impfoot .btn-o{flex:1 1 auto;justify-content:center}
+  .imptab thead{display:none}.imptab tr{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;padding:10px 0;border-bottom:1px solid var(--line)}.imptab td{border:0!important;padding:0}.imptab td:first-child{grid-row:span 2;width:auto}.imptab td:nth-child(n+3){grid-column:2}.imptab td.st{min-width:0}
+  .imptab td[data-l]:nth-child(3)::before,.imptab td[data-l]:nth-child(4)::before,.imptab td[data-l]:nth-child(5)::before{content:attr(data-l) ": ";color:var(--mute);font-size:12.5px}
+  .impline .btn-o{flex:1 1 100%;justify-content:center}
+  .impbox{order:6;margin-top:0}
   .ftab{min-width:0}.ftab thead{display:none}.ftab tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;border-top:1px solid var(--line);padding:12px 0}.ftab td{border:0!important;padding:0}.ftab td:first-child,.ftab td.fact{grid-column:1/-1}.ftab td::before{content:attr(data-l);display:block;font-size:11px;color:var(--mute)}.ftab td:first-child::before{display:none}
   .wbar{position:fixed;left:0;right:0;bottom:0;background:rgba(244,242,234,.97);padding:0 14px;padding-bottom:env(safe-area-inset-bottom)}
   body{padding-bottom:var(--ft)}
@@ -559,6 +603,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
       <p class="lbl exl" data-i18n="ex_lbl"></p>
       <div id="sites" class="ex" role="group"></div>
       <p class="ownf" id="ownField" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span id="ownTxt"></span></p>
+      <div class="impbox" id="impBox"><button type="button" class="impup" data-imp><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg><span data-i18n="im_btn"></span></button><p class="impsub"><span class="tpl"><span data-i18n="im_tpl"></span>: <button type="button" class="lnk" data-tpl="xlsx">Excel</button> <span aria-hidden="true">·</span> <button type="button" class="lnk" data-tpl="csv">CSV</button></span></p></div>
     </div>
     <div class="mapwrap" id="mw">
       <div id="heroMap" role="application"></div>
@@ -767,6 +812,8 @@ h3.jh{margin:30px 0 0;font-size:20px}
               <button type="submit" class="go" data-i18n="fl_add"></button>
             </form>
             <div class="hint" id="fMsg" aria-live="polite"></div>
+            <div class="impline"><span class="imq" data-i18n="im_many"></span><button type="button" class="btn-o" id="fImp" data-imp><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg><span data-i18n="im_btn"></span></button><span class="tpl"><span data-i18n="im_tpl"></span>: <button type="button" class="lnk" data-tpl="xlsx">Excel</button> <span aria-hidden="true">·</span> <button type="button" class="lnk" data-tpl="csv">CSV</button></span></div>
+            <p class="fprog" id="fProg" role="status" hidden></p>
             <div class="tbl"><table class="ftab" id="fTable"></table></div>
             <p class="ftot" id="fTotal"></p>
             <div class="acts"><button type="button" class="btn-o pri" id="fCalc" data-i18n="fl_calc"></button><button type="button" class="btn-o" id="fLink" data-i18n="fl_link"></button><button type="button" class="btn-o" id="fCsv" data-i18n="fl_csv"></button></div>
@@ -849,6 +896,8 @@ h3.jh{margin:30px 0 0;font-size:20px}
   <div><b data-i18n="foot_note_h"></b><div data-i18n="foot_note"></div><div style="margin-top:8px" data-i18n="ai_note"></div></div>
 </div></footer>
 <div id="report"></div>
+<dialog class="impdlg" id="impDlg" aria-labelledby="impH"><div class="imphd"><h2 id="impH" data-i18n="im_title"></h2><button type="button" class="x" id="impX" data-i18n-al="im_cancel"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><div class="impbody" id="impBody"></div><div class="impfoot" id="impFoot"></div></dialog>
+<input type="file" id="impFile" accept=".csv,.txt,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden>
 
 <script>
 const SELF_SRC=document.currentScript?document.currentScript.textContent:'';   // v2: the model part of this script is reused inside a Web Worker
@@ -1444,6 +1493,43 @@ lc_src_o:"OpenStreetMap",
 lc_m_crop:"cropland",lc_m_grass:"grassland or shrubs, fine as pasture or once ploughed",lc_m_urban:"town or city",lc_m_water:"water",lc_m_forest:"forest",lc_m_wet:"wetland",lc_m_snow:"snow or ice",lc_m_barren:"bare land with few plants",
 lc_o_water:"a lake, river or reservoir",lc_o_sea:"no land mapped here, probably the sea",lc_o_bld:"buildings within 15 m of this spot",lc_o_town:"a built-up area (houses, industry, railway or a cemetery)",lc_o_farmyard:"a farmyard with buildings",lc_o_forest:"forest",lc_o_nat:"wetland, rock or sand",lc_o_park:"a park or sports ground",lc_o_farm:"farmland or grassland",lc_o_none:"no farmland or buildings mapped",
 lc_coarse:"MODIS sees squares of 500 m, so it cannot see single buildings. OpenStreetMap can.",
+im_btn:"Upload your fields (Excel or CSV)",
+im_many:"Many fields? Add them all with one file.",
+im_tpl:"Download template",
+im_title:"Import fields",
+im_reading:"Reading {f}",
+im_check:"Checking row {i} of {n}",
+im_geo_note:"Places are looked up one per second, as OpenStreetMap asks. Every spot is checked with NASA MODIS land cover and OpenStreetMap.",
+im_n_ok:"{n} fine",im_n_warn:"{n} with a warning",im_n_rej:"{n} rejected",
+im_th_row:"Row",im_th_name:"Field",im_th_where:"Where",im_th_ha:"Area",im_th_rot:"Rotation",im_th_st:"Check",
+im_ok:"Fine",im_warn_l:"Warning",im_rej_l:"Rejected",
+im_add:"Add {n} fields to My fields",im_add1:"Add 1 field to My fields",im_cancel:"Cancel",
+im_none:"No field in this file can be imported.",
+im_r_nocoord:"No coordinates and no place",
+im_r_badcoord:"Coordinates not valid",
+im_r_notfound:"Place not found: {p}",
+im_r_geofail:"The place search did not answer",
+im_r_dup:"Already in My fields",
+im_r_more:"Only the first {m} rows are read. {n} more rows were left out.",
+im_w_crop:"Crops not recognised: {c}",
+im_w_norot:"No known crop in the rotation, so {r} is used",
+im_n_defrot:"No rotation given, {r} is used",
+im_w_long:"Only the first 4 crops of the rotation are used",
+im_w_ha:"Area not valid, left empty",
+im_w_soc:"Soil carbon not valid, SoilGrids is used",
+im_w_clay:"Clay not valid, SoilGrids is used",
+im_auto:"Field {n}",
+im_n_auto:"No name, called {n}",
+im_err_file:"This file could not be read. Use a CSV or Excel file like the template.",
+im_err_head:"No column names found. The first row needs columns like name, lat, lon or place (see the template).",
+im_err_xlsx:"The Excel reader could not be loaded. Save the file as CSV and try again.",
+im_err_empty:"The file has no rows with fields.",
+im_prog:"Reading NASA data for field {i} of {n}",
+im_done:"{n} fields added from {f}.",
+im_badge:"Check",
+soil_file:"Soil carbon and clay from your file. SoilGrids fills in what the file leaves empty.",
+im_help:["How to fill in this list: one row per field, up to 50 fields.","name: the name of the field. If empty, the fields are called Field 1, Field 2 and so on.","lat, lon: the position in decimal degrees, for example 49.158 and 9.109. Or leave them empty and give a place.","place: the village or town of the field, if you have no coordinates.","area_ha: the area in hectares (optional).","rotation: the crops in order, separated by > or , or ; for example wheat > barley. English, Turkish or German names.","soc_g_kg, clay_pct: your soil test, organic carbon in g per kg and clay in percent (optional).","Every spot is checked with NASA MODIS land cover and OpenStreetMap. Known crops:"],
+im_tpl_rows:[["North field",49.158,9.109,"",12,"wheat > barley","",""],["Field by the village","","","Straubing",8.5,"rapeseed, wheat, barley",18,24],["Thrace field",41.195,27.106,"",20,"wheat; sunflower","",""]],
 wheel_hint:"Hold Ctrl (Cmd on a Mac) and scroll to zoom the map",
 panel_hide:"Show the whole map",
 panel_show:"Show the questions",
@@ -2036,6 +2122,43 @@ lc_src_o:"OpenStreetMap",
 lc_m_crop:"tarım arazisi",lc_m_grass:"çayır ya da çalılık; mera olarak ya da sürülünce uygun",lc_m_urban:"yerleşim yeri",lc_m_water:"su",lc_m_forest:"orman",lc_m_wet:"sulak alan",lc_m_snow:"kar ya da buz",lc_m_barren:"bitkisi az, çıplak arazi",
 lc_o_water:"göl, nehir ya da baraj gölü",lc_o_sea:"burada kara haritalanmamış, büyük olasılıkla deniz",lc_o_bld:"bu noktanın 15 m yakınında bina var",lc_o_town:"yerleşim alanı (ev, sanayi, demiryolu ya da mezarlık)",lc_o_farmyard:"binaları olan bir çiftlik avlusu",lc_o_forest:"orman",lc_o_nat:"sulak alan, kaya ya da kum",lc_o_park:"park ya da spor alanı",lc_o_farm:"tarım arazisi ya da çayır",lc_o_none:"tarla ya da bina haritalanmamış",
 lc_coarse:"MODIS 500 m'lik kareler görür, bu yüzden tek tek binaları göremez. OpenStreetMap görebilir.",
+im_btn:"Tarlalarını yükle (Excel ya da CSV)",
+im_many:"Çok tarlan mı var? Hepsini tek dosyayla ekle.",
+im_tpl:"Şablonu indir",
+im_title:"Tarlaları içe aktar",
+im_reading:"{f} okunuyor",
+im_check:"{n} satırdan {i}. satır kontrol ediliyor",
+im_geo_note:"OpenStreetMap'in istediği gibi yerler saniyede bir aranır. Her nokta NASA MODIS arazi örtüsü ve OpenStreetMap ile kontrol edilir.",
+im_n_ok:"{n} sorunsuz",im_n_warn:"{n} uyarılı",im_n_rej:"{n} reddedildi",
+im_th_row:"Satır",im_th_name:"Tarla",im_th_where:"Konum",im_th_ha:"Alan",im_th_rot:"Rotasyon",im_th_st:"Kontrol",
+im_ok:"Sorun yok",im_warn_l:"Uyarı",im_rej_l:"Reddedildi",
+im_add:"{n} tarlayı Tarlalarım'a ekle",im_add1:"1 tarlayı Tarlalarım'a ekle",im_cancel:"Vazgeç",
+im_none:"Bu dosyadaki hiçbir tarla eklenemiyor.",
+im_r_nocoord:"Koordinat da yer adı da yok",
+im_r_badcoord:"Koordinatlar geçerli değil",
+im_r_notfound:"Yer bulunamadı: {p}",
+im_r_geofail:"Yer araması yanıt vermedi",
+im_r_dup:"Zaten Tarlalarım'da var",
+im_r_more:"Yalnızca ilk {m} satır okunur. {n} satır daha dışarıda kaldı.",
+im_w_crop:"Tanınmayan ürünler: {c}",
+im_w_norot:"Rotasyonda bilinen bir ürün yok, {r} kullanılıyor",
+im_n_defrot:"Rotasyon verilmemiş, {r} kullanılıyor",
+im_w_long:"Rotasyonun yalnızca ilk 4 ürünü kullanılıyor",
+im_w_ha:"Alan geçerli değil, boş bırakıldı",
+im_w_soc:"Toprak karbonu geçerli değil, SoilGrids kullanılıyor",
+im_w_clay:"Kil oranı geçerli değil, SoilGrids kullanılıyor",
+im_auto:"Tarla {n}",
+im_n_auto:"Adı yoktu, {n} dendi",
+im_err_file:"Bu dosya okunamadı. Şablondaki gibi bir CSV ya da Excel dosyası kullan.",
+im_err_head:"Sütun adları bulunamadı. İlk satırda name, lat, lon ya da place gibi sütunlar olmalı (şablona bak).",
+im_err_xlsx:"Excel okuyucu yüklenemedi. Dosyayı CSV olarak kaydedip tekrar dene.",
+im_err_empty:"Dosyada tarla içeren satır yok.",
+im_prog:"{n} tarladan {i}. tarla için NASA verisi okunuyor",
+im_done:"{f} dosyasından {n} tarla eklendi.",
+im_badge:"Kontrol et",
+soil_file:"Toprak karbonu ve kil oranı dosyandan. Dosyada boş kalanı SoilGrids tamamlar.",
+im_help:["Bu liste nasıl doldurulur: her tarla için bir satır, en fazla 50 tarla.","name: tarlanın adı. Boşsa tarlalar Tarla 1, Tarla 2 diye adlandırılır.","lat, lon: ondalık derece olarak konum, örneğin 41.195 ve 27.106. Ya da boş bırakıp place sütununa yer adı yaz.","place: koordinatın yoksa tarlanın köyü ya da ilçesi.","area_ha: hektar olarak alan (isteğe bağlı).","rotation: sırasıyla ürünler; > , ya da ; ile ayır, örneğin buğday > ayçiçeği. Türkçe, İngilizce ya da Almanca adlar olabilir.","soc_g_kg, clay_pct: toprak analizin; kg başına g organik karbon ve yüzde kil (isteğe bağlı).","Her nokta NASA MODIS arazi örtüsü ve OpenStreetMap ile kontrol edilir. Bilinen ürünler:"],
+im_tpl_rows:[["Kuzey tarlası",41.195,27.106,"",12,"buğday > ayçiçeği","",""],["Köy tarlası","","","Hayrabolu",8.5,"buğday, nohut, arpa",14,30],["Bavyera tarlası",48.8,12.62,"",20,"kanola; buğday; arpa","",""]],
 wheel_hint:"Haritayı yakınlaştırmak için Ctrl tuşuna (Mac'te Cmd) basılı tutup kaydır",
 panel_hide:"Haritanın tamamını göster",
 panel_show:"Soruları göster",
@@ -2628,6 +2751,43 @@ lc_src_o:"OpenStreetMap",
 lc_m_crop:"Ackerland",lc_m_grass:"Grünland oder Gebüsch, passt als Weide oder nach Umbruch",lc_m_urban:"Siedlung oder Stadt",lc_m_water:"Wasser",lc_m_forest:"Wald",lc_m_wet:"Feuchtgebiet",lc_m_snow:"Schnee oder Eis",lc_m_barren:"kahles Land mit wenig Pflanzen",
 lc_o_water:"ein See, Fluss oder Stausee",lc_o_sea:"hier ist kein Land kartiert, wahrscheinlich das Meer",lc_o_bld:"Gebäude im Umkreis von 15 m",lc_o_town:"bebaute Fläche (Häuser, Gewerbe, Bahn oder Friedhof)",lc_o_farmyard:"eine Hofstelle mit Gebäuden",lc_o_forest:"Wald",lc_o_nat:"Feuchtgebiet, Fels oder Sand",lc_o_park:"ein Park oder Sportplatz",lc_o_farm:"Acker- oder Grünland",lc_o_none:"weder Acker noch Gebäude kartiert",
 lc_coarse:"MODIS sieht Quadrate von 500 m und erkennt daher keine einzelnen Gebäude. OpenStreetMap schon.",
+im_btn:"Ihre Felder hochladen (Excel oder CSV)",
+im_many:"Viele Felder? Alle auf einmal mit einer Datei.",
+im_tpl:"Vorlage herunterladen",
+im_title:"Felder importieren",
+im_reading:"{f} wird gelesen",
+im_check:"Zeile {i} von {n} wird geprüft",
+im_geo_note:"Orte werden einer pro Sekunde gesucht, wie OpenStreetMap es verlangt. Jeder Punkt wird mit NASA MODIS Landbedeckung und OpenStreetMap geprüft.",
+im_n_ok:"{n} in Ordnung",im_n_warn:"{n} mit Hinweis",im_n_rej:"{n} abgelehnt",
+im_th_row:"Zeile",im_th_name:"Feld",im_th_where:"Ort",im_th_ha:"Fläche",im_th_rot:"Fruchtfolge",im_th_st:"Prüfung",
+im_ok:"In Ordnung",im_warn_l:"Hinweis",im_rej_l:"Abgelehnt",
+im_add:"{n} Felder zu Meine Felder hinzufügen",im_add1:"1 Feld zu Meine Felder hinzufügen",im_cancel:"Abbrechen",
+im_none:"Kein Feld aus dieser Datei kann übernommen werden.",
+im_r_nocoord:"Weder Koordinaten noch Ort",
+im_r_badcoord:"Koordinaten ungültig",
+im_r_notfound:"Ort nicht gefunden: {p}",
+im_r_geofail:"Die Ortssuche hat nicht geantwortet",
+im_r_dup:"Schon in Meine Felder",
+im_r_more:"Nur die ersten {m} Zeilen werden gelesen. {n} weitere Zeilen wurden weggelassen.",
+im_w_crop:"Kulturen nicht erkannt: {c}",
+im_w_norot:"Keine bekannte Kultur in der Fruchtfolge, daher wird {r} verwendet",
+im_n_defrot:"Keine Fruchtfolge angegeben, {r} wird verwendet",
+im_w_long:"Nur die ersten 4 Kulturen der Fruchtfolge werden verwendet",
+im_w_ha:"Fläche ungültig, leer gelassen",
+im_w_soc:"Bodenkohlenstoff ungültig, SoilGrids wird verwendet",
+im_w_clay:"Tongehalt ungültig, SoilGrids wird verwendet",
+im_auto:"Feld {n}",
+im_n_auto:"Ohne Namen, heißt jetzt {n}",
+im_err_file:"Diese Datei konnte nicht gelesen werden. Bitte eine CSV- oder Excel-Datei wie die Vorlage verwenden.",
+im_err_head:"Keine Spaltennamen gefunden. Die erste Zeile braucht Spalten wie name, lat, lon oder place (siehe Vorlage).",
+im_err_xlsx:"Das Excel-Lesemodul konnte nicht geladen werden. Speichern Sie die Datei als CSV und versuchen Sie es erneut.",
+im_err_empty:"Die Datei enthält keine Zeilen mit Feldern.",
+im_prog:"NASA-Daten für Feld {i} von {n} werden gelesen",
+im_done:"{n} Felder aus {f} hinzugefügt.",
+im_badge:"Prüfen",
+soil_file:"Bodenkohlenstoff und Ton aus Ihrer Datei. Was dort fehlt, ergänzt SoilGrids.",
+im_help:["So füllen Sie die Liste aus: eine Zeile pro Feld, bis zu 50 Felder.","name: der Name des Feldes. Leer heißen die Felder Feld 1, Feld 2 und so weiter.","lat, lon: die Lage in Dezimalgrad, zum Beispiel 49.158 und 9.109. Oder leer lassen und einen Ort angeben.","place: Dorf oder Stadt des Feldes, wenn Sie keine Koordinaten haben.","area_ha: die Fläche in Hektar (freiwillig).","rotation: die Kulturen der Reihe nach, getrennt durch > oder , oder ; zum Beispiel Weizen > Gerste. Deutsche, englische oder türkische Namen.","soc_g_kg, clay_pct: Ihre Bodenprobe, organischer Kohlenstoff in g je kg und Ton in Prozent (freiwillig).","Jeder Punkt wird mit NASA MODIS Landbedeckung und OpenStreetMap geprüft. Bekannte Kulturen:"],
+im_tpl_rows:[["Nordschlag",49.158,9.109,"",12,"Weizen > Gerste","",""],["Am Ort","","","Straubing",8.5,"Raps; Weizen; Gerste",18,24],["Hangfeld",48.8,12.62,"",20,"Zuckerrübe, Weizen, Gerste","",""]],
 wheel_hint:"Strg (auf dem Mac Cmd) gedrückt halten und scrollen, um die Karte zu zoomen",
 panel_hide:"Ganze Karte zeigen",
 panel_show:"Fragen zeigen",
@@ -3504,7 +3664,7 @@ async function loadSoil(lat,lon,my){
     $('soc').value=sg.soc.toFixed(1); $('clay').value=sg.clay.toFixed(0);
     note.dataset.k=sg.moved?'soil_near':'soil_ok'; note.dataset.p=sg.moved?`${sg.used[0]}, ${sg.used[1]}`:'';
   }catch(e){ note.dataset.k='soil_fail'; }
-  if(LINK_SOIL){ $('soc').value=LINK_SOIL.soc; $('clay').value=LINK_SOIL.clay; note.dataset.k='soil_link'; LINK_SOIL=null; }
+  if(LINK_SOIL){ $('soc').value=LINK_SOIL.soc; $('clay').value=LINK_SOIL.clay; note.dataset.k=LINK_SOIL.k||'soil_link'; LINK_SOIL=null; }
   note.textContent=t(note.dataset.k,{p:note.dataset.p||''});
 }
 
@@ -4134,7 +4294,9 @@ function landAsk(r){ return new Promise(res=>{ const m=$('fMsg');
   $('lcFAny').onclick=()=>{ m.textContent=''; res(true); }; }); }
 async function computeField(f){
   const c=await fetchClimate(f.lat,f.lon);
-  if(!f.soil){try{const sg=await fetchSoil(f.lat,f.lon); f.soil=sg?{soc:+sg.soc.toFixed(1),clay:Math.round(sg.clay)}:{soc:15,clay:25,typ:true};}catch(e){f.soil={soc:15,clay:25,typ:true};} saveFields();}
+  if(!f.soil&&f.soilIn&&f.soilIn.soc!=null&&f.soilIn.clay!=null) f.soil={soc:f.soilIn.soc,clay:f.soilIn.clay,file:true};   // soil test from an imported file
+  if(!f.soil){try{const sg=await fetchSoil(f.lat,f.lon); f.soil=sg?{soc:+sg.soc.toFixed(1),clay:Math.round(sg.clay)}:{soc:15,clay:25,typ:true};}catch(e){f.soil={soc:15,clay:25,typ:true};}
+    if(f.soilIn){ if(f.soilIn.soc!=null) f.soil.soc=f.soilIn.soc; if(f.soilIn.clay!=null) f.soil.clay=f.soilIn.clay; f.soil.file=true; } saveFields();}
   {
     const ys=c.years, B=ys.slice(-10), avg=a=>a.reduce((x,y)=>x+y,0)/a.length, med=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length) return null;const h=v.length>>1;return v.length%2?v[h]:(v[h-1]+v[h])/2;};
     const cm=cmip(f.lat,f.lon,'ssp245');
@@ -4146,11 +4308,15 @@ async function computeField(f){
       best:{seq:rk.best.seq,mean:rk.best.mean,dC:rk.best.cEnd-f.soil.soc*C_PER_GKG}, me:{mean:rk.me.mean,k:rk.sorted.indexOf(rk.me)+1,n:rk.sorted.length}};
   }
 }
+// "Reading NASA data for field 3 of 12" while more than one field is waiting
+function fProgress(i,n){ const e=$('fProg'); if(!e) return; e.hidden=!(n>1); e.dataset.i=i; e.dataset.n=n; if(n>1) e.innerHTML=`<span class="spin"></span>${t('im_prog',{i,n})}`; }
 async function computeFields(all){
   if(fBusy) return; fBusy=true;
-  try{for(const f of FIELDS){ if(!all&&FRES[f.id]) continue; FRES[f.id]={wait:true}; renderFields();
+  let i=0;
+  try{for(const f of FIELDS){ if(!all&&FRES[f.id]) continue; FRES[f.id]={wait:true}; i++;
+      const n=i+FIELDS.slice(FIELDS.indexOf(f)+1).filter(x=>all||!FRES[x.id]).length; fProgress(i,n); renderFields();
       try{await computeField(f);}catch(e){FRES[f.id]={err:true};} renderFields(); }}
-  finally{fBusy=false;}
+  finally{fBusy=false; fProgress(0,0);}
 }
 function renderFields(){
   const tb=$('fTable'); if(!tb) return;
@@ -4160,7 +4326,7 @@ function renderFields(){
   const H=['fl_th_field','fl_th_clim','fl_th_change','fl_th_2050','fl_th_best','fl_th_plan',''].map(k=>k?t(k):'');
   tb.innerHTML=`<thead><tr>${H.map((h,i)=>`<th${i?'':' style="padding-left:0"'}>${h}</th>`).join('')}</tr></thead><tbody>`+FIELDS.map(f=>{
     const R=FRES[f.id]||{}, pre=SITES.find(x=>x.key===f.key);
-    const head=`<td style="padding-left:0"><b>${f.name.replace(/</g,'&lt;')}</b><small>${(f.place||'').replace(/</g,'&lt;')}${f.ha?`, ${f1(f.ha)} ha`:''}</small><small>${rotShort(f.rot||['wheat'])}</small></td>`;
+    const head=`<td style="padding-left:0"><button type="button" class="fname" data-open="${f.id}">${escH(f.name)}</button>${f.warn?`<span class="ib warn" title="${escH(f.warn)}">${t('im_badge')}</span>`:''}<small>${escH([f.place||`${(+f.lat).toFixed(3)}, ${(+f.lon).toFixed(3)}`,f.ha?f1(f.ha)+' ha':''].filter(Boolean).join(', '))}</small><small>${rotShort(f.rot&&f.rot.length?f.rot:['wheat'])}</small>${f.warn?`<small class="fwarn">${escH(f.warn)}</small>`:''}</td>`;
     let mid;
     if(R.wait||!R.t&&!R.err) mid=`<td class="wait" colspan="5">${t('fl_wait')}</td>`;
     else if(R.err) mid=`<td class="wait" colspan="5">${t('err_power')}</td>`;
@@ -4173,6 +4339,7 @@ function renderFields(){
     return `<tr>${head}${mid}${acts}</tr>`;}).join('')+'</tbody>';
   tb.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{const f=FIELDS.find(x=>x.id===b.dataset.open); if(!f) return;
     if(f.rot&&f.rot.length){ for(let i=0;i<4;i++) $('slot'+i).value=f.rot[i]||''; rotTouched=true; rotCustom=false; }
+    if(f.soilIn&&f.soil) LINK_SOIL={soc:f.soil.soc,clay:f.soil.clay,k:'soil_file'};   // the soil test of an imported field wins over SoilGrids
     chooseSite(SITES.find(x=>x.key===f.key)||{key:'custom',lat:f.lat,lon:f.lon}); go(3);});
   tb.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{FIELDS=FIELDS.filter(x=>x.id!==b.dataset.del); saveFields(); renderFields();});
   const done=FIELDS.filter(f=>FRES[f.id]&&FRES[f.id].best), ha=FIELDS.reduce((a,f)=>a+(f.ha||0),0);
@@ -4202,6 +4369,187 @@ function importFieldsFromHash(){
     saveFields(); return n||-1;
   }catch(e){return 0;}
 }
+
+// ===================== Import a list of fields from Excel or CSV =====================
+// Columns (any order, names in EN/TR/DE): name, lat, lon, place, area_ha, rotation, soc_g_kg, clay_pct. The CSV of My fields reads back in.
+const IMP_MAX=50, XLSX_URL='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+const IMP_COLS={name:['name','fieldname','field','ad','isim','tarla','tarlaadi','feld','feldname','schlag','bezeichnung'],
+  lat:['lat','latitude','breite','breitengrad','enlem'], lon:['lon','lng','long','longitude','lange','laenge','langengrad','laengengrad','boylam'],
+  place:['place','village','town','location','yer','koy','ilce','yeradi','ort','gemeinde','dorf'],
+  ha:['areaha','area','ha','hectares','hectare','alan','alanha','flache','flacheha','flaeche','flaecheha','grosse'],
+  rot:['rotation','plannedrotation','croprotation','crops','rotasyon','ekimnobeti','urunler','fruchtfolge','kulturen'],
+  soc:['socgkg','soc','organiccarbon','corg','organikkarbon','bodenkohlenstoff'], clay:['claypct','clay','kil','kilorani','ton','tongehalt']};
+// crop names in English, Turkish and German (folded: lower case, no accents) to the model's crops
+const CROP_SYN={wheat:'wheat,winter wheat,soft wheat,durum,durum wheat,bugday,kislik bugday,makarnalik bugday,weizen,winterweizen,hartweizen',
+  barley:'barley,winter barley,spring barley,arpa,kislik arpa,gerste,wintergerste,sommergerste,braugerste',
+  maize:'maize,corn,grain maize,grain corn,misir,dane misir,mais,kornermais,koernermais,silomais',
+  sunflower:'sunflower,sunflowers,aycicegi,aycicek,sonnenblume,sonnenblumen',
+  chickpea:'chickpea,chickpeas,chick pea,nohut,kichererbse,kichererbsen',
+  vetch:'vetch,clover,vetch or clover,vetch clover,cover crop,fig,ucgul,fig veya ucgul,yonca,wicke,klee,wicke oder klee,kleegras,zwischenfrucht',
+  fallow:'fallow,nadas,brache',
+  sugarbeet:'sugar beet,sugarbeet,sugar beets,beet,seker pancari,sekerpancari,pancar,zuckerrube,zuckerruebe,zuckerruben,rube',
+  rapeseed:'rapeseed,rape,oilseed rape,canola,winter rapeseed,winter oilseed rape,kanola,kolza,raps,winterraps',
+  lentil:'lentil,lentils,mercimek,linse,linsen',
+  soybean:'soybean,soybeans,soya,soy,soya bean,soja,sojabohne,sojabohnen'};
+const CROP_IX=(()=>{ const m={}; for(const k in CROP_SYN){ CROP_SYN[k].split(',').forEach(n=>m[n]=k); m[k]=k; m[fold(CROPS[k].name)]=k; }
+  for(const l in I18N) for(const k in CROPS){ const n=I18N[l]['crop_'+k]; if(n) m[fold(n)]=k; } return m; })();
+const cropKey=s=>{ const f=fold(s).replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim(); return CROP_IX[f]||CROP_IX[f.replace(/s$/,'')]||null; };
+function parseRotation(v){
+  const out=[], bad=[];
+  String(v==null?'':v).split(/\s*(?:>|→|,|;|\|)\s*/).map(s=>s.trim()).filter(Boolean).forEach(tok=>{
+    const k=cropKey(tok); if(k){ out.push(k); return; }
+    const parts=tok.split(/\s*-\s*/).filter(Boolean), ks=parts.map(cropKey);   // the My fields CSV writes wheat-barley
+    if(parts.length>1&&ks.every(Boolean)) out.push(...ks); else bad.push(tok); });
+  return {rot:out, bad};
+}
+// numbers with a decimal point or a decimal comma (and thousands marks when both appear)
+function impNum(v){ if(typeof v==='number') return isFinite(v)?v:NaN; let s=String(v==null?'':v).trim().replace(/\s| /g,''); if(!s) return NaN;
+  if(s.includes(',')&&s.includes('.')) s=s.lastIndexOf(',')>s.lastIndexOf('.')?s.replace(/\./g,'').replace(',','.'):s.replace(/,/g,'');
+  else if(s.includes(',')) s=s.replace(',','.');
+  return /^[-+]?\d*\.?\d+(e[-+]?\d+)?$/i.test(s)?+s:NaN; }
+// CSV: separator , ; or tab found from the first line, quotes, UTF-8 byte order mark
+function readCSV(txt){
+  txt=txt.replace(/^﻿/,''); const first=txt.split(/\r?\n/).find(l=>l.trim())||'';
+  const cnt=c=>{ let n=0,q=false; for(const ch of first){ if(ch==='"') q=!q; else if(!q&&ch===c) n++; } return n; };
+  const sep=[';','\t',','].reduce((a,c)=>cnt(c)>cnt(a)?c:a,',');
+  const rows=[]; let row=[], f='', q=false;
+  for(let i=0;i<txt.length;i++){ const ch=txt[i];
+    if(q){ if(ch==='"'){ if(txt[i+1]==='"'){f+='"';i++;} else q=false; } else f+=ch; }
+    else if(ch==='"') q=true; else if(ch===sep){ row.push(f); f=''; }
+    else if(ch==='\n'||ch==='\r'){ if(ch==='\r'&&txt[i+1]==='\n') i++; row.push(f); rows.push(row); row=[]; f=''; } else f+=ch; }
+  if(f||row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+let xlsxP=null;
+function loadXLSX(){ if(window.XLSX) return Promise.resolve(window.XLSX);
+  return xlsxP||(xlsxP=new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=XLSX_URL; s.async=true;
+    s.onload=()=>window.XLSX?res(window.XLSX):rej(new Error('xlsx')); s.onerror=()=>{ xlsxP=null; s.remove(); rej(new Error('xlsx')); }; document.head.appendChild(s); })); }
+async function readImportFile(file){
+  if(/\.(xlsx|xlsm|xls|ods)$/i.test(file.name)){
+    let X; try{ X=await loadXLSX(); }catch(e){ throw new Error('im_err_xlsx'); }
+    try{ const wb=X.read(await file.arrayBuffer(),{type:'array'});
+      const sheets=wb.SheetNames.map(n=>X.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:''}));
+      return sheets.find(r=>impHeader(r))||sheets[0]||[]; }catch(e){ throw new Error('im_err_file'); }
+  }
+  return readCSV(await file.text());
+}
+// the header row: the first of the top five rows in which at least two column names are known
+function impHeader(rows){
+  for(let i=0;i<Math.min(5,rows.length);i++){ const map={}; let n=0;
+    (rows[i]||[]).forEach((h,j)=>{ const f=fold(h).replace(/[^a-z0-9]/g,''); for(const k in IMP_COLS) if(map[k]==null&&IMP_COLS[k].includes(f)){ map[k]=j; n++; break; } });
+    if(n>=2&&(map.lat!=null&&map.lon!=null||map.place!=null)) return {i,map}; }
+  return null;
+}
+const geoWait={t:0};
+async function geocode(q){
+  const k='p:'+fold(q); if(IMP.geo[k]!==undefined) return IMP.geo[k];
+  const w=geoWait.t+1000-Date.now(); if(w>0) await new Promise(r=>setTimeout(r,w));   // Nominatim: at most one request a second
+  geoWait.t=Date.now();
+  const r=await fetchT('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&accept-language='+LANG+'&q='+encodeURIComponent(q),8000);
+  const j=await r.json(); const v=j&&j.length?{lat:+(+j[0].lat).toFixed(3),lon:+(+j[0].lon).toFixed(3),place:String(j[0].display_name||q).split(',').slice(0,2).join(',').trim()}:null;
+  IMP.geo[k]=v; return v;
+}
+const IMP={rows:[],file:'',geo:{},run:0};
+// reads every row: name, position (or place), area, rotation, soil, then the land check; nothing is added before the user confirms
+async function checkImport(rows,file){
+  const run=++IMP.run, H=impHeader(rows); IMP.file=file; IMP.rows=[]; IMP.more=0;
+  if(!H) throw new Error('im_err_head');
+  const get=(r,k)=>H.map[k]==null?'':r[H.map[k]];
+  let data=rows.slice(H.i+1).map((r,j)=>({r,line:H.i+j+2})).filter(x=>x.r.some(v=>String(v).trim()!==''));
+  if(!data.length) throw new Error('im_err_empty');
+  IMP.more=Math.max(0,data.length-IMP_MAX); data=data.slice(0,IMP_MAX);
+  const recs=data.map(({r,line},j)=>{
+    const o={line,warn:[],info:[],rej:null,name:String(get(r,'name')).trim().slice(0,40)};
+    if(!o.name){ o.name=t('im_auto',{n:j+1}); o.info.push(t('im_n_auto',{n:o.name})); }
+    const la=impNum(get(r,'lat')), lo=impNum(get(r,'lon')); o.q=String(get(r,'place')).trim();
+    if(isFinite(la)&&isFinite(lo)){ if(Math.abs(la)<=90&&Math.abs(lo)<=180&&(la||lo)){ o.lat=+la.toFixed(4); o.lon=+lo.toFixed(4); } else if(!o.q) o.rej=t('im_r_badcoord'); }
+    else if(!o.q) o.rej=String(get(r,'lat')).trim()||String(get(r,'lon')).trim()?t('im_r_badcoord'):t('im_r_nocoord');
+    const hs=String(get(r,'ha')).trim(), ha=impNum(hs); if(hs){ if(ha>0&&ha<1e6) o.ha=+ha.toFixed(2); else o.warn.push(t('im_w_ha')); }
+    const rs=String(get(r,'rot')).trim(), pr=parseRotation(rs);
+    if(pr.bad.length) o.warn.push(t('im_w_crop',{c:pr.bad.join(', ')}));
+    if(pr.rot.length>4) o.warn.push(t('im_w_long'));
+    o.rot=pr.rot.slice(0,4);
+    if(!o.rot.length){ o.rot=userSeq(); (rs?o.warn:o.info).push(t(rs?'im_w_norot':'im_n_defrot',{r:rotShort(o.rot)})); }
+    const ss=String(get(r,'soc')).trim(), sc=impNum(ss), cs=String(get(r,'clay')).trim(), cl=impNum(cs);
+    if(ss){ if(sc>0&&sc<=300) o.soc=+sc.toFixed(1); else o.warn.push(t('im_w_soc')); }
+    if(cs){ if(cl>0&&cl<=100) o.clay=Math.round(cl); else o.warn.push(t('im_w_clay')); }
+    return o; });
+  IMP.rows=recs; let done=0;
+  const prog=()=>{ if(run===IMP.run) impProgress(done,recs.length); }; prog();
+  // places first, one per second; the land checks run two at a time beside them
+  const land=[];
+  for(const o of recs){
+    if(run!==IMP.run) return null;
+    if(!o.rej&&o.lat==null&&o.q){ try{ const g=await geocode(o.q); if(g){ o.lat=g.lat; o.lon=g.lon; o.place=g.place; } else o.rej=t('im_r_notfound',{p:o.q}); }catch(e){ o.rej=t('im_r_geofail'); } }
+    else if(o.q) o.place=o.q;
+    if(!o.rej&&FIELDS.some(f=>f.name===o.name&&Math.abs(f.lat-o.lat)<0.0006&&Math.abs(f.lon-o.lon)<0.0006)) o.rej=t('im_r_dup');
+    if(o.rej){ done++; prog(); continue; }
+    land.push(o);
+  }
+  let next=0;
+  await Promise.all([0,1].map(async()=>{ while(next<land.length){ const o=land[next++]; const lr=await landCheck(o.lat,o.lon); o.land=lr;
+    if(lr.lv===2) o.rej=landText(lr); else if(lr.lv===1) o.warn.push(landText(lr)); done++; prog(); } }));
+  return run===IMP.run?recs:null;
+}
+// ---------- the import dialog: progress, then the summary with one line per row
+function impOpen(){ const d=$('impDlg'); if(!d.open){ try{ d.showModal(); }catch(e){ d.setAttribute('open',''); } } }
+function impClose(){ IMP.run++; const d=$('impDlg'); try{ d.close(); }catch(e){ d.removeAttribute('open'); } }
+function impProgress(i,n){
+  $('impBody').innerHTML=`<p class="impfile">${escH(t('im_reading',{f:IMP.file}))}</p><p class="impst" role="status">${t('im_check',{i:Math.min(n,i+1),n})}</p><div class="impbar"><i style="width:${n?Math.round(100*i/n):0}%"></i></div><p class="small">${t('im_geo_note')}</p>`;
+  $('impFoot').innerHTML=`<button type="button" class="btn-o" id="impCancel">${t('im_cancel')}</button>`; $('impCancel').onclick=impClose;
+}
+function impError(k){ impOpen(); $('impBody').innerHTML=`<p class="impfile">${escH(t('im_reading',{f:IMP.file}))}</p><p class="imperr" role="alert">${t(k)}</p>`;
+  $('impFoot').innerHTML=`<button type="button" class="btn-o pri" id="impCancel">${t('im_cancel')}</button>`; $('impCancel').onclick=impClose; }
+function impSummary(){
+  const R=IMP.rows, okR=R.filter(o=>!o.rej&&!o.warn.length), wR=R.filter(o=>!o.rej&&o.warn.length), xR=R.filter(o=>o.rej), n=okR.length+wR.length;
+  const where=o=>o.lat!=null?`<span class="nw">${(+o.lat).toFixed(3)}, ${(+o.lon).toFixed(3)}</span>${o.place?`<small>${escH(o.place)}</small>`:''}`:escH(o.q||'');
+  const row=o=>{ const st=o.rej?'rej':o.warn.length?'warn':'ok';
+    return `<tr class="${st}"><td data-l="${t('im_th_row')}">${o.line}</td><td data-l="${t('im_th_name')}"><b>${escH(o.name)}</b></td><td data-l="${t('im_th_where')}">${where(o)}</td>`+
+      `<td data-l="${t('im_th_ha')}" class="nw">${o.ha?f1(o.ha)+' ha':'–'}</td><td data-l="${t('im_th_rot')}">${escH(cap1(rotShort(o.rot)))}</td>`+
+      `<td class="st" data-l="${t('im_th_st')}"><span class="ib ${st}">${st==='rej'?t('im_rej_l'):st==='warn'?t('im_warn_l'):t('im_ok')}</span>${(o.rej?[o.rej]:o.warn).map(w=>`<small class="why">${escH(w)}</small>`).join('')}${o.rej?'':o.info.map(w=>`<small>${escH(w)}</small>`).join('')}</td></tr>`; };
+  $('impBody').innerHTML=`<p class="impfile">${escH(IMP.file)}</p><div class="impsum"><span class="ib ok${okR.length?'':' zero'}">${t('im_n_ok',{n:okR.length})}</span><span class="ib warn${wR.length?'':' zero'}">${t('im_n_warn',{n:wR.length})}</span><span class="ib rej${xR.length?'':' zero'}">${t('im_n_rej',{n:xR.length})}</span></div>`+
+    (IMP.more?`<p class="imperr">${t('im_r_more',{m:IMP_MAX,n:IMP.more})}</p>`:'')+(n?'':`<p class="imperr">${t('im_none')}</p>`)+
+    `<div class="imptbl"><table class="imptab"><thead><tr>${['im_th_row','im_th_name','im_th_where','im_th_ha','im_th_rot','im_th_st'].map(k=>`<th>${t(k)}</th>`).join('')}</tr></thead><tbody>${[...xR,...wR,...okR].sort((a,b)=>a.line-b.line).map(row).join('')}</tbody></table></div>`;
+  $('impFoot').innerHTML=`<button type="button" class="btn-o" id="impCancel">${t('im_cancel')}</button><button type="button" class="btn-o pri" id="impOk"${n?'':' disabled'}>${n===1?t('im_add1'):t('im_add',{n})}</button>`;
+  $('impCancel').onclick=impClose; $('impOk').onclick=impConfirm; $('impOk').focus();
+}
+async function startImport(file){
+  if(!file) return; IMP.file=file.name; IMP.rows=[]; impOpen(); impProgress(0,0);
+  let rows; try{ rows=await readImportFile(file); }catch(e){ impError(/^im_/.test(e.message)?e.message:'im_err_file'); return; }
+  try{ const r=await checkImport(rows,file.name); if(r) impSummary(); }catch(e){ impError(/^im_/.test(e.message)?e.message:'im_err_file'); }
+}
+function impConfirm(){
+  const add=IMP.rows.filter(o=>!o.rej); impClose(); if(!add.length) return;
+  for(const o of add){ const f={id:fid(),name:o.name,lat:o.lat,lon:o.lon,ha:o.ha||0,place:o.place||'',key:'',rot:o.rot,src:'file'};
+    if(o.soc!=null||o.clay!=null) f.soilIn={soc:o.soc,clay:o.clay};
+    if(o.warn.length) f.warn=o.warn.join('. ');
+    FIELDS.push(f); }
+  saveFields(); go(3,{noScroll:true}); openSect('fields'); renderFields();
+  $('fMsg').textContent=t('im_done',{n:add.length,f:IMP.file}); setTimeout(()=>document.getElementById('fields').scrollIntoView({behavior:'smooth'}),200);
+  computeFields();
+}
+// the template: Excel (with a second sheet that explains the columns) or CSV in the separator of the language
+const IMP_HEAD=['name','lat','lon','place','area_ha','rotation','soc_g_kg','clay_pct'];
+async function downloadTemplate(kind){
+  const rows=[IMP_HEAD,...t('im_tpl_rows')];
+  if(kind==='xlsx'){ try{ const X=await loadXLSX(), wb=X.utils.book_new(), ws=X.utils.aoa_to_sheet(rows);
+      ws['!cols']=[22,10,10,16,9,30,10,10].map(w=>({wch:w})); X.utils.book_append_sheet(wb,ws,'fields');
+      const help=[...t('im_help').map(s=>[s]),[Object.keys(CROPS).map(cropName).join(', ')]], hs=X.utils.aoa_to_sheet(help); hs['!cols']=[{wch:110}];
+      X.utils.book_append_sheet(wb,hs,'help'); X.writeFile(wb,'rotasat-fields-template.xlsx'); return 'rotasat-fields-template.xlsx'; }
+    catch(e){ /* the Excel writer did not load: give the CSV instead */ } }
+  return csvFile(rows,'rotasat-fields-template.csv');
+}
+$('impFile').addEventListener('change',e=>{ const f=e.target.files[0]; e.target.value=''; startImport(f); });
+document.querySelectorAll('[data-imp]').forEach(b=>b.onclick=()=>$('impFile').click());
+document.querySelectorAll('[data-tpl]').forEach(b=>b.onclick=()=>downloadTemplate(b.dataset.tpl));
+$('impDlg').addEventListener('cancel',e=>{ e.preventDefault(); impClose(); });
+// drag and drop a file anywhere on the page (the upload boxes light up)
+let dragN=0; const hasFiles=e=>e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files');
+document.addEventListener('dragenter',e=>{ if(!hasFiles(e)) return; dragN++; document.body.classList.add('dragf'); });
+document.addEventListener('dragleave',e=>{ if(!hasFiles(e)) return; if(--dragN<=0){ dragN=0; document.body.classList.remove('dragf'); } });
+document.addEventListener('dragover',e=>{ if(hasFiles(e)){ e.preventDefault(); e.dataTransfer.dropEffect='copy'; } });
+document.addEventListener('drop',e=>{ if(!hasFiles(e)) return; e.preventDefault(); dragN=0; document.body.classList.remove('dragf'); const f=e.dataTransfer.files[0]; if(f) startImport(f); });
+$('impX').onclick=impClose;
 
 // ===================== Report =====================
 function printReport(){
