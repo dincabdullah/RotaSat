@@ -91,8 +91,10 @@ RotaSat is a decision-support tool for farmers. A farmer picks a field on a sate
 
 - NASA POWER is a grid of about 50 by 60 km; local rain can differ, especially in dry basins (station rain option).
 - The model is a planning aid: no pests, diseases, weeds, machinery or contracts. Germany's back-test correlation for 2005 to 2023 is weak (0.23).
-- Prices: EU 2025 farm-gate prices and German costs for every field, including Thrace. Chickpea, lentil and vetch have no world price series.
-- Yields in Thrace look low with a typical loam (region page); the live app uses SoilGrids clay, which raises water storage on Thrace's clay soils.
+- Prices: EU 2025 farm-gate prices and German costs for every field, including Thrace. Chickpea, lentil and vetch have no world price series; in the historical price mode they move with the mean of the grain, maize and oilseed indices.
+- Yields in Thrace are low (wheat about 4 t/ha against 4.5 to 5.5 in Tekirdağ statistics, sunflower about 1.1 against 2.3 to 2.6): every field uses the German crop calendar, so wheat is still counted in July and its June heat days, and sunflower roots stop at 1.2 m. Moving the wheat calendar one month earlier would lift Thrace wheat from 4 to 7.5 t/ha, so a monthly calendar is too coarse to fix this honestly.
+- No catch crops: the winter before a spring crop (soybean, maize, sunflower, sugar beet) counts as bare soil.
+- No cool-season limit for soybean and maize: soybean in the Börde (2.8 t/ha) is above the Saxony-Anhalt mean of 2.6 t/ha (2024).
 - The calculation runs on the main thread: about 1 s on a laptop, several seconds on slow phones.
 - Satellite history and region pages exist only for the four example fields.
 - 2050 projections cover 34 to 60° N and 10° W to 45° E.

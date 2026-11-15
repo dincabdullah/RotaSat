@@ -747,8 +747,11 @@ const irrCost=diesel=>1.2*diesel+0.8;              // EUR per mm and ha: ~1.2 l 
 const dieselFromBrent=b=>0.84+0.0058*b;            // EUR/l farm diesel excl. VAT: taxes, CO2 price and margins + crude cost (Brent, US$/bbl)
 const DIESEL_2025=1.30;                            // crop costs above include fuel at this price; it is swapped for the scenario price
 let BRENT=95, DIESEL=dieselFromBrent(BRENT), PRICE_MODE='hist';
-// world price group of each crop; legumes have no world series and keep today's price
+// world price group of each crop. Chickpea, lentil and vetch have no world series: they move with the mean of the
+// grain, maize and oilseed indices of the same year. Fix: they used to keep today's price in every simulated year, while the
+// other crops drew real prices 2000 to 2025 that average 1.2 to 1.4 times today's, so they earned about 25 % too little in comparison.
 const PGROUP={wheat:'g',barley:'g',maize:'m',sunflower:'o',rapeseed:'o',soybean:'o',sugarbeet:'s'};
+const pxMul=(key,px)=>PGROUP[key]?px[PGROUP[key]]:(px.g+px.m+px.o)/3;
 const PMEAN={}; ['g','m','o','s','u','b'].forEach(k=>PMEAN[k]=PRICES[k].reduce((a,b)=>a+b)/PRICES[k].length);
 function pxFixed(){return {g:1,m:1,o:1,s:1,n:N_PRICE,d:DIESEL};}
 function pxYear(i){ // the inflation-adjusted prices of one real year 2000-2025 (crop prices relative to 2025, urea relative to 2024, Brent in 2025 US$)
@@ -763,6 +766,7 @@ const C_PER_GKG=4.05;                             // t C/ha per g/kg SOC (0–30
 const YEARS=20, RUNS=1000;
 const MODEL={ptq:false, wet:true, frost:true};    // components selected on 1985–2004 data only, tested on 2005–2023 (see Validation)
 const MDAYS=[31,28.25,31,30,31,30,31,31,30,31,30,31];
+const WB_STEPS=3;                                 // soil-water steps per month (about 10 days; 3, 6 and 15 steps give yields within 0.1 t/ha)
 
 
 // Aggregate daily data to months: mean T, Tmax, Tmin, rain sum, and daily Tmax list (for heat-stress days)
@@ -855,9 +859,14 @@ function weatherFor0(y, shift){
 }
 
 // ===================== Simulation =====================
+// Plant-available water (field capacity minus wilting point), mm per m of soil, from clay: midpoints of FAO-56 Table 19
+// (sand 80, loamy sand 90, sandy loam 130, loam and silt loam 155 to 160, clay loam and clay 155 to 160 mm/m).
+// Fix: the earlier line 60 + 2.2 x clay gave 113 mm/m for a loam with 24 % clay, below the FAO-56 range for loam (130 to 180).
+const AWC_PTS=[[3,80],[6,90],[12,130],[20,155],[40,160]];
+function awcClay(cl){ const P=AWC_PTS; if(!(cl>P[0][0])) return P[0][1]; for(let i=1;i<P.length;i++){ const [x1,y1]=P[i], [x0,y0]=P[i-1]; if(cl<=x1) return y0+(y1-y0)*(cl-x0)/(x1-x0); } return P[P.length-1][1]; }
 // opts.validation: wheat every year, no rotation/N/soil effects (for back-testing against statistics)
 function simulate(seq, yearList, soil, shift, opts={}){
-  const aw = 60 + 2.2*soil.clay;                         // plant-available water, mm per m of soil
+  const aw = awcClay(soil.clay);                         // plant-available water, mm per m of soil
   let C = soil.soc*C_PER_GKG;                            // total topsoil C stock, t C/ha
   // ICBM initialised in steady state with a conventional cereal rotation (input I_REF) under today's climate:
   // the site-specific old-pool decay rate ko is solved so that today's measured SOC is the equilibrium.
@@ -867,54 +876,70 @@ function simulate(seq, yearList, soil, shift, opts={}){
   const ko = ICBM.h*I_REF/(rRef*O);
   let N = 40, credit=0, S = aw*1.0, prev=null, prev2=null;
   // v2: the rotation is assumed to have run before year 1 (steady state), so breaks count from the first season
-  const last={}, nq=seq.length, cal=opts.cal;
-  if(!opts.validation){ for(let j=1;j<=Math.max(nq,6);j++){const k=seq[((-j%nq)+nq)%nq]; if(last[k]==null) last[k]=-j;} prev=seq[(nq-1)%nq]; prev2=seq[((nq-2)%nq+nq)%nq]; }
+  // opts.off: the rotation year the run starts in. Fix: every run used to start with the first crop, so in 20 years a 3-year rotation
+  // grew its first two crops 7 times and the third only 6 times; monteCarlo now starts the runs evenly in every rotation year.
+  const last={}, nq=seq.length, cal=opts.cal, off=opts.off||0, md=x=>((x%nq)+nq)%nq;
+  if(!opts.validation){ for(let j=1;j<=Math.max(nq,6);j++){const k=seq[md(off-j)]; if(last[k]==null) last[k]=-j;} prev=seq[md(off-1)]; prev2=seq[md(off-2)]; }
   const recs=[];
   for(let i=0;i<yearList.length;i++){
-    const key=seq[i%seq.length], c=CROPS[key], nx=CROPS[seq[(i+1)%seq.length]];
+    const qi=md(i+off), key=seq[qi], c=CROPS[key], nx=CROPS[seq[md(qi+1)]];
     const w=weatherFor(yearList[i],shift);
     const socg=(Y+O)/C_PER_GKG, awNow=aw*(1+0.02*(socg-15)); // more organic matter holds more water
     let sumETc=0,sumETa=0, bareWinter=false, bare=0, ero=0, irr=0, gap=0, qLeft=shift.irr||0;
-    // ---- monthly soil-water balance (FAO-56 single crop coefficient) ----
+    // ---- soil-water balance (FAO-56 single crop coefficient), each month in WB_STEPS steps of about 10 days ----
+    // Fix: with one step a month, Ks was read at the start of the month and the crop could use more water than the soil
+    // and the month's rain held (up to 100 mm a year in Thrace). FAO-56 (ch. 8) updates Ks as the root zone dries.
     for(let m=0;m<12;m++){
       const crop = m<9 ? c : nx;
       const kc = m<9 ? c.kc[m] : nx.autumn;
       const TAW = awNow*(kc>0?crop.root:0.4);             // bare soil: only upper layer evaporates
       const TAWstore = awNow*Math.max(c.root,nx.root);    // water stored in the profile
       S=Math.min(S,TAWstore);
-      const Peff=0.85*w.p[m];
-      let ETa;
+      const Pst=0.85*w.p[m]/WB_STEPS, E0=w.et0[m]/WB_STEPS;
       if(kc>0){
-        const inSeason=m<9&&c.season.includes(m+1);
-        if(inSeason&&qLeft>0){                             // irrigate up to the stress threshold, within the yearly amount
-          const RAW0=crop.p*TAW, net=Math.max(0,(TAW-RAW0)-Math.min(S,TAW)), gross=Math.min(qLeft,net/IRR_EFF);
-          S=Math.min(TAWstore,S+gross*IRR_EFF); qLeft-=gross; irr+=gross;
+        const inSeason=m<9&&c.season.includes(m+1), RAW=crop.p*TAW;
+        let eC=0,eA=0;
+        for(let k=0;k<WB_STEPS;k++){
+          if(inSeason&&qLeft>0){                           // irrigate up to the stress threshold, within the yearly amount
+            const net=Math.max(0,(TAW-RAW)-Math.min(S,TAW)), gross=Math.min(qLeft,net/IRR_EFF);
+            S=Math.min(TAWstore,S+gross*IRR_EFF); qLeft-=gross; irr+=gross;
+          }
+          const ETc=kc*E0, avail=Math.min(S,TAW);
+          const Ks= avail>=TAW-RAW ? 1 : Math.max(0,avail/(TAW-RAW));
+          const ETa=Math.min(ETc*Ks, avail+Pst);           // never more than the root zone and the rain hold
+          eC+=ETc; eA+=ETa;
+          S=Math.max(0,Math.min(TAWstore,S+Pst-ETa));
         }
-        const ETc=kc*w.et0[m], RAW=crop.p*TAW, avail=Math.min(S,TAW);
-        const Ks= avail>=TAW-RAW ? 1 : Math.max(0,avail/(TAW-RAW));
-        ETa=ETc*Ks;
-        if(inSeason){sumETc+=ETc; sumETa+=ETa; gap+=ETc-ETa; if(cal&&Ks<0.5) cal.dry[i%nq][m]++;}
+        if(inSeason){sumETc+=eC; sumETa+=eA; gap+=eC-eA; if(cal&&eA<0.5*eC) cal.dry[qi][m]++;}
       }else{
-        ETa=0.25*w.et0[m]*Math.min(1,S/40);              // bare-soil evaporation, slows as surface dries
+        for(let k=0;k<WB_STEPS;k++){
+          const ETa=Math.min(S+Pst,0.25*E0*Math.min(1,S/40));   // bare-soil evaporation, slows as surface dries
+          S=Math.max(0,Math.min(TAWstore,S+Pst-ETa));
+        }
         if(m>=9||m<=1) bareWinter=true;
         bare++; ero+=w.pe[m];                              // heavy rain (days >= 12.7 mm) falling on bare soil
       }
-      S=Math.max(0,Math.min(TAWstore,S+Peff-ETa));
     }
     // ---- yield ----
     let Wf=1,Hf=1,Nf=1,Of=1,Rf=1,factor=0,fert=0,hot=0;
     if(key!=='fallow'){
       Wf=Math.max(0,1-c.ky*(1-(sumETc>0?sumETa/sumETc:1)));           // FAO-33
-      for(const hm of c.heatM){let h=0; for(const v of w.txd[hm-1]) if(v+w.dTm[hm-1]>c.heatT) h++; hot+=h; if(cal&&h>=3) cal.hot[i%nq][hm-1]++;}
+      for(const hm of c.heatM){let h=0; for(const v of w.txd[hm-1]) if(v+w.dTm[hm-1]>c.heatT) h++; hot+=h; if(cal&&h>=3) cal.hot[qi][hm-1]++;}
       Hf=Math.max(0.4,1-c.heatL*hot);
       if(!opts.validation){
         const need=c.nT*attainable(key,soil,shift.irr||0);   // fertilise for the yield this field reaches with the chosen irrigation
-        fert=Math.max(0,FERT_SHARE*need-0.6*credit);
-        Nf=need?Math.min(1,0.55+0.45*(N+fert)/need):1;
+        // Fix: grain legumes fix their own N and get no mineral N (German fertiliser ordinance DüV 2017, Annex 4: N need 0 for grain legumes);
+        // they were fertilised with 85 % of 8 kg N per t, about 20 kg N/ha, and their yield depended on soil N.
+        const leg=c.fam==='legume';
+        fert=leg?0:Math.max(0,FERT_SHARE*need-0.6*credit);
+        Nf=(need&&!leg)?Math.min(1,0.55+0.45*(N+fert)/need):1;
         Of=0.85+0.15*Math.min(1,socg/20);
         // v2: break since the same crop was last grown (v1: a flat loss only when it followed itself directly)
         Rf*=breakFactor(c, last[key]==null?99:i-last[key]);
-        if(prev&&prev!==key&&CROPS[prev].fam===c.fam&&c.fam!=='none') Rf*=0.93;
+        // a different crop of the same family before: shared diseases (take-all and eyespot in small grains, Sclerotinia in oilseeds,
+        // Ascochyta and root rots in legumes). Fix: maize is not a host of take-all or eyespot, so maize after wheat or barley no longer
+        // loses 7 % (wheat or barley after maize still does: Fusarium head blight and DON from maize residue).
+        if(prev&&prev!==key&&CROPS[prev].fam===c.fam&&c.fam!=='none'&&key!=='maize') Rf*=0.93;
         if(prev===key&&prev2===key) Rf*=0.95;
         if(prev&&['legume','oil','root'].includes(CROPS[prev].fam)&&c.fam==='cereal') Rf*=1.05;   // break crop before a cereal (take-all, grass weeds)
         else if(prev&&CROPS[prev].fam==='legume'&&c.fam!=='legume') Rf*=1.03;
@@ -924,16 +949,16 @@ function simulate(seq, yearList, soil, shift, opts={}){
       if(v.ptq&&c.gf){let q=0,qc=0;for(const gm of c.gf){const rs=w.rs?.[gm-1],rc=climate.clim.rs[gm-1];if(rs!=null&&rc!=null){q+=rs/Math.max(1,w.t[gm-1]-4.5);qc+=rc/Math.max(1,climate.clim.t[gm-1]-4.5);}}
         if(qc>0) Pf=Math.min(1.2,Math.max(0.8,Math.sqrt(q/qc)));}
       // excess rain around harvest (lodging, sprouting, disease): penalty above 1.5x the site's normal
-      if(v.wet&&c.wetM&&c.wetM.length){const r=c.wetM.reduce((a,m)=>a+w.p[m-1],0)/Math.max(1,c.wetM.reduce((a,m)=>a+climate.clim.p[m-1],0));if(r>1.5){Xf=Math.max(0.85,1-0.1*(r-1.5)); if(cal) for(const m of c.wetM) cal.wet[i%nq][m-1]++;}}
+      if(v.wet&&c.wetM&&c.wetM.length){const r=c.wetM.reduce((a,m)=>a+w.p[m-1],0)/Math.max(1,c.wetM.reduce((a,m)=>a+climate.clim.p[m-1],0));if(r>1.5){Xf=Math.max(0.85,1-0.1*(r-1.5)); if(cal) for(const m of c.wetM) cal.wet[qi][m-1]++;}}
       // winterkill of autumn-sown cereals: Jan/Feb mean Tmin below −7 °C (selected on training period)
-      let Ff=1; if(v.frost&&c.winter){for(const m of [0,1]){Ff*=1-0.04*Math.max(0,-w.tn[m]-7); if(cal&&w.tn[m]<-7) cal.frost[i%nq][m]++;} Ff=Math.max(0.8,Ff);}
+      let Ff=1; if(v.frost&&c.winter){for(const m of [0,1]){Ff*=1-0.04*Math.max(0,-w.tn[m]-7); if(cal&&w.tn[m]<-7) cal.frost[qi][m]++;} Ff=Math.max(0.8,Ff);}
       factor=Math.min(1.2,Wf*Hf*Nf*Of*Rf*Pf*Xf*Ff);
     }
     const yieldT=c.ym*factor;
     const px=(opts.px&&opts.px[i])||pxFixed(), fuelBase=(c.fuel||0)*DIESEL_2025;
     const cost=(key==='fallow'||opts.validation)?c.cost:(c.cost-fuelBase)*(0.45+0.55*Math.min(1,attainable(key,soil)/c.ym))+fuelBase; // non-fuel inputs scale with the site's yield level
-    const price=(key==='vetch'&&!FORAGE)?0:c.price*(PGROUP[key]?px[PGROUP[key]]:1);
-    if(cal) cal.n[i%nq]++;
+    const price=(key==='vetch'&&!FORAGE)?0:c.price*pxMul(key,px);
+    if(cal) cal.n[qi]++;
     const margin=yieldT*price-(cost-fuelBase+(c.fuel||0)*px.d)-fert*px.n-irr*irrCost(px.d);
     // ---- nitrogen carry-over ----
     const nSur=fert+c.nFix-c.nT*yieldT;                     // field N balance, kg N/ha (inputs minus removal in the harvest)
@@ -944,7 +969,7 @@ function simulate(seq, yearList, soil, shift, opts={}){
     const Ynew=Y*Math.exp(-a)+inp*(1-Math.exp(-a))/a;
     O=O*Math.exp(-ko*r)+ICBM.h*(Y+inp-Ynew)-(bareWinter?0.1:0);  // erosion loss on bare winter soil
     Y=Ynew;
-    recs.push({year:yearList[i],crop:key,factor,yieldT,margin,fert,Wf,Hf,Nf,hot,C:Y+O,socg:(Y+O)/C_PER_GKG,bare,ero,nSur,nFix:c.nFix,irr,gap});
+    recs.push({year:yearList[i],crop:key,factor,yieldT,margin,fert,Wf,Hf,Nf,Rf,eta:sumETa,hot,C:Y+O,socg:(Y+O)/C_PER_GKG,bare,ero,nSur,nFix:c.nFix,irr,gap});
     prev2=prev; prev=key; last[key]=i;
   }
   return recs;
@@ -974,7 +999,7 @@ function monteCarlo(seq, soil, shift, seed){
     const yl=Array.from({length:YEARS},()=>ys[Math.floor(rr()*ys.length)]);
     const sh=shift.models?{...shift,cm:shift.models[k%shift.models.length]}:shift;
     const px=PRICE_MODE==='hist'?yl.map(()=>pxYear(Math.floor(rr()*PRICES.years.length))):null;
-    const recs=simulate(seq,yl,soil,sh,{px:px||Array(YEARS).fill(pxScenario(PRICE_MODE)),cal});
+    const recs=simulate(seq,yl,soil,sh,{px:px||Array(YEARS).fill(pxScenario(PRICE_MODE)),cal,off:k%seq.length});
     recs.forEach((x,i)=>{
       cPaths[i].push(x.C); margins.push(x.margin); ferts.push(x.fert);
       bare+=x.bare; ero+=x.ero; nSur+=x.nSur; nFix+=x.nFix; irr+=x.irr; gap+=x.gap; nr++;
@@ -3040,7 +3065,9 @@ function pickStrategies(R){
   const alt=sorted.find(r=>r!==me); if(!alt) return out;
   out.push({r:alt,role:sorted[0]===me?'next':'best'});
   const rest=sorted.filter(r=>r!==me&&r!==alt); if(!rest.length) return out;
-  const sw=r=>0.65*r.health+0.35*r.sWater, pos=rest.filter(r=>r.mean>0);
+  // Fix: the soil and water score now carries the same crop-break factor as the fit, so a monoculture with a too short break
+  // (e.g. wheat every year, pest level 2) is no longer offered as the option that is kindest to the soil.
+  const sw=r=>(0.65*r.health+0.35*r.sWater)*Math.max(0.5,1-1.2*r.pest.loss), pos=rest.filter(r=>r.mean>0);
   const soil=[...(pos.length?pos:rest)].sort((a,b)=>sw(b)-sw(a))[0], inc=[...rest].sort((a,b)=>b.mean-a.mean)[0];
   if(sw(soil)>sw(alt)+0.02) out.push({r:soil,role:'soil'});
   else if(inc.mean>alt.mean+20) out.push({r:inc,role:'income'});
