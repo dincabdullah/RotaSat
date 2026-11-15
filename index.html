@@ -7,7 +7,7 @@
 <meta name="ai-assistance" content="Code, design and text written with help from Claude (Anthropic). Disclosed for NASA Space Apps 2026.">
 <title>RotaSat, crop rotation planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Sans:wght@900&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3CclipPath id=%22lgc%22%3E%3Ccircle cx=%2220%22 cy=%2220%22 r=%2212.5%22/%3E%3C/clipPath%3E%3Cg clip-path=%22url%28%23lgc%29%22%3E%3Crect x=%226%22 y=%226%22 width=%2228%22 height=%2228%22 fill=%22%230050D8%22/%3E%3Cpath d=%22M4 34 Q14 20 18 4 L23 4 Q19 21 9 36Z%22 fill=%22%232491FF%22/%3E%3Cpath d=%22M9 36 Q19 21 23 4 L28 4 Q24 22 14 37Z%22 fill=%22%23E7F434%22/%3E%3Cpath d=%22M19 37 Q28 23 32 6 L36 6 L36 37Z%22 fill=%22%231B2B85%22/%3E%3C/g%3E%3Cpath d=%22M34.6 13.5 A16 16 0 1 1 26.5 5.4%22 fill=%22none%22 stroke=%22%23E7F434%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M24.2 2.2 L26.5 5.4 L22.5 5.8%22 fill=%22none%22 stroke=%22%23E7F434%22 stroke-width=%222.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3Cg transform=%22rotate%2845 31.6 8.4%29%22%3E%3Crect x=%2229.9%22 y=%226.7%22 width=%223.4%22 height=%223.4%22 rx=%22.4%22 fill=%22%23fff%22/%3E%3Crect x=%2225.6%22 y=%227.6%22 width=%223.6%22 height=%221.6%22 fill=%22%23fff%22/%3E%3Crect x=%2234%22 y=%227.6%22 width=%223.6%22 height=%221.6%22 fill=%22%23fff%22/%3E%3C/g%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -33,28 +33,32 @@ svg.i{width:1em;height:1em;flex:none;stroke:currentColor;fill:none;stroke-width:
 .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]{display:none!important}
 /* ---------- header ---------- */
-.hdr{height:var(--hd);flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 24px;gap:16px;position:relative;z-index:40}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em;text-decoration:none;color:var(--ink);justify-self:start}
-.brand .lg{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--navy);flex:none}.brand .lg svg{width:40px;height:40px}
+.hdr{height:var(--hd);flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 24px;gap:16px;position:relative;z-index:40;background:#151622}
+.hdr :focus-visible{outline-color:var(--lime)}
+/* the RotaSat logo as it was before the three-step flow: round striped mark, orbit arc, satellite, name and the small line */
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;justify-self:start}
+.brand .lg{display:block;width:44px;height:44px;flex:none}.brand .lg svg{display:block;width:44px;height:44px}
+.lw{display:flex;flex-direction:column;line-height:1}.lw b{font-family:'Fira Sans',Inter,sans-serif;font-size:25px;font-weight:900;letter-spacing:-.01em;color:#fff}.lw small{font-size:9.5px;letter-spacing:.2em;color:#aeb4cf;margin-top:4px;font-weight:600;white-space:nowrap}
 .stepper{display:flex;align-items:center;gap:6px;list-style:none;padding:0;margin:0}
-.stepper button{white-space:nowrap;display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;font-size:14px;font-weight:600;color:var(--mute);background:none;border:0;cursor:pointer;min-height:40px}
-.stepper button:hover{color:var(--ink)}
-.stepper .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:#E6E3D8;color:#4A4F6B}
+.stepper button{white-space:nowrap;display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;font-size:14px;font-weight:600;color:#AEB4CF;background:none;border:0;cursor:pointer;min-height:40px}
+.stepper button:hover{color:#fff}
+.stepper .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:rgba(255,255,255,.12);color:#fff}
 .stepper .n svg{display:none;font-size:15px;stroke-width:3}
 .stepper li.cur button{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(12,18,51,.12)}
 .stepper li.cur .n{background:var(--navy);color:var(--lime)}
 .stepper li.done .n{background:var(--lime);color:var(--navy)}
 .stepper li.done .n span{display:none}.stepper li.done .n svg{display:block}
-.stepper li.done button{color:var(--ink)}
-.stepper .sep{width:28px;height:2px;border-radius:1px;background:#DDD9CC}
+.stepper li.done button{color:#fff}
+.stepper .sep{width:28px;height:2px;border-radius:1px;background:rgba(255,255,255,.18)}
 .hright{justify-self:end;display:flex;align-items:center;gap:18px}
 .hlinks{display:flex;gap:16px;font-size:14px;font-weight:600}
-.hlinks a{color:var(--ink2);text-decoration:none;white-space:nowrap}.hlinks a:hover{color:var(--navy2);text-decoration:underline}
+.hlinks a{color:#E3E5F0;text-decoration:none;white-space:nowrap}.hlinks a:hover{color:var(--lime);text-decoration:underline}
 .seg{display:inline-flex;padding:3px;border-radius:12px;background:#ECEAE1;gap:2px;max-width:100%}
 .seg button{padding:8px 14px;border-radius:9px;font-size:14px;font-weight:600;color:#4A4F6B;white-space:nowrap;flex:1;background:none;border:0;cursor:pointer;min-height:38px}
 .seg button:hover{color:var(--ink)}
 .seg button[aria-pressed=true]{background:var(--navy);color:#fff}
 .langs button{padding:6px 10px;font-size:13px;min-height:34px}
+.hdr .seg{background:rgba(255,255,255,.1)}.hdr .seg button{color:#CFD3E6}.hdr .seg button:hover{color:#fff}.hdr .seg button[aria-pressed=true]{background:#fff;color:var(--navy)}
 /* ---------- steps ---------- */
 main{flex:1 0 auto;display:flex;flex-direction:column;padding:8px 24px 28px}
 .step{display:none;width:100%;max-width:1320px;margin:0 auto}
@@ -72,9 +76,11 @@ body[data-step="1"] #s1,body[data-step="2"] #s2,body[data-step="3"] #s3{display:
 .small{font-size:14px;color:var(--mute)}
 .bad{color:var(--orange)!important}
 /* step 1 */
-#s1{grid-template-columns:372px minmax(0,1fr);gap:28px;height:calc(100vh - var(--hd) - var(--ft) - 36px);min-height:600px}
+#s1{grid-template-columns:clamp(360px,23vw,560px) minmax(0,1fr);gap:clamp(28px,2.4vw,64px);height:calc(100vh - var(--hd) - var(--ft) - 36px);min-height:600px;max-width:min(2400px,100%)}
+/* the intro and the example fields stay together; spare height goes above and below the group, a little more below */
 .side{display:flex;flex-direction:column;padding:16px 0 4px;min-height:0}
-.exl{margin-top:auto}
+.side::before,.side::after{content:"";flex:0 1 auto;min-height:0}.side::before{flex-grow:2}.side::after{flex-grow:3}
+.exl{margin-top:30px}
 .ex{display:grid;gap:8px}
 .site{display:flex;align-items:center;gap:12px;text-align:left;padding:11px 14px;border-radius:16px;background:#fff;border:1px solid var(--line);cursor:pointer;width:100%;color:var(--ink);min-height:62px}
 .site:hover{border-color:#C9C5B5}
@@ -213,6 +219,7 @@ details.fold2[open]>summary{margin-bottom:12px}
 .btn.p:disabled{opacity:.55;cursor:wait}
 .btn.g{background:#fff;border:1px solid var(--line);color:var(--ink)}
 .btn-o{font-size:14.5px;font-weight:600;background:#fff;color:var(--ink);border:1px solid var(--line2);border-radius:12px;padding:10px 16px;min-height:44px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn-o:disabled{opacity:.5;cursor:not-allowed}
 .btn-o:hover{border-color:var(--navy)}
 .btn-o.pri{background:var(--navy);color:#fff;border-color:var(--navy)}
 .btn-o svg{font-size:16px}
@@ -418,6 +425,14 @@ h3.jh{margin:30px 0 0;font-size:20px}
 .bpill.off{opacity:.45}
 .bpill .ld{width:12px;height:12px;border-radius:50%;border:2px solid #ccc;border-top-color:var(--navy2);animation:sp 1s linear infinite;flex:none}
 .wbar .sp{flex:1}
+.savewrap{position:relative;display:flex}
+.savemenu{position:absolute;right:0;bottom:calc(100% + 10px);width:340px;max-width:calc(100vw - 28px);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--s-sh2);padding:8px;z-index:1300}
+.savemenu .smh{margin:4px 10px 6px;font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
+.savemenu button{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;padding:10px;border-radius:12px;background:none;border:0;cursor:pointer;color:var(--ink)}
+.savemenu button:hover,.savemenu button:focus-visible{background:var(--s-hover)}
+.savemenu button svg{font-size:20px;color:var(--navy2);margin-top:1px}
+.savemenu b{display:block;font-size:14.5px;font-weight:700}.savemenu small{display:block;font-size:12.5px;color:var(--mute);line-height:1.35;margin-top:2px}
+.savemenu .smdone{margin:2px 10px 4px;font-size:12.5px;color:var(--green);font-weight:600}.savemenu .smdone:empty{display:none}
 .foot{background:var(--navy);color:#C3C7DC;flex:none}
 .foot .fw{max-width:1320px;margin:0 auto;padding:32px 24px 40px;display:flex;flex-wrap:wrap;gap:16px 48px;font-size:14px;line-height:1.6}
 .foot .fw>div{flex:1 1 260px}.foot b{color:#fff}
@@ -425,7 +440,15 @@ h3.jh{margin:30px 0 0;font-size:20px}
 #report{display:none}
 @media print{body>*:not(#report){display:none!important}#report{display:block;padding:24px;font-size:13px;color:#000}#report table{font-size:12px}#report .terms,#report .tchips,#report .acts{display:none}#report .strat{break-inside:avoid;border:1px solid #ccc;border-radius:10px;padding:10px;margin:8px 0}#report details>*{display:block}#report .hero{background:#fff;border:2px solid #000;min-height:0}#report .hero .big{font-size:48px}}
 /* ---------- narrower screens ---------- */
+@media (min-width:1700px){
+  .step{max-width:1560px}
+  .step h1{font-size:54px}.lede{font-size:17.5px;max-width:520px}
+  .site{min-height:72px;padding:13px 16px}.site b{font-size:16px}.site .d{font-size:13.5px}
+  .exl{margin-top:36px}
+}
+@media (min-width:2200px){.step{max-width:1800px}.step h1{font-size:60px}}
 @media (max-width:1240px){.hlinks{display:none}}
+@media (max-width:1000px){.lw small{display:none}}
 @media (max-width:1100px){
   #s1{grid-template-columns:320px minmax(0,1fr)}.step h1{font-size:38px}.bpill.c3{display:none}
   .hero{grid-column:1/-1}.fieldcard{grid-column:1/-1;flex-direction:row}#miniMap{min-height:190px;flex:1 1 50%}.fmeta{flex:1 1 50%}
@@ -442,7 +465,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
   :root{--hd:58px;--ft:70px}
   body{display:block}
   .hdr{padding:0 14px;grid-template-columns:auto 1fr auto;gap:8px}
-  .brand>span:not(.lg){display:none}.brand .lg{width:40px;height:40px;border-radius:12px}.brand .lg svg{width:36px;height:36px}
+  .brand>span:not(.lg){display:none}.brand .lg,.brand .lg svg{width:40px;height:40px}
   .stepper{justify-self:center;gap:4px}.stepper .sep{width:10px}.stepper button{padding:4px;font-size:13.5px;min-height:36px}.stepper li:not(.cur) .t{display:none}.stepper li.cur button{padding-right:12px}
   .stepper .n{width:26px;height:26px}
   .langs button{padding:5px 7px;min-height:32px;font-size:12.5px}
@@ -450,7 +473,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
   .step h1{font-size:30px;margin-top:6px}.lede{font-size:14.5px;margin-top:8px}
   body[data-step="1"] #s1,body[data-step="2"] #s2,body[data-step="3"] #s3{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
   #s1{height:auto;min-height:0}
-  .side{padding:8px 0 0;display:contents}
+  .side{padding:8px 0 0;display:contents}.side::before,.side::after{display:none}
   .intro{order:1}#mw{order:2;height:430px;min-height:0;border-radius:22px}.exl{order:3;margin:2px 0 -6px}.ex{order:4}.ownf{order:5;margin-top:0}
   .ex{margin:0 -14px;padding:2px 14px 4px;display:flex;overflow-x:auto;scrollbar-width:none;gap:8px}.ex::-webkit-scrollbar{display:none}
   .site{flex:none;width:auto;max-width:250px;padding:9px 12px;min-height:56px}.site .tag{display:none}
@@ -484,11 +507,11 @@ h3.jh{margin:30px 0 0;font-size:20px}
   body{padding-bottom:var(--ft)}
   .bpill{display:none}.btn{height:48px;padding:0 16px;flex:1}.btn.g{flex:none;padding:0 14px}.wbar .sp{display:none}
   .btn.g .bt{display:none}
-  .btn.p{min-width:0}.btn.p span{overflow:hidden;text-overflow:ellipsis}
+  .btn.p{min-width:0}.btn.p span{overflow:hidden;text-overflow:ellipsis}.savewrap{flex:1;min-width:0}.savewrap .btn{width:100%}.savemenu{position:fixed;left:14px;right:14px;width:auto;max-width:none;bottom:calc(var(--ft) + 8px + env(safe-area-inset-bottom))}
   .foot .fw{padding:26px 16px 30px}
 }
 @media (max-width:440px){.stepper .sep{width:6px}.stepper{gap:3px}.hdr{gap:6px;padding:0 10px}.langs{padding:2px}.langs button{padding:4px 6px;font-size:12px;min-height:30px}.stepper .n{width:24px;height:24px;font-size:12px}}
-@media (max-width:360px){.ex{margin:0 -12px;padding:2px 12px 4px}.stepper li.cur .t{display:none}.stepper li.cur button{padding-right:4px}.btn{font-size:14px}.btn.p{padding:0 12px}.brand .lg{width:34px;height:34px}.brand .lg svg{width:30px;height:30px}
+@media (max-width:360px){.ex{margin:0 -12px;padding:2px 12px 4px}.stepper li.cur .t{display:none}.stepper li.cur button{padding-right:4px}.btn{font-size:14px}.btn.p{padding:0 12px}.brand .lg,.brand .lg svg{width:34px;height:34px}
 
   .step h1{font-size:27px}.hdr{padding:0 10px}.stepper li.cur .t{font-size:12.5px}.stepper .sep{width:6px}main{padding-left:12px;padding-right:12px}
   .langs button{padding:4px 5px}
@@ -503,7 +526,7 @@ h3.jh{margin:30px 0 0;font-size:20px}
 </head>
 <body data-step="1">
 <header class="hdr">
-  <a class="brand" href="#" id="brand"><span class="lg"><svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true"><clipPath id="lgc"><circle cx="20" cy="20" r="12.5"/></clipPath><g clip-path="url(#lgc)"><rect x="6" y="6" width="28" height="28" fill="#0050D8"/><path d="M4 34 Q14 20 18 4 L23 4 Q19 21 9 36Z" fill="#2491FF"/><path d="M9 36 Q19 21 23 4 L28 4 Q24 22 14 37Z" fill="#E7F434"/><path d="M19 37 Q28 23 32 6 L36 6 L36 37Z" fill="#1B2B85"/></g><path d="M34.6 13.5 A16 16 0 1 1 26.5 5.4" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round"/><path d="M24.2 2.2 L26.5 5.4 L22.5 5.8" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g transform="rotate(45 31.6 8.4)"><rect x="29.9" y="6.7" width="3.4" height="3.4" rx=".4" fill="#fff"/><rect x="25.6" y="7.6" width="3.6" height="1.6" fill="#fff"/><rect x="34" y="7.6" width="3.6" height="1.6" fill="#fff"/></g></svg></span><span>RotaSat</span></a>
+  <a class="brand" href="#" id="brand"><span class="lg"><svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true"><clipPath id="lgc"><circle cx="20" cy="20" r="12.5"/></clipPath><g clip-path="url(#lgc)"><rect x="6" y="6" width="28" height="28" fill="#0050D8"/><path d="M4 34 Q14 20 18 4 L23 4 Q19 21 9 36Z" fill="#2491FF"/><path d="M9 36 Q19 21 23 4 L28 4 Q24 22 14 37Z" fill="#E7F434"/><path d="M19 37 Q28 23 32 6 L36 6 L36 37Z" fill="#1B2B85"/></g><path d="M34.6 13.5 A16 16 0 1 1 26.5 5.4" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round"/><path d="M24.2 2.2 L26.5 5.4 L22.5 5.8" fill="none" stroke="#E7F434" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g transform="rotate(45 31.6 8.4)"><rect x="29.9" y="6.7" width="3.4" height="3.4" rx=".4" fill="#fff"/><rect x="25.6" y="7.6" width="3.6" height="1.6" fill="#fff"/><rect x="34" y="7.6" width="3.6" height="1.6" fill="#fff"/></g></svg></span><span class="lw"><b>RotaSat</b><small>CROP ROTATION FROM ORBIT</small></span></a>
   <ol class="stepper" id="stepper">
     <li class="cur"><button type="button" data-go="1"><span class="n"><span>1</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span><span class="t" data-i18n="st_1"></span></button></li><li class="sep" aria-hidden="true"></li>
     <li><button type="button" data-go="2"><span class="n"><span>2</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span><span class="t" data-i18n="st_2"></span></button></li><li class="sep" aria-hidden="true"></li>
@@ -802,7 +825,14 @@ h3.jh{margin:30px 0 0;font-size:20px}
   <button type="button" class="bpill c3" data-go="2"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/></svg><span data-i18n="bp_clim"></span><b id="bpClim"></b></button>
   <span class="sp"></span>
   <button type="button" class="btn g" id="prevBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span class="bt" data-i18n="nav_back"></span></button>
-  <button type="button" class="btn p" id="nextBtn"><span id="nextT"></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  <div class="savewrap"><button type="button" class="btn p" id="nextBtn"><span id="nextT"></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  <div class="savemenu" id="saveMenu" role="menu" hidden>
+    <p class="smh" data-i18n="sv_h"></p>
+    <button type="button" role="menuitem" data-save="print"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg><span><b data-i18n="sv_print"></b><small data-i18n="sv_print_d"></small></span></button>
+    <button type="button" role="menuitem" data-save="csv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg><span><b data-i18n="sv_csv"></b><small data-i18n="sv_csv_d"></small></span></button>
+    <button type="button" role="menuitem" data-save="link"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span><b data-i18n="sv_link"></b><small data-i18n="sv_link_d"></small></span></button>
+    <p class="smdone" id="saveDone" aria-live="polite"></p>
+  </div></div>
 </div>
 
 <footer class="foot"><div class="fw">
@@ -1281,6 +1311,7 @@ nav_back:"Back",
 nx_1:"Next: your crops",
 nx_2:"Show my plan",
 nx_3:"Save or print my plan",
+sv_h:"Save your plan",sv_print:"Print or save as PDF",sv_print_d:"A one-page report with the result and the three options",sv_csv:"Download as spreadsheet (CSV)",sv_csv_d:"Every tested rotation with its numbers, opens in Excel",sv_link:"Copy link",sv_link_d:"Opens this exact plan on another device",sv_done:"Saved: {f}",fl_csv_none:"Add a field to the list first, then the spreadsheet has one row per field.",fl_csv_wait:"Calculating the fields, the download starts when they are ready.",csv_title:"RotaSat plan",csv_field:"Field",csv_lat:"Latitude",csv_lon:"Longitude",csv_scen:"Climate and prices",csv_prio:"Your priorities",csv_lim:"Left out",csv_date:"Made on",csv_cols:["Option", "Rank", "Rotation", "Your rotation", "Fit to your priorities (of 100)", "Profit (EUR per ha a year)", "Profit in bad years (EUR per ha a year)", "Soil carbon change in 20 years (t C per ha)", "Bare soil (months a year)", "Water (mm a year)", "Crop break"],
 lys_esri:"Satellite",
 lys_tc:"Yesterday",
 lys_ndvi:"Plants",
@@ -1858,6 +1889,7 @@ nav_back:"Geri",
 nx_1:"İleri: ürünlerin",
 nx_2:"Planımı göster",
 nx_3:"Planımı kaydet ya da yazdır",
+sv_h:"Planını kaydet",sv_print:"Yazdır ya da PDF olarak kaydet",sv_print_d:"Sonuç ve üç seçenekle tek sayfalık rapor",sv_csv:"Tablo olarak indir (CSV)",sv_csv_d:"Denenen her ekim nöbeti ve sayıları, Excel ile açılır",sv_link:"Bağlantıyı kopyala",sv_link_d:"Bu planı başka bir cihazda aynen açar",sv_done:"Kaydedildi: {f}",fl_csv_none:"Önce listeye bir tarla ekle; tabloda her tarla için bir satır olur.",fl_csv_wait:"Tarlalar hesaplanıyor, indirme hazır olunca başlar.",csv_title:"RotaSat planı",csv_field:"Tarla",csv_lat:"Enlem",csv_lon:"Boylam",csv_scen:"İklim ve fiyatlar",csv_prio:"Öncelikleriniz",csv_lim:"Dışarıda bırakılan",csv_date:"Tarih",csv_cols:["Seçenek", "Sıra", "Ekim nöbeti", "Sizin nöbetiniz", "Önceliklerinize uyum (100 üzerinden)", "Kâr (hektar başına yılda EUR)", "Kötü yıllarda kâr (hektar başına yılda EUR)", "20 yılda toprak karbonu değişimi (hektar başına t C)", "Çıplak toprak (yılda ay)", "Su (yılda mm)", "Ekim arası"],
 lys_esri:"Uydu",
 lys_tc:"Dün",
 lys_ndvi:"Bitki",
@@ -2435,6 +2467,7 @@ nav_back:"Zurück",
 nx_1:"Weiter: Ihre Kulturen",
 nx_2:"Meinen Plan zeigen",
 nx_3:"Plan speichern oder drucken",
+sv_h:"Plan speichern",sv_print:"Drucken oder als PDF speichern",sv_print_d:"Ein einseitiger Bericht mit Ergebnis und den drei Optionen",sv_csv:"Als Tabelle herunterladen (CSV)",sv_csv_d:"Jede getestete Fruchtfolge mit ihren Zahlen, öffnet in Excel",sv_link:"Link kopieren",sv_link_d:"Öffnet genau diesen Plan auf einem anderen Gerät",sv_done:"Gespeichert: {f}",fl_csv_none:"Fügen Sie zuerst ein Feld zur Liste hinzu, dann hat die Tabelle eine Zeile pro Feld.",fl_csv_wait:"Die Felder werden berechnet, der Download startet, sobald sie fertig sind.",csv_title:"RotaSat Plan",csv_field:"Feld",csv_lat:"Breite",csv_lon:"Länge",csv_scen:"Klima und Preise",csv_prio:"Ihre Prioritäten",csv_lim:"Ausgeschlossen",csv_date:"Erstellt am",csv_cols:["Option", "Rang", "Fruchtfolge", "Ihre Fruchtfolge", "Passt zu Ihren Prioritäten (von 100)", "Gewinn (EUR je ha und Jahr)", "Gewinn in schlechten Jahren (EUR je ha und Jahr)", "Bodenkohlenstoff in 20 Jahren (t C je ha)", "Offener Boden (Monate im Jahr)", "Wasser (mm im Jahr)", "Anbaupause"],
 lys_esri:"Satellit",
 lys_tc:"Gestern",
 lys_ndvi:"Pflanzen",
@@ -3696,8 +3729,51 @@ function renderBar(){
   $('prevBtn').hidden=STEP===1; $('prevBtn').setAttribute('aria-label',t('nav_back'));
   $('nextT').textContent=t('nx_'+STEP);
   $('nextBtn').disabled=STEP===3&&!lastResults;
+  if(STEP===3) $('nextBtn').setAttribute('aria-haspopup','menu'); else { $('nextBtn').removeAttribute('aria-haspopup'); $('nextBtn').removeAttribute('aria-expanded'); $('saveMenu').hidden=true; }
 }
-$('nextBtn').onclick=()=>{ if(STEP<3) go(STEP+1); else printReport(); };
+$('nextBtn').onclick=()=>{ if(STEP<3) go(STEP+1); else toggleSaveMenu(); };
+// Step 3: "Save or print my plan" offers print / PDF, a spreadsheet of the plan and a link
+function toggleSaveMenu(open){
+  const m=$('saveMenu'), on=open==null?m.hidden:open;
+  m.hidden=!on; $('nextBtn').setAttribute('aria-expanded',on); $('saveDone').textContent=''; m.querySelector('[data-save=link] b').textContent=t('sv_link');
+  if(on) m.querySelector('[role=menuitem]').focus();
+}
+$('saveMenu').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-save]'); if(!b) return; const k=b.dataset.save;
+  if(k==='print'){ toggleSaveMenu(false); printReport(); }
+  else if(k==='csv'){ const f=downloadPlanCSV(); if(f) $('saveDone').textContent=t('sv_done',{f}); }
+  else { await shareLink(b.querySelector('b')); $('saveDone').textContent=t('copied'); }
+});
+$('saveMenu').addEventListener('keydown',e=>{
+  const it=[...$('saveMenu').querySelectorAll('[role=menuitem]')], i=it.indexOf(document.activeElement);
+  if(e.key==='Escape'){ e.preventDefault(); toggleSaveMenu(false); $('nextBtn').focus(); }
+  else if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); it[(i+(e.key==='ArrowDown'?1:it.length-1))%it.length].focus(); }
+  else if(e.key==='Tab'&&((!e.shiftKey&&i===it.length-1)||(e.shiftKey&&i===0))) toggleSaveMenu(false);
+});
+document.addEventListener('pointerdown',e=>{ if(!$('saveMenu').hidden&&!e.target.closest('.savewrap')) toggleSaveMenu(false); });
+// CSV that Excel opens well: UTF-8 with BOM; in Turkish and German Excel the list separator is ";" and the decimal sign ","
+function csvFile(rows,name){
+  const sep=LANG==='en'?',':';';
+  const cell=v=>{ if(v==null||v==='') return ''; if(typeof v==='number') return isFinite(v)?(LANG==='en'?String(v):String(v).replace('.',',')):'';
+    return '"'+String(v).replace(/"/g,'""')+'"'; };
+  const csv=rows.map(r=>r.map(cell).join(sep)).join('\r\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'})); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  return name;
+}
+const r1=(v,d)=>v==null||!isFinite(v)?null:Math.round(v*10**d)/10**d;
+function planCSVRows(){
+  const R=lastResults; if(!R) return null;
+  const S=pickStrategies(R), role=new Map(S.map((s,i)=>[s.r,'ABC'[i]+': '+t('role_'+s.role)]));
+  const no=[...document.querySelectorAll('#noSell input:checked')].map(i=>cropName(i.value)).concat(['eqBeet','eqRow','eqDry'].filter(id=>$(id).checked).map(id=>$(id).parentElement.textContent.trim()));
+  const water=t(R.shift.irr>0?'gl_w_irr':'gl_w_gap');
+  const cols=t('csv_cols').slice(); cols[9]=water+' (mm)';
+  return [[t('csv_title')],[t('csv_field'),siteLabel()],[t('csv_lat'),r1(site.lat,4)],[t('csv_lon'),r1(site.lon,4)],
+    [t('csv_scen'),$('fcScen').textContent.trim()],[t('csv_prio'),$('wSum').textContent.trim()],
+    ...(no.length?[[t('csv_lim'),no.join(', ')]]:[]),[t('csv_date'),new Date().toISOString().slice(0,10)],[],cols,
+    ...R.sorted.map((r,i)=>[role.get(r)||'',i+1,chipLabel(r.seq),r===R.me?'*':'',Math.round(r.score),Math.round(r.mean),Math.round(r.p10),r1(r.dC,1),r1(r.bare,1),Math.round(r.water),cap1(pestText(r.pest))])];
+}
+function downloadPlanCSV(){ const rows=planCSVRows(); if(!rows) return ''; return csvFile(rows,'rotasat-plan-'+(site.key==='custom'?site.lat.toFixed(2)+'_'+site.lon.toFixed(2):site.key)+'.csv'); }
 $('prevBtn').onclick=()=>go(STEP-1);
 window.addEventListener('popstate',()=>{
   const h=location.hash.slice(1), st=+new URLSearchParams(h).get('step');
@@ -3940,6 +4016,7 @@ async function computeFields(all){
 }
 function renderFields(){
   const tb=$('fTable'); if(!tb) return;
+  $('fCsv').disabled=!FIELDS.length; $('fCsv').title=FIELDS.length?'':t('fl_csv_none');
   if(!FIELDS.length){tb.innerHTML=`<tbody><tr><td class="small" style="padding-left:0">${t('fl_empty')}</td></tr></tbody>`; $('fTotal').textContent=''; return;}
   const loc=LANG==='en'?'en-GB':LANG==='de'?'de-DE':'tr-TR', day=d=>d==null?'–':new Date(Date.UTC(2001,0,d)).toLocaleDateString(loc,{day:'numeric',month:'long'});
   const H=['fl_th_field','fl_th_clim','fl_th_change','fl_th_2050','fl_th_best','fl_th_plan',''].map(k=>k?t(k):'');
@@ -3970,12 +4047,13 @@ $('fLink').onclick=async ()=>{
   const url=location.href.split('#')[0]+'#fl='+encodeURIComponent(JSON.stringify(data))+'&lang='+LANG;
   try{await navigator.clipboard.writeText(url); $('fLink').textContent=t('copied');}catch(e){window.prompt(t('fl_link'),url);}
 };
-$('fCsv').onclick=()=>{
-  const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+$('fCsv').onclick=async ()=>{
+  if(!FIELDS.length){ $('fMsg').textContent=t('fl_csv_none'); return; }
+  if(FIELDS.some(f=>!FRES[f.id]||!FRES[f.id].best&&!FRES[f.id].err)){ $('fMsg').textContent=t('fl_csv_wait');
+    while(fBusy) await new Promise(r=>setTimeout(r,200)); await computeFields(); $('fMsg').textContent=''; }
   const head=['name','place','lat','lon','area_ha','planned_rotation','temp_now_C','rain_mm_year','warming_since_1985_C','hot_days_30C','frost_days','warming_by_2050_C','best_rotation','best_profit_eur_ha','plan_rank','plan_profit_eur_ha'];
-  const rows=FIELDS.map(f=>{const R=FRES[f.id]||{};return [f.name,f.place,f.lat,f.lon,f.ha||'',(f.rot||[]).join('-'),R.t?.toFixed(1),R.rain?.toFixed(0),R.warm?.toFixed(1),R.hot?.toFixed(0),R.frost?.toFixed(0),R.fut?.toFixed(1),R.best?.seq.join('-'),R.best?.mean.toFixed(0),R.me?.k,R.me?.mean.toFixed(0)];});
-  const csv=[head,...rows].map(r=>r.map(q).join(',')).join('\n');
-  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'})); a.download='rotasat-fields.csv'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  const rows=FIELDS.map(f=>{const R=FRES[f.id]||{};return [f.name,f.place,f.lat,f.lon,f.ha||null,(f.rot||[]).join('-'),r1(R.t,1),r1(R.rain,0),r1(R.warm,1),r1(R.hot,0),r1(R.frost,0),r1(R.fut,1),R.best?.seq.join('-'),r1(R.best?.mean,0),R.me?.k,r1(R.me?.mean,0)];});
+  csvFile([head,...rows],'rotasat-fields.csv');
 };
 function importFieldsFromHash(){
   try{const q=new URLSearchParams(location.hash.slice(1)); const fl=q.get('fl'); if(!fl) return 0;

@@ -51,6 +51,13 @@ All other model parts are as in v1.
 - "Your plan" is now "Your rotation" in all three languages.
 - English, Turkish and German have the same 554 keys (checked by `tests/check_i18n.js`), and no text contains an em dash.
 - `v2/region.html` is a copy of the root region page, so its links lead back to the v2 planner.
+- Step 3 "Save or print my plan" opens a small menu: print or save as PDF, download the plan as a spreadsheet (CSV with every tested
+  rotation and its numbers, A/B/C marked), copy link. CSV files are UTF-8 with BOM; in Turkish and German they use ";" and a decimal
+  comma, as Excel expects there. The My fields CSV is disabled with a hint while the list is empty (an empty list gave a file with
+  only the header row) and waits for the numbers of every field before it downloads.
+- Wide screens: step 1 grows up to 2400 px with a larger map and the example fields right under the intro; steps 2 and 3 widen to
+  1560 px (1800 px from 2200 px).
+- The round RotaSat logo with the orbit arc, the satellite and the line "CROP ROTATION FROM ORBIT" is back on a dark header bar.
 
 ## 5. Tests
 
@@ -66,6 +73,9 @@ node e2e_v2.js         # 170 checks: 3 languages x 1440/1000/390/320 px, four ex
                        # worker and main-thread fallback give the same numbers, retry after a NASA failure, region page
 node check_model.js    # ranking per field and the cost of short crop breaks
 node check_speed.js    # calculation time and main-thread pauses
+node e2e_cases.js      # the cases of docs/E2E_CASES.md not covered above (save menu, CSV files, wide screens, logo, ...)
+node check_soil_timeout.js   # E38: plan without SoilGrids
+node check_cases.js    # every case ID in docs/E2E_CASES.md has an automated check
 node shots.js 390 844 tr thrace 0 "#answer" ".strat.s0"   # screenshots of chosen parts
 ```
 

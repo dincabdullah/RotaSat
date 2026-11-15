@@ -1,0 +1,58 @@
+# RotaSat v2: end-to-end test cases
+
+User-level cases for `v2/index.html` (three-step flow: 1 Your field, 2 Your crops, 3 Your plan) and `v2/region.html`.
+Every case has an ID. The automated check that covers it carries the same ID at the start of its name, for example
+`E27 save menu: ...`. `v2/tests/check_cases.js` fails when a case below has no automated check.
+
+Run (all offline, every outside service is answered by `v2/tests/harness.js`):
+
+```
+export ROTASAT_NODE_MODULES=/path/to/tests/node_modules ROTASAT_FIXTURES=/path/to/fixtures ROTASAT_SHOTS=/tmp/shots
+cd v2/tests
+node check_i18n.js && node check_model.js && node check_soil_timeout.js && node e2e_v2.js && node e2e_cases.js && node check_cases.js
+```
+
+| ID | Feature | Steps | Expected result | Test file |
+|----|---------|-------|-----------------|-----------|
+| E01 | First view | Open the page in EN, TR and DE at 1440, 1000, 390 and 320 px wide. | Step 1 opens with a large satellite map (real Esri tiles, no drawn placeholder), four example fields, four layer thumbnails and four map buttons. No sideways scrolling. | e2e_v2.js |
+| E02 | Step navigation | Press Next, Next; use Back, the step header, the browser Back and Forward buttons, the Field and Crops pills in the bottom bar and "Change field" on the plan. | Each control opens the right step. Step 1 has no Back button. The header marks the current step and ticks the earlier ones. Next is named after the next step; on step 3 it reads "Save or print my plan". The address follows the step. | e2e_v2.js |
+| E03 | Deep links with a step | Open links with `&step=1`, `&step=2`, `&step=3`, and an old link without `step`. | The named step opens; without a step a shared plan opens on step 3. Climate, rotation and options are restored. | e2e_v2.js |
+| E04 | Example fields | On step 1 tap each of the four example fields (Heilbronn, Magdeburg Börde, Gäuboden, Thrace). | The card is marked, the field name shows in the bottom bar, the plan has three options with plausible numbers and the satellite panel. Thrace names the price gap. | e2e_v2.js |
+| E05 | Pick a field on the map | Tap the map, then "Use this spot". | The field is chosen as "Your field" with coordinates, NASA data loads in the background while step 1 stays open, no example card is marked. Works on a phone too. | e2e_v2.js |
+| E06 | Search with suggestions | Press "/" or tap the search box, type "Straub". | Example fields are listed at first; while typing, places and matching example fields appear with the typed part highlighted and the distance in km. Thrace is found by name. The list fits a phone screen. | e2e_v2.js |
+| E07 | Search with the keyboard | Use Arrow Down / Up, Enter, Esc; type a word that does not exist. | Arrows move the highlighted choice, Enter flies to the place and asks for a tap on the field (or chooses an example field), Esc closes the list, "nothing found" is said. | e2e_v2.js |
+| E08 | My location | Allow location and press the location button. | The map moves to the device position and offers "Use this spot"; confirming chooses that field. | e2e_cases.js |
+| E09 | Map buttons | Press +, then "Back to my field". | The map zooms in, then returns to zoom 15 with the field in view. | e2e_v2.js |
+| E10 | Map layers | Tap Yesterday, Plants, Moisture, then Satellite. | Each thumbnail is a real picture of its layer; NASA layers load GIBS tiles and show a short note; Satellite hides the note. | e2e_v2.js |
+| E11 | NASA layer error | Switch to a NASA layer while GIBS does not answer. | A clear error note appears on the map; the page keeps working and no script error occurs. | e2e_cases.js |
+| E12 | Rotation chips | On step 2 look at the chips, tap another chip, then change the field. | The default chip is pressed and shows its length; a tap recalculates and the bottom bar follows; the rotation is kept when the field changes. | e2e_v2.js |
+| E13 | Something else | Tap "Something else" and change a crop select. | The four crop selects appear; a changed select presses "Something else"; an unusual rotation from a link shows the selects. | e2e_v2.js |
+| E14 | Crop break note | Choose "wheat every year", then a long rotation. | Step 2 warns that the break is too short; the option card shows the same crop-break pill; a long rotation says the break is long enough. | e2e_cases.js |
+| E15 | Climate switch | Switch Today, 2050 middle, 2050 high on step 2 and on the plan card; reload. | Numbers change with the climate and return exactly when switching back; both switches agree; the bottom bar and the address follow; reload keeps the choice. Outside Europe 2050 uses the trend. | e2e_v2.js |
+| E16 | Priorities | Move the water slider to "most important"; use the suggested priorities of a region. | The level word and the weights in percent change, the result is recalculated. | e2e_v2.js |
+| E17 | Limits | No sugar beet, cannot sell rapeseed, no forage buyer, exclude everything. | Rotations with those crops are left out and the page says so; vetch earns less without a forage buyer; an own rotation with an excluded crop is flagged; the page still works when every ready-made rotation is excluded. | e2e_v2.js |
+| E18 | More options: soil, rain, warming, prices | Open "More options", change soil carbon, rain, extra warming, rain change and the price mode. | Each change recalculates the plan and changes the numbers; the price modes all give a result. | e2e_cases.js, e2e_v2.js |
+| E19 | Irrigation | Set irrigation to 100 mm. | Irrigation is used, the slider fills, the plan lists a local check of the water right. | e2e_v2.js |
+| E20 | Result card numbers | Open the plan of each example field. | The big number and the option cards show the model's own profit; the difference to your rotation and the bare-soil sentence follow the real numbers. | e2e_v2.js |
+| E21 | A/B/C cards and explanations | Look at the three option cards and open "Season calendar, evidence, ...". | A is your rotation, B and C are alternatives; each has six numbers, a crop-break pill and "Why it is shown"; the fold shows a calendar and four explanation blocks. | e2e_v2.js, e2e_cases.js |
+| E22 | Bare-soil strip | Look at "Bare soil through the year". | Two rows of 12 months (yours, recommended) with a text alternative, in the calendar colours. | e2e_v2.js |
+| E23 | Evidence | Look at the evidence tiles; tap "Tested on the past". | Warming, bare days from space and the back-test are filled; the tile scrolls to the back-test and the address keeps the state. | e2e_v2.js |
+| E24 | Full ranking | Look at "All rotations". | At least ten rotations are ranked in a table. | e2e_v2.js |
+| E25 | Charts | Press "Show charts and details". | The details open with the risk and soil carbon charts drawn; the button text changes to "Hide". | e2e_cases.js |
+| E26 | Print or save as PDF | In the save menu choose "Print or save as PDF". | The print dialog is called with a report that has the result card and the three option cards. | e2e_cases.js, e2e_v2.js |
+| E27 | Save menu | On step 3 press "Save or print my plan"; use the arrow keys, Esc, a click outside; open it on a phone. | A small menu opens (no print dialog) with three choices: print / PDF, spreadsheet (CSV), copy link. Focus moves into the menu, arrows move, Esc closes and returns focus, a click outside closes it, it fits a phone screen. | e2e_cases.js |
+| E28 | Plan as spreadsheet (CSV) | In the save menu choose "Download as spreadsheet (CSV)" in EN, DE and TR. | A file `rotasat-plan-<field>.csv` downloads: UTF-8 with BOM; field, coordinates, climate and prices, priorities; one row per tested rotation with fit score, profit, bad-year profit, carbon change, bare months, water, crop-break note; A, B, C marked. EN uses "," and a decimal point; TR and DE use ";" and a decimal comma (as Excel expects there); Turkish and German letters stay intact. | e2e_cases.js |
+| E29 | Copy link and open it | In the save menu choose "Copy link", open the copied link in a new tab (also in another language). | The link is copied and the menu says so; the new tab opens straight on the plan with the same numbers, language, limits and climate. | e2e_cases.js, e2e_v2.js |
+| E30 | My fields: add and total | Open My fields, add two fields with an area (one at the current spot, one by place name). | Both fields are calculated; a farm total with the hectares is shown; no overflow on a phone. | e2e_v2.js |
+| E31 | My fields: open and remove | Press Open on a field, then Remove. | Open shows that field's plan with its rotation; Remove deletes it from the list and the total. | e2e_v2.js, e2e_cases.js |
+| E32 | My fields: CSV | With an empty list look at "Download as CSV"; add two fields and download. | With no fields the button is disabled with a hint; with two fields the file has a header and two data rows with numbers (temperature, rain, profit), in the separator of the language. | e2e_cases.js |
+| E33 | My fields: list link | Copy the list link and open it in a new tab. | The new tab opens My fields on the plan step with both fields. | e2e_v2.js |
+| E34 | Languages | Switch EN, TR, DE with the header buttons; open in each language. | All texts change, `html lang` follows, the address keeps the language, no em dash and no unfilled placeholder appear; the save menu is translated. | e2e_v2.js, e2e_cases.js, check_i18n.js |
+| E35 | Phones 390 and 320 px | Use all three steps on 390×844 and 320×640. | No sideways scrolling; the bottom bar stays fixed and never covers the end of the page; examples swipe in one row; map picking and search work. | e2e_v2.js |
+| E36 | Wide screens | Open step 1, 2 and 3 at 1440×900, 1920×1080 and 2560×1440. | Step 1 uses the width: a wide container, a large map, the example fields directly under the intro (no gap), the group balanced beside the map; steps 2 and 3 use a wider column; no overflow. | e2e_cases.js |
+| E37 | Logo and favicon | Look at the header and the browser tab. | The round striped RotaSat mark with the orbit arc and the small satellite, the name "RotaSat" and the line "CROP ROTATION FROM ORBIT" on the dark header bar, as before the three-step flow; the favicon is the same mark. | e2e_cases.js |
+| E38 | Soil service timeout | Open the page while SoilGrids never answers. | The plan still appears in well under a minute with typical soil values and a note saying so. | check_soil_timeout.js |
+| E39 | NASA POWER failure | Open the page while NASA POWER fails, then press Retry. | An error is shown without an endless loading sign; Retry loads the plan. | e2e_v2.js |
+| E40 | Region page and links | Open the region link of an example field (region note, My fields) and the region pages in three languages. | The region page is filled in each language, has no em dash, fits a phone and links back to the planner. | e2e_v2.js |
+| E41 | Words explained and header links | Tap a term, the header link "Words explained", the footer link "My fields", "Enter your own" under ground data. | The explanation opens in place; links open the right section on the plan step; "enter your own" opens the soil and rain inputs on step 2. | e2e_v2.js |
+| E42 | Speed and fallback | Run without Web Worker; measure the page while calculating. | Same numbers on the main thread as in the worker; the page never freezes for more than 400 ms. | e2e_v2.js |
